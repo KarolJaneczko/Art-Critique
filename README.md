@@ -9,5 +9,6 @@ Art-Critique is a mobile application for developing your taste in art, more spec
 Project made by Karol Janeczko in order to get a bachelor degree.
 
 Used technologies:
+- .NET MAUI (.NET 6.0)
 
 Source links:
