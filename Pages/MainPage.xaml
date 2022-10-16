@@ -16,17 +16,18 @@
                 HorizontalOptions="Center" />
 
             <Label
-                Text="Hello, World!"
+                Text="orzeeeł"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
 
             <Label
-                Text="Welcome to .NET Multi-platform App UI"
+                Text="SRAKEN PIErdaken"
                 SemanticProperties.HeadingLevel="Level2"
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I"
                 FontSize="18"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center"
+                FontFamily="OpenSansSemibold"/>
 
             <Button
                 x:Name="CounterBtn"
