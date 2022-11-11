@@ -6,7 +6,8 @@
              Shell.FlyoutBehavior="Disabled">
 
     <Grid RowDefinitions="*, Auto">
-        <Image Source="welcomepage_background.png" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
+        <Image Source="welcomepage_background.png" Aspect="AspectFill"/>
+
     </Grid>
 
 </ContentPage>
