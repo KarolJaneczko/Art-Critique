@@ -12,5 +12,5 @@ Used technologies:
 - .NET MAUI (.NET 6.0)
 
 Font links:
-Pragmatica Extra Light - https://www.cufonfonts.com/font/pragmatica-extralight
-Pragmatice Medium - https://www.fontsmarket.com/font-download/pragmatica-medium
+- Pragmatica Extra Light - https://www.cufonfonts.com/font/pragmatica-extralight
+- Pragmatice Medium - https://www.fontsmarket.com/font-download/pragmatica-medium
