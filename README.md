@@ -11,4 +11,6 @@ Project made by Karol Janeczko in order to get a bachelor degree.
 Used technologies:
 - .NET MAUI (.NET 6.0)
 
-Source links:
+Font links:
+Pragmatica Extra Light - https://www.cufonfonts.com/font/pragmatica-extralight
+Pragmatice Medium - https://www.fontsmarket.com/font-download/pragmatica-medium

@@ -6,8 +6,13 @@
              Shell.FlyoutBehavior="Disabled">
 
     <Grid RowDefinitions="*, Auto">
-        <Image Source="welcomepage_background.png" Aspect="AspectFill"/>
-
+        <!-- Background image -->
+        <Image Source="welcomepage_background.png" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
+        
+        <!-- Greetings -->
+        <StackLayout x:Name="WelcomeLayout" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand">
+            <Label x:Name="WelcomeLabel" Text="Welcome!" TextColor="White" FontSize="50" FontFamily="PragmaticaMedium" FontAttributes="Bold"/>
+        </StackLayout>
     </Grid>
 
 </ContentPage>
