@@ -12,10 +12,19 @@ namespace Art_Critique.Core.Logic {
             ScreenHeight = mainDisplayInfo.Height;
         }
         public static int GetWidthPercent(int percent) {
-            return (int)Math.Floor(ScreenWidth * percent / 100);
+            return (int)Math.Ceiling(ScreenWidth * percent / 100);
         }
-        public static int GetHeightPercent(int percent) { 
-            return (int)Math.Floor(ScreenHeight* percent / 100);
+
+        public static int GetWidthPerMille(int perMille) {
+            return (int)Math.Ceiling(ScreenWidth * perMille / 1000);
+        }
+
+        public static int GetHeightPercent(int percent) {
+            return (int)Math.Ceiling(ScreenHeight * percent / 100);
+        }
+
+        public static int GetHeightPerMille(int perMille) {
+            return (int)Math.Ceiling(ScreenHeight * perMille / 1000);
         }
     }
 }
