@@ -8,11 +8,16 @@
     <Grid RowDefinitions="*, Auto">
         <!-- Background image -->
         <Image Source="welcomepage_background.png" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
-        
-        <!-- Greetings -->
-        <StackLayout x:Name="WelcomeLayout" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand">
-            <Label x:Name="WelcomeLabel" Text="Welcome!" TextColor="White" FontSize="50" FontFamily="PragmaticaMedium" FontAttributes="Bold"/>
+
+        <!-- App logo -->
+        <StackLayout x:Name="LogoLayout" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand">
+            <Image Source="artcritique_logo.png"/>
+        </StackLayout>
+
+        <!-- Buttons -->
+        <StackLayout x:Name="ButtonsLayout" Orientation="Vertical" Spacing="25" VerticalOptions="End">
+            <Button x:Name="LoginButton" Text="Login" Clicked="GoToLogin" BackgroundColor="DarkGoldenrod" TextColor="White"/>
+            <Button x:Name="RegisterButton" Text="Register" Clicked="GoToRegister" BackgroundColor="White" TextColor="Black"/>
         </StackLayout>
     </Grid>
-
 </ContentPage>

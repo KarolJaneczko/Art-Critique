@@ -6,9 +6,10 @@ public partial class App : Application {
     public App() {
         InitializeComponent();
         MainPage = new AppShell();
-        OnApplicationLaunch();
+        OnLaunch();
+        
     }
-    public static void OnApplicationLaunch() {
+    public static void OnLaunch() {
         DeviceProperties.InitializeScreenSizeValues();
     }
 }
