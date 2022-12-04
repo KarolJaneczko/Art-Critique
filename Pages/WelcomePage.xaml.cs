@@ -9,17 +9,15 @@ public partial class WelcomePage : ContentPage {
     }
 
     private void OnCreate() {
+        Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
         Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
-        //TODO Routing.RegisterRoute(nameof(SignInPage), typeof(SignInPage));
-
         ButtonsLayout.Padding = new Thickness(0, 0, 0, DeviceProperties.GetHeightPercent(1));
         LoginButton.Style = GlobalStyles.ButtonStyle();
         RegisterButton.Style = GlobalStyles.ButtonStyle();
     }
 
     public async void GoToLogin(object sender, EventArgs args) {
-        //TODO ZMIEŃ NA LOGINPAGE
-        await Shell.Current.GoToAsync(nameof(RegisterPage));
+        await Shell.Current.GoToAsync(nameof(LoginPage));
     }
 
     public async void GoToRegister(object sender, EventArgs args) {
