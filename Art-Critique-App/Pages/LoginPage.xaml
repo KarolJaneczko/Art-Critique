@@ -35,8 +35,8 @@
         <Image Source="welcomepage_background.png" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
 
         <!-- Login layout -->
-        <StackLayout Orientation="Vertical" VerticalOptions="End">
-            
+        <StackLayout Orientation="Vertical" VerticalOptions="Center">
+
             <!-- Login form -->
             <StackLayout Orientation="Vertical" Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="0, 0, 0, 50">
                 <Label Text="Sign in to your account" FontSize="Large" FontFamily="PragmaticaMedium" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
@@ -51,6 +51,10 @@
                     </Grid>
                 </Frame>
             </StackLayout>
+        </StackLayout>
+
+        <!-- Buttons layout -->
+        <StackLayout Orientation="Vertical" VerticalOptions="End">
             
             <!-- Buttons -->
             <StackLayout x:Name="ButtonsLayout" Orientation="Vertical" Spacing="25" VerticalOptions="End">
@@ -58,5 +62,6 @@
                 <Button x:Name="BackButton" Text="Back" Clicked="GoBack" BackgroundColor="White" TextColor="Black"/>
             </StackLayout>
         </StackLayout>
+        
     </Grid>
 </ContentPage>
