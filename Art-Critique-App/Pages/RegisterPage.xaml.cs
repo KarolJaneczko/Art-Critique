@@ -1,4 +1,4 @@
-﻿using Art_Critique.Core.Logic;
+﻿using Art_Critique.Core.Utils;
 
 namespace Art_Critique;
 
@@ -10,6 +10,10 @@ public partial class RegisterPage : ContentPage {
 
     private void OnCreate() {
         Routing.RegisterRoute(nameof(WelcomePage), typeof(WelcomePage));
+        SetStyles();
+    }
+
+    public void SetStyles() {
         EmailEntry.Style = GlobalStyles.EntryStyle();
         EmailEntry.Completed += (object sender, EventArgs e) => {
             LoginEntry.Focus();

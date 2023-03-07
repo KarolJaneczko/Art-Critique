@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace Art_Critique.Core.Logic {
+namespace Art_Critique.Core.Utils {
     public static class DeviceProperties {
         public static double ScreenWidth { get; set; }
         public static double ScreenHeight { get; set; }

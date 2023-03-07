@@ -13,6 +13,7 @@ namespace Art_Critique_Api.Controllers {
         public TUserController(ArtCritiqueDbContext dbContext) {
             this.dbContext = dbContext;
         }
+
         [HttpGet("GetUsers")]
         public async Task<ActionResult<List<TUserDTO>>> Get() {
             var userList = await dbContext.TUser.Select(
@@ -45,6 +46,5 @@ namespace Art_Critique_Api.Controllers {
 
             return HttpStatusCode.Created;
         }
-
     }
 }

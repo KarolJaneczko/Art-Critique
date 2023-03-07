@@ -1,7 +1,6 @@
 ﻿using Microsoft.Maui;
-using Microsoft.Maui.Graphics.Text;
 
-namespace Art_Critique.Core.Logic {
+namespace Art_Critique.Core.Utils {
     class GlobalStyles {
         public static Style ButtonStyle() {
             var buttonStyle = new Style(typeof(Button)) {

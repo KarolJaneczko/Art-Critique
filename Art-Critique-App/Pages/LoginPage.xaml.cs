@@ -1,4 +1,4 @@
-﻿using Art_Critique.Core.Logic;
+﻿using Art_Critique.Core.Utils;
 
 namespace Art_Critique;
 
@@ -9,8 +9,12 @@ public partial class LoginPage : ContentPage {
     }
 
     private void OnCreate() {
-        Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
         Routing.RegisterRoute(nameof(WelcomePage), typeof(WelcomePage));
+        Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
+        SetStyles();
+    }
+
+    public void SetStyles() {
         LoginEntry.Style = GlobalStyles.EntryStyle();
         LoginEntry.Completed += (object sender, EventArgs e) => {
             PasswordEntry.Focus();

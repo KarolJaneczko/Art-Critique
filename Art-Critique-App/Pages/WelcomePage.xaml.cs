@@ -1,4 +1,4 @@
-﻿using Art_Critique.Core.Logic;
+﻿using Art_Critique.Core.Utils;
 
 namespace Art_Critique;
 
@@ -11,6 +11,10 @@ public partial class WelcomePage : ContentPage {
     private void OnCreate() {
         Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
         Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
+        SetStyles();
+    }
+
+    public void SetStyles() {
         ButtonsLayout.Padding = new Thickness(0, 0, 0, DeviceProperties.GetHeightPercent(1));
         LoginButton.Style = GlobalStyles.ButtonStyle();
         RegisterButton.Style = GlobalStyles.ButtonStyle();
