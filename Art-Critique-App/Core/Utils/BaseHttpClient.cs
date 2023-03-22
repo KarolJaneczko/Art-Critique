@@ -1,10 +1,11 @@
-﻿using Art_Critique.Core.Helpers;
+﻿using Art_Critique.Core.Utils.Helpers;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace Art_Critique.Core.Utils {
+namespace Art_Critique.Core.Utils
+{
     public class BaseHttpClient {
         private static HttpClient client = new();
         private static JsonSerializerSettings jsonSerializerSettings = new();
