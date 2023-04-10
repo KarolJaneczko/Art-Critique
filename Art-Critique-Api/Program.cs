@@ -1,4 +1,6 @@
 using Art_Critique_Api.Entities;
+using Art_Critique_Api.Services;
+using Art_Critique_Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using MySql.EntityFrameworkCore.Extensions;
 
@@ -11,6 +13,7 @@ builder.Services.AddEntityFrameworkMySQL().AddDbContext<ArtCritiqueDbContext>(op
     }
     options.UseMySQL(connectionString);
 });
+builder.Services.AddScoped<IUser, UserService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

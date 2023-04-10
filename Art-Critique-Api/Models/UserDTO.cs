@@ -1,5 +1,5 @@
 ﻿namespace Art_Critique_Api.Models {
-    public class TUserDTO {
+    public class UserDTO {
         public int UsId { get; set; }
 
         public string UsLogin { get; set; } = null!;
