@@ -8,7 +8,7 @@
 
     <!-- Binding view model to this page -->
     <ContentPage.BindingContext>
-        <vm:LoginPage_ViewModel/>
+        <vm:LoginPageViewModel/>
     </ContentPage.BindingContext>
 
     <!-- Styles dedicated to this page -->

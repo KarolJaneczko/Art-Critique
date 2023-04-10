@@ -2,7 +2,7 @@
 
 
 namespace Art_Critique.Pages.ViewModels {
-    public class LoginPage_ViewModel : INotifyPropertyChanged {
+    public class LoginPageViewModel : INotifyPropertyChanged {
 
         public event PropertyChangedEventHandler PropertyChanged;
         public string Login { get; set; }
