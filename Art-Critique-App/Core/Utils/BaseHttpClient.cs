@@ -7,8 +7,8 @@ using System.Text;
 namespace Art_Critique.Core.Utils
 {
     public class BaseHttpClient {
-        private static HttpClient client = new();
-        private static JsonSerializerSettings jsonSerializerSettings = new();
+        private static readonly HttpClient client = new();
+        private static readonly JsonSerializerSettings jsonSerializerSettings = new();
 
         public static async Task<TResponse> SendRequest<TRequest, TResponse>(TRequest request, string uri, Dictionary<string, string> customHeaders = null, HttpMethod method = null)
             where TResponse : class {

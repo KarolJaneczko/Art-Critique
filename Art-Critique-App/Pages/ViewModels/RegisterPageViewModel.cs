@@ -46,7 +46,7 @@ namespace Art_Critique.Pages.ViewModels {
 
         #region Methods
         public async void Register() {
-            try {
+            var validation = () => {
                 var entries = new Dictionary<EntryEnum, string>() {
                     { EntryEnum.Email, email },
                     { EntryEnum.Login, login },
@@ -54,11 +54,9 @@ namespace Art_Critique.Pages.ViewModels {
                     { EntryEnum.PasswordConfirm, passwordConfirm }
                 };
                 Validators.ValidateEntries(entries);
-            } catch (AppException ex) {
+            };
+            await ExecuteWithTryCatch(validation);
 
-            } catch (Exception ex) {
-
-            }
             await Application.Current.MainPage.DisplayAlert("Sukces", email + " " + login + " " + password + " " + passwordConfirm, "OK");
         }
         #endregion
