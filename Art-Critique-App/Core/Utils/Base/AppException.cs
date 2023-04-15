@@ -17,6 +17,7 @@ namespace Art_Critique.Core.Utils.Base {
                 AppExceptionEnum.EntriesDontMatch => "Entries don't match!",
                 AppExceptionEnum.EntryIsEmpty => "Entry can't be empty!",
                 AppExceptionEnum.EntryInvalidFormat => "Invalid entry format!",
+                AppExceptionEnum.EntryHasSpecialCharacters => "Invalid entry format!",
                 _ => "Uknown type of error!",
             };
             return title;

@@ -1,4 +1,5 @@
-﻿using Foundation;
+﻿using Art_Critique.Core;
+using Foundation;
 
 namespace Art_Critique;
 

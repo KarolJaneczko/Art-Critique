@@ -4,16 +4,14 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace Art_Critique.Core.Utils
-{
+namespace Art_Critique.Core.Utils {
     public class BaseHttpClient {
         private static readonly HttpClient client = new();
         private static readonly JsonSerializerSettings jsonSerializerSettings = new();
 
-        public static async Task<TResponse> SendRequest<TRequest, TResponse>(TRequest request, string uri, Dictionary<string, string> customHeaders = null, HttpMethod method = null)
-            where TResponse : class {
+        public static async Task<TResponse> SendRequest<TRequest, TResponse>(TRequest request, string uri, HttpMethod method = null, Dictionary<string, string> customHeaders = null) where TResponse : class {
             var serializedBody = request == null ? null : JsonConvert.SerializeObject(request, jsonSerializerSettings);
-            var requestMessage = GetRequestMessage(uri, serializedBody, customHeaders, method);
+            var requestMessage = GetRequestMessage(uri, serializedBody, method, customHeaders);
             try {
                 var response = await client.SendAsync(requestMessage);
                 if (response.Content != null && response.StatusCode != HttpStatusCode.NoContent && response.IsSuccessStatusCode) {
@@ -24,7 +22,7 @@ namespace Art_Critique.Core.Utils
             }
         }
 
-        private static HttpRequestMessage GetRequestMessage(string uri, string requestBody, Dictionary<string, string> customHeaders, HttpMethod method) {
+        private static HttpRequestMessage GetRequestMessage(string uri, string requestBody, HttpMethod method, Dictionary<string, string> customHeaders) {
             var serviceUrl = $"{Dictionary.ApiAddress}{uri}";
             var requestMessage = new HttpRequestMessage(method ?? HttpMethod.Post, serviceUrl);
             if (!string.IsNullOrEmpty(requestBody)) {

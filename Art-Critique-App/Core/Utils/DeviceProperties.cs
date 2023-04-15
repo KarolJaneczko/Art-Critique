@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Art_Critique.Core.Utils {
+﻿namespace Art_Critique.Core.Utils {
     public static class DeviceProperties {
         public static double ScreenWidth { get; set; }
         public static double ScreenHeight { get; set; }
