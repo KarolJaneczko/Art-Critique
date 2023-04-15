@@ -10,9 +10,16 @@ namespace Art_Critique.Core {
                 fonts.AddFont("Pragmatica-ExtraLight.ttf", "PragmaticaExtraLight");
                 fonts.AddFont("Pragmatica-Medium.otf", "PragmaticaMedium");
             });
-
-            builder.Services.AddScoped<ICredentials, CredentialsService>();
+            AddServices(builder);
             return builder.Build();
+        }
+
+        private static void AddServices (MauiAppBuilder builder) {
+            builder.Services.AddScoped<ICredentials, CredentialsService>();
+            builder.Services.AddScoped<IProperties, PropertiesService>();
+            builder.Services.AddScoped<IStyles, StylesService>();
+            builder.Services.AddTransient<WelcomePage>();
+            builder.Services.AddTransient<RegisterPage>();
         }
     }
 }

@@ -1,11 +1,19 @@
-﻿using Art_Critique.Core.Utils;
+﻿using Art_Critique.Core.Services.Interfaces;
 
-namespace Art_Critique {
+namespace Art_Critique
+{
     public partial class WelcomePage : ContentPage {
+        #region Services
+        private readonly IProperties properties;
+        private readonly IStyles styles;
+        #endregion
+
         #region Constructor
-        public WelcomePage() {
+        public WelcomePage(IProperties properties, IStyles styles) {
             InitializeComponent();
             RegisterRoutes();
+            this.properties = properties;
+            this.styles = styles;
             SetStyles();
         }
         #endregion
@@ -17,9 +25,9 @@ namespace Art_Critique {
         }
 
         public void SetStyles() {
-            ButtonsLayout.Padding = new Thickness(0, 0, 0, DeviceProperties.GetHeightPercent(1));
-            LoginButton.Style = GlobalStyles.ButtonStyle();
-            RegisterButton.Style = GlobalStyles.ButtonStyle();
+            ButtonsLayout.Padding = new Thickness(0, 0, 0, properties.GetHeightPercent(1));
+            LoginButton.Style = styles.ButtonStyle();
+            RegisterButton.Style = styles.ButtonStyle();
         }
         #endregion
 

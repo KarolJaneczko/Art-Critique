@@ -1,11 +1,18 @@
-﻿using Art_Critique.Core.Utils;
+﻿using Art_Critique.Core.Services.Interfaces;
 
 namespace Art_Critique {
     public partial class RegisterPage : ContentPage {
+        #region Services
+        private readonly IProperties properties;
+        private readonly IStyles styles;
+        #endregion
+
         #region Constructor
-        public RegisterPage() {
+        public RegisterPage(IProperties properties, IStyles styles) {
             InitializeComponent();
             RegisterRoutes();
+            this.properties = properties;
+            this.styles = styles;
             SetStyles();
         }
         #endregion
@@ -16,29 +23,29 @@ namespace Art_Critique {
         }
 
         public void SetStyles() {
-            EmailEntry.Style = GlobalStyles.EntryStyle();
+            EmailEntry.Style = styles.EntryStyle();
             EmailEntry.Completed += (object sender, EventArgs e) => {
                 LoginEntry.Focus();
             };
 
-            LoginEntry.Style = GlobalStyles.EntryStyle();
+            LoginEntry.Style = styles.EntryStyle();
             LoginEntry.Completed += (object sender, EventArgs e) => {
                 PasswordEntry.Focus();
             };
 
-            PasswordEntry.Style = GlobalStyles.EntryStyle();
+            PasswordEntry.Style = styles.EntryStyle();
             PasswordEntry.Completed += (object sender, EventArgs e) => {
                 PasswordConfirmEntry.Focus();
             };
 
-            PasswordConfirmEntry.Style = GlobalStyles.EntryStyle();
+            PasswordConfirmEntry.Style = styles.EntryStyle();
             PasswordConfirmEntry.Completed += (object sender, EventArgs e) => {
                 SignUpButton.Command.Execute(null);
             };
 
-            ButtonsLayout.Padding = new Thickness(0, DeviceProperties.GetHeightPercent(1), 0, DeviceProperties.GetHeightPercent(1));
-            SignUpButton.Style = GlobalStyles.ButtonStyle();
-            BackButton.Style = GlobalStyles.ButtonStyle();
+            ButtonsLayout.Padding = new Thickness(0, properties.GetHeightPercent(1), 0, properties.GetHeightPercent(1));
+            SignUpButton.Style = styles.ButtonStyle();
+            BackButton.Style = styles.ButtonStyle();
         }
         #endregion
 
