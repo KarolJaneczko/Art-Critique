@@ -1,7 +1,6 @@
 ﻿using Art_Critique.Core.Services.Interfaces;
 
-namespace Art_Critique
-{
+namespace Art_Critique {
     public partial class WelcomePage : ContentPage {
         #region Services
         private readonly IProperties properties;

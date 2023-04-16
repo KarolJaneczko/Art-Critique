@@ -1,5 +1,4 @@
-﻿using Art_Critique.Core.Utils.Base;
-using Art_Critique.Core.Utils.Enums;
+﻿using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
 using System.Windows.Input;
 

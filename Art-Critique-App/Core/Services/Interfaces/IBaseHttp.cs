@@ -1,0 +1,5 @@
+﻿namespace Art_Critique.Core.Services.Interfaces {
+    public interface IBaseHttp {
+        public Task<string> SendApiRequest(HttpMethod method, string path, string body = "");
+    }
+}
