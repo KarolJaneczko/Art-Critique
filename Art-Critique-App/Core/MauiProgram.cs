@@ -1,5 +1,6 @@
 ﻿using Art_Critique.Core.Services;
 using Art_Critique.Core.Services.Interfaces;
+using Art_Critique.Pages.ViewModels;
 
 namespace Art_Critique.Core {
     public static class MauiProgram {
@@ -18,8 +19,11 @@ namespace Art_Critique.Core {
             builder.Services.AddScoped<ICredentials, CredentialsService>();
             builder.Services.AddScoped<IProperties, PropertiesService>();
             builder.Services.AddScoped<IStyles, StylesService>();
+            builder.Services.AddScoped<IBaseHttp, BaseHttpService>();
+
             builder.Services.AddTransient<WelcomePage>();
             builder.Services.AddTransient<RegisterPage>();
+            builder.Services.AddTransient<LoginPage>();
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Art_Critique {
             Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
         }
 
-        public void SetStyles() {
+        private void SetStyles() {
             ButtonsLayout.Padding = new Thickness(0, 0, 0, properties.GetHeightPercent(1));
             LoginButton.Style = styles.ButtonStyle();
             RegisterButton.Style = styles.ButtonStyle();
@@ -31,11 +31,11 @@ namespace Art_Critique {
         #endregion
 
         #region Commands
-        public async void GoToLogin(object sender, EventArgs args) {
+        private async void GoToLogin(object sender, EventArgs args) {
             await Shell.Current.GoToAsync(nameof(LoginPage));
         }
 
-        public async void GoToRegister(object sender, EventArgs args) {
+        private async void GoToRegister(object sender, EventArgs args) {
             await Shell.Current.GoToAsync(nameof(RegisterPage));
         }
 

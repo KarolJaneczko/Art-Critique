@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Art_Critique.Core.Utils.Helpers {
     public class Validators {
+        #region Methods - entry validations
         public static void ValidateEntries(Dictionary<EntryEnum, string> entries) {
             foreach (var entry in entries) {
                 switch (entry.Key) {
@@ -70,7 +71,9 @@ namespace Art_Critique.Core.Utils.Helpers {
                 throw new AppException("Passwords don't match", AppExceptionEnum.EntriesDontMatch);
             }
         }
+        #endregion
 
+        #region Methods - format validations
         private static bool CheckMailFormat(string email) {
             Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,100})+)$");
             Match match = regex.Match(email);
@@ -90,5 +93,6 @@ namespace Art_Critique.Core.Utils.Helpers {
                 return true;
             }
         }
+        #endregion
     }
 }

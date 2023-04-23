@@ -2,12 +2,17 @@
 
 namespace Art_Critique.Core.Services {
     public class StylesService : IStyles {
+        #region Services
         private readonly IProperties properties;
+        #endregion
 
+        #region Constructor
         public StylesService(IProperties properties) {
             this.properties = properties;
         }
+        #endregion
 
+        #region Implementation of methods
         public Style ButtonStyle() {
             var buttonStyle = new Style(typeof(Button)) {
                 Setters = {
@@ -33,5 +38,6 @@ namespace Art_Critique.Core.Services {
             };
             return entryStyle;
         }
+        #endregion
     }
 }

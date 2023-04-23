@@ -1,18 +1,22 @@
 ﻿using Art_Critique.Core.Services.Interfaces;
+using Art_Critique.Pages.ViewModels;
 
 namespace Art_Critique {
     public partial class RegisterPage : ContentPage {
         #region Services
         private readonly IProperties properties;
         private readonly IStyles styles;
+        private readonly IBaseHttp baseHttp;
         #endregion
 
         #region Constructor
-        public RegisterPage(IProperties properties, IStyles styles) {
+        public RegisterPage(IProperties properties, IStyles styles, IBaseHttp baseHttp) {
             InitializeComponent();
             RegisterRoutes();
             this.properties = properties;
             this.styles = styles;
+            this.baseHttp = baseHttp;
+            BindingContext = new RegisterPageViewModel(baseHttp);
             SetStyles();
         }
         #endregion
@@ -22,7 +26,7 @@ namespace Art_Critique {
             Routing.RegisterRoute(nameof(WelcomePage), typeof(WelcomePage));
         }
 
-        public void SetStyles() {
+        private void SetStyles() {
             EmailEntry.Style = styles.EntryStyle();
             EmailEntry.Completed += (object sender, EventArgs e) => {
                 LoginEntry.Focus();
@@ -50,7 +54,7 @@ namespace Art_Critique {
         #endregion
 
         #region Commands
-        public async void GoBack(object sender, EventArgs args) {
+        private async void GoBack(object sender, EventArgs args) {
             await Shell.Current.GoToAsync("../");
         }
         #endregion
