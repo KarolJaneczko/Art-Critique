@@ -1,36 +1,52 @@
-﻿using Art_Critique.Core.Utils;
+﻿using Art_Critique.Core.Services.Interfaces;
+using Art_Critique.Pages.ViewModels;
 
-namespace Art_Critique;
+namespace Art_Critique {
+    public partial class LoginPage : ContentPage {
+        #region Services
+        private readonly IStyles styles;
+        private readonly IProperties properties;
+        private readonly IBaseHttp baseHttp;
+        #endregion
 
-public partial class LoginPage : ContentPage {
-    public LoginPage() {
-        InitializeComponent();
-        OnCreate();
-    }
+        #region Constructor
+        public LoginPage(IStyles styles, IProperties properties, IBaseHttp baseHttp) {
+            InitializeComponent();
+            RegisterRoutes();
+            this.styles = styles;
+            this.properties = properties;
+            this.baseHttp = baseHttp;
+            SetStyles();
+            BindingContext = new LoginPageViewModel(baseHttp);
+        }
+        #endregion
 
-    private void OnCreate() {
-        Routing.RegisterRoute(nameof(WelcomePage), typeof(WelcomePage));
-        Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
-        SetStyles();
-    }
+        #region Methods
+        private void RegisterRoutes() {
+            Routing.RegisterRoute(nameof(WelcomePage), typeof(WelcomePage));
+            Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
+        }
 
-    public void SetStyles() {
-        LoginEntry.Style = GlobalStyles.EntryStyle();
-        LoginEntry.Completed += (object sender, EventArgs e) => {
-            PasswordEntry.Focus();
-        };
-        PasswordEntry.Style = GlobalStyles.EntryStyle();
+        public void SetStyles() {
+            LoginEntry.Style = styles.EntryStyle();
+            LoginEntry.Completed += (object sender, EventArgs e) => {
+                PasswordEntry.Focus();
+            };
+            PasswordEntry.Style = styles.EntryStyle();
+            PasswordEntry.Completed += (object sender, EventArgs e) => {
+                SignInButton.Command.Execute(null);
+            };
 
-        ButtonsLayout.Padding = new Thickness(0, DeviceProperties.GetHeightPercent(1), 0, DeviceProperties.GetHeightPercent(1));
-        SignInButton.Style = GlobalStyles.ButtonStyle();
-        BackButton.Style = GlobalStyles.ButtonStyle();
-    }
+            ButtonsLayout.Padding = new Thickness(0, properties.GetHeightPercent(1), 0, properties.GetHeightPercent(1));
+            SignInButton.Style = styles.ButtonStyle();
+            BackButton.Style = styles.ButtonStyle();
+        }
+        #endregion
 
-    public async void Login(object sender, EventArgs args) {
-        //TODO login
-    }
-
-    public async void GoBack(object sender, EventArgs args) {
-        await Shell.Current.GoToAsync("../");
+        #region Commands
+        public async void GoBack(object sender, EventArgs args) {
+            await Shell.Current.GoToAsync("../");
+        }
+        #endregion
     }
 }

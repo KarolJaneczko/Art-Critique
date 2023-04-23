@@ -6,11 +6,6 @@
              Shell.NavBarIsVisible="False"
              Shell.FlyoutBehavior="Disabled">
 
-    <!-- Binding view model to this page -->
-    <ContentPage.BindingContext>
-        <vm:RegisterPageViewModel/>
-    </ContentPage.BindingContext>
-
     <!-- Styles dedicated to this page -->
     <ContentPage.Resources>
         <ResourceDictionary>

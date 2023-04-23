@@ -6,11 +6,6 @@
              Shell.NavBarIsVisible="False"
              Shell.FlyoutBehavior="Disabled">
 
-    <!-- Binding view model to this page -->
-    <ContentPage.BindingContext>
-        <vm:LoginPageViewModel/>
-    </ContentPage.BindingContext>
-
     <!-- Styles dedicated to this page -->
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -58,7 +53,7 @@
             
             <!-- Buttons -->
             <StackLayout x:Name="ButtonsLayout" Orientation="Vertical" Spacing="25" VerticalOptions="End">
-                <Button x:Name="SignInButton" Text="Sign in" Clicked="Login" BackgroundColor="DarkGoldenrod" TextColor="White"/>
+                <Button x:Name="SignInButton" Text="Sign in" Command="{Binding LoginCommand}" BackgroundColor="DarkGoldenrod" TextColor="White"/>
                 <Button x:Name="BackButton" Text="Back" Clicked="GoBack" BackgroundColor="White" TextColor="Black"/>
             </StackLayout>
         </StackLayout>
