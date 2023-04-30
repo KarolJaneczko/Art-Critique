@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using Art_Critique.Core.Models.API;
+using Art_Critique.Core.Utils.Base;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Art_Critique.Pages.ViewModels {
@@ -10,6 +12,22 @@ namespace Art_Critique.Pages.ViewModels {
         #region Methods
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected static async Task<ApiResponse> ExecuteWithTryCatch(Func<Task<ApiResponse>> method) {
+            try {
+                return await method();
+            } catch (AppException ex) {
+                await Application.Current.MainPage.DisplayAlert(ex.title, ex.message, "OK");
+            } catch (Exception ex) {
+                await Application.Current.MainPage.DisplayAlert("Unknown error!", ex.Message, "OK");
+            }
+            return new ApiResponse() {
+                IsSuccess = false,
+                Title = "Error!",
+                Message = "Uknown error happened",
+                Data = null
+            };
         }
         #endregion
     }

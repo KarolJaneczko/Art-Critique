@@ -1,6 +1,8 @@
-﻿using Art_Critique.Core.Services.Interfaces;
+﻿using Art_Critique.Core.Models.API;
+using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Base;
 using Art_Critique.Core.Utils.Helpers;
+using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 
@@ -12,7 +14,7 @@ namespace Art_Critique.Core.Services {
         #endregion
 
         #region Implementation of methods
-        public async Task<string> SendApiRequest(HttpMethod method, string path, string body = "") {
+        public async Task<ApiResponse> SendApiRequest(HttpMethod method, string path, string body = "") {
             var request = new HttpRequestMessage {
                 Method = method,
                 RequestUri = new Uri(string.Join(string.Empty, Dictionary.ApiAddress, path)),
@@ -21,7 +23,7 @@ namespace Art_Critique.Core.Services {
 
             var response = await httpClient.SendAsync(request);
             if (response.StatusCode == HttpStatusCode.OK) {
-                return await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ApiResponse>(await response.Content.ReadAsStringAsync());
             } else {
                 throw new AppException(response.StatusCode);
             }

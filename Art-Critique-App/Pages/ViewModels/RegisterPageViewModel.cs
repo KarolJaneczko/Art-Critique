@@ -1,6 +1,5 @@
 ﻿using Art_Critique.Core.Models.API;
 using Art_Critique.Core.Services.Interfaces;
-using Art_Critique.Core.Utils.Base;
 using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
 using Newtonsoft.Json;
@@ -54,13 +53,14 @@ namespace Art_Critique.Pages.ViewModels {
 
         #region Methods
         public async void Register() {
-            try {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                // Validating entries.
                 var entries = new Dictionary<EntryEnum, string>() {
-                    { EntryEnum.Email, email },
-                    { EntryEnum.Login, login },
-                    { EntryEnum.Password, password },
-                    { EntryEnum.PasswordConfirm, passwordConfirm }
-                };
+                        { EntryEnum.Email, email },
+                        { EntryEnum.Login, login },
+                        { EntryEnum.Password, password },
+                        { EntryEnum.PasswordConfirm, passwordConfirm }
+                    };
                 Validators.ValidateEntries(entries);
 
                 var body = JsonConvert.SerializeObject(new RegisterUserDTO() {
@@ -68,15 +68,10 @@ namespace Art_Critique.Pages.ViewModels {
                     UsLogin = login,
                     UsPassword = password
                 });
-                await baseHttp.SendApiRequest(HttpMethod.Post, Dictionary.UserRegister, body);
-                await Application.Current.MainPage.DisplayAlert("Successful registration!", $"User {login} has been registered.", "OK");
-            } catch (AppException ex) {
-                var message = ex.statusCode == null ? ex.message : "This email or login is already taken.";
-                var title = ex.statusCode == null ? ex.title : "User already exists!";
-                await Application.Current.MainPage.DisplayAlert(title, message, "OK");
-            } catch (Exception ex) {
-                await Application.Current.MainPage.DisplayAlert("Unknown error!", ex.Message, "OK");
-            }
+                return await baseHttp.SendApiRequest(HttpMethod.Post, Dictionary.UserRegister, body);
+            });
+            var result = await ExecuteWithTryCatch(task);
+            await Application.Current.MainPage.DisplayAlert(result.Title, result.Message, "OK");
         }
         #endregion
     }

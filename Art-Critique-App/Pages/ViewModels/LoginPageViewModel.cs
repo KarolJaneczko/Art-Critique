@@ -1,4 +1,5 @@
-﻿using Art_Critique.Core.Services.Interfaces;
+﻿using Art_Critique.Core.Models.API;
+using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Base;
 using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
@@ -8,6 +9,7 @@ namespace Art_Critique.Pages.ViewModels {
     public class LoginPageViewModel : BaseViewModel {
         #region Services
         private readonly IBaseHttp baseHttp;
+        private readonly ICredentials credentials;
         #endregion
 
         #region Fields
@@ -30,30 +32,40 @@ namespace Art_Critique.Pages.ViewModels {
         #endregion
 
         #region Constructor
-        public LoginPageViewModel(IBaseHttp baseHttp) {
+        public LoginPageViewModel(IBaseHttp baseHttp, ICredentials credentials) {
             LoginCommand = new Command(SignIn);
             this.baseHttp = baseHttp;
+            this.credentials = credentials;
         }
         #endregion
 
         #region Methods
         public async void SignIn() {
-            try {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                // Validating entries.
                 var entries = new Dictionary<EntryEnum, string>() {
                     { EntryEnum.Login, login },
                     { EntryEnum.Password, password },
                 };
                 Validators.ValidateEntries(entries);
-                await baseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.UserLogin}?login={login}&password={password}");
+
+                // Sending request to API, successful login results in token, which is saved to app memory.
+                return await baseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.UserLogin}?login={login}&password={password}");
+            });
+
+            // Executing task with try/catch.
+            var result = await ExecuteWithTryCatch(task);
+
+            if (result.IsSuccess) {
+                // Saving token to an app memory.
+                credentials.SetCurrentUserToken((string)result.Data);
+
+                // Switching current page to a main page.
                 await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
-            } catch (AppException ex) {
-                var title = ex.statusCode == null ? ex.title : "Sign in failed!";
-                var message = ex.statusCode == null ? ex.message : "Invalid login or password.";
-                await Application.Current.MainPage.DisplayAlert(title, message, "OK");
-            } catch (Exception ex) {
-                await Application.Current.MainPage.DisplayAlert("Unknown error!", ex.Message, "OK");
+            } else {
+                await Application.Current.MainPage.DisplayAlert(result.Title, result.Message, "OK");
             }
         }
-        #endregion
     }
+    #endregion
 }

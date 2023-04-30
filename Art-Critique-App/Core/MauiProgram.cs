@@ -1,6 +1,5 @@
 ﻿using Art_Critique.Core.Services;
 using Art_Critique.Core.Services.Interfaces;
-using Art_Critique.Pages.ViewModels;
 
 namespace Art_Critique.Core {
     public static class MauiProgram {
