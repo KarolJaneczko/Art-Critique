@@ -6,31 +6,36 @@ namespace Art_Critique_Api.Controllers {
     [Route("api/User")]
     [ApiController]
     public class UserController : ControllerBase {
+        #region Service
         private readonly IUser userService;
+        #endregion
+
+        #region Constructor
         public UserController(IUser userService) {
             this.userService = userService;
         }
+        #endregion
 
+        #region Methods
         [HttpGet("GetUsers")]
-        public async Task<ActionResult<List<UserDTO>>> GetUsers() {
-            var result = await userService.GetUsers();
-            if (result?.Value?.Count < 1) {
-                return NoContent();
-            }
-            if (result == null) {
-                return NotFound();
-            }
-            return result;
+        public async Task<ApiResponse> GetUsers() {
+            return await userService.GetUsers();
         }
-
+ 
         [HttpPost("RegisterUser")]
-        public async Task<ActionResult> RegisterUser(UserDTO User) {
+        public async Task<ApiResponse> RegisterUser(UserDTO User) {
             return await userService.RegisterUser(User);
         }
 
         [HttpGet("Login")]
-        public ActionResult Login(string login, string password) {
-            return userService.Login(login, password);
+        public async Task<ApiResponse> Login(string login, string password) {
+            return await userService.Login(login, password);
         }
+
+        [HttpGet("Logout")]
+        public async Task<ApiResponse> Logout(string login, string token) {
+            return await userService.Logout(login, token);
+        }
+        #endregion
     }
 }

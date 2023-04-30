@@ -1,10 +1,10 @@
 ﻿using Art_Critique_Api.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Art_Critique_Api.Services.Interfaces {
     public interface IUser {
-        public Task<ActionResult<List<UserDTO>>> GetUsers();
-        public Task<ActionResult> RegisterUser(UserDTO User);
-        public ActionResult Login(string login, string password);
+        public Task<ApiResponse> GetUsers();
+        public Task<ApiResponse> RegisterUser(UserDTO User);
+        public Task<ApiResponse> Login(string login, string password);
+        public Task<ApiResponse> Logout(string login, string token);
     }
 }
