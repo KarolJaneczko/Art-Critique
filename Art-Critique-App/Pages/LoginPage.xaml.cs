@@ -7,17 +7,19 @@ namespace Art_Critique {
         private readonly IStyles styles;
         private readonly IProperties properties;
         private readonly IBaseHttp baseHttp;
+        private readonly ICredentials credentials;
         #endregion
 
         #region Constructor
-        public LoginPage(IStyles styles, IProperties properties, IBaseHttp baseHttp) {
+        public LoginPage(IStyles styles, IProperties properties, IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();
             RegisterRoutes();
             this.styles = styles;
             this.properties = properties;
             this.baseHttp = baseHttp;
+            this.credentials = credentials;
             SetStyles();
-            BindingContext = new LoginPageViewModel(baseHttp);
+            BindingContext = new LoginPageViewModel(baseHttp, credentials);
         }
         #endregion
 
