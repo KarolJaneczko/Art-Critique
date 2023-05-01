@@ -36,6 +36,11 @@ namespace Art_Critique_Api.Controllers {
         public async Task<ApiResponse> Logout(string login, string token) {
             return await userService.Logout(login, token);
         }
+
+        [HttpGet("DeleteUser")]
+        public async Task<ApiResponse> DeleteUser(string login) {
+            return await userService.DeleteUser(login);
+        }
         #endregion
     }
 }

@@ -1,19 +1,17 @@
 ﻿namespace Art_Critique;
 
+[QueryProperty(nameof(Login), nameof(Login))]
 public partial class ProfilePage : ContentPage {
-    int count = 0;
-
+    private string Login { get; set; }
     public ProfilePage() {
         InitializeComponent();
     }
 
-    private void OnCounterClicked(object sender, EventArgs e) {
-        count++;
+    protected override void OnAppearing() {
+        base.OnAppearing();
+        if (!string.IsNullOrEmpty(Login)) {
 
-        if (count == 1)
-            CounterBtn.Text = $"Clicked {count} time";
-        else
-            CounterBtn.Text = $"Clicked {count} times";
+        }
     }
 }
 
