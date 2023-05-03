@@ -1,6 +1,5 @@
 ﻿using Art_Critique.Core.Models.API;
 using Art_Critique.Core.Services.Interfaces;
-using Art_Critique.Core.Utils.Base;
 using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
 using System.Windows.Input;
@@ -59,6 +58,9 @@ namespace Art_Critique.Pages.ViewModels {
             if (result.IsSuccess) {
                 // Saving token to an app memory.
                 credentials.SetCurrentUserToken((string)result.Data);
+
+                // Saving login to an app memory.
+                credentials.SetCurrentUserLogin(login);
 
                 // Switching current page to a main page.
                 await Shell.Current.GoToAsync($"//{nameof(MainPage)}");

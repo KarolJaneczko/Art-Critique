@@ -15,6 +15,14 @@ namespace Art_Critique.Core.Services {
             var token = GetCurrentUserToken();
             return token != null && token.Length > 0;
         }
+
+        public void SetCurrentUserLogin(string userLogin) {
+            Preferences.Set("UserLoginToken", userLogin);
+        }
+
+        public string GetCurrentUserLogin() {
+            return Preferences.Get("UserLoginToken", null);
+        }
         #endregion
     }
 }

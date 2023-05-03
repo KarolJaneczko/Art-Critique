@@ -3,5 +3,7 @@
         public void SetCurrentUserToken(string userToken);
         public string GetCurrentUserToken();
         public bool IsUserLoggedIn();
+        public void SetCurrentUserLogin(string userLogin);
+        public string GetCurrentUserLogin();
     }
 }

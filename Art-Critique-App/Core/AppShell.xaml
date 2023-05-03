@@ -6,7 +6,6 @@
        Shell.FlyoutBehavior="Flyout">
 
     <ShellContent Title="Home" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
-    <ShellContent Title="Profile" ContentTemplate="{DataTemplate local:ProfilePage}" Route="ProfilePage" />
+    <ShellContent Title="Profile" ContentTemplate="{DataTemplate local:ProfilePage}"/>
     <ShellContent Title="Logout" ContentTemplate="{DataTemplate local:WelcomePage}" Route="WelcomePage" />
-
 </Shell>
