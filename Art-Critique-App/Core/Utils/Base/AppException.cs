@@ -32,7 +32,7 @@ namespace Art_Critique.Core.Utils.Base {
                 AppExceptionEnum.EntryIsEmpty => "Entry can't be empty!",
                 AppExceptionEnum.EntryInvalidFormat => "Invalid entry format!",
                 AppExceptionEnum.EntryHasSpecialCharacters => "Invalid entry format!",
-                _ => "Uknown type of error!",
+                _ => "Unknown type of error!",
             };
             return title;
         }
@@ -41,7 +41,7 @@ namespace Art_Critique.Core.Utils.Base {
             var title = statusCode switch {
                 HttpStatusCode.Conflict => "Conflict on inserting/updating data!",
                 HttpStatusCode.NotFound => "Data not found!",
-                _ => "Uknown type of error!",
+                _ => "Unknown type of error!",
             };
             return title;
         }
@@ -50,7 +50,7 @@ namespace Art_Critique.Core.Utils.Base {
             var message = statusCode switch {
                 HttpStatusCode.Conflict => "Cannot insert the data because it already exists in the database",
                 HttpStatusCode.NotFound => "Couldn't found the data you were looking for.",
-                _ => "Uknown error!",
+                _ => "Unknown error!",
             };
             return message;
         }

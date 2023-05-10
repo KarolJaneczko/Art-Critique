@@ -18,6 +18,7 @@ builder.Services.AddEntityFrameworkMySQL().AddDbContext<ArtCritiqueDbContext>(op
 
 #region Adding services
 builder.Services.AddScoped<IUser, UserService>();
+builder.Services.AddScoped<IProfile, ProfileService>();
 #endregion
 
 #region Rest of the invokes

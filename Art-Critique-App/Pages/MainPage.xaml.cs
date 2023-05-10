@@ -5,15 +5,13 @@ public partial class MainPage : ContentPage {
 
     public MainPage() {
         InitializeComponent();
+        Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
     }
 
-    private void OnCounterClicked(object sender, EventArgs e) {
-        count++;
-
-        if (count == 1)
-            CounterBtn.Text = $"Clicked {count} time";
-        else
-            CounterBtn.Text = $"Clicked {count} times";
+    private async void OnCounterClicked(object sender, EventArgs e) {
+        await Shell.Current.GoToAsync(nameof(ProfilePage), new Dictionary<string, object> {
+            ["Login"] = "test",
+        });
     }
 }
 

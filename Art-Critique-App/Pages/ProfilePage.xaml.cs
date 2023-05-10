@@ -1,19 +1,37 @@
-﻿namespace Art_Critique;
+﻿using Art_Critique.Core.Services.Interfaces;
+using Art_Critique.Pages.ViewModels;
 
-public partial class ProfilePage : ContentPage {
-    int count = 0;
+namespace Art_Critique {
 
-    public ProfilePage() {
-        InitializeComponent();
-    }
+    [QueryProperty(nameof(Login), nameof(Login))]
+    public partial class ProfilePage : ContentPage {
+        #region Services
+        private readonly IBaseHttp baseHttp;
+        private readonly ICredentials credentials;
+        #endregion
 
-    private void OnCounterClicked(object sender, EventArgs e) {
-        count++;
+        #region Fields
+        public string Login { get; set; }
+        #endregion
 
-        if (count == 1)
-            CounterBtn.Text = $"Clicked {count} time";
-        else
-            CounterBtn.Text = $"Clicked {count} times";
+        #region Constructor
+        public ProfilePage(IBaseHttp baseHttp, ICredentials credentials) {
+            InitializeComponent();
+            this.baseHttp = baseHttp;
+            this.credentials = credentials;
+            if (!string.IsNullOrEmpty(Login)) {
+                Login = credentials.GetCurrentUserLogin();
+            }
+            BindingContext = new ProfilePageViewModel(baseHttp, Login);
+        }
+        #endregion
+
+        #region Methods
+        protected override void OnNavigatedTo(NavigatedToEventArgs args) {
+            base.OnNavigatedTo(args);
+            var login = !string.IsNullOrEmpty(Login) ? Login : credentials.GetCurrentUserLogin();
+            BindingContext = new ProfilePageViewModel(baseHttp, login);
+        }
+        #endregion
     }
 }
-

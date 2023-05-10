@@ -23,6 +23,7 @@ namespace Art_Critique.Core {
             builder.Services.AddTransient<WelcomePage>();
             builder.Services.AddTransient<RegisterPage>();
             builder.Services.AddTransient<LoginPage>();
+            builder.Services.AddTransient<ProfilePage>();
         }
     }
 }

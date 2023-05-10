@@ -6,13 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Art_Critique_Api.Services {
     public class UserService : BaseService, IUser {
-        #region Database context
+        #region Database context and services
         private readonly ArtCritiqueDbContext dbContext;
+        private readonly IProfile profile;
         #endregion
 
         #region Constructor
-        public UserService(ArtCritiqueDbContext dbContext) {
+        public UserService(ArtCritiqueDbContext dbContext, IProfile profile) {
             this.dbContext = dbContext;
+            this.profile = profile;
         }
         #endregion
 
@@ -20,7 +22,7 @@ namespace Art_Critique_Api.Services {
         public async Task<ApiResponse> GetUsers() {
             var userList = new List<UserDTO>();
             var task = new Func<Task<ApiResponse>>(async () => {
-                userList = await dbContext.TUser.Select(
+                userList = await dbContext.TUsers.Select(
                     s => new UserDTO {
                         UsId = s.UsId,
                         UsLogin = s.UsLogin,
@@ -58,7 +60,7 @@ namespace Art_Critique_Api.Services {
                     UsEmail = User.UsEmail
                 };
 
-                if (dbContext.TUser.FirstOrDefault(x => x.UsLogin == newUser.UsLogin) != null) {
+                if (dbContext.TUsers.FirstOrDefault(x => x.UsLogin == newUser.UsLogin) != null) {
                     return new ApiResponse() {
                         IsSuccess = false,
                         Title = "Registration error!",
@@ -67,7 +69,7 @@ namespace Art_Critique_Api.Services {
                     };
                 }
 
-                if (dbContext.TUser.FirstOrDefault(x => x.UsEmail == newUser.UsEmail) != null) {
+                if (dbContext.TUsers.FirstOrDefault(x => x.UsEmail == newUser.UsEmail) != null) {
                     return new ApiResponse() {
                         IsSuccess = false,
                         Title = "Registration error!",
@@ -76,8 +78,9 @@ namespace Art_Critique_Api.Services {
                     };
                 }
 
-                dbContext.TUser.Add(newUser);
+                dbContext.TUsers.Add(newUser);
                 await dbContext.SaveChangesAsync();
+                await profile.CreateProfile(newUser.UsId);
                 return new ApiResponse {
                     IsSuccess = true,
                     Title = "Success!",
@@ -90,7 +93,7 @@ namespace Art_Critique_Api.Services {
 
         public async Task<ApiResponse> Login(string login, string password) {
             var task = new Func<Task<ApiResponse>>(async () => {
-                var user = dbContext.TUser.FirstOrDefault(x => x.UsLogin == login);
+                var user = dbContext.TUsers.FirstOrDefault(x => x.UsLogin == login);
                 if (user == null) {
                     return new ApiResponse() {
                         IsSuccess = false,
@@ -125,7 +128,7 @@ namespace Art_Critique_Api.Services {
 
         public async Task<ApiResponse> Logout(string login, string token) {
             var task = new Func<Task<ApiResponse>>(async () => {
-                var user = dbContext.TUser.FirstOrDefault(x => x.UsLogin == login);
+                var user = dbContext.TUsers.FirstOrDefault(x => x.UsLogin == login);
                 if (user == null) {
                     return new ApiResponse() {
                         IsSuccess = false,
@@ -146,6 +149,35 @@ namespace Art_Critique_Api.Services {
 
                 user.UsSignedInToken = null;
                 user.UsSignedIn = Convert.ToSByte(false);
+                await dbContext.SaveChangesAsync();
+                return new ApiResponse() {
+                    IsSuccess = true,
+                    Title = string.Empty,
+                    Message = string.Empty,
+                    Data = null
+                };
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> DeleteUser(string login) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var user = dbContext.TUsers.FirstOrDefault(x => x.UsLogin == login);
+                if (user == null) {
+                    return new ApiResponse() {
+                        IsSuccess = false,
+                        Title = "Error!",
+                        Message = "User with this login doesn't exists",
+                        Data = null
+                    };
+                }
+
+                var profileResult = await profile.DeleteProfile(user.UsId);
+                if (!profileResult.IsSuccess) {
+                    return profileResult;
+                }
+
+                dbContext.TUsers.Remove(user);
                 await dbContext.SaveChangesAsync();
                 return new ApiResponse() {
                     IsSuccess = true,

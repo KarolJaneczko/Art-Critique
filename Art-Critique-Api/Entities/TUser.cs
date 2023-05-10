@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace Art_Critique_Api.Entities;
 
-public partial class TUser {
+public partial class TUser
+{
     public int UsId { get; set; }
 
     public string UsLogin { get; set; } = null!;
@@ -17,4 +18,6 @@ public partial class TUser {
     public sbyte UsSignedIn { get; set; }
 
     public string? UsSignedInToken { get; set; }
+
+    public virtual TProfile? TProfile { get; set; }
 }
