@@ -17,11 +17,16 @@ namespace Art_Critique.Core.Services {
         }
 
         public void SetCurrentUserLogin(string userLogin) {
-            Preferences.Set("UserLoginToken", userLogin);
+            Preferences.Set("UserLogin", userLogin);
         }
 
         public string GetCurrentUserLogin() {
-            return Preferences.Get("UserLoginToken", null);
+            return Preferences.Get("UserLogin", null);
+        }
+
+        public void Logout() {
+            Preferences.Set("UserLoginToken", null);
+            Preferences.Set("UserLogin", null);
         }
         #endregion
     }

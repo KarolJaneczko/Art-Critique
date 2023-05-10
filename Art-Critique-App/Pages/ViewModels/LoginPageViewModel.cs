@@ -51,7 +51,7 @@ namespace Art_Critique.Pages.ViewModels {
                 // Sending request to API, successful login results in token, which is saved to app memory.
                 return await baseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.UserLogin}?login={login}&password={password}");
             });
-
+            
             // Executing task with try/catch.
             var result = await ExecuteWithTryCatch(task);
 
@@ -64,8 +64,6 @@ namespace Art_Critique.Pages.ViewModels {
 
                 // Switching current page to a main page.
                 await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
-            } else {
-                await Application.Current.MainPage.DisplayAlert(result.Title, result.Message, "OK");
             }
         }
     }

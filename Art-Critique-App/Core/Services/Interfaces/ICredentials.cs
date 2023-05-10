@@ -5,5 +5,6 @@
         public bool IsUserLoggedIn();
         public void SetCurrentUserLogin(string userLogin);
         public string GetCurrentUserLogin();
+        public void Logout();
     }
 }

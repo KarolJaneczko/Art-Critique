@@ -25,7 +25,7 @@ namespace Art_Critique.Pages.ViewModels {
             return new ApiResponse() {
                 IsSuccess = false,
                 Title = "Error!",
-                Message = "Uknown error happened",
+                Message = "Unknown error happened",
                 Data = null
             };
         }

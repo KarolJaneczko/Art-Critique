@@ -9,7 +9,7 @@ public partial class TProfile
 
     public int ProfileId { get; set; }
 
-    public string? ProfileName { get; set; }
+    public string? ProfileFullName { get; set; }
 
     public DateTime? ProfileBirthdate { get; set; }
 

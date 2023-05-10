@@ -14,6 +14,7 @@ namespace Art_Critique {
         public string Login { get; set; }
         #endregion
 
+        #region Constructor
         public ProfilePage(IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();
             this.baseHttp = baseHttp;
@@ -23,12 +24,14 @@ namespace Art_Critique {
             }
             BindingContext = new ProfilePageViewModel(baseHttp, Login);
         }
+        #endregion
+
+        #region Methods
         protected override void OnNavigatedTo(NavigatedToEventArgs args) {
             base.OnNavigatedTo(args);
-            if (string.IsNullOrEmpty(Login)) {
-                Login = credentials.GetCurrentUserLogin();
-            }
-            BindingContext = new ProfilePageViewModel(baseHttp, Login);
+            var login = !string.IsNullOrEmpty(Login) ? Login : credentials.GetCurrentUserLogin();
+            BindingContext = new ProfilePageViewModel(baseHttp, login);
         }
+        #endregion
     }
 }

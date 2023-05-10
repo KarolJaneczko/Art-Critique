@@ -19,8 +19,7 @@ public partial class ArtCritiqueDbContext : DbContext
 
     public virtual DbSet<TUser> TUsers { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Niewiem123;database=art-critique-db");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Niewiem123;database=art-critique-db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -47,12 +46,12 @@ public partial class ArtCritiqueDbContext : DbContext
             entity.Property(e => e.ProfileFacebook)
                 .HasMaxLength(100)
                 .HasColumnName("profileFacebook");
+            entity.Property(e => e.ProfileFullName)
+                .HasMaxLength(100)
+                .HasColumnName("profileFullName");
             entity.Property(e => e.ProfileInstagram)
                 .HasMaxLength(100)
                 .HasColumnName("profileInstagram");
-            entity.Property(e => e.ProfileName)
-                .HasMaxLength(100)
-                .HasColumnName("profileName");
             entity.Property(e => e.ProfileTwitter)
                 .HasMaxLength(100)
                 .HasColumnName("profileTwitter");

@@ -4,6 +4,7 @@
         public const string ApiAddress = "https://10.0.2.2:7038/api/";
         public const string UserRegister = "User/RegisterUser";
         public const string UserLogin = "User/Login";
+        public const string UserLogout = "User/Logout";
         #endregion
     }
 }
