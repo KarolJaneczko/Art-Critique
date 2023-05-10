@@ -1,0 +1,38 @@
+CREATE TABLE `t_user` (
+  `usID` int NOT NULL AUTO_INCREMENT,
+  `usLogin` varchar(30) NOT NULL,
+  `usPassword` varchar(30) NOT NULL,
+  `usEmail` varchar(100) NOT NULL,
+  `usDateCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `usSignedIn` tinyint NOT NULL DEFAULT '0',
+  `usSignedInToken` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`usID`),
+  UNIQUE KEY `usLogin` (`usLogin`),
+  UNIQUE KEY `usID_UNIQUE` (`usID`),
+  UNIQUE KEY `usEmail_UNIQUE` (`usEmail`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `t_avatar` (
+  `AvatarID` int NOT NULL AUTO_INCREMENT,
+  `AvatarPath` varchar(300) NOT NULL,
+  PRIMARY KEY (`AvatarID`),
+  UNIQUE KEY `idt_avatar_UNIQUE` (`AvatarID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `t_profile` (
+  `usID` int NOT NULL,
+  `profileID` int NOT NULL AUTO_INCREMENT,
+  `profileFullName` varchar(100) DEFAULT NULL,
+  `profileBirthdate` datetime DEFAULT NULL,
+  `profileAvatarID` int DEFAULT NULL,
+  `profileDescription` varchar(400) DEFAULT NULL,
+  `profileFacebook` varchar(100) DEFAULT NULL,
+  `profileInstagram` varchar(100) DEFAULT NULL,
+  `profileTwitter` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`profileID`),
+  UNIQUE KEY `usID_UNIQUE` (`usID`),
+  UNIQUE KEY `profileID_UNIQUE` (`profileID`),
+  KEY `FK_AvatarID_idx` (`profileAvatarID`),
+  CONSTRAINT `FK_AvatarID` FOREIGN KEY (`profileAvatarID`) REFERENCES `t_avatar` (`AvatarID`),
+  CONSTRAINT `FK_usID` FOREIGN KEY (`usID`) REFERENCES `t_user` (`usID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
