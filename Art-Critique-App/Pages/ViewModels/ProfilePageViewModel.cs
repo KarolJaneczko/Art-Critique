@@ -1,5 +1,4 @@
 ﻿using Art_Critique.Core.Services.Interfaces;
-using System.Windows.Input;
 
 namespace Art_Critique.Pages.ViewModels {
     public class ProfilePageViewModel : BaseViewModel {
