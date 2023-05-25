@@ -1,5 +1,8 @@
-﻿using Art_Critique.Core.Services.Interfaces;
-using System.Windows.Input;
+﻿using Art_Critique.Core.Models.API;
+using Art_Critique.Core.Services.Interfaces;
+using Art_Critique.Core.Utils.Helpers;
+using Art_Critique_Api.Models;
+using Newtonsoft.Json;
 
 namespace Art_Critique.Pages.ViewModels {
     public class ProfilePageViewModel : BaseViewModel {
@@ -8,7 +11,15 @@ namespace Art_Critique.Pages.ViewModels {
         #endregion
 
         #region Fields
+        private ImageSource avatar;
         private string login;
+        public ImageSource Avatar {
+            get { return avatar; }
+            set {
+                avatar = value;
+                OnPropertyChanged(nameof(Avatar));
+            }
+        }
         public string Login {
             get { return login; }
             set {
@@ -28,7 +39,20 @@ namespace Art_Critique.Pages.ViewModels {
 
         #region Methods
         private async Task FillProfile(string userLogin) {
-            login = string.Join(string.Empty, "@", userLogin);
+            var task = new Func<Task<ApiResponse>>(async () => {
+                // Sending request to API, successful request results in profile data.
+                return await baseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileGet}?login={userLogin}");
+            });
+
+            // Executing task with try/catch.
+            var result = await ExecuteWithTryCatch(task);
+
+            // Deserializing result data into profile info.
+            var profileInfo = JsonConvert.DeserializeObject<ProfileDTO>(result.Data.ToString());
+
+
+            Avatar = Converter.Base64ToImageSource(profileInfo.Avatar);
+            
         }
         #endregion
     }

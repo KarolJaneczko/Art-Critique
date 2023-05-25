@@ -5,18 +5,27 @@
 
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
 
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
+        <Grid RowDefinitions="Auto,Auto,Auto,     Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
 
-            <!-- Image Profile-->
-            <Frame Grid.Row="1" Margin="0,-90,0,0" BorderColor="White" HorizontalOptions="Center" WidthRequest="110" HeightRequest="{OnPlatform iOS='110', Android='20'}" HasShadow="False" CornerRadius="55" Padding="0" IsClippedToBounds="True">
-                <Image Source="modelprofile" Aspect="AspectFill"/>
+            <!-- User's avatar -->
+            <Frame Grid.Row="1" WidthRequest="150" HeightRequest="150" CornerRadius="40" BorderColor="White" IsClippedToBounds="true">
+                <Image Source="{Binding Avatar}" Aspect="AspectFill"/>
             </Frame>
 
+            <!--<Frame Grid.Row="1" Margin="0,-90,0,0" BorderColor="White" HorizontalOptions="Center" WidthRequest="110" HeightRequest="{OnPlatform iOS='110', Android='20'}" HasShadow="False" CornerRadius="55" Padding="0" IsClippedToBounds="True">
+                <Image Source="{Binding Avatar}" WidthRequest="20" HeightRequest="20"/>
+            </Frame>-->
+
             <!-- User's login -->
-            <Label Grid.Row="2" Text="{Binding Login}" TextColor="#383b67" HorizontalTextAlignment="Center" Margin="0,20,0,0" FontSize="13"/>
-            
+            <Label Grid.Row="2" Text="{Binding Login}" TextColor="Black" HorizontalTextAlignment="Center" Margin="0,0,0,0" FontSize="13"/>
+
             <!-- Profile name & general description-->
             <Label Grid.Row="3" Text="Angelica Melli" FontAttributes="Bold" TextColor="#383b67" HorizontalTextAlignment="Center" Margin="0,0,0,0" FontSize="22"/>
+
+
+
+
+
 
             <Grid Grid.Row="4" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,20,0,0">
                 <Button Grid.Column="0" ImageSource="location" WidthRequest="18" HeightRequest="18" CornerRadius="9" HorizontalOptions="Center" BackgroundColor="#9192b7"/>
@@ -37,7 +46,7 @@
                     HorizontalTextAlignment="Start" 
                     FontSize="15" 
                     Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.&#10;&#10;Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."/>
-            
+
             <!-- Homework-->
             <Label Grid.Row="7" Text="Homework" FontAttributes="Bold" TextColor="#383b67" HorizontalTextAlignment="Start" Margin="0,30,0,10" FontSize="20"/>
             <CollectionView Grid.Row="7" HorizontalScrollBarVisibility="Never"

@@ -10,14 +10,14 @@ CREATE TABLE `t_user` (
   UNIQUE KEY `usLogin` (`usLogin`),
   UNIQUE KEY `usID_UNIQUE` (`usID`),
   UNIQUE KEY `usEmail_UNIQUE` (`usEmail`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `t_avatar` (
   `AvatarID` int NOT NULL AUTO_INCREMENT,
   `AvatarPath` varchar(300) NOT NULL,
   PRIMARY KEY (`AvatarID`),
   UNIQUE KEY `idt_avatar_UNIQUE` (`AvatarID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `t_profile` (
   `usID` int NOT NULL,
@@ -35,4 +35,4 @@ CREATE TABLE `t_profile` (
   KEY `FK_AvatarID_idx` (`profileAvatarID`),
   CONSTRAINT `FK_AvatarID` FOREIGN KEY (`profileAvatarID`) REFERENCES `t_avatar` (`AvatarID`),
   CONSTRAINT `FK_usID` FOREIGN KEY (`usID`) REFERENCES `t_user` (`usID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

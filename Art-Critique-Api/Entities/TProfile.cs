@@ -23,5 +23,7 @@ public partial class TProfile
 
     public string? ProfileTwitter { get; set; }
 
+    public virtual TAvatar? ProfileAvatar { get; set; }
+
     public virtual TUser Us { get; set; } = null!;
 }

@@ -15,28 +15,43 @@ public partial class ArtCritiqueDbContext : DbContext
     {
     }
 
+    public virtual DbSet<TAvatar> TAvatars { get; set; }
+
     public virtual DbSet<TProfile> TProfiles { get; set; }
 
     public virtual DbSet<TUser> TUsers { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Niewiem123;database=art-critique-db");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Niewiem123;database=art-critique-db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<TAvatar>(entity =>
+        {
+            entity.HasKey(e => e.AvatarId).HasName("PRIMARY");
+
+            entity.ToTable("t_avatar");
+
+            entity.HasIndex(e => e.AvatarId, "idt_avatar_UNIQUE").IsUnique();
+
+            entity.Property(e => e.AvatarId).HasColumnName("AvatarID");
+            entity.Property(e => e.AvatarPath).HasMaxLength(300);
+        });
+
         modelBuilder.Entity<TProfile>(entity =>
         {
             entity.HasKey(e => e.ProfileId).HasName("PRIMARY");
 
             entity.ToTable("t_profile");
 
+            entity.HasIndex(e => e.ProfileAvatarId, "FK_AvatarID_idx");
+
             entity.HasIndex(e => e.ProfileId, "profileID_UNIQUE").IsUnique();
 
             entity.HasIndex(e => e.UsId, "usID_UNIQUE").IsUnique();
 
             entity.Property(e => e.ProfileId).HasColumnName("profileID");
-            entity.Property(e => e.ProfileAvatarId)
-                .HasDefaultValueSql("'1'")
-                .HasColumnName("profileAvatarID");
+            entity.Property(e => e.ProfileAvatarId).HasColumnName("profileAvatarID");
             entity.Property(e => e.ProfileBirthdate)
                 .HasColumnType("datetime")
                 .HasColumnName("profileBirthdate");
@@ -56,6 +71,10 @@ public partial class ArtCritiqueDbContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("profileTwitter");
             entity.Property(e => e.UsId).HasColumnName("usID");
+
+            entity.HasOne(d => d.ProfileAvatar).WithMany(p => p.TProfiles)
+                .HasForeignKey(d => d.ProfileAvatarId)
+                .HasConstraintName("FK_AvatarID");
 
             entity.HasOne(d => d.Us).WithOne(p => p.TProfile)
                 .HasForeignKey<TProfile>(d => d.UsId)

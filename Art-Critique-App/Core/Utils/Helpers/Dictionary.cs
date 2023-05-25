@@ -5,6 +5,7 @@
         public const string UserRegister = "User/RegisterUser";
         public const string UserLogin = "User/Login";
         public const string UserLogout = "User/Logout";
+        public const string ProfileGet = "Profile/GetProfile";
         #endregion
     }
 }
