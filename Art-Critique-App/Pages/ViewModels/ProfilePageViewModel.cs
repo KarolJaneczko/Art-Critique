@@ -12,7 +12,8 @@ namespace Art_Critique.Pages.ViewModels {
 
         #region Fields
         private ImageSource avatar;
-        private string login;
+        private string login, fullName;
+        private bool fullNameVisible;
         public ImageSource Avatar {
             get { return avatar; }
             set {
@@ -27,6 +28,22 @@ namespace Art_Critique.Pages.ViewModels {
                 OnPropertyChanged(nameof(Login));
             }
         }
+
+        public string FullName {
+            get { return fullName; }
+            set {
+                fullName = value.Trim();
+                OnPropertyChanged(nameof(FullName));
+            }
+        }
+
+        public bool FullNameVisible {
+            get { return fullNameVisible; }
+            set {
+                fullNameVisible = value;
+                OnPropertyChanged(nameof(FullNameVisible));
+            }
+        }
         #endregion
 
         #region Constructors
@@ -39,20 +56,27 @@ namespace Art_Critique.Pages.ViewModels {
 
         #region Methods
         private async Task FillProfile(string userLogin) {
-            var task = new Func<Task<ApiResponse>>(async () => {
-                // Sending request to API, successful request results in profile data.
-                return await baseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileGet}?login={userLogin}");
-            });
+            /*
+var task = new Func<Task<ApiResponse>>(async () => {
 
-            // Executing task with try/catch.
-            var result = await ExecuteWithTryCatch(task);
+// Sending request to API, successful request results in profile data.
+return await baseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileGet}?login={userLogin}");
+});
 
-            // Deserializing result data into profile info.
-            var profileInfo = JsonConvert.DeserializeObject<ProfileDTO>(result.Data.ToString());
+// Executing task with try/catch.
+var result = await ExecuteWithTryCatch(task);
+
+// Deserializing result data into profile info.
+var profileInfo = JsonConvert.DeserializeObject<ProfileDTO>(result.Data.ToString());
 
 
-            Avatar = Converter.Base64ToImageSource(profileInfo.Avatar);
-            
+Avatar = Converter.Base64ToImageSource(profileInfo.Avatar);
+*/
+            Login = userLogin;
+            Avatar = ImageSource.FromUri(new Uri("https://biografia24.pl/wp-content/uploads/2013/03/Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project.jpg"));
+            FullName = "Liwia Żółtek";
+            FullNameVisible = !string.IsNullOrEmpty(FullName);
+            await Task.CompletedTask;
         }
         #endregion
     }
