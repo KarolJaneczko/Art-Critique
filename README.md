@@ -14,3 +14,6 @@ Used technologies:
 Font links:
 - Pragmatica Extra Light - https://www.cufonfonts.com/font/pragmatica-extralight
 - Pragmatice Medium - https://www.fontsmarket.com/font-download/pragmatica-medium
+
+Free icons used in many places in the project:
+- Flaticon - https://www.flaticon.com/
