@@ -105,9 +105,9 @@ namespace Art_Critique.Pages.ViewModels {
         public ProfilePageViewModel(IBaseHttp baseHttp, string userLogin) {
             this.baseHttp = baseHttp;
             Task.Run(async () => { await FillProfile(userLogin); });
-            FacebookOpen = FacebookOpacity == 0.5 ? null : new Command(async () => { await OpenUrl(facebookLink); });
-            InstagramOpen = InstagramOpacity == 0.5 ? null : new Command(async () => { await OpenUrl(instagramLink); });
-            TwitterOpen = TwitterOpacity == 0.5 ? null : new Command(async () => { await OpenUrl(twitterLink); });
+            FacebookOpen = FacebookOpacity == 0.3 ? null : new Command(async () => { await OpenUrl(facebookLink); });
+            InstagramOpen = InstagramOpacity == 0.3 ? null : new Command(async () => { await OpenUrl(instagramLink); });
+            TwitterOpen = TwitterOpacity == 0.3 ? null : new Command(async () => { await OpenUrl(twitterLink); });
         }
 
         #endregion
