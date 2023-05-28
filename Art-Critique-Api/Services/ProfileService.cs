@@ -99,7 +99,7 @@ namespace Art_Critique_Api.Services {
             return await ExecuteWithTryCatch(task);
         }
 
-        public Task<ApiResponse> EditProfile(ProfileDTO profileDTO) {
+        public Task<ApiResponse> EditProfile(string login, ProfileDTO profileDTO) {
             throw new NotImplementedException();
         }
         #endregion

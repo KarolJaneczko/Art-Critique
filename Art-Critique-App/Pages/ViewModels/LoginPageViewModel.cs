@@ -63,7 +63,7 @@ namespace Art_Critique.Pages.ViewModels {
                 credentials.SetCurrentUserLogin(login);
 
                 // Switching current page to a main page.
-                await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+                await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
             }
         }
     }

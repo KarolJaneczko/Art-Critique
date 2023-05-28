@@ -1,5 +1,4 @@
 ﻿using Art_Critique.Core.Services.Interfaces;
-using System.Threading.Tasks;
 
 namespace Art_Critique {
     public partial class App : Application {

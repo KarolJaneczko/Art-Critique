@@ -2,7 +2,10 @@
 using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique_Api.Models;
+using Microsoft.Maui.ApplicationModel;
 using Newtonsoft.Json;
+using System.Globalization;
+using System.Windows.Input;
 
 namespace Art_Critique.Pages.ViewModels {
     public class ProfilePageViewModel : BaseViewModel {
@@ -12,8 +15,9 @@ namespace Art_Critique.Pages.ViewModels {
 
         #region Fields
         private ImageSource avatar;
-        private string login, fullName;
+        private string login, fullName, birthdate, totalViews, facebookLink, instagramLink, twitterLink, description;
         private bool fullNameVisible;
+        private double facebookOpacity, instagramOpacity, twitterOpacity;
         public ImageSource Avatar {
             get { return avatar; }
             set {
@@ -44,39 +48,109 @@ namespace Art_Critique.Pages.ViewModels {
                 OnPropertyChanged(nameof(FullNameVisible));
             }
         }
+
+        public string Birthdate {
+            get { return birthdate; }
+            set {
+                birthdate = value;
+                OnPropertyChanged(nameof(Birthdate));
+            }
+        }
+
+        public string TotalViews {
+            get { return totalViews; }
+            set {
+                totalViews = value;
+                OnPropertyChanged(nameof(TotalViews));
+            }
+        }
+
+        public double FacebookOpacity {
+            get { return facebookOpacity; }
+            set {
+                facebookOpacity = value;
+                OnPropertyChanged(nameof(FacebookOpacity));
+            }
+        }
+
+        public double InstagramOpacity {
+            get { return instagramOpacity; }
+            set {
+                instagramOpacity = value;
+                OnPropertyChanged(nameof(InstagramOpacity));
+            }
+        }
+
+        public double TwitterOpacity {
+            get { return twitterOpacity; }
+            set {
+                twitterOpacity = value;
+                OnPropertyChanged(nameof(TwitterOpacity));
+            }
+        }
+
+        public string Description {
+            get { return description; }
+            set {
+                description = value.Trim();
+                OnPropertyChanged(nameof(Description));
+            }
+        }
+        public ICommand FacebookOpen { get; protected set; }
+        public ICommand InstagramOpen { get; protected set; }
+        public ICommand TwitterOpen { get; protected set; }
         #endregion
 
         #region Constructors
         public ProfilePageViewModel(IBaseHttp baseHttp, string userLogin) {
             this.baseHttp = baseHttp;
             Task.Run(async () => { await FillProfile(userLogin); });
+            FacebookOpen = FacebookOpacity == 0.5 ? null : new Command(async () => { await OpenUrl(facebookLink); });
+            InstagramOpen = InstagramOpacity == 0.5 ? null : new Command(async () => { await OpenUrl(instagramLink); });
+            TwitterOpen = TwitterOpacity == 0.5 ? null : new Command(async () => { await OpenUrl(twitterLink); });
         }
 
         #endregion
 
         #region Methods
         private async Task FillProfile(string userLogin) {
-            /*
-var task = new Func<Task<ApiResponse>>(async () => {
+            var task = new Func<Task<ApiResponse>>(async () => {
 
-// Sending request to API, successful request results in profile data.
-return await baseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileGet}?login={userLogin}");
-});
+                // Sending request to API, successful request results in profile data.
+                return await baseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileGet}?login={userLogin}");
+            });
 
-// Executing task with try/catch.
-var result = await ExecuteWithTryCatch(task);
+            // Executing task with try/catch.
+            var result = await ExecuteWithTryCatch(task);
 
-// Deserializing result data into profile info.
-var profileInfo = JsonConvert.DeserializeObject<ProfileDTO>(result.Data.ToString());
+            // Deserializing result data into profile info.
+            var profileInfo = JsonConvert.DeserializeObject<ProfileDTO>(result.Data.ToString());
 
+            // Filling the user profile with the data from API.
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pl-PL");
 
-Avatar = Converter.Base64ToImageSource(profileInfo.Avatar);
-*/
+            Avatar = Converter.Base64ToImageSource(profileInfo.Avatar);
             Login = userLogin;
-            Avatar = ImageSource.FromUri(new Uri("https://biografia24.pl/wp-content/uploads/2013/03/Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project.jpg"));
-            FullName = "Liwia Żółtek";
+            FullName = profileInfo.FullName;
             FullNameVisible = !string.IsNullOrEmpty(FullName);
-            await Task.CompletedTask;
+            Birthdate = profileInfo.Birthdate?.ToShortDateString() ?? "N/A";
+            TotalViews = "Total views: 0";
+
+            FacebookOpacity = string.IsNullOrEmpty(profileInfo.Facebook) ? 0.3 : 0;
+            facebookLink = profileInfo.Facebook;
+
+            InstagramOpacity = string.IsNullOrEmpty(profileInfo.Instagram) ? 0.3 : 0;
+            instagramLink = profileInfo.Instagram;
+
+            TwitterOpacity = string.IsNullOrEmpty(profileInfo.Twitter) ? 0.3 : 0;
+            twitterLink = profileInfo.Twitter;
+
+            Description = string.IsNullOrEmpty(profileInfo.Description) ? "No information." : profileInfo.Description;
+        }
+
+        private async Task OpenUrl(string url) {
+            var uri = new UriBuilder(url);
+            await Browser.Default.OpenAsync(uri.Uri, BrowserLaunchMode.SystemPreferred);
         }
         #endregion
     }
