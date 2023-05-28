@@ -5,6 +5,6 @@ namespace Art_Critique_Api.Services.Interfaces {
         public Task<ApiResponse> CreateProfile(int userID);
         public Task<ApiResponse> DeleteProfile(int userID);
         public Task<ApiResponse> GetProfile(string login);
-        public Task<ApiResponse> EditProfile(ProfileDTO profileDTO);
+        public Task<ApiResponse> EditProfile(string login, ProfileDTO profileDTO);
     }
 }

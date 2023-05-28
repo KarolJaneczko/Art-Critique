@@ -5,54 +5,60 @@
 
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
 
-        <Grid RowDefinitions="Auto,Auto,Auto,     Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
 
             <!-- User's avatar -->
-            <Frame Grid.Row="1" WidthRequest="150" HeightRequest="150" CornerRadius="40" BorderColor="White" IsClippedToBounds="true">
-                <Image Source="{Binding Avatar}" Aspect="AspectFill"/>
+            <Frame Grid.Row="1" WidthRequest="150" HeightRequest="150" CornerRadius="100" BorderColor="Transparent" IsClippedToBounds="true" Margin="0,20,0,10">
+                <Image Source="{Binding Avatar}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill"/>
             </Frame>
 
-            <!--<Frame Grid.Row="1" Margin="0,-90,0,0" BorderColor="White" HorizontalOptions="Center" WidthRequest="110" HeightRequest="{OnPlatform iOS='110', Android='20'}" HasShadow="False" CornerRadius="55" Padding="0" IsClippedToBounds="True">
-                <Image Source="{Binding Avatar}" WidthRequest="20" HeightRequest="20"/>
-            </Frame>-->
-
             <!-- User's login -->
-            <Label Grid.Row="2" Text="{Binding Login}" TextColor="Black" HorizontalTextAlignment="Center" Margin="0,0,0,0" FontSize="13"/>
+            <Label Grid.Row="2" Text="{Binding Login}" TextColor="Goldenrod" HorizontalTextAlignment="Center" FontSize="15"/>
 
-            <!-- Profile name & general description-->
-            <Label Grid.Row="3" Text="Angelica Melli" FontAttributes="Bold" TextColor="#383b67" HorizontalTextAlignment="Center" Margin="0,0,0,0" FontSize="22"/>
+            <!-- User's full name -->
+            <Label Grid.Row="3" Text="{Binding FullName}" IsVisible="{Binding FullNameVisible}" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="22"/>
 
-
-
-
-
-
-            <Grid Grid.Row="4" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,20,0,0">
-                <Button Grid.Column="0" ImageSource="location" WidthRequest="18" HeightRequest="18" CornerRadius="9" HorizontalOptions="Center" BackgroundColor="#9192b7"/>
-                <Label Grid.Column="1" Text=" Venecy, Italy" FontSize="15" TextColor="#9192b7"/>
-                <Button Grid.Column="2" ImageSource="age" Margin="10,0,0,0" WidthRequest="18" HeightRequest="18" CornerRadius="9" HorizontalOptions="Center" BackgroundColor="#9192b7"/>
-                <Label Grid.Column="3" Text=" Age, 26" FontSize="15" TextColor="#9192b7"/>
-                <Button Grid.Column="4" Text="Regular" TextColor="#e29389" FontAttributes="Bold" Margin="5,0,0,0" CornerRadius="10" FontSize="9" WidthRequest="{OnPlatform iOS='50', Android='59'}" HeightRequest="{OnPlatform iOS='21', Android='30'}" BackgroundColor="#fae6e4"/>
+            <!-- Birthdate & total views -->
+            <Grid Grid.Row="4" ColumnDefinitions="Auto,Auto,Auto,Auto" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,20,0,0">
+                <Frame Grid.Column="0" WidthRequest="25" HeightRequest="25" BorderColor="Transparent" IsClippedToBounds="true" Margin="5,0,5,0" HorizontalOptions="Center">
+                    <Image Source="icon_calendar.png"  WidthRequest="20" HeightRequest="20" Aspect="AspectFill"/>
+                </Frame>
+                <Label Grid.Column="1" Text="{Binding Birthdate}" FontSize="15" TextColor="Black"/>
+                <Frame Grid.Column="2" WidthRequest="25" HeightRequest="25" BorderColor="Transparent" IsClippedToBounds="true" Margin="5,0,5,0" HorizontalOptions="Center">
+                    <Image Source="icon_eye.png"  WidthRequest="20" HeightRequest="20" Aspect="AspectFill"/>
+                </Frame>
+                <Label Grid.Column="3" Text="{Binding TotalViews}" FontSize="15" TextColor="Black"/>
             </Grid>
 
-            <Label Grid.Row="5" Text="Angelica's Note" 
-                    FontAttributes="Bold"
-                    TextColor="#383b67" 
-                    HorizontalTextAlignment="Start" 
-                    Margin="0,40,0,20"
-                    FontSize="20"/>
+            <!-- Social media -->
+            <HorizontalStackLayout Grid.Row="5" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,20,0,20">
+                <Frame Opacity="{Binding FacebookOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
+                    <ImageButton Source="facebook_icon.png" Command="{Binding FacebookOpen}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
+                </Frame>
+                <Frame Opacity="{Binding InstagramOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
+                    <ImageButton Source="instagram_icon.png" Command="{Binding InstagramOpen}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
+                </Frame>
+                <Frame Opacity="{Binding TwitterOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
+                    <ImageButton Source="twitter_icon.png" Command="{Binding TwitterOpen}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
+                </Frame>
+            </HorizontalStackLayout>
 
-            <Label Grid.Row="6" TextColor="#8d92b9" 
-                    HorizontalTextAlignment="Start" 
-                    FontSize="15" 
-                    Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.&#10;&#10;Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."/>
+            <!-- Profile description -->
+            <Label Grid.Row="6" Text="Bio" FontAttributes="Bold" TextColor="Goldenrod" HorizontalTextAlignment="Start" Margin="0,20,0,20" FontSize="20"/>
+            <Label Grid.Row="7" TextColor="Black" HorizontalTextAlignment="Start" FontSize="15" Text="{Binding Description}"/>
 
-            <!-- Homework-->
-            <Label Grid.Row="7" Text="Homework" FontAttributes="Bold" TextColor="#383b67" HorizontalTextAlignment="Start" Margin="0,30,0,10" FontSize="20"/>
-            <CollectionView Grid.Row="7" HorizontalScrollBarVisibility="Never"
-                 ItemsSource="{Binding homeWorks}" Margin="0,0,-10,0"
-                 HeightRequest="140"
-                 ItemsLayout="HorizontalList">
+            <!-- Gallery shortcut -->
+            <Label Grid.Row="8" Text="Gallery" FontAttributes="Bold" TextColor="Goldenrod" HorizontalTextAlignment="Start" Margin="0,30,0,10" FontSize="20"/>
+
+            <!-- Buttons -->
+            <HorizontalStackLayout Grid.Row="10" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
+                <Button Text="test button" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50" BorderWidth="1"/>
+            </HorizontalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>
+    
+<!--<CollectionView Grid.Row="9" HorizontalScrollBarVisibility="Never" ItemsSource="{Binding homeWorks}" Margin="0,0,-10,0" HeightRequest="140" ItemsLayout="HorizontalList">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout WidthRequest="{OnPlatform iOS='135', Android='160'}" Padding="0,0,15,0">
@@ -65,15 +71,4 @@
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-            </CollectionView>
-
-            <!-- Line & Final buttons-->
-            <BoxView Grid.Row="9" HorizontalOptions="FillAndExpand" HeightRequest="1"  Margin="-20,0,0,20" Color="#eaeaf0"/>
-            <Grid ColumnDefinitions="Auto,*" HorizontalOptions="FillAndExpand" Grid.Row="9" Margin="0,0,0,20">
-                <Button Grid.Column="0" Text="Premium" BackgroundColor="White" ImageSource="medal" WidthRequest="130" CornerRadius="18" FontAttributes="Bold" TextColor="#383b67" BorderColor="Silver" Margin="0,0,10,0" HeightRequest="50" BorderWidth="1"/>
-                <Button Grid.Column="1" Text="Get Detail" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="#383b67" HeightRequest="50" BorderWidth="1"/>
-            </Grid>
-        </Grid>
-    </ScrollView>
-
-</ContentPage>
+            </CollectionView>-->

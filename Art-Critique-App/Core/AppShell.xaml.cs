@@ -26,7 +26,7 @@ namespace Art_Critique {
 
                 if (logoutResult.IsSuccess) {
                     credentials.Logout();
-                    await Current.GoToAsync($"{nameof(WelcomePage)}");
+                    await Current.GoToAsync($"/{nameof(WelcomePage)}");
                 }
 
             } catch (AppException ex) {

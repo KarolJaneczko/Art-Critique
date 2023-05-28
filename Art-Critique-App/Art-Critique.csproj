@@ -96,6 +96,11 @@
 	  <None Remove="Resources\Fonts\Pragmatica-ExtraLight.ttf" />
 	  <None Remove="Resources\Fonts\Pragmatica-Medium.otf" />
 	  <None Remove="Resources\Images\artcritique_logo.png" />
+	  <None Remove="Resources\Images\facebook_icon.png" />
+	  <None Remove="Resources\Images\icon_calendar.png" />
+	  <None Remove="Resources\Images\icon_eye.png" />
+	  <None Remove="Resources\Images\instagram_icon.png" />
+	  <None Remove="Resources\Images\twitter_icon.png" />
 	</ItemGroup>
 
 	<ItemGroup>

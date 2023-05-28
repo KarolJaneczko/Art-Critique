@@ -23,8 +23,8 @@ namespace Art_Critique_Api.Controllers {
         }
 
         [HttpPost("EditProfile")]
-        public async Task<ApiResponse> EditProfile(ProfileDTO profileDTO) {
-            return await profileService.EditProfile(profileDTO);
+        public async Task<ApiResponse> EditProfile(string login, ProfileDTO profileDTO) {
+            return await profileService.EditProfile(login, profileDTO);
         }
         #endregion
     }
