@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Art_Critique.ProfilePage">
+             x:Class="Art_Critique.EditProfilePage">
 
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
 
@@ -12,22 +12,15 @@
                 <Image Source="{Binding Avatar}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill"/>
             </Frame>
 
-            <!-- User's login -->
-            <Label Grid.Row="2" Text="{Binding Login}" TextColor="Goldenrod" HorizontalTextAlignment="Center" FontSize="15"/>
-
             <!-- User's full name -->
             <Label Grid.Row="3" Text="{Binding FullName}" IsVisible="{Binding FullNameVisible}" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="22"/>
 
-            <!-- Birthdate & total views -->
+            <!-- Birthdate -->
             <Grid Grid.Row="4" ColumnDefinitions="Auto,Auto,Auto,Auto" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,20,0,0">
                 <Frame Grid.Column="0" WidthRequest="25" HeightRequest="25" BorderColor="Transparent" IsClippedToBounds="true" Margin="5,0,5,0" HorizontalOptions="Center">
                     <Image Source="icon_calendar.png"  WidthRequest="20" HeightRequest="20" Aspect="AspectFill"/>
                 </Frame>
                 <Label Grid.Column="1" Text="{Binding Birthdate}" FontSize="15" TextColor="Black"/>
-                <Frame Grid.Column="2" WidthRequest="25" HeightRequest="25" BorderColor="Transparent" IsClippedToBounds="true" Margin="5,0,5,0" HorizontalOptions="Center">
-                    <Image Source="icon_eye.png"  WidthRequest="20" HeightRequest="20" Aspect="AspectFill"/>
-                </Frame>
-                <Label Grid.Column="3" Text="{Binding TotalViews}" FontSize="15" TextColor="Black"/>
             </Grid>
 
             <!-- Social media -->
@@ -47,9 +40,6 @@
             <Label Grid.Row="6" Text="Bio" FontAttributes="Bold" TextColor="Goldenrod" HorizontalTextAlignment="Start" Margin="0,20,0,20" FontSize="20"/>
             <Label Grid.Row="7" TextColor="Black" HorizontalTextAlignment="Start" FontSize="15" Text="{Binding Description}"/>
 
-            <!-- Gallery shortcut -->
-            <Label Grid.Row="8" Text="Gallery" FontAttributes="Bold" TextColor="Goldenrod" HorizontalTextAlignment="Start" Margin="0,30,0,10" FontSize="20"/>
-
             <!-- Buttons -->
             <HorizontalStackLayout Grid.Row="10" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
                 <Button Text="{Binding ButtonText}" IsEnabled="{Binding ButtonEnabled}" Command="{Binding ButtonCommand}" Opacity="{Binding ButtonOpacity}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50" BorderWidth="1"/>
@@ -57,18 +47,3 @@
         </Grid>
     </ScrollView>
 </ContentPage>
-
-<!--<CollectionView Grid.Row="9" HorizontalScrollBarVisibility="Never" ItemsSource="{Binding homeWorks}" Margin="0,0,-10,0" HeightRequest="140" ItemsLayout="HorizontalList">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout WidthRequest="{OnPlatform iOS='135', Android='160'}" Padding="0,0,15,0">
-                            <Frame CornerRadius="13" HorizontalOptions="Start" BorderColor="#c6c1ea" HasShadow="False">
-                                <Grid RowDefinitions="*,Auto">
-                                    <Image Source="folder" HorizontalOptions="Center" HeightRequest="40" WidthRequest="40" />
-                                    <Label Grid.Row="1" HorizontalOptions="Center" Text="{Binding FileName}" FontSize="11" TextColor="#c6c1ea"/>
-                                </Grid>
-                            </Frame>
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>-->

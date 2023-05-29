@@ -11,7 +11,14 @@ namespace Art_Critique {
         #endregion
 
         #region Fields
-        public string Login { get; set; }
+        private string login;
+        public string Login {
+            get { return login; }
+            set {
+                login = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         #region Constructor
@@ -22,7 +29,8 @@ namespace Art_Critique {
             if (!string.IsNullOrEmpty(Login)) {
                 Login = credentials.GetCurrentUserLogin();
             }
-            BindingContext = new ProfilePageViewModel(baseHttp, Login);
+            Routing.RegisterRoute(nameof(EditProfilePage), typeof(EditProfilePage));
+            BindingContext = new ProfilePageViewModel(baseHttp, credentials, Login);
         }
         #endregion
 
@@ -30,7 +38,7 @@ namespace Art_Critique {
         protected override void OnNavigatedTo(NavigatedToEventArgs args) {
             base.OnNavigatedTo(args);
             var login = !string.IsNullOrEmpty(Login) ? Login : credentials.GetCurrentUserLogin();
-            BindingContext = new ProfilePageViewModel(baseHttp, login);
+            BindingContext = new ProfilePageViewModel(baseHttp, credentials, login);
         }
         #endregion
     }
