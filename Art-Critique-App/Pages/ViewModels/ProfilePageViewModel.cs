@@ -2,7 +2,6 @@
 using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique_Api.Models;
-using Microsoft.Maui.ApplicationModel;
 using Newtonsoft.Json;
 using System.Globalization;
 using System.Windows.Input;
@@ -174,14 +173,10 @@ namespace Art_Critique.Pages.ViewModels {
             TwitterOpacity = string.IsNullOrEmpty(profileInfo.Twitter) ? 0.3 : 0;
             twitterLink = profileInfo.Twitter;
 
-            // Downloading last three user's artworks.
-
             // Editing button properties.
             var isMyProfile = userLogin == credentials.GetCurrentUserLogin();
             var isFollowed = CheckIfFollowed(userLogin);
-            ButtonText = isMyProfile ? "Edit" : (isFollowed ? "Followed" : "Follow");
-            ButtonEnabled = isMyProfile || (!isFollowed);
-            ButtonOpacity = isMyProfile ? 1.0 : (isFollowed ? 0.6 : 1.0);
+            ButtonText = isMyProfile ? "Edit" : (isFollowed ? "Unfollow" : "Follow");
         }
 
         private async Task OpenUrl(string url) {

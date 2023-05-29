@@ -21,7 +21,7 @@ namespace Art_Critique.Pages.ViewModels {
         }
         #endregion
 
-            #region Constructors
+        #region Constructors
         public EditProfilePageViewModel(IBaseHttp baseHttp, ProfileDTO profileInfo) {
             this.baseHttp = baseHttp;
             this.profileInfo = profileInfo;
