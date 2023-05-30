@@ -3,6 +3,7 @@ using Art_Critique.Core.Services.Interfaces;
 
 namespace Art_Critique.Core {
     public static class MauiProgram {
+        #region Builder & services
         public static MauiApp CreateMauiApp() {
             var builder = MauiApp.CreateBuilder();
 
@@ -26,5 +27,6 @@ namespace Art_Critique.Core {
             builder.Services.AddTransient<ProfilePage>();
             builder.Services.AddTransient<EditProfilePage>();
         }
+        #endregion
     }
 }

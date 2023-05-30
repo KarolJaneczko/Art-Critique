@@ -8,7 +8,7 @@ using System.Windows.Input;
 namespace Art_Critique.Pages.ViewModels {
     public class RegisterPageViewModel : BaseViewModel {
         #region Services
-        private readonly IBaseHttp baseHttp;
+        private readonly IBaseHttp BaseHttp;
         #endregion
 
         #region Fields
@@ -47,7 +47,7 @@ namespace Art_Critique.Pages.ViewModels {
         #region Constructors
         public RegisterPageViewModel(IBaseHttp baseHttp) {
             RegisterCommand = new Command(Register);
-            this.baseHttp = baseHttp;
+            BaseHttp = baseHttp;
         }
         #endregion
 
@@ -71,7 +71,7 @@ namespace Art_Critique.Pages.ViewModels {
                 });
 
                 // Sending request to API, successful registration results in `IsSuccess` set to true.
-                return await baseHttp.SendApiRequest(HttpMethod.Post, Dictionary.UserRegister, body);
+                return await BaseHttp.SendApiRequest(HttpMethod.Post, Dictionary.UserRegister, body);
             });
 
             // Executing task with try/catch.

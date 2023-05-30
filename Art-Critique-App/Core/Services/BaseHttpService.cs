@@ -9,8 +9,8 @@ using System.Text;
 namespace Art_Critique.Core.Services {
     public class BaseHttpService : IBaseHttp {
         #region Initialization of http client and a helper
-        private static readonly HttpsConnectionHelper connectionHelper = new(sslPort: 7038);
-        private readonly HttpClient httpClient = connectionHelper.HttpClient;
+        private static readonly HttpsConnectionHelper ConnectionHelper = new(sslPort: 7038);
+        private readonly HttpClient httpClient = ConnectionHelper.HttpClient;
         #endregion
 
         #region Implementation of methods

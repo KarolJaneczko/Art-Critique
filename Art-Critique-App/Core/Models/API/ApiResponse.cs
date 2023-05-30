@@ -1,5 +1,4 @@
-﻿
-namespace Art_Critique.Core.Models.API {
+﻿namespace Art_Critique.Core.Models.API {
     public class ApiResponse {
         public bool IsSuccess { get; set; }
         #nullable enable

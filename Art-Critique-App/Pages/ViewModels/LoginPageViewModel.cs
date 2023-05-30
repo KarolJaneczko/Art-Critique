@@ -7,8 +7,8 @@ using System.Windows.Input;
 namespace Art_Critique.Pages.ViewModels {
     public class LoginPageViewModel : BaseViewModel {
         #region Services
-        private readonly IBaseHttp baseHttp;
-        private readonly ICredentials credentials;
+        private readonly IBaseHttp BaseHttp;
+        private readonly ICredentials Credentials;
         #endregion
 
         #region Fields
@@ -32,9 +32,9 @@ namespace Art_Critique.Pages.ViewModels {
 
         #region Constructor
         public LoginPageViewModel(IBaseHttp baseHttp, ICredentials credentials) {
+            BaseHttp = baseHttp;
+            Credentials = credentials;
             LoginCommand = new Command(SignIn);
-            this.baseHttp = baseHttp;
-            this.credentials = credentials;
         }
         #endregion
 
@@ -49,7 +49,7 @@ namespace Art_Critique.Pages.ViewModels {
                 Validators.ValidateEntries(entries);
 
                 // Sending request to API, successful login results in token, which is saved to app memory.
-                return await baseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.UserLogin}?login={login}&password={password}");
+                return await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.UserLogin}?login={login}&password={password}");
             });
             
             // Executing task with try/catch.
@@ -57,10 +57,10 @@ namespace Art_Critique.Pages.ViewModels {
 
             if (result.IsSuccess) {
                 // Saving token to an app memory.
-                credentials.SetCurrentUserToken((string)result.Data);
+                Credentials.SetCurrentUserToken((string)result.Data);
 
                 // Saving login to an app memory.
-                credentials.SetCurrentUserLogin(login);
+                Credentials.SetCurrentUserLogin(login);
 
                 // Switching current page to a main page.
                 await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
