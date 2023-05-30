@@ -16,7 +16,7 @@ namespace Art_Critique {
             get { return login; }
             set {
                 login = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(Login));
             }
         }
         #endregion

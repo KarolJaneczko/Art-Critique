@@ -21,8 +21,6 @@ namespace Art_Critique {
         }
 
         protected override void OnStart() {
-            Credentials.SetCurrentUserToken("eeee");
-            Credentials.SetCurrentUserLogin("admin");
             MainThread.BeginInvokeOnMainThread(async () => {
                 if (!Credentials.IsUserLoggedIn()) {
                     await Shell.Current.GoToAsync($"{nameof(WelcomePage)}");

@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Art_Critique.EditProfilePage">
-    
+             x:Class="Art_Critique.EditProfilePage"
+             Title="Edit your profile">
+
     <!-- Styles dedicated to this page -->
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -21,10 +22,10 @@
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
 
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
 
             <!-- Change your avatar -->
             <Label Grid.Row="1" Text="Your profile picture:" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0,10,0,0"/>
@@ -45,36 +46,49 @@
             </Frame>
 
             <!-- Change date of birth -->
-            <Label Grid.Row="6" Text="Date of birth:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 50, 0, 0"/>
+            <Label Grid.Row="6" Text="Date of birth:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
+            <DatePicker Grid.Row="7" Date="{Binding BirthDate}" HorizontalOptions="Center" FontSize="16"/>
 
+            <!-- Change Facebook link -->
+            <Label Grid.Row="8" Text="Facebook page:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
+            <Frame Grid.Row="9" Style="{DynamicResource EntryFrame}">
+                <Grid Style="{DynamicResource EntryGrid}">
+                    <Entry Text="{Binding FacebookLink}" Placeholder="Facebook link" HorizontalTextAlignment="Center" FontSize="16"/>
+                </Grid>
+            </Frame>
 
+            <!-- Change Instagram link -->
+            <Label Grid.Row="10" Text="Instagram page:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
+            <Frame Grid.Row="11" Style="{DynamicResource EntryFrame}">
+                <Grid Style="{DynamicResource EntryGrid}">
+                    <Entry Text="{Binding InstagramLink}" Placeholder="Instagram link" HorizontalTextAlignment="Center" FontSize="16"/>
+                </Grid>
+            </Frame>
 
-           <!-- Birthdate --><!--
-            <Grid Grid.Row="4" ColumnDefinitions="Auto,Auto,Auto,Auto" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,20,0,0">
-                <Frame Grid.Column="0" WidthRequest="25" HeightRequest="25" BorderColor="Transparent" IsClippedToBounds="true" Margin="5,0,5,0" HorizontalOptions="Center">
-                    <Image Source="icon_calendar.png"  WidthRequest="20" HeightRequest="20" Aspect="AspectFill"/>
-                </Frame>
-                <Label Grid.Column="1" Text="{Binding Birthdate}" FontSize="15" TextColor="Black"/>
-            </Grid>
+            <!-- Change Twitter link -->
+            <Label Grid.Row="12" Text="Full name:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
+            <Frame Grid.Row="13" Style="{DynamicResource EntryFrame}">
+                <Grid Style="{DynamicResource EntryGrid}">
+                    <Entry Text="{Binding TwitterLink}" Placeholder="Twitter link" HorizontalTextAlignment="Center" FontSize="16"/>
+                </Grid>
+            </Frame>
 
-            --><!-- Social media --><!--
-            <HorizontalStackLayout Grid.Row="5" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,20,0,20">
-                <Frame Opacity="{Binding FacebookOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
-                    <ImageButton Source="facebook_icon.png" Command="{Binding FacebookOpen}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
-                </Frame>
-                <Frame Opacity="{Binding InstagramOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
-                    <ImageButton Source="instagram_icon.png" Command="{Binding InstagramOpen}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
-                </Frame>
-                <Frame Opacity="{Binding TwitterOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
-                    <ImageButton Source="twitter_icon.png" Command="{Binding TwitterOpen}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
-                </Frame>
-            </HorizontalStackLayout>
+            <!-- Change Twitter link -->
+            <Label Grid.Row="14" Text="Profile description:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
+            <Frame Grid.Row="15" Style="{DynamicResource EntryFrame}">
+                <Grid Style="{DynamicResource EntryGrid}">
+                    <Entry Text="{Binding Description}" Placeholder="Description" HorizontalTextAlignment="Center" FontSize="16" />
+                </Grid>
+            </Frame>
 
-            --><!-- Profile description --><!--
+            <!-- Profile description -->
+            <!--
             <Label Grid.Row="6" Text="Bio" FontAttributes="Bold" TextColor="Goldenrod" HorizontalTextAlignment="Start" Margin="0,20,0,20" FontSize="20"/>
             <Label Grid.Row="7" TextColor="Black" HorizontalTextAlignment="Start" FontSize="15" Text="{Binding Description}"/>
 
-            --><!-- Buttons --><!--
+            -->
+            <!-- Buttons -->
+            <!--
             <HorizontalStackLayout Grid.Row="10" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
                 <Button Text="{Binding ButtonText}" IsEnabled="{Binding ButtonEnabled}" Command="{Binding ButtonCommand}" Opacity="{Binding ButtonOpacity}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50" BorderWidth="1"/>
             </HorizontalStackLayout>-->
