@@ -2,20 +2,54 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Art_Critique.EditProfilePage">
-
+    
+    <!-- Styles dedicated to this page -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="EntryFrame" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="BorderColor" Value="Transparent"/>
+                <Setter Property="Opacity" Value="0.6"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="CornerRadius" Value="50"/>
+                <Setter Property="Margin" Value="50, 0, 50, 0"/>
+            </Style>
+            <Style x:Key="EntryGrid" TargetType="Grid">
+                <Setter Property="BackgroundColor" Value="White"/>
+                <Setter Property="Opacity" Value="0.6"/>
+                <Setter Property="Padding" Value="0"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
 
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
 
-            <!-- User's avatar -->
-            <Frame Grid.Row="1" WidthRequest="150" HeightRequest="150" CornerRadius="100" BorderColor="Transparent" IsClippedToBounds="true" Margin="0,20,0,10">
+            <!-- Change your avatar -->
+            <Label Grid.Row="1" Text="Your profile picture:" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0,10,0,0"/>
+            <Frame Grid.Row="2" WidthRequest="150" HeightRequest="150" CornerRadius="100" BorderColor="Transparent" IsClippedToBounds="true" Margin="0,10,0,10">
                 <Image Source="{Binding Avatar}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill"/>
             </Frame>
+            <HorizontalStackLayout Grid.Row="3" HorizontalOptions="Center">
+                <Button Text="Take a photo" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
+                <Button Text="Upload picture" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
+            </HorizontalStackLayout>
 
-            <!-- User's full name -->
-            <Label Grid.Row="3" Text="{Binding FullName}" IsVisible="{Binding FullNameVisible}" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="22"/>
+            <!-- Change displaying name -->
+            <Label Grid.Row="4" Text="Full name:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 20, 0, 0"/>
+            <Frame Grid.Row="5" Style="{DynamicResource EntryFrame}">
+                <Grid Style="{DynamicResource EntryGrid}">
+                    <Entry Text="{Binding FullName}" Placeholder="Your full name" HorizontalTextAlignment="Center" FontSize="16"/>
+                </Grid>
+            </Frame>
 
-            <!-- Birthdate -->
+            <!-- Change date of birth -->
+            <Label Grid.Row="6" Text="Date of birth:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 50, 0, 0"/>
+
+
+
+           <!-- Birthdate --><!--
             <Grid Grid.Row="4" ColumnDefinitions="Auto,Auto,Auto,Auto" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,20,0,0">
                 <Frame Grid.Column="0" WidthRequest="25" HeightRequest="25" BorderColor="Transparent" IsClippedToBounds="true" Margin="5,0,5,0" HorizontalOptions="Center">
                     <Image Source="icon_calendar.png"  WidthRequest="20" HeightRequest="20" Aspect="AspectFill"/>
@@ -23,7 +57,7 @@
                 <Label Grid.Column="1" Text="{Binding Birthdate}" FontSize="15" TextColor="Black"/>
             </Grid>
 
-            <!-- Social media -->
+            --><!-- Social media --><!--
             <HorizontalStackLayout Grid.Row="5" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,20,0,20">
                 <Frame Opacity="{Binding FacebookOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
                     <ImageButton Source="facebook_icon.png" Command="{Binding FacebookOpen}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
@@ -36,14 +70,14 @@
                 </Frame>
             </HorizontalStackLayout>
 
-            <!-- Profile description -->
+            --><!-- Profile description --><!--
             <Label Grid.Row="6" Text="Bio" FontAttributes="Bold" TextColor="Goldenrod" HorizontalTextAlignment="Start" Margin="0,20,0,20" FontSize="20"/>
             <Label Grid.Row="7" TextColor="Black" HorizontalTextAlignment="Start" FontSize="15" Text="{Binding Description}"/>
 
-            <!-- Buttons -->
+            --><!-- Buttons --><!--
             <HorizontalStackLayout Grid.Row="10" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
                 <Button Text="{Binding ButtonText}" IsEnabled="{Binding ButtonEnabled}" Command="{Binding ButtonCommand}" Opacity="{Binding ButtonOpacity}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50" BorderWidth="1"/>
-            </HorizontalStackLayout>
+            </HorizontalStackLayout>-->
         </Grid>
     </ScrollView>
 </ContentPage>

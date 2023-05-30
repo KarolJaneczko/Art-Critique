@@ -11,7 +11,7 @@ namespace Art_Critique {
             get { return profileInfo; }
             set {
                 profileInfo = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(ProfileInfo));
             }
         }
         #endregion

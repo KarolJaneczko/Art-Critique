@@ -47,12 +47,31 @@
             <Label Grid.Row="6" Text="Bio" FontAttributes="Bold" TextColor="Goldenrod" HorizontalTextAlignment="Start" Margin="0,20,0,20" FontSize="20"/>
             <Label Grid.Row="7" TextColor="Black" HorizontalTextAlignment="Start" FontSize="15" Text="{Binding Description}"/>
 
-            <!-- Gallery shortcut -->
-            <Label Grid.Row="8" Text="Gallery" FontAttributes="Bold" TextColor="Goldenrod" HorizontalTextAlignment="Start" Margin="0,30,0,10" FontSize="20"/>
+            <!-- User's artworks -->
+            <VerticalStackLayout Grid.Row="8" VerticalOptions="Center" Margin="0,20,0,20">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GalleryCommand}"/>
+                </VerticalStackLayout.GestureRecognizers>
 
+                <Label Text="Artworks   ➡" FontAttributes="Bold" TextColor="Goldenrod" HorizontalTextAlignment="Start" Margin="0,30,0,10" FontSize="20"/>
+
+                <VerticalStackLayout Grid.Row="5" HorizontalOptions="Center" Margin="0,10,0,0">
+                    <CollectionView ItemsSource="{Binding Thumbnails}" ItemsLayout="HorizontalList">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame WidthRequest="90" HeightRequest="120" BorderColor="Transparent" CornerRadius="30" IsClippedToBounds="true" HorizontalOptions="Center" Margin="15,0,15,0">
+                                    <Image Source="{Binding ImageFromBase64}"  WidthRequest="90" HeightRequest="120" Aspect="AspectFill"/>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        
+                    </CollectionView>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+            
             <!-- Buttons -->
             <HorizontalStackLayout Grid.Row="10" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
-                <Button Text="{Binding ButtonText}" Command="{Binding ButtonCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50" BorderWidth="1"/>
+                <Button Text="{Binding ButtonText}" Command="{Binding ButtonCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50"/>
             </HorizontalStackLayout>
         </Grid>
     </ScrollView>
