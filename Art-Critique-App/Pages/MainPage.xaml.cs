@@ -1,16 +1,14 @@
-﻿namespace Art_Critique {
-    public partial class MainPage : ContentPage {
-        int count = 0;
+﻿using Art_Critique.Core.Services.Interfaces;
+using Art_Critique.Pages.ViewModels;
 
-        public MainPage() {
+namespace Art_Critique {
+    public partial class MainPage : ContentPage {
+        private IBaseHttp BaseHttp { get; set; }
+        public MainPage(IBaseHttp baseHttp) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
+            BindingContext = new MainPageViewModel(baseHttp);
         }
 
-        private async void OnCounterClicked(object sender, EventArgs e) {
-            await Shell.Current.GoToAsync(nameof(ProfilePage), new Dictionary<string, object> {
-                ["Login"] = "test",
-            });
-        }
     }
 }

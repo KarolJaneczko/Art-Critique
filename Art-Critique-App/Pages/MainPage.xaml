@@ -9,31 +9,18 @@
             Padding="30,0"
             VerticalOptions="Center">
 
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="orzeeeł"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="SRAKEN PIErdaken"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center"
-                FontFamily="OpenSansSemibold"/>
-
+            <Frame WidthRequest="150" HeightRequest="150" CornerRadius="100" BorderColor="Transparent" IsClippedToBounds="true" Margin="0,10,0,10">
+                <Image Source="{Binding Avatar}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill"/>
+            </Frame>
             <Button
-                x:Name="CounterBtn"
-                Text="Click me"
+                Text="Take a photo"
                 SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
+                Command="{Binding TakePhoto}"
+                HorizontalOptions="Center" />
+            <Button
+                Text="Upload photo"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Command="{Binding UploadPhoto}"
                 HorizontalOptions="Center" />
 
         </VerticalStackLayout>
