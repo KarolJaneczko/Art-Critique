@@ -60,6 +60,9 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Frame WidthRequest="90" HeightRequest="120" BorderColor="Transparent" CornerRadius="30" IsClippedToBounds="true" HorizontalOptions="Center" Margin="15,0,15,0">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding GoToGallery}"/>
+                                    </Frame.GestureRecognizers>
                                     <Image Source="{Binding ImageFromBase64}"  WidthRequest="90" HeightRequest="120" Aspect="AspectFill"/>
                                 </Frame>
                             </DataTemplate>

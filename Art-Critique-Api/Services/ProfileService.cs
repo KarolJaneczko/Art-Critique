@@ -2,7 +2,6 @@
 using Art_Critique_Api.Models;
 using Art_Critique_Api.Services.Interfaces;
 using Art_Critique_Api.Utils;
-using System.Drawing;
 
 namespace Art_Critique_Api.Services {
     public class ProfileService : BaseService, IProfile {

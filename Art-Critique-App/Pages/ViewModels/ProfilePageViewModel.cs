@@ -227,9 +227,15 @@ namespace Art_Critique.Pages.ViewModels {
         #region Local class
         public class GalleryThumbnail {
             public ImageSource ImageFromBase64 { get; set; }
+            public ICommand GoToGallery { get; set; }
             public GalleryThumbnail() { }
             public GalleryThumbnail(ImageSource image) {
                 ImageFromBase64 = image;
+                GoToGallery = new Command(async () => await OpenGallery());
+            }
+            public async Task OpenGallery() {
+                //TODO idz do galerii z identyfikatorem obrazu, dodaj id obrazu tutaj i napraw dzialanie tapgesture
+                await Shell.Current.GoToAsync(nameof(MainPage));
             }
         }
         #endregion

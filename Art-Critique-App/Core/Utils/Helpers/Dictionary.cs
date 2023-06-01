@@ -6,6 +6,7 @@
         public const string UserLogin = "User/Login";
         public const string UserLogout = "User/Logout";
         public const string ProfileGet = "Profile/GetProfile";
+        public const string ProfileEdit = "Profile/EditProfile";
         #endregion
     }
 }

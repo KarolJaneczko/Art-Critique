@@ -1,5 +1,6 @@
 ﻿using Art_Critique.Core.Utils.Base;
 using Art_Critique.Core.Utils.Enums;
+using Newtonsoft.Json.Bson;
 using System.Text.RegularExpressions;
 
 namespace Art_Critique.Core.Utils.Helpers {
@@ -20,11 +21,24 @@ namespace Art_Critique.Core.Utils.Helpers {
                     case EntryEnum.PasswordConfirm:
                         ValidatePasswordConfirm(entries.GetValueOrDefault(EntryEnum.Password), entry.Value);
                         break;
+                    case EntryEnum.ProfileFullName:
+                        break;
+                    case EntryEnum.ProfileBirthDate:
+                        break;
+                    case EntryEnum.FacebookLink:
+                        break;
+                    case EntryEnum.InstagramLink:
+                        break;
+                    case EntryEnum.TwitterLink:
+                        break;
+                    case EntryEnum.ProfileDescription:
+                        ValidateProfileDescription(entry.Value);
+                        break;
                 }
             }
         }
 
-        public static void ValidateEmail(string email) {
+        private static void ValidateEmail(string email) {
             if (string.IsNullOrEmpty(email)) {
                 throw new AppException("Email cannot be empty", AppExceptionEnum.EntryIsEmpty);
             }
@@ -36,7 +50,7 @@ namespace Art_Critique.Core.Utils.Helpers {
             }
         }
 
-        public static void ValidateLogin(string login) {
+        private static void ValidateLogin(string login) {
             if (string.IsNullOrEmpty(login)) {
                 throw new AppException("Login cannot be empty", AppExceptionEnum.EntryIsEmpty);
             }
@@ -51,7 +65,7 @@ namespace Art_Critique.Core.Utils.Helpers {
             }
         }
 
-        public static void ValidatePassword(string password) {
+        private static void ValidatePassword(string password) {
             if (string.IsNullOrEmpty(password)) {
                 throw new AppException("Password cannot be empty", AppExceptionEnum.EntryIsEmpty);
             }
@@ -66,9 +80,22 @@ namespace Art_Critique.Core.Utils.Helpers {
             }
         }
 
-        public static void ValidatePasswordConfirm(string password, string passwordConfirm) {
+        private static void ValidatePasswordConfirm(string password, string passwordConfirm) {
             if (!string.Equals(password, passwordConfirm)) {
                 throw new AppException("Passwords don't match", AppExceptionEnum.EntriesDontMatch);
+            }
+        }
+
+        private static void ValidateProfileFullName(string fullName) {
+
+        }
+
+        private static void ValidateProfileBirthDate(string birthDate) {
+        }
+
+        private static void ValidateProfileDescription(string description) {
+            if (description.Length > 400) {
+                throw new AppException("Your description is too long", AppExceptionEnum.EntryTooLong);
             }
         }
         #endregion

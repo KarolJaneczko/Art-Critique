@@ -56,11 +56,11 @@ namespace Art_Critique.Pages.ViewModels {
             var task = new Func<Task<ApiResponse>>(async () => {
                 // Validating entries.
                 var entries = new Dictionary<EntryEnum, string>() {
-                        { EntryEnum.Email, email },
-                        { EntryEnum.Login, login },
-                        { EntryEnum.Password, password },
-                        { EntryEnum.PasswordConfirm, passwordConfirm }
-                    };
+                    { EntryEnum.Email, email },
+                    { EntryEnum.Login, login },
+                    { EntryEnum.Password, password },
+                    { EntryEnum.PasswordConfirm, passwordConfirm }
+                };
                 Validators.ValidateEntries(entries);
 
                 // Making a body for registration request which consists of email, login and password.
