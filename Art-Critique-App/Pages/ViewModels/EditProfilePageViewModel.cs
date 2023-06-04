@@ -96,7 +96,7 @@ namespace Art_Critique.Pages.ViewModels {
                     using Stream sourceStream = await photo.OpenReadAsync();
                     var imageBase64 = sourceStream.ConvertToBase64();
                     newImage = imageBase64;
-                    Avatar = Converter.Base64ToImageSource(imageBase64);
+                    Avatar = imageBase64.Base64ToImageSource();
                 }
             }
         }
@@ -109,7 +109,7 @@ namespace Art_Critique.Pages.ViewModels {
                     using Stream sourceStream = await photo.OpenReadAsync();
                     var imageBase64 = sourceStream.ConvertToBase64();
                     newImage = imageBase64;
-                    Avatar = Converter.Base64ToImageSource(imageBase64);
+                    Avatar = imageBase64.Base64ToImageSource();
                 }
             }
         }
@@ -118,7 +118,7 @@ namespace Art_Critique.Pages.ViewModels {
             // Filling entries which we can edit.
             ProfileInfo = profileInfo;
             if (!string.IsNullOrEmpty(profileInfo.Avatar)) {
-                Avatar = Converter.Base64ToImageSource(profileInfo.Avatar);
+                Avatar = profileInfo.Avatar.Base64ToImageSource();
             } else {
                 Avatar = "defaultuser_icon.png";
             }

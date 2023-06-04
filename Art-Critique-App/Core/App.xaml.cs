@@ -11,7 +11,7 @@ namespace Art_Critique {
             InitializeComponent();
             RegisterRoutes();
             Credentials = credentials;
-            MainPage = new AppShell(credentials, baseHttp);
+            MainPage = new AppShell(baseHttp, credentials);
         }
         #endregion
 

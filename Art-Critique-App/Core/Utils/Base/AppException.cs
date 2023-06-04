@@ -32,7 +32,7 @@ namespace Art_Critique.Core.Utils.Base {
                 AppExceptionEnum.EntryIsEmpty => "Entry can't be empty!",
                 AppExceptionEnum.EntryInvalidFormat => "Invalid entry format!",
                 AppExceptionEnum.EntryHasSpecialCharacters => "Invalid entry format!",
-                AppExceptionEnum.EntryTooYoung => "",
+                AppExceptionEnum.EntryTooYoung => "Entry date is too recent!",
                 _ => "Unknown type of error!",
             };
             return title;

@@ -170,7 +170,7 @@ namespace Art_Critique.Pages.ViewModels {
 
             // Filling user's avatar.
             if (!string.IsNullOrEmpty(ProfileInfo.Avatar)) {
-                Avatar = Converter.Base64ToImageSource(ProfileInfo.Avatar);
+                Avatar = ProfileInfo.Avatar.Base64ToImageSource();
             } else {
                 Avatar = "defaultuser_icon.png";
             }
@@ -194,8 +194,8 @@ namespace Art_Critique.Pages.ViewModels {
             // Filling thumbnails with last three user's artworks.
             if (!string.IsNullOrEmpty(ProfileInfo.Avatar)) {
                 Thumbnails = new List<GalleryThumbnail>() {
-                new GalleryThumbnail() { ImageFromBase64 = Converter.Base64ToImageSource(ProfileInfo.Avatar) },
-                new GalleryThumbnail() { ImageFromBase64 = Converter.Base64ToImageSource(ProfileInfo.Avatar) }
+                new GalleryThumbnail() { ImageFromBase64 = ProfileInfo.Avatar.Base64ToImageSource() },
+                new GalleryThumbnail() { ImageFromBase64 = ProfileInfo.Avatar.Base64ToImageSource() }
                 };
             }
 

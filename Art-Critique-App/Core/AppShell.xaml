@@ -7,5 +7,6 @@
 
     <ShellContent Title="Home" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
     <ShellContent Title="Profile" ContentTemplate="{DataTemplate local:ProfilePage}" Route="ProfilePage" />
+    <ShellContent Title="Add new artwork" ContentTemplate="{DataTemplate local:AddArtworkPage}" Route="AddArtworkPage" />
     <MenuItem Text="Logout" Clicked="ClickedLogout"/>
 </Shell>
