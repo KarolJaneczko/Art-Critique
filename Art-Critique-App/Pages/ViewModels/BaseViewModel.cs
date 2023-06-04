@@ -18,7 +18,7 @@ namespace Art_Critique.Pages.ViewModels {
             try {
                 return await method();
             } catch (AppException ex) {
-                await Application.Current.MainPage.DisplayAlert(ex.title, ex.message, "OK");
+                await Application.Current.MainPage.DisplayAlert(ex.Title, ex.ErrorMessage, "OK");
             } catch (Exception ex) {
                 await Application.Current.MainPage.DisplayAlert("Unknown error!", ex.Message, "OK");
             }

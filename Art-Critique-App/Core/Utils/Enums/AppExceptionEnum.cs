@@ -7,5 +7,6 @@
         EntryIsEmpty = 4,
         EntryInvalidFormat = 5,
         EntryHasSpecialCharacters = 6,
+        EntryTooYoung = 7
     }
 }

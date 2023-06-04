@@ -3,16 +3,16 @@
 namespace Art_Critique {
     public partial class WelcomePage : ContentPage {
         #region Services
-        private readonly IProperties properties;
-        private readonly IStyles styles;
+        private readonly IProperties Properties;
+        private readonly IStyles Styles;
         #endregion
 
         #region Constructor
         public WelcomePage(IProperties properties, IStyles styles) {
             InitializeComponent();
             RegisterRoutes();
-            this.properties = properties;
-            this.styles = styles;
+            Properties = properties;
+            Styles = styles;
             SetStyles();
         }
         #endregion
@@ -24,13 +24,11 @@ namespace Art_Critique {
         }
 
         private void SetStyles() {
-            ButtonsLayout.Padding = new Thickness(0, 0, 0, properties.GetHeightPercent(1));
-            LoginButton.Style = styles.ButtonStyle();
-            RegisterButton.Style = styles.ButtonStyle();
+            ButtonsLayout.Padding = new Thickness(0, 0, 0, Properties.GetHeightPercent(1));
+            LoginButton.Style = Styles.ButtonStyle();
+            RegisterButton.Style = Styles.ButtonStyle();
         }
-        #endregion
 
-        #region Commands
         private async void GoToLogin(object sender, EventArgs args) {
             await Shell.Current.GoToAsync(nameof(LoginPage));
         }

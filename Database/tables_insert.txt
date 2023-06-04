@@ -36,3 +36,38 @@ CREATE TABLE `t_profile` (
   CONSTRAINT `FK_AvatarID` FOREIGN KEY (`profileAvatarID`) REFERENCES `t_avatar` (`AvatarID`),
   CONSTRAINT `FK_usID` FOREIGN KEY (`usID`) REFERENCES `t_user` (`usID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `t_custom_painting` (
+  `PaintingID` int NOT NULL AUTO_INCREMENT,
+  `PaintingPath` varchar(300) NOT NULL,
+  PRIMARY KEY (`PaintingID`),
+  UNIQUE KEY `idt_custom_painting_UNIQUE` (`PaintingID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `t_painting_genre` (
+  `genreID` int NOT NULL AUTO_INCREMENT,
+  `genreName` varchar(50) NOT NULL,
+  `genreDescription` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`genreID`),
+  UNIQUE KEY `idt_painting_genre_UNIQUE` (`genreID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `t_user_artwork` (
+  `artworkID` int NOT NULL AUTO_INCREMENT,
+  `userID` int NOT NULL,
+  `paintingID` int NOT NULL,
+  `artworkTitle` varchar(100) NOT NULL,
+  `artworkDescription` varchar(500) DEFAULT NULL,
+  `artworkDate` datetime NOT NULL,
+  `genreID` int NOT NULL,
+  `artworkViews` int DEFAULT NULL,
+  PRIMARY KEY (`artworkID`),
+  UNIQUE KEY `artworkID_UNIQUE` (`artworkID`),
+  UNIQUE KEY `paintingID_UNIQUE` (`paintingID`),
+  KEY `FK_userID_idx` (`userID`),
+  KEY `FK_genreID_idx` (`genreID`),
+  CONSTRAINT `FK_genreID` FOREIGN KEY (`genreID`) REFERENCES `t_painting_genre` (`genreID`),
+  CONSTRAINT `FK_paintingID` FOREIGN KEY (`paintingID`) REFERENCES `t_custom_painting` (`PaintingID`),
+  CONSTRAINT `FK_userID` FOREIGN KEY (`userID`) REFERENCES `t_user` (`usID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

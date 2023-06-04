@@ -17,9 +17,15 @@ public partial class ArtCritiqueDbContext : DbContext
 
     public virtual DbSet<TAvatar> TAvatars { get; set; }
 
+    public virtual DbSet<TCustomPainting> TCustomPaintings { get; set; }
+
+    public virtual DbSet<TPaintingGenre> TPaintingGenres { get; set; }
+
     public virtual DbSet<TProfile> TProfiles { get; set; }
 
     public virtual DbSet<TUser> TUsers { get; set; }
+
+    public virtual DbSet<TUserArtwork> TUserArtworks { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Niewiem123;database=art-critique-db");
@@ -36,6 +42,35 @@ public partial class ArtCritiqueDbContext : DbContext
 
             entity.Property(e => e.AvatarId).HasColumnName("AvatarID");
             entity.Property(e => e.AvatarPath).HasMaxLength(300);
+        });
+
+        modelBuilder.Entity<TCustomPainting>(entity =>
+        {
+            entity.HasKey(e => e.PaintingId).HasName("PRIMARY");
+
+            entity.ToTable("t_custom_painting");
+
+            entity.HasIndex(e => e.PaintingId, "idt_custom_painting_UNIQUE").IsUnique();
+
+            entity.Property(e => e.PaintingId).HasColumnName("PaintingID");
+            entity.Property(e => e.PaintingPath).HasMaxLength(300);
+        });
+
+        modelBuilder.Entity<TPaintingGenre>(entity =>
+        {
+            entity.HasKey(e => e.GenreId).HasName("PRIMARY");
+
+            entity.ToTable("t_painting_genre");
+
+            entity.HasIndex(e => e.GenreId, "idt_painting_genre_UNIQUE").IsUnique();
+
+            entity.Property(e => e.GenreId).HasColumnName("genreID");
+            entity.Property(e => e.GenreDescription)
+                .HasMaxLength(200)
+                .HasColumnName("genreDescription");
+            entity.Property(e => e.GenreName)
+                .HasMaxLength(50)
+                .HasColumnName("genreName");
         });
 
         modelBuilder.Entity<TProfile>(entity =>
@@ -112,6 +147,51 @@ public partial class ArtCritiqueDbContext : DbContext
             entity.Property(e => e.UsSignedInToken)
                 .HasMaxLength(30)
                 .HasColumnName("usSignedInToken");
+        });
+
+        modelBuilder.Entity<TUserArtwork>(entity =>
+        {
+            entity.HasKey(e => e.ArtworkId).HasName("PRIMARY");
+
+            entity.ToTable("t_user_artwork");
+
+            entity.HasIndex(e => e.GenreId, "FK_genreID_idx");
+
+            entity.HasIndex(e => e.UserId, "FK_userID_idx");
+
+            entity.HasIndex(e => e.ArtworkId, "artworkID_UNIQUE").IsUnique();
+
+            entity.HasIndex(e => e.PaintingId, "paintingID_UNIQUE").IsUnique();
+
+            entity.Property(e => e.ArtworkId).HasColumnName("artworkID");
+            entity.Property(e => e.ArtworkDate)
+                .HasColumnType("datetime")
+                .HasColumnName("artworkDate");
+            entity.Property(e => e.ArtworkDescription)
+                .HasMaxLength(500)
+                .HasColumnName("artworkDescription");
+            entity.Property(e => e.ArtworkTitle)
+                .HasMaxLength(100)
+                .HasColumnName("artworkTitle");
+            entity.Property(e => e.ArtworkViews).HasColumnName("artworkViews");
+            entity.Property(e => e.GenreId).HasColumnName("genreID");
+            entity.Property(e => e.PaintingId).HasColumnName("paintingID");
+            entity.Property(e => e.UserId).HasColumnName("userID");
+
+            entity.HasOne(d => d.Genre).WithMany(p => p.TUserArtworks)
+                .HasForeignKey(d => d.GenreId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_genreID");
+
+            entity.HasOne(d => d.Painting).WithOne(p => p.TUserArtwork)
+                .HasForeignKey<TUserArtwork>(d => d.PaintingId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_paintingID");
+
+            entity.HasOne(d => d.User).WithMany(p => p.TUserArtworks)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_userID");
         });
 
         OnModelCreatingPartial(modelBuilder);

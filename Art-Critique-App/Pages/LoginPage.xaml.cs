@@ -4,20 +4,16 @@ using Art_Critique.Pages.ViewModels;
 namespace Art_Critique {
     public partial class LoginPage : ContentPage {
         #region Services
-        private readonly IStyles styles;
-        private readonly IProperties properties;
-        private readonly IBaseHttp baseHttp;
-        private readonly ICredentials credentials;
+        private readonly IProperties Properties;
+        private readonly IStyles Styles;
         #endregion
 
         #region Constructor
         public LoginPage(IStyles styles, IProperties properties, IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();
             RegisterRoutes();
-            this.styles = styles;
-            this.properties = properties;
-            this.baseHttp = baseHttp;
-            this.credentials = credentials;
+            Styles = styles;
+            Properties = properties;
             SetStyles();
             BindingContext = new LoginPageViewModel(baseHttp, credentials);
         }
@@ -30,22 +26,20 @@ namespace Art_Critique {
         }
 
         public void SetStyles() {
-            LoginEntry.Style = styles.EntryStyle();
+            LoginEntry.Style = Styles.EntryStyle();
             LoginEntry.Completed += (object sender, EventArgs e) => {
                 PasswordEntry.Focus();
             };
-            PasswordEntry.Style = styles.EntryStyle();
+            PasswordEntry.Style = Styles.EntryStyle();
             PasswordEntry.Completed += (object sender, EventArgs e) => {
                 SignInButton.Command.Execute(null);
             };
 
-            ButtonsLayout.Padding = new Thickness(0, properties.GetHeightPercent(1), 0, properties.GetHeightPercent(1));
-            SignInButton.Style = styles.ButtonStyle();
-            BackButton.Style = styles.ButtonStyle();
+            ButtonsLayout.Padding = new Thickness(0, Properties.GetHeightPercent(1), 0, Properties.GetHeightPercent(1));
+            SignInButton.Style = Styles.ButtonStyle();
+            BackButton.Style = Styles.ButtonStyle();
         }
-        #endregion
 
-        #region Commands
         public async void GoBack(object sender, EventArgs args) {
             await Shell.Current.GoToAsync("../");
         }

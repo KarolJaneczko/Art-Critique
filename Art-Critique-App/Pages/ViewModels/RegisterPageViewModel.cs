@@ -8,7 +8,7 @@ using System.Windows.Input;
 namespace Art_Critique.Pages.ViewModels {
     public class RegisterPageViewModel : BaseViewModel {
         #region Services
-        private readonly IBaseHttp baseHttp;
+        private readonly IBaseHttp BaseHttp;
         #endregion
 
         #region Fields
@@ -47,7 +47,7 @@ namespace Art_Critique.Pages.ViewModels {
         #region Constructors
         public RegisterPageViewModel(IBaseHttp baseHttp) {
             RegisterCommand = new Command(Register);
-            this.baseHttp = baseHttp;
+            BaseHttp = baseHttp;
         }
         #endregion
 
@@ -56,11 +56,11 @@ namespace Art_Critique.Pages.ViewModels {
             var task = new Func<Task<ApiResponse>>(async () => {
                 // Validating entries.
                 var entries = new Dictionary<EntryEnum, string>() {
-                        { EntryEnum.Email, email },
-                        { EntryEnum.Login, login },
-                        { EntryEnum.Password, password },
-                        { EntryEnum.PasswordConfirm, passwordConfirm }
-                    };
+                    { EntryEnum.Email, email },
+                    { EntryEnum.Login, login },
+                    { EntryEnum.Password, password },
+                    { EntryEnum.PasswordConfirm, passwordConfirm }
+                };
                 Validators.ValidateEntries(entries);
 
                 // Making a body for registration request which consists of email, login and password.
@@ -71,7 +71,7 @@ namespace Art_Critique.Pages.ViewModels {
                 });
 
                 // Sending request to API, successful registration results in `IsSuccess` set to true.
-                return await baseHttp.SendApiRequest(HttpMethod.Post, Dictionary.UserRegister, body);
+                return await BaseHttp.SendApiRequest(HttpMethod.Post, Dictionary.UserRegister, body);
             });
 
             // Executing task with try/catch.

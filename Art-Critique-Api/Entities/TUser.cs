@@ -20,4 +20,6 @@ public partial class TUser
     public string? UsSignedInToken { get; set; }
 
     public virtual TProfile? TProfile { get; set; }
+
+    public virtual ICollection<TUserArtwork> TUserArtworks { get; } = new List<TUserArtwork>();
 }

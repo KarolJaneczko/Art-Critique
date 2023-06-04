@@ -4,21 +4,21 @@ using System.Net;
 namespace Art_Critique.Core.Utils.Base {
     public class AppException : Exception {
         #region Fields
-        public readonly string title;
-        public readonly string message;
-        public readonly HttpStatusCode? statusCode;
+        public readonly string Title;
+        public readonly string ErrorMessage;
+        public readonly HttpStatusCode? StatusCode;
         #endregion
 
         #region Constructor
         public AppException(string errorMessage, AppExceptionEnum errorType = AppExceptionEnum.Undefined) {
-            title = SetTitle(errorType);
-            message = errorMessage;
+            Title = SetTitle(errorType);
+            ErrorMessage = errorMessage;
         }
 
         public AppException(HttpStatusCode statusCode) {
-            title = SetTitleBasedOnStatusCode(statusCode);
-            message = SetMessageBasedOnStatusCode(statusCode);
-            this.statusCode = statusCode;
+            Title = SetTitleBasedOnStatusCode(statusCode);
+            ErrorMessage = SetMessageBasedOnStatusCode(statusCode);
+            StatusCode = statusCode;
         }
         #endregion
 
@@ -32,6 +32,7 @@ namespace Art_Critique.Core.Utils.Base {
                 AppExceptionEnum.EntryIsEmpty => "Entry can't be empty!",
                 AppExceptionEnum.EntryInvalidFormat => "Invalid entry format!",
                 AppExceptionEnum.EntryHasSpecialCharacters => "Invalid entry format!",
+                AppExceptionEnum.EntryTooYoung => "",
                 _ => "Unknown type of error!",
             };
             return title;

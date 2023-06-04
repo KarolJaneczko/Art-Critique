@@ -2,7 +2,7 @@
 using Art_Critique_Api.Models;
 using Art_Critique_Api.Services.Interfaces;
 using Art_Critique_Api.Utils;
-using System.Drawing;
+using NuGet.Protocol.Plugins;
 
 namespace Art_Critique_Api.Services {
     public class ProfileService : BaseService, IProfile {
@@ -19,8 +19,17 @@ namespace Art_Critique_Api.Services {
         #region Implementation of methods
         public async Task<ApiResponse> CreateProfile(int userID) {
             var task = new Func<Task<ApiResponse>>(async () => {
+                var user = dbContext.TUsers.First(x => x.UsId == userID);
+                var path = $"D:\\Art-Critique\\Avatars\\{user.UsLogin}.jpg";
+                dbContext.TAvatars.Add(new TAvatar() {
+                    AvatarPath = path
+                });
+                await dbContext.SaveChangesAsync();
+                var avatar = dbContext.TAvatars.First(x => x.AvatarPath == path);
+
                 var profile = new TProfile() {
                     UsId = userID,
+                    ProfileAvatarId = avatar.AvatarId
                 };
                 dbContext.TProfiles.Add(profile);
                 await dbContext.SaveChangesAsync();
@@ -99,8 +108,48 @@ namespace Art_Critique_Api.Services {
             return await ExecuteWithTryCatch(task);
         }
 
-        public Task<ApiResponse> EditProfile(string login, ProfileDTO profileDTO) {
-            throw new NotImplementedException();
+        public async Task<ApiResponse> EditProfile(string login, ProfileDTO profileDTO) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var userID = dbContext.TUsers.FirstOrDefault(x => x.UsLogin == login)?.UsId;
+                if (userID == null) {
+                    return new ApiResponse {
+                        IsSuccess = false,
+                        Title = "User not found!",
+                        Message = "There is no user going by that login!",
+                        Data = null
+                    };
+                }
+
+                var profile = dbContext.TProfiles.FirstOrDefault(x => x.UsId == userID);
+                if (profile == null) {
+                    return new ApiResponse {
+                        IsSuccess = false,
+                        Title = "Profile not found!",
+                        Message = "This user has no profile created!",
+                        Data = null
+                    };
+                }
+                profile.ProfileFullName = profileDTO.FullName;
+                profile.ProfileBirthdate = profileDTO.Birthdate;
+                profile.ProfileDescription = profileDTO.Description;
+                profile.ProfileFacebook = profileDTO.Facebook;
+                profile.ProfileInstagram = profileDTO.Instagram;
+                profile.ProfileTwitter = profileDTO.Twitter;
+
+                if (!string.IsNullOrEmpty(profileDTO.Avatar)) {
+                    var path = dbContext.TAvatars.First(x => x.AvatarId == profile.ProfileAvatarId).AvatarPath;
+                    File.WriteAllBytes(path, Convert.FromBase64String(profileDTO.Avatar));
+                }
+                await dbContext.SaveChangesAsync();
+
+                return new ApiResponse() {
+                    IsSuccess = true,
+                    Title = string.Empty,
+                    Message = string.Empty,
+                    Data = null
+                };
+            });
+            return await ExecuteWithTryCatch(task);
         }
         #endregion
     }

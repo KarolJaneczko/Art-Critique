@@ -4,18 +4,16 @@ using Art_Critique.Pages.ViewModels;
 namespace Art_Critique {
     public partial class RegisterPage : ContentPage {
         #region Services
-        private readonly IProperties properties;
-        private readonly IStyles styles;
-        private readonly IBaseHttp baseHttp;
+        private readonly IProperties Properties;
+        private readonly IStyles Styles;
         #endregion
 
         #region Constructor
         public RegisterPage(IProperties properties, IStyles styles, IBaseHttp baseHttp) {
             InitializeComponent();
             RegisterRoutes();
-            this.properties = properties;
-            this.styles = styles;
-            this.baseHttp = baseHttp;
+            Properties = properties;
+            Styles = styles;
             BindingContext = new RegisterPageViewModel(baseHttp);
             SetStyles();
         }
@@ -27,33 +25,31 @@ namespace Art_Critique {
         }
 
         private void SetStyles() {
-            EmailEntry.Style = styles.EntryStyle();
+            EmailEntry.Style = Styles.EntryStyle();
             EmailEntry.Completed += (object sender, EventArgs e) => {
                 LoginEntry.Focus();
             };
 
-            LoginEntry.Style = styles.EntryStyle();
+            LoginEntry.Style = Styles.EntryStyle();
             LoginEntry.Completed += (object sender, EventArgs e) => {
                 PasswordEntry.Focus();
             };
 
-            PasswordEntry.Style = styles.EntryStyle();
+            PasswordEntry.Style = Styles.EntryStyle();
             PasswordEntry.Completed += (object sender, EventArgs e) => {
                 PasswordConfirmEntry.Focus();
             };
 
-            PasswordConfirmEntry.Style = styles.EntryStyle();
+            PasswordConfirmEntry.Style = Styles.EntryStyle();
             PasswordConfirmEntry.Completed += (object sender, EventArgs e) => {
                 SignUpButton.Command.Execute(null);
             };
 
-            ButtonsLayout.Padding = new Thickness(0, properties.GetHeightPercent(1), 0, properties.GetHeightPercent(1));
-            SignUpButton.Style = styles.ButtonStyle();
-            BackButton.Style = styles.ButtonStyle();
+            ButtonsLayout.Padding = new Thickness(0, Properties.GetHeightPercent(1), 0, Properties.GetHeightPercent(1));
+            SignUpButton.Style = Styles.ButtonStyle();
+            BackButton.Style = Styles.ButtonStyle();
         }
-        #endregion
 
-        #region Commands
         private async void GoBack(object sender, EventArgs args) {
             await Shell.Current.GoToAsync("../");
         }
