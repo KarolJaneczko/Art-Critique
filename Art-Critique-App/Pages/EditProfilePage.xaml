@@ -33,8 +33,8 @@
                 <Image Source="{Binding Avatar}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill"/>
             </Frame>
             <HorizontalStackLayout Grid.Row="3" HorizontalOptions="Center">
-                <Button Text="Take a photo" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
-                <Button Text="Upload picture" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
+                <Button Text="Take a photo" Command="{Binding TakePhoto}" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
+                <Button Text="Upload picture" Command="{Binding UploadPhoto}" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
             </HorizontalStackLayout>
 
             <!-- Change displaying name -->
@@ -75,7 +75,7 @@
 
             <!-- Change profile bio -->
             <Label Grid.Row="14" Text="Profile description:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
-            <Frame Grid.Row="15" Style="{DynamicResource EntryFrame}" HeightRequest="150">
+            <Frame Grid.Row="15" Style="{DynamicResource EntryFrame}" HeightRequest="150" WidthRequest="150">
                 <Grid Style="{DynamicResource EntryGrid}">
                     <Editor Text="{Binding Description}" Placeholder="Description" HorizontalTextAlignment="Center" FontSize="16" />
                 </Grid>
@@ -83,7 +83,7 @@
 
             <!-- Buttons -->
             <VerticalStackLayout Grid.Row="16" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
-                <Button Text="Confirm" Command="{Binding Edit}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50" Margin="10,10,10,10"/>
+                <Button Text="Confirm" Command="{Binding EditProfile}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50" Margin="10,10,10,10"/>
             </VerticalStackLayout>
         </Grid>
     </ScrollView>

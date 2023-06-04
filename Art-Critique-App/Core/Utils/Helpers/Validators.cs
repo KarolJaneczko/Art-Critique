@@ -1,6 +1,5 @@
 ﻿using Art_Critique.Core.Utils.Base;
 using Art_Critique.Core.Utils.Enums;
-using Newtonsoft.Json.Bson;
 using System.Text.RegularExpressions;
 
 namespace Art_Critique.Core.Utils.Helpers {
@@ -22,14 +21,19 @@ namespace Art_Critique.Core.Utils.Helpers {
                         ValidatePasswordConfirm(entries.GetValueOrDefault(EntryEnum.Password), entry.Value);
                         break;
                     case EntryEnum.ProfileFullName:
+                        ValidateProfileFullName(entry.Value);
                         break;
                     case EntryEnum.ProfileBirthDate:
+                        ValidateProfileBirthDate(entry.Value);
                         break;
                     case EntryEnum.FacebookLink:
+                        CheckSiteFormat(entry.Value, "facebook.com");
                         break;
                     case EntryEnum.InstagramLink:
+                        CheckSiteFormat(entry.Value, "instagram.com");
                         break;
                     case EntryEnum.TwitterLink:
+                        CheckSiteFormat(entry.Value, "twitter.com");
                         break;
                     case EntryEnum.ProfileDescription:
                         ValidateProfileDescription(entry.Value);
@@ -87,15 +91,27 @@ namespace Art_Critique.Core.Utils.Helpers {
         }
 
         private static void ValidateProfileFullName(string fullName) {
-
+            if (!string.IsNullOrEmpty(fullName)) {
+                if (fullName.Length > 100) {
+                    throw new AppException("Your full name is too long", AppExceptionEnum.EntryTooLong);
+                }
+            }
         }
 
         private static void ValidateProfileBirthDate(string birthDate) {
+            if (!string.IsNullOrEmpty(birthDate)) {
+                var date = DateTime.Parse(birthDate);
+                if (date > DateTime.Now.AddYears(-18)) {
+                    throw new AppException("Birth date must be older than 18 years", AppExceptionEnum.EntryTooYoung);
+                }
+            }
         }
 
         private static void ValidateProfileDescription(string description) {
-            if (description.Length > 400) {
-                throw new AppException("Your description is too long", AppExceptionEnum.EntryTooLong);
+            if (!string.IsNullOrEmpty(description)) {
+                if (description.Length > 400) {
+                    throw new AppException("Your description is too long", AppExceptionEnum.EntryTooLong);
+                }
             }
         }
         #endregion
@@ -118,6 +134,18 @@ namespace Art_Critique.Core.Utils.Helpers {
                 return false;
             } else {
                 return true;
+            }
+        }
+
+        private static void CheckSiteFormat(string entry, string site) {
+            if (!string.IsNullOrEmpty(entry)) {
+                if (!entry.ToLower().Contains(site)) {
+                    throw new AppException($"This is not a {site} link", AppExceptionEnum.EntryInvalidFormat);
+                }
+                var isUri = Uri.IsWellFormedUriString(entry, UriKind.RelativeOrAbsolute);
+                if (!isUri) {
+                    throw new AppException($"{entry} is invalid URL format, check the link and re-entry it again", AppExceptionEnum.EntryInvalidFormat);
+                }
             }
         }
         #endregion

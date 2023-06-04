@@ -168,28 +168,36 @@ namespace Art_Critique.Pages.ViewModels {
             // Filling the user profile with the data from API.
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pl-PL");
 
-            // Filling user's information.
-            Avatar = Converter.Base64ToImageSource(ProfileInfo.Avatar);
+            // Filling user's avatar.
+            if (!string.IsNullOrEmpty(ProfileInfo.Avatar)) {
+                Avatar = Converter.Base64ToImageSource(ProfileInfo.Avatar);
+            } else {
+                Avatar = "defaultuser_icon.png";
+            }
+
+            // Filling user's login, name and other info.
             Login = userLogin;
-            FullName = ProfileInfo.FullName;
+            FullName = string.IsNullOrEmpty(ProfileInfo.FullName) ? string.Empty : ProfileInfo.FullName;
             FullNameVisible = !string.IsNullOrEmpty(FullName);
             Birthdate = ProfileInfo.Birthdate?.ToShortDateString() ?? "N/A";
             TotalViews = "Total views: 0";
             Description = string.IsNullOrEmpty(ProfileInfo.Description) ? "No information." : ProfileInfo.Description;
 
             // Filling informations about social media.
-            FacebookOpacity = string.IsNullOrEmpty(ProfileInfo.Facebook) ? 0.3 : 0;
+            FacebookOpacity = string.IsNullOrEmpty(ProfileInfo.Facebook) ? 0.3 : 0.99;
             facebookLink = ProfileInfo.Facebook;
-            InstagramOpacity = string.IsNullOrEmpty(ProfileInfo.Instagram) ? 0.3 : 0;
+            InstagramOpacity = string.IsNullOrEmpty(ProfileInfo.Instagram) ? 0.3 : 0.99;
             instagramLink = ProfileInfo.Instagram;
-            TwitterOpacity = string.IsNullOrEmpty(ProfileInfo.Twitter) ? 0.3 : 0;
+            TwitterOpacity = string.IsNullOrEmpty(ProfileInfo.Twitter) ? 0.3 : 0.99;
             twitterLink = ProfileInfo.Twitter;
 
             // Filling thumbnails with last three user's artworks.
-            Thumbnails = new List<GalleryThumbnail>() {
+            if (!string.IsNullOrEmpty(ProfileInfo.Avatar)) {
+                Thumbnails = new List<GalleryThumbnail>() {
                 new GalleryThumbnail() { ImageFromBase64 = Converter.Base64ToImageSource(ProfileInfo.Avatar) },
                 new GalleryThumbnail() { ImageFromBase64 = Converter.Base64ToImageSource(ProfileInfo.Avatar) }
-            };
+                };
+            }
 
             // Editing button properties.
             var isMyProfile = userLogin == Credentials.GetCurrentUserLogin();

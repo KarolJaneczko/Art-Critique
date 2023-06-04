@@ -73,7 +73,6 @@
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 		<MauiImage Update="Resources\Images\welcomepage_background.png" BaseSize="1500,1800" />
 
 		<!-- Custom Fonts -->
@@ -96,6 +95,7 @@
 	  <None Remove="Resources\Fonts\Pragmatica-ExtraLight.ttf" />
 	  <None Remove="Resources\Fonts\Pragmatica-Medium.otf" />
 	  <None Remove="Resources\Images\artcritique_logo.png" />
+	  <None Remove="Resources\Images\defaultuser_icon.png" />
 	  <None Remove="Resources\Images\facebook_icon.png" />
 	  <None Remove="Resources\Images\icon_calendar.png" />
 	  <None Remove="Resources\Images\icon_eye.png" />

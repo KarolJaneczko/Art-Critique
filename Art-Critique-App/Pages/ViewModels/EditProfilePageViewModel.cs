@@ -15,8 +15,8 @@ namespace Art_Critique.Pages.ViewModels {
         #region Fields
         private ProfileDTO ProfileInfo;
         private ImageSource avatar;
-        private string Login, fullName, facebookLink, instagramLink, twitterLink, description, newImage;
-        private DateTime birthDate;
+        private string login, fullName, facebookLink, instagramLink, twitterLink, description, newImage;
+        private DateTime? birthDate;
         public ImageSource Avatar {
             get { return avatar; }
             set {
@@ -27,11 +27,11 @@ namespace Art_Critique.Pages.ViewModels {
         public string FullName {
             get { return fullName; }
             set {
-                fullName = value.Trim();
+                fullName = value;
                 OnPropertyChanged(nameof(FullName));
             }
         }
-        public DateTime BirthDate {
+        public DateTime? BirthDate {
             get { return birthDate; }
             set {
                 birthDate = value;
@@ -66,15 +66,19 @@ namespace Art_Critique.Pages.ViewModels {
                 OnPropertyChanged(nameof(Description));
             }
         }
-        public ICommand Edit { get; protected set; }
+        public ICommand TakePhoto { get; protected set; }
+        public ICommand UploadPhoto { get; protected set; }
+        public ICommand EditProfile { get; protected set; }
         #endregion
 
         #region Constructors
         public EditProfilePageViewModel(IBaseHttp baseHttp, ProfileDTO profileInfo, string login) {
             BaseHttp = baseHttp;
             ProfileInfo = profileInfo;
-            Login = login;
-            Edit = new Command(async () => await ConfirmEdit());
+            this.login = login;
+            TakePhoto = new Command(async () => await TakePhotoWithCamera());
+            UploadPhoto = new Command(async () => await UploadPhotoFromGallery());
+            EditProfile = new Command(async () => await ConfirmEdit());
         }
         #endregion
 
@@ -84,12 +88,42 @@ namespace Art_Critique.Pages.ViewModels {
             Task.Run( () => { FillEditing(ProfileInfo); });
         }
 
+        public async Task TakePhotoWithCamera() {
+            if (MediaPicker.Default.IsCaptureSupported) {
+                FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
+
+                if (photo != null) {
+                    using Stream sourceStream = await photo.OpenReadAsync();
+                    var imageBase64 = sourceStream.ConvertToBase64();
+                    newImage = imageBase64;
+                    Avatar = Converter.Base64ToImageSource(imageBase64);
+                }
+            }
+        }
+
+        public async Task UploadPhotoFromGallery() {
+            if (MediaPicker.Default.IsCaptureSupported) {
+                FileResult photo = await MediaPicker.Default.PickPhotoAsync();
+
+                if (photo != null) {
+                    using Stream sourceStream = await photo.OpenReadAsync();
+                    var imageBase64 = sourceStream.ConvertToBase64();
+                    newImage = imageBase64;
+                    Avatar = Converter.Base64ToImageSource(imageBase64);
+                }
+            }
+        }
+
         private Task FillEditing(ProfileDTO profileInfo) {
             // Filling entries which we can edit.
             ProfileInfo = profileInfo;
-            Avatar = Converter.Base64ToImageSource(profileInfo.Avatar);
+            if (!string.IsNullOrEmpty(profileInfo.Avatar)) {
+                Avatar = Converter.Base64ToImageSource(profileInfo.Avatar);
+            } else {
+                Avatar = "defaultuser_icon.png";
+            }
             FullName = profileInfo.FullName;
-            BirthDate = profileInfo.Birthdate ?? DateTime.Now;
+            BirthDate = profileInfo.Birthdate;
             FacebookLink = profileInfo.Facebook;
             InstagramLink = profileInfo.Instagram;
             TwitterLink = profileInfo.Twitter;
@@ -122,13 +156,13 @@ namespace Art_Critique.Pages.ViewModels {
                 });
 
                 // Sending request to API, successful edit results in `IsSuccess` set to true.
-                return await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.ProfileEdit}?login={Login}", body);
+                return await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.ProfileEdit}?login={login}", body);
             });
 
             // Executing task with try/catch.
             var result = await ExecuteWithTryCatch(task);
 
-            // If registration resulted in success, we're displaying an alert, that we can now sign in.
+            // If editing resulted in success, we are going back to the profile page.
             if (result.IsSuccess) {
                 await Shell.Current.GoToAsync("../");
             }
