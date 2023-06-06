@@ -35,18 +35,17 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <VerticalStackLayout>
-                                <Frame WidthRequest="90" HeightRequest="120" BorderColor="Transparent" CornerRadius="30" IsClippedToBounds="true" HorizontalOptions="Center" Margin="15,0,15,0">
-                                    <Image Source="{Binding ImageFromBase64}"  WidthRequest="90" HeightRequest="120" Aspect="AspectFill"/>
+                                <Frame WidthRequest="190" HeightRequest="250" BorderColor="Transparent" CornerRadius="30" IsClippedToBounds="true" HorizontalOptions="Center" Margin="15,0,15,5">
+                                    <Image Source="{Binding ImageFromBase64}"  WidthRequest="190" HeightRequest="250" Aspect="AspectFill"/>
                                 </Frame>
-                                <Button Text="test"/>
+                                <Button Text="Remove" WidthRequest="100" Command="{Binding Remove}"/>
                             </VerticalStackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
-
                 </CollectionView>
             </VerticalStackLayout>
             
-            <HorizontalStackLayout Grid.Row="3" HorizontalOptions="Center">
+            <HorizontalStackLayout Grid.Row="3" HorizontalOptions="Center" Margin="0, 10, 0, 0">
                 <Button Text="Take a photo" Command="{Binding TakePhoto}" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
                 <Button Text="Upload picture" Command="{Binding UploadPhoto}" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
             </HorizontalStackLayout>

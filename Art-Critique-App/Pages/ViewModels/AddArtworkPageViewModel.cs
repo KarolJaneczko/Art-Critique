@@ -1,5 +1,6 @@
 ﻿using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Art_Critique.Pages.ViewModels {
@@ -9,12 +10,12 @@ namespace Art_Critique.Pages.ViewModels {
         #endregion
 
         #region Fields
-        private List<GalleryThumbnail> artworkPhotos = new();
-        public List<GalleryThumbnail> ArtworkPhotos {
+        private ObservableCollection<GalleryThumbnail> artworkPhotos = new();
+        public ObservableCollection<GalleryThumbnail> ArtworkPhotos {
             get { return artworkPhotos; }
             set {
                 artworkPhotos = value;
-                OnPropertyChanged(nameof(artworkPhotos));
+                OnPropertyChanged(nameof(ArtworkPhotos));
             }
         }
         public ICommand TakePhoto { get; protected set; }
@@ -58,15 +59,11 @@ namespace Art_Critique.Pages.ViewModels {
         #region Local class
         public class GalleryThumbnail {
             public ImageSource ImageFromBase64 { get; set; }
-            public ICommand Delete { get; set; }
+            public Guid Id { get; set; }
             public GalleryThumbnail() { }
             public GalleryThumbnail(ImageSource image) {
                 ImageFromBase64 = image;
-                Delete = new Command(async () => await DeleteFromAdded());
-            }
-            public async Task DeleteFromAdded() {
-                //TODO idz do galerii z identyfikatorem obrazu, dodaj id obrazu tutaj i napraw dzialanie tapgesture
-                await Shell.Current.GoToAsync(nameof(MainPage));
+                Id = Guid.NewGuid();
             }
         }
         #endregion
