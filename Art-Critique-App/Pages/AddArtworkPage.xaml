@@ -25,22 +25,39 @@
 
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
 
-        <Grid RowDefinitions="Auto,Auto" Padding="20,0">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto" Padding="20,0">
+            
+            <!-- Adding images for your artwork -->
             <Label Grid.Row="1" Text="Add up to 5 photos of your work:" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0,10,0,0"/>
             
-            
-            
-            <!-- Change your avatar --><!--
+            <VerticalStackLayout Grid.Row="2" HorizontalOptions="Center" Margin="0,10,0,0">
+                <CollectionView ItemsSource="{Binding ArtworkPhotos}" ItemsLayout="HorizontalList">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <VerticalStackLayout>
+                                <Frame WidthRequest="90" HeightRequest="120" BorderColor="Transparent" CornerRadius="30" IsClippedToBounds="true" HorizontalOptions="Center" Margin="15,0,15,0">
+                                    <Image Source="{Binding ImageFromBase64}"  WidthRequest="90" HeightRequest="120" Aspect="AspectFill"/>
+                                </Frame>
+                                <Button Text="test"/>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
 
-            <Frame Grid.Row="2" WidthRequest="150" HeightRequest="150" CornerRadius="100" BorderColor="Transparent" IsClippedToBounds="true" Margin="0,10,0,10">
-                <Image Source="{Binding Avatar}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill"/>
-            </Frame>
+                </CollectionView>
+            </VerticalStackLayout>
+            
             <HorizontalStackLayout Grid.Row="3" HorizontalOptions="Center">
                 <Button Text="Take a photo" Command="{Binding TakePhoto}" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
                 <Button Text="Upload picture" Command="{Binding UploadPhoto}" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
             </HorizontalStackLayout>
-
-            --><!-- Change displaying name --><!--
+            
+            
+            
+            <!-- Change your avatar -->
+            <!--
+            -->
+            <!-- Change displaying name -->
+            <!--
             <Label Grid.Row="4" Text="Full name:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 20, 0, 0"/>
             <Frame Grid.Row="5" Style="{DynamicResource EntryFrame}">
                 <Grid Style="{DynamicResource EntryGrid}">
@@ -48,11 +65,15 @@
                 </Grid>
             </Frame>
 
-            --><!-- Change date of birth --><!--
+            -->
+            <!-- Change date of birth -->
+            <!--
             <Label Grid.Row="6" Text="Date of birth:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
             <DatePicker Grid.Row="7" Date="{Binding BirthDate}" HorizontalOptions="Center" FontSize="16"/>
 
-            --><!-- Change Facebook link --><!--
+            -->
+            <!-- Change Facebook link -->
+            <!--
             <Label Grid.Row="8" Text="Facebook page:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
             <Frame Grid.Row="9" Style="{DynamicResource EntryFrame}">
                 <Grid Style="{DynamicResource EntryGrid}">
@@ -60,7 +81,9 @@
                 </Grid>
             </Frame>
 
-            --><!-- Change Instagram link --><!--
+            -->
+            <!-- Change Instagram link -->
+            <!--
             <Label Grid.Row="10" Text="Instagram page:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
             <Frame Grid.Row="11" Style="{DynamicResource EntryFrame}">
                 <Grid Style="{DynamicResource EntryGrid}">
@@ -68,7 +91,9 @@
                 </Grid>
             </Frame>
 
-            --><!-- Change Twitter link --><!--
+            -->
+            <!-- Change Twitter link -->
+            <!--
             <Label Grid.Row="12" Text="Full name:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
             <Frame Grid.Row="13" Style="{DynamicResource EntryFrame}">
                 <Grid Style="{DynamicResource EntryGrid}">
@@ -76,7 +101,9 @@
                 </Grid>
             </Frame>
 
-            --><!-- Change profile bio --><!--
+            -->
+            <!-- Change profile bio -->
+            <!--
             <Label Grid.Row="14" Text="Profile description:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
             <Frame Grid.Row="15" Style="{DynamicResource EntryFrame}" HeightRequest="150" WidthRequest="150">
                 <Grid Style="{DynamicResource EntryGrid}">
@@ -84,7 +111,9 @@
                 </Grid>
             </Frame>
 
-            --><!-- Buttons --><!--
+            -->
+            <!-- Buttons -->
+            <!--
             <VerticalStackLayout Grid.Row="16" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
                 <Button Text="Confirm" Command="{Binding EditProfile}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50" Margin="10,10,10,10"/>
             </VerticalStackLayout>-->
