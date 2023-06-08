@@ -3,17 +3,15 @@
         #region Methods
         public static string ConvertToBase64(this Stream stream) {
             byte[] bytes;
-            using (var memoryStream = new MemoryStream()) {
-                stream.CopyTo(memoryStream);
-                bytes = memoryStream.ToArray();
-            }
-
+            var memoryStream = new MemoryStream();
+            stream.CopyTo(memoryStream);
+            bytes = memoryStream.ToArray();
             return Convert.ToBase64String(bytes);
         }
 
         public static ImageSource Base64ToImageSource(this string image) {
-            MemoryStream stream = new(Convert.FromBase64String(image));
-            ImageSource imageSource = ImageSource.FromStream(() => stream);
+            var stream = new MemoryStream(Convert.FromBase64String(image));
+            var imageSource = ImageSource.FromStream(() => stream);
             return imageSource;
         }
         #endregion

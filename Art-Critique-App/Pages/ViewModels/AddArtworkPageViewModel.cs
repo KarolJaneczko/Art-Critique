@@ -12,31 +12,40 @@ namespace Art_Critique.Pages.ViewModels {
         #region Fields
         private ObservableCollection<GalleryThumbnail> artworkPhotos = new();
         public ObservableCollection<GalleryThumbnail> ArtworkPhotos {
-            get { return artworkPhotos; }
+            get {
+                return artworkPhotos;
+            }
             set {
                 artworkPhotos = value;
                 OnPropertyChanged(nameof(ArtworkPhotos));
             }
         }
-        public ICommand TakePhoto { get; protected set; }
-        public ICommand UploadPhoto { get; protected set; }
+        public ICommand TakePhoto => new Command(async () => await TakePhotoWithCamera());
+        public ICommand UploadPhoto => new Command(async () => await UploadPhotoFromGallery());
+        public ICommand DeleteCommand => new Command<GalleryThumbnail>(RemovePhoto);
         #endregion
 
         #region Constructors
         public AddArtworkPageViewModel(IBaseHttp baseHttp) {
             BaseHttp = baseHttp;
-            TakePhoto = new Command(async () => await TakePhotoWithCamera());
-            UploadPhoto = new Command(async () => await UploadPhotoFromGallery());
+            //TakePhoto = new Command(async () => await TakePhotoWithCamera());
+            //UploadPhoto = new Command(async () => await UploadPhotoFromGallery());
         }
         #endregion
 
         #region Methods
+        public void RemovePhoto(GalleryThumbnail photo) {
+            if (ArtworkPhotos.Contains(photo)) {
+                ArtworkPhotos.Remove(photo);
+            }
+        }
+
         public async Task TakePhotoWithCamera() {
             if (MediaPicker.Default.IsCaptureSupported) {
                 FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
 
                 if (photo != null) {
-                    using Stream sourceStream = await photo.OpenReadAsync();
+                    var sourceStream = await photo.OpenReadAsync();
                     var imageBase64 = sourceStream.ConvertToBase64();
                     ArtworkPhotos.Add(new GalleryThumbnail(imageBase64.Base64ToImageSource()));
                 }
@@ -48,7 +57,7 @@ namespace Art_Critique.Pages.ViewModels {
                 FileResult photo = await MediaPicker.Default.PickPhotoAsync();
 
                 if (photo != null) {
-                    using Stream sourceStream = await photo.OpenReadAsync();
+                    var sourceStream = await photo.OpenReadAsync();
                     var imageBase64 = sourceStream.ConvertToBase64();
                     ArtworkPhotos.Add(new GalleryThumbnail(imageBase64.Base64ToImageSource()));
                 }

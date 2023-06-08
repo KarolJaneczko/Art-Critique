@@ -16,10 +16,10 @@ namespace Art_Critique.Core {
         }
 
         private static void AddServices (MauiAppBuilder builder) {
-            builder.Services.AddScoped<ICredentials, CredentialsService>();
-            builder.Services.AddScoped<IProperties, PropertiesService>();
-            builder.Services.AddScoped<IStyles, StylesService>();
-            builder.Services.AddScoped<IBaseHttp, BaseHttpService>();
+            builder.Services.AddTransient<ICredentials, CredentialsService>();
+            builder.Services.AddTransient<IProperties, PropertiesService>();
+            builder.Services.AddTransient<IStyles, StylesService>();
+            builder.Services.AddTransient<IBaseHttp, BaseHttpService>();
 
             builder.Services.AddTransient<WelcomePage>();
             builder.Services.AddTransient<RegisterPage>();
