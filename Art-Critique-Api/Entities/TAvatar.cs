@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace Art_Critique_Api.Entities;
 
-public partial class TAvatar
-{
+public partial class TAvatar {
     public int AvatarId { get; set; }
 
     public string AvatarPath { get; set; } = null!;

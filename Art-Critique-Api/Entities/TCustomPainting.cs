@@ -8,6 +8,4 @@ public partial class TCustomPainting
     public int PaintingId { get; set; }
 
     public string PaintingPath { get; set; } = null!;
-
-    public virtual TUserArtwork? TUserArtwork { get; set; }
 }

@@ -2,37 +2,30 @@
 using Art_Critique_Api.Models;
 using Art_Critique_Api.Services.Interfaces;
 using Art_Critique_Api.Utils;
-using NuGet.Protocol.Plugins;
 
 namespace Art_Critique_Api.Services {
     public class ProfileService : BaseService, IProfile {
-        #region Database context
-        private readonly ArtCritiqueDbContext dbContext;
-        #endregion
-
-        #region Constructor
+        private readonly ArtCritiqueDbContext DbContext;
         public ProfileService(ArtCritiqueDbContext dbContext) {
-            this.dbContext = dbContext;
+            DbContext = dbContext;
         }
-        #endregion
 
-        #region Implementation of methods
         public async Task<ApiResponse> CreateProfile(int userID) {
             var task = new Func<Task<ApiResponse>>(async () => {
-                var user = dbContext.TUsers.First(x => x.UsId == userID);
+                var user = DbContext.TUsers.First(x => x.UsId == userID);
                 var path = $"D:\\Art-Critique\\Avatars\\{user.UsLogin}.jpg";
-                dbContext.TAvatars.Add(new TAvatar() {
+                DbContext.TAvatars.Add(new TAvatar() {
                     AvatarPath = path
                 });
-                await dbContext.SaveChangesAsync();
-                var avatar = dbContext.TAvatars.First(x => x.AvatarPath == path);
+                await DbContext.SaveChangesAsync();
+                var avatar = DbContext.TAvatars.First(x => x.AvatarPath == path);
 
                 var profile = new TProfile() {
                     UsId = userID,
                     ProfileAvatarId = avatar.AvatarId
                 };
-                dbContext.TProfiles.Add(profile);
-                await dbContext.SaveChangesAsync();
+                DbContext.TProfiles.Add(profile);
+                await DbContext.SaveChangesAsync();
                 return new ApiResponse() {
                     IsSuccess = true,
                     Title = string.Empty,
@@ -45,10 +38,10 @@ namespace Art_Critique_Api.Services {
 
         public async Task<ApiResponse> DeleteProfile(int userID) {
             var task = new Func<Task<ApiResponse>>(async () => {
-                var profile = dbContext.TProfiles.FirstOrDefault(x => x.UsId == userID);
+                var profile = DbContext.TProfiles.FirstOrDefault(x => x.UsId == userID);
                 if (profile != null) {
-                    dbContext.TProfiles.Remove(profile);
-                    await dbContext.SaveChangesAsync();
+                    DbContext.TProfiles.Remove(profile);
+                    await DbContext.SaveChangesAsync();
                 }
 
                 return new ApiResponse() {
@@ -63,7 +56,7 @@ namespace Art_Critique_Api.Services {
 
         public async Task<ApiResponse> GetProfile(string login) {
             var task = new Func<Task<ApiResponse>>(async () => {
-                var userID = dbContext.TUsers.FirstOrDefault(x => x.UsLogin == login)?.UsId;
+                var userID = DbContext.TUsers.FirstOrDefault(x => x.UsLogin == login)?.UsId;
                 if (userID == null) {
                     return new ApiResponse {
                         IsSuccess = false,
@@ -72,7 +65,7 @@ namespace Art_Critique_Api.Services {
                         Data = null
                     };
                 }
-                var profile = dbContext.TProfiles.FirstOrDefault(x => x.UsId == userID);
+                var profile = DbContext.TProfiles.FirstOrDefault(x => x.UsId == userID);
                 if (profile == null) {
                     return new ApiResponse {
                         IsSuccess = false,
@@ -84,7 +77,7 @@ namespace Art_Critique_Api.Services {
 
                 var avatarImage = string.Empty;
                 if (profile.ProfileAvatarId != null) {
-                    var path = dbContext.TAvatars.FirstOrDefault(x => x.AvatarId == profile.ProfileAvatarId)?.AvatarPath;
+                    var path = DbContext.TAvatars.FirstOrDefault(x => x.AvatarId == profile.ProfileAvatarId)?.AvatarPath;
                     if (!string.IsNullOrEmpty(path)) {
                         avatarImage = Converter.ConvertImageToBase64(path);
                     }
@@ -110,7 +103,7 @@ namespace Art_Critique_Api.Services {
 
         public async Task<ApiResponse> EditProfile(string login, ProfileDTO profileDTO) {
             var task = new Func<Task<ApiResponse>>(async () => {
-                var userID = dbContext.TUsers.FirstOrDefault(x => x.UsLogin == login)?.UsId;
+                var userID = DbContext.TUsers.FirstOrDefault(x => x.UsLogin == login)?.UsId;
                 if (userID == null) {
                     return new ApiResponse {
                         IsSuccess = false,
@@ -120,7 +113,7 @@ namespace Art_Critique_Api.Services {
                     };
                 }
 
-                var profile = dbContext.TProfiles.FirstOrDefault(x => x.UsId == userID);
+                var profile = DbContext.TProfiles.FirstOrDefault(x => x.UsId == userID);
                 if (profile == null) {
                     return new ApiResponse {
                         IsSuccess = false,
@@ -137,10 +130,10 @@ namespace Art_Critique_Api.Services {
                 profile.ProfileTwitter = profileDTO.Twitter;
 
                 if (!string.IsNullOrEmpty(profileDTO.Avatar)) {
-                    var path = dbContext.TAvatars.First(x => x.AvatarId == profile.ProfileAvatarId).AvatarPath;
+                    var path = DbContext.TAvatars.First(x => x.AvatarId == profile.ProfileAvatarId).AvatarPath;
                     File.WriteAllBytes(path, Convert.FromBase64String(profileDTO.Avatar));
                 }
-                await dbContext.SaveChangesAsync();
+                await DbContext.SaveChangesAsync();
 
                 return new ApiResponse() {
                     IsSuccess = true,
@@ -151,6 +144,5 @@ namespace Art_Critique_Api.Services {
             });
             return await ExecuteWithTryCatch(task);
         }
-        #endregion
     }
 }
