@@ -8,11 +8,8 @@ using System.Windows.Input;
 
 namespace Art_Critique.Pages.ViewModels {
     public class EditProfilePageViewModel : BaseViewModel, IQueryAttributable {
-        #region Services
         private readonly IBaseHttp BaseHttp;
-        #endregion
 
-        #region Fields
         private ProfileDTO ProfileInfo;
         private ImageSource avatar;
         private string login, fullName, facebookLink, instagramLink, twitterLink, description, newImage;
@@ -66,23 +63,16 @@ namespace Art_Critique.Pages.ViewModels {
                 OnPropertyChanged(nameof(Description));
             }
         }
-        public ICommand TakePhoto { get; protected set; }
-        public ICommand UploadPhoto { get; protected set; }
-        public ICommand EditProfile { get; protected set; }
-        #endregion
+        public ICommand TakePhoto => new Command(async () => await TakePhotoWithCamera());
+        public ICommand UploadPhoto => new Command(async () => await UploadPhotoFromGallery());
+        public ICommand EditProfile => new Command(async () => await ConfirmEdit());
 
-        #region Constructors
         public EditProfilePageViewModel(IBaseHttp baseHttp, ProfileDTO profileInfo, string login) {
             BaseHttp = baseHttp;
             ProfileInfo = profileInfo;
             this.login = login;
-            TakePhoto = new Command(async () => await TakePhotoWithCamera());
-            UploadPhoto = new Command(async () => await UploadPhotoFromGallery());
-            EditProfile = new Command(async () => await ConfirmEdit());
         }
-        #endregion
 
-        #region Methods
         public void ApplyQueryAttributes(IDictionary<string, object> query) {
             ProfileInfo = query["ProfileInfo"] as ProfileDTO;
             Task.Run( () => { FillEditing(ProfileInfo); });
@@ -167,6 +157,5 @@ namespace Art_Critique.Pages.ViewModels {
                 await Shell.Current.GoToAsync("../");
             }
         }
-        #endregion
     }
 }

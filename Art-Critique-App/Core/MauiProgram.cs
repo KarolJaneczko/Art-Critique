@@ -3,10 +3,8 @@ using Art_Critique.Core.Services.Interfaces;
 
 namespace Art_Critique.Core {
     public static class MauiProgram {
-        #region Builder & services
         public static MauiApp CreateMauiApp() {
             var builder = MauiApp.CreateBuilder();
-
             builder.UseMauiApp<App>().ConfigureFonts(fonts => {
                 fonts.AddFont("Pragmatica-ExtraLight.ttf", "PragmaticaExtraLight");
                 fonts.AddFont("Pragmatica-Medium.otf", "PragmaticaMedium");
@@ -29,6 +27,5 @@ namespace Art_Critique.Core {
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<AddArtworkPage>();
         }
-        #endregion
     }
 }

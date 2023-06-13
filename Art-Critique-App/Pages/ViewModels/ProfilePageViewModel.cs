@@ -8,12 +8,9 @@ using System.Windows.Input;
 
 namespace Art_Critique.Pages.ViewModels {
     public class ProfilePageViewModel : BaseViewModel {
-        #region Services
         private readonly IBaseHttp BaseHttp;
         private readonly ICredentials Credentials;
-        #endregion
 
-        #region Fields
         private ImageSource avatar;
         private string login, fullName, birthdate, totalViews, facebookLink, instagramLink, twitterLink, description, buttonText;
         private bool fullNameVisible, buttonEnabled;
@@ -34,7 +31,6 @@ namespace Art_Critique.Pages.ViewModels {
                 OnPropertyChanged(nameof(Login));
             }
         }
-
         public string FullName {
             get { return fullName; }
             set {
@@ -42,7 +38,6 @@ namespace Art_Critique.Pages.ViewModels {
                 OnPropertyChanged(nameof(FullName));
             }
         }
-
         public bool FullNameVisible {
             get { return fullNameVisible; }
             set {
@@ -50,7 +45,6 @@ namespace Art_Critique.Pages.ViewModels {
                 OnPropertyChanged(nameof(FullNameVisible));
             }
         }
-
         public string Birthdate {
             get { return birthdate; }
             set {
@@ -58,7 +52,6 @@ namespace Art_Critique.Pages.ViewModels {
                 OnPropertyChanged(nameof(Birthdate));
             }
         }
-
         public string TotalViews {
             get { return totalViews; }
             set {
@@ -66,7 +59,6 @@ namespace Art_Critique.Pages.ViewModels {
                 OnPropertyChanged(nameof(TotalViews));
             }
         }
-
         public double FacebookOpacity {
             get { return facebookOpacity; }
             set {
@@ -74,7 +66,6 @@ namespace Art_Critique.Pages.ViewModels {
                 OnPropertyChanged(nameof(FacebookOpacity));
             }
         }
-
         public double InstagramOpacity {
             get { return instagramOpacity; }
             set {
@@ -82,7 +73,6 @@ namespace Art_Critique.Pages.ViewModels {
                 OnPropertyChanged(nameof(InstagramOpacity));
             }
         }
-
         public double TwitterOpacity {
             get { return twitterOpacity; }
             set {
@@ -90,7 +80,6 @@ namespace Art_Critique.Pages.ViewModels {
                 OnPropertyChanged(nameof(TwitterOpacity));
             }
         }
-
         public string Description {
             get { return description; }
             set {
@@ -131,9 +120,7 @@ namespace Art_Critique.Pages.ViewModels {
         public ICommand TwitterOpen { get; protected set; }
         public ICommand ButtonCommand { get; protected set; }
         public ICommand GalleryCommand { get; protected set; }
-        #endregion
 
-        #region Constructors
         public ProfilePageViewModel(IBaseHttp baseHttp, ICredentials credentials, string userLogin) {
             BaseHttp = baseHttp;
             Credentials = credentials;
@@ -149,9 +136,6 @@ namespace Art_Critique.Pages.ViewModels {
                 new Command(() => { CheckIfFollowed(Login); });
         }
 
-        #endregion
-
-        #region Methods
         private async Task FillProfile(string userLogin) {
             var task = new Func<Task<ApiResponse>>(async () => {
 
@@ -230,9 +214,7 @@ namespace Art_Critique.Pages.ViewModels {
                 { "ProfileInfo", ProfileInfo } });
 
         }
-        #endregion
 
-        #region Local class
         public class GalleryThumbnail {
             public ImageSource ImageFromBase64 { get; set; }
             public ICommand GoToGallery { get; set; }
@@ -246,6 +228,5 @@ namespace Art_Critique.Pages.ViewModels {
                 await Shell.Current.GoToAsync(nameof(MainPage));
             }
         }
-        #endregion
     }
 }

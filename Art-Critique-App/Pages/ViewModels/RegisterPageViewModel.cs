@@ -7,11 +7,8 @@ using System.Windows.Input;
 
 namespace Art_Critique.Pages.ViewModels {
     public class RegisterPageViewModel : BaseViewModel {
-        #region Services
         private readonly IBaseHttp BaseHttp;
-        #endregion
 
-        #region Fields
         private string email, login, password, passwordConfirm;
         public string Email {
             get { return email; }
@@ -41,17 +38,12 @@ namespace Art_Critique.Pages.ViewModels {
                 OnPropertyChanged(nameof(PasswordConfirm));
             }
         }
-        public ICommand RegisterCommand { protected set; get; }
-        #endregion
+        public ICommand RegisterCommand => new Command(Register);
 
-        #region Constructors
         public RegisterPageViewModel(IBaseHttp baseHttp) {
-            RegisterCommand = new Command(Register);
             BaseHttp = baseHttp;
         }
-        #endregion
 
-        #region Methods
         public async void Register() {
             var task = new Func<Task<ApiResponse>>(async () => {
                 // Validating entries.
@@ -82,6 +74,5 @@ namespace Art_Critique.Pages.ViewModels {
                 await Application.Current.MainPage.DisplayAlert(result.Title, result.Message, "OK");
             }
         }
-        #endregion
     }
 }

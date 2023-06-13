@@ -6,12 +6,9 @@ using System.Windows.Input;
 
 namespace Art_Critique.Pages.ViewModels {
     public class LoginPageViewModel : BaseViewModel {
-        #region Services
         private readonly IBaseHttp BaseHttp;
         private readonly ICredentials Credentials;
-        #endregion
 
-        #region Fields
         private string login, password;
         public string Login {
             get { return login; }
@@ -27,18 +24,13 @@ namespace Art_Critique.Pages.ViewModels {
                 OnPropertyChanged(nameof(Password));
             }
         }
-        public ICommand LoginCommand { protected set; get; }
-        #endregion
+        public ICommand LoginCommand => new Command(SignIn);
 
-        #region Constructor
         public LoginPageViewModel(IBaseHttp baseHttp, ICredentials credentials) {
             BaseHttp = baseHttp;
             Credentials = credentials;
-            LoginCommand = new Command(SignIn);
         }
-        #endregion
 
-        #region Methods
         public async void SignIn() {
             var task = new Func<Task<ApiResponse>>(async () => {
                 // Validating entries.
@@ -51,7 +43,7 @@ namespace Art_Critique.Pages.ViewModels {
                 // Sending request to API, successful login results in token, which is saved to app memory.
                 return await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.UserLogin}?login={login}&password={password}");
             });
-            
+
             // Executing task with try/catch.
             var result = await ExecuteWithTryCatch(task);
 
@@ -67,5 +59,4 @@ namespace Art_Critique.Pages.ViewModels {
             }
         }
     }
-    #endregion
 }

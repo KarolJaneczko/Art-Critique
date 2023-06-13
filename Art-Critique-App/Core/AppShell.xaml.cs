@@ -4,20 +4,15 @@ using Art_Critique.Core.Utils.Helpers;
 
 namespace Art_Critique {
     public partial class AppShell : Shell {
-        #region Services
         private readonly IBaseHttp BaseHttp;
         private readonly ICredentials Credentials;
-        #endregion
 
-        #region Constructor
         public AppShell(IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();
             BaseHttp = baseHttp;
             Credentials = credentials;
         }
-        #endregion
 
-        #region Methods
         private async void ClickedLogout(object sender, EventArgs e) {
             var login = Credentials.GetCurrentUserLogin();
             var token = Credentials.GetCurrentUserToken();
@@ -35,6 +30,5 @@ namespace Art_Critique {
                 await Application.Current.MainPage.DisplayAlert("Unknown error!", ex.Message, "OK");
             }
         }
-        #endregion
     }
 }

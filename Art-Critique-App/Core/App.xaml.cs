@@ -2,20 +2,15 @@
 
 namespace Art_Critique {
     public partial class App : Application {
-        #region Services
         private ICredentials Credentials { get; set; }
-        #endregion
 
-        #region Constructor
         public App(ICredentials credentials, IBaseHttp baseHttp) {
             InitializeComponent();
             RegisterRoutes();
             Credentials = credentials;
             MainPage = new AppShell(baseHttp, credentials);
         }
-        #endregion
 
-        #region Methods
         private void RegisterRoutes() {
             Routing.RegisterRoute(nameof(WelcomePage), typeof(WelcomePage));
         }
@@ -28,6 +23,5 @@ namespace Art_Critique {
             });
             base.OnStart();
         }
-        #endregion
     }
 }

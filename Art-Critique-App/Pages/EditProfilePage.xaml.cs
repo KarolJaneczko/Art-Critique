@@ -5,11 +5,8 @@ using Art_Critique_Api.Models;
 namespace Art_Critique {
     [QueryProperty(nameof(ProfileInfo), nameof(ProfileInfo))]
     public partial class EditProfilePage : ContentPage {
-        #region Services
         private ICredentials Credentials { get; set; }
-        #endregion
 
-        #region Fields
         private ProfileDTO profileInfo;
         public ProfileDTO ProfileInfo {
             get { return profileInfo; }
@@ -18,14 +15,11 @@ namespace Art_Critique {
                 OnPropertyChanged(nameof(ProfileInfo));
             }
         }
-        #endregion
 
-        #region Constructor
         public EditProfilePage(IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();
             Credentials = credentials;
             BindingContext = new EditProfilePageViewModel(baseHttp, ProfileInfo, Credentials.GetCurrentUserLogin());
         }
-        #endregion
     }
 }

@@ -5,12 +5,9 @@ namespace Art_Critique {
 
     [QueryProperty(nameof(Login), nameof(Login))]
     public partial class ProfilePage : ContentPage {
-        #region Services
         private readonly IBaseHttp BaseHttp;
         private readonly ICredentials Credentials;
-        #endregion
 
-        #region Fields
         private string login;
         public string Login {
             get { return login; }
@@ -19,9 +16,7 @@ namespace Art_Critique {
                 OnPropertyChanged(nameof(Login));
             }
         }
-        #endregion
 
-        #region Constructor
         public ProfilePage(IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();
             BaseHttp = baseHttp;
@@ -32,14 +27,11 @@ namespace Art_Critique {
             Routing.RegisterRoute(nameof(EditProfilePage), typeof(EditProfilePage));
             BindingContext = new ProfilePageViewModel(baseHttp, credentials, Login);
         }
-        #endregion
 
-        #region Methods
         protected override void OnNavigatedTo(NavigatedToEventArgs args) {
             base.OnNavigatedTo(args);
             var login = !string.IsNullOrEmpty(Login) ? Login : Credentials.GetCurrentUserLogin();
             BindingContext = new ProfilePageViewModel(BaseHttp, Credentials, login);
         }
-        #endregion
     }
 }

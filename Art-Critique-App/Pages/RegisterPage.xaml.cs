@@ -3,23 +3,18 @@ using Art_Critique.Pages.ViewModels;
 
 namespace Art_Critique {
     public partial class RegisterPage : ContentPage {
-        #region Services
         private readonly IProperties Properties;
         private readonly IStyles Styles;
-        #endregion
 
-        #region Constructor
         public RegisterPage(IProperties properties, IStyles styles, IBaseHttp baseHttp) {
             InitializeComponent();
-            RegisterRoutes();
             Properties = properties;
             Styles = styles;
-            BindingContext = new RegisterPageViewModel(baseHttp);
+            RegisterRoutes();
             SetStyles();
+            BindingContext = new RegisterPageViewModel(baseHttp);
         }
-        #endregion
 
-        #region Methods
         private void RegisterRoutes() {
             Routing.RegisterRoute(nameof(WelcomePage), typeof(WelcomePage));
         }
@@ -53,6 +48,5 @@ namespace Art_Critique {
         private async void GoBack(object sender, EventArgs args) {
             await Shell.Current.GoToAsync("../");
         }
-        #endregion
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace Art_Critique.Core.Utils.Helpers {
     public static class Extensions {
-        #region Methods
         public static string ConvertToBase64(this Stream stream) {
             byte[] bytes;
             var memoryStream = new MemoryStream();
@@ -14,6 +13,5 @@
             var imageSource = ImageSource.FromStream(() => stream);
             return imageSource;
         }
-        #endregion
     }
 }

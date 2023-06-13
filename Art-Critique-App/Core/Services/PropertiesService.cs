@@ -2,7 +2,6 @@
 
 namespace Art_Critique.Core.Services {
     public class PropertiesService : IProperties {
-        #region Implementation of methods
         public int GetWidthPercent(int percent) {
             return (int)Math.Ceiling(DeviceDisplay.MainDisplayInfo.Width * percent / 100);
         }
@@ -18,6 +17,5 @@ namespace Art_Critique.Core.Services {
         public int GetHeightPerMille(int perMille) {
             return (int)Math.Ceiling(DeviceDisplay.MainDisplayInfo.Height * perMille / 1000);
         }
-        #endregion
     }
 }

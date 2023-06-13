@@ -8,12 +8,9 @@ using System.Text;
 
 namespace Art_Critique.Core.Services {
     public class BaseHttpService : IBaseHttp {
-        #region Initialization of http client and a helper
         private static readonly HttpsConnectionHelper ConnectionHelper = new(sslPort: 7038);
         private readonly HttpClient httpClient = ConnectionHelper.HttpClient;
-        #endregion
 
-        #region Implementation of methods
         public async Task<ApiResponse> SendApiRequest(HttpMethod method, string path, string body = "") {
             var request = new HttpRequestMessage {
                 Method = method,
@@ -28,6 +25,5 @@ namespace Art_Critique.Core.Services {
                 throw new AppException(response.StatusCode);
             }
         }
-        #endregion
     }
 }

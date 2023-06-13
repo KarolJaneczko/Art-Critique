@@ -3,13 +3,10 @@ using System.Net;
 
 namespace Art_Critique.Core.Utils.Base {
     public class AppException : Exception {
-        #region Fields
         public readonly string Title;
         public readonly string ErrorMessage;
         public readonly HttpStatusCode? StatusCode;
-        #endregion
 
-        #region Constructor
         public AppException(string errorMessage, AppExceptionEnum errorType = AppExceptionEnum.Undefined) {
             Title = SetTitle(errorType);
             ErrorMessage = errorMessage;
@@ -20,9 +17,7 @@ namespace Art_Critique.Core.Utils.Base {
             ErrorMessage = SetMessageBasedOnStatusCode(statusCode);
             StatusCode = statusCode;
         }
-        #endregion
 
-        #region Methods
         private static string SetTitle(AppExceptionEnum errorType) {
             var title = errorType switch {
                 AppExceptionEnum.Undefined => "Undefined error!",
@@ -55,6 +50,5 @@ namespace Art_Critique.Core.Utils.Base {
             };
             return message;
         }
-        #endregion
     }
 }
