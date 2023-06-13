@@ -36,7 +36,7 @@
                         <DataTemplate>
                             <VerticalStackLayout>
                                 <Frame WidthRequest="190" HeightRequest="250" BorderColor="Transparent" CornerRadius="30" IsClippedToBounds="true" HorizontalOptions="Center" Margin="15,0,15,5">
-                                    <Image Source="{Binding ImageFromBase64}"  WidthRequest="190" HeightRequest="250" Aspect="AspectFill"/>
+                                    <Image Source="{Binding Image}"  WidthRequest="190" HeightRequest="250" Aspect="AspectFill"/>
                                 </Frame>
                                 <Button Text="Remove" WidthRequest="100" Command="{Binding Source={x:Reference AddedPhotos}, Path=BindingContext.DeleteCommand}" CommandParameter="{Binding}" />
                             </VerticalStackLayout>

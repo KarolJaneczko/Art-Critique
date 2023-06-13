@@ -36,7 +36,7 @@ namespace Art_Critique.Pages.ViewModels {
         #region Methods
         public void RemovePhoto(GalleryThumbnail photo) {
             if (ArtworkPhotos.Contains(photo)) {
-                ArtworkPhotos.Remove(photo);
+                ArtworkPhotos = new ObservableCollection<GalleryThumbnail>(ArtworkPhotos.Where(x => !x.Equals(photo)).ToList());
             }
         }
 
@@ -47,7 +47,7 @@ namespace Art_Critique.Pages.ViewModels {
                 if (photo != null) {
                     var sourceStream = await photo.OpenReadAsync();
                     var imageBase64 = sourceStream.ConvertToBase64();
-                    ArtworkPhotos.Add(new GalleryThumbnail(imageBase64.Base64ToImageSource()));
+                    ArtworkPhotos.Add(new GalleryThumbnail(imageBase64));
                 }
             }
         }
@@ -59,7 +59,7 @@ namespace Art_Critique.Pages.ViewModels {
                 if (photo != null) {
                     var sourceStream = await photo.OpenReadAsync();
                     var imageBase64 = sourceStream.ConvertToBase64();
-                    ArtworkPhotos.Add(new GalleryThumbnail(imageBase64.Base64ToImageSource()));
+                    //ArtworkPhotos.Add(new GalleryThumbnail(imageBase64.Base64ToImageSource()));
                 }
             }
         }
@@ -67,11 +67,12 @@ namespace Art_Critique.Pages.ViewModels {
 
         #region Local class
         public class GalleryThumbnail {
-            public ImageSource ImageFromBase64 { get; set; }
+            public string ImageBase { get; set; }
+            public ImageSource Image { get { return ImageBase.Base64ToImageSource(); } }
             public Guid Id { get; set; }
             public GalleryThumbnail() { }
-            public GalleryThumbnail(ImageSource image) {
-                ImageFromBase64 = image;
+            public GalleryThumbnail(string imageBase) {
+                ImageBase = imageBase;
                 Id = Guid.NewGuid();
             }
         }
