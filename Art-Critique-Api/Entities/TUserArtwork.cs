@@ -15,6 +15,8 @@ public partial class TUserArtwork
 
     public int GenreId { get; set; }
 
+    public string? GenreOtherName { get; set; }
+
     public DateTime ArtworkDate { get; set; }
 
     public int? ArtworkViews { get; set; }
