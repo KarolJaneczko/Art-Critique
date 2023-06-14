@@ -15,6 +15,12 @@ namespace Art_Critique.Pages.ViewModels {
                 OnPropertyChanged(nameof(ArtworkPhotos));
             }
         }
+
+        private string _title;
+        public string Title {
+            get => _title; set { _title = value; OnPropertyChanged(nameof(Title)); }
+        }
+
         public ICommand TakePhoto => new Command(async () => await TakePhotoWithCamera());
         public ICommand UploadPhoto => new Command(async () => await UploadPhotoFromGallery());
         public ICommand DeleteCommand => new Command<GalleryThumbnail>(RemovePhoto);
