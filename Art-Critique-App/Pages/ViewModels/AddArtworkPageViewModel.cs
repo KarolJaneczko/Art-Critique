@@ -1,4 +1,5 @@
-﻿using Art_Critique.Core.Services.Interfaces;
+﻿using Art_Critique.Core.Models.Logic;
+using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -16,9 +17,17 @@ namespace Art_Critique.Pages.ViewModels {
             }
         }
 
-        private string _title;
+        private string _title, _description;
         public string Title {
             get => _title; set { _title = value; OnPropertyChanged(nameof(Title)); }
+        }
+        public string Description {
+            get => _description; set { _description = value; OnPropertyChanged(nameof(Description)); }
+        }
+
+        private List<PaintingGenre> _paintingGenres;
+        public List<PaintingGenre> PaintingGenres {
+            get => _paintingGenres ??= new List<PaintingGenre>(); set { _paintingGenres = value; OnPropertyChanged(nameof(PaintingGenres)); }
         }
 
         public ICommand TakePhoto => new Command(async () => await TakePhotoWithCamera());
@@ -26,6 +35,10 @@ namespace Art_Critique.Pages.ViewModels {
         public ICommand DeleteCommand => new Command<GalleryThumbnail>(RemovePhoto);
 
         public AddArtworkPageViewModel(IBaseHttp baseHttp) {
+            BaseHttp = baseHttp;
+        }
+
+        public AddArtworkPageViewModel(IBaseHttp baseHttp, IEnumerable<PaintingGenre> paintingGenres) {
             BaseHttp = baseHttp;
         }
 

@@ -6,5 +6,6 @@
         public const string UserLogout = "User/Logout";
         public const string ProfileGet = "Profile/GetProfile";
         public const string ProfileEdit = "Profile/EditProfile";
+        public const string ArtworkGetGenres = "Artwork/GetArtworkGenres";
     }
 }
