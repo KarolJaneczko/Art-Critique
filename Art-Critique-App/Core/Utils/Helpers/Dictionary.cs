@@ -7,5 +7,6 @@
         public const string ProfileGet = "Profile/GetProfile";
         public const string ProfileEdit = "Profile/EditProfile";
         public const string ArtworkGetGenres = "Artwork/GetArtworkGenres";
+        public const string InsertUserArtwork = "Artwork/InsertUserArtwork";
     }
 }

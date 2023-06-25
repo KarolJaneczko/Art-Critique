@@ -60,7 +60,7 @@ namespace Art_Critique_Api.Services {
                     IsSuccess = true,
                     Title = string.Empty,
                     Message = string.Empty,
-                    Data = null
+                    Data = id
                 };
             });
             return await ExecuteWithTryCatch(task);

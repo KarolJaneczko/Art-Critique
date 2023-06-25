@@ -1,8 +1,10 @@
 ﻿using Art_Critique.Core.Models.API;
 using Art_Critique.Core.Models.Logic;
 using Art_Critique.Core.Services.Interfaces;
+using Art_Critique.Core.Utils.Base;
 using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
+using Art_Critique_Api.Models;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -10,6 +12,7 @@ using System.Windows.Input;
 namespace Art_Critique.Pages.ViewModels {
     public class AddArtworkPageViewModel : BaseViewModel {
         private readonly IBaseHttp BaseHttp;
+        private readonly ICredentials Credentials;
 
         private ObservableCollection<GalleryThumbnail> artworkPhotos = new();
         public ObservableCollection<GalleryThumbnail> ArtworkPhotos {
@@ -39,8 +42,9 @@ namespace Art_Critique.Pages.ViewModels {
             BaseHttp = baseHttp;
         }
 
-        public AddArtworkPageViewModel(IBaseHttp baseHttp, IEnumerable<PaintingGenre> paintingGenres) {
+        public AddArtworkPageViewModel(IBaseHttp baseHttp, ICredentials credentials, IEnumerable<PaintingGenre> paintingGenres) {
             BaseHttp = baseHttp;
+            Credentials = credentials;
             PaintingGenres = paintingGenres.ToList();
         }
 
@@ -76,24 +80,36 @@ namespace Art_Critique.Pages.ViewModels {
 
         public async Task ConfirmAdding() {
             var task = new Func<Task<ApiResponse>>(async () => {
+                if (ArtworkPhotos?.Count == 0) {
+                    throw new AppException("Upload minimum 1 photo of your work", ExceptionType.EntryIsEmpty);
+                }
+
                 // Validating entries.
                 var entries = new Dictionary<Core.Utils.Enums.Entry, string>() {
                     { Core.Utils.Enums.Entry.ArtworkTitle, Title },
                     { Core.Utils.Enums.Entry.ArtworkDescription, Description },
                 };
-                if (SelectedGenre is null) {
-                    throw new Core.Utils.Base.AppException("You must pick a genre of your work", ExceptionType.EntryIsEmpty);
-                }
-                if (SelectedGenre.Name == "Other") {
+                if (SelectedGenre?.Name == "Other") {
                     entries.Add(Core.Utils.Enums.Entry.ArtworkGenreName, _otherGenre);
                 }
                 Validators.ValidateEntries(entries);
 
-                // Making a body for profile edit request.
-                var body = JsonConvert.SerializeObject(new object());
+                if (SelectedGenre is null) {
+                    throw new AppException("You must pick a genre of your work", ExceptionType.EntryIsEmpty);
+                }
 
+                // Making a body for profile edit request.
+                var body = JsonConvert.SerializeObject(new ApiUserArtwork() {
+                    Login = Credentials.GetCurrentUserLogin(),
+                    Title = Title,
+                    Description = Description,
+                    Date = DateTime.Now,
+                    GenreId = SelectedGenre.Id,
+                    GenreOtherName = _otherGenre,
+                    Images = ArtworkPhotos.Select(x => x.ImageBase).ToList()
+                });
                 // Sending request to API, successful edit results in `IsSuccess` set to true.
-                return await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.ProfileEdit}", body);
+                return await BaseHttp.SendApiRequest(HttpMethod.Post, Dictionary.InsertUserArtwork, body);
             });
 
             // Executing task with try/catch.
