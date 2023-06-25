@@ -28,6 +28,7 @@ public partial class ArtCritiqueDbContext : DbContext
     public virtual DbSet<TUserArtwork> TUserArtworks { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Niewiem123;database=art-critique-db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -50,10 +51,18 @@ public partial class ArtCritiqueDbContext : DbContext
 
             entity.ToTable("t_custom_painting");
 
+            entity.HasIndex(e => e.ArtworkId, "FK_ArtworkID_idx");
+
             entity.HasIndex(e => e.PaintingId, "idt_custom_painting_UNIQUE").IsUnique();
 
             entity.Property(e => e.PaintingId).HasColumnName("PaintingID");
+            entity.Property(e => e.ArtworkId).HasColumnName("ArtworkID");
             entity.Property(e => e.PaintingPath).HasMaxLength(300);
+
+            entity.HasOne(d => d.Artwork).WithMany(p => p.TCustomPaintings)
+                .HasForeignKey(d => d.ArtworkId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ArtworkID");
         });
 
         modelBuilder.Entity<TPaintingGenre>(entity =>
@@ -161,8 +170,6 @@ public partial class ArtCritiqueDbContext : DbContext
 
             entity.HasIndex(e => e.ArtworkId, "artworkID_UNIQUE").IsUnique();
 
-            entity.HasIndex(e => e.PaintingId, "paintingID_UNIQUE").IsUnique();
-
             entity.Property(e => e.ArtworkId).HasColumnName("artworkID");
             entity.Property(e => e.ArtworkDate)
                 .HasColumnType("datetime")
@@ -175,18 +182,15 @@ public partial class ArtCritiqueDbContext : DbContext
                 .HasColumnName("artworkTitle");
             entity.Property(e => e.ArtworkViews).HasColumnName("artworkViews");
             entity.Property(e => e.GenreId).HasColumnName("genreID");
-            entity.Property(e => e.PaintingId).HasColumnName("paintingID");
+            entity.Property(e => e.GenreOtherName)
+                .HasMaxLength(100)
+                .HasColumnName("genreOtherName");
             entity.Property(e => e.UserId).HasColumnName("userID");
 
             entity.HasOne(d => d.Genre).WithMany(p => p.TUserArtworks)
                 .HasForeignKey(d => d.GenreId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_genreID");
-
-            entity.HasOne(d => d.Painting).WithOne(p => p.TUserArtwork)
-                .HasForeignKey<TUserArtwork>(d => d.PaintingId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_paintingID");
 
             entity.HasOne(d => d.User).WithMany(p => p.TUserArtworks)
                 .HasForeignKey(d => d.UserId)

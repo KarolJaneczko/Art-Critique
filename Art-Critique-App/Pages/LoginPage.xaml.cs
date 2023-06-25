@@ -3,23 +3,18 @@ using Art_Critique.Pages.ViewModels;
 
 namespace Art_Critique {
     public partial class LoginPage : ContentPage {
-        #region Services
         private readonly IProperties Properties;
         private readonly IStyles Styles;
-        #endregion
 
-        #region Constructor
         public LoginPage(IStyles styles, IProperties properties, IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();
-            RegisterRoutes();
             Styles = styles;
             Properties = properties;
+            RegisterRoutes();
             SetStyles();
             BindingContext = new LoginPageViewModel(baseHttp, credentials);
         }
-        #endregion
 
-        #region Methods
         private void RegisterRoutes() {
             Routing.RegisterRoute(nameof(WelcomePage), typeof(WelcomePage));
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
@@ -43,6 +38,5 @@ namespace Art_Critique {
         public async void GoBack(object sender, EventArgs args) {
             await Shell.Current.GoToAsync("../");
         }
-        #endregion
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Art_Critique.Core.Models.API;
 using Art_Critique.Core.Services.Interfaces;
-using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique_Api.Models;
 using Newtonsoft.Json;
@@ -8,84 +7,33 @@ using System.Windows.Input;
 
 namespace Art_Critique.Pages.ViewModels {
     public class EditProfilePageViewModel : BaseViewModel, IQueryAttributable {
-        #region Services
         private readonly IBaseHttp BaseHttp;
-        #endregion
 
-        #region Fields
-        private ProfileDTO ProfileInfo;
-        private ImageSource avatar;
-        private string login, fullName, facebookLink, instagramLink, twitterLink, description, newImage;
-        private DateTime? birthDate;
-        public ImageSource Avatar {
-            get { return avatar; }
-            set {
-                avatar = value;
-                OnPropertyChanged(nameof(Avatar));
-            }
-        }
-        public string FullName {
-            get { return fullName; }
-            set {
-                fullName = value;
-                OnPropertyChanged(nameof(FullName));
-            }
-        }
-        public DateTime? BirthDate {
-            get { return birthDate; }
-            set {
-                birthDate = value;
-                OnPropertyChanged(nameof(BirthDate));
-            }
-        }
-        public string FacebookLink {
-            get { return facebookLink; }
-            set {
-                facebookLink = value;
-                OnPropertyChanged(nameof(FacebookLink));
-            }
-        }
-        public string InstagramLink {
-            get { return instagramLink; }
-            set {
-                instagramLink = value;
-                OnPropertyChanged(nameof(InstagramLink));
-            }
-        }
-        public string TwitterLink {
-            get { return twitterLink; }
-            set {
-                twitterLink = value;
-                OnPropertyChanged(nameof(TwitterLink));
-            }
-        }
-        public string Description {
-            get { return description; }
-            set {
-                description = value;
-                OnPropertyChanged(nameof(Description));
-            }
-        }
-        public ICommand TakePhoto { get; protected set; }
-        public ICommand UploadPhoto { get; protected set; }
-        public ICommand EditProfile { get; protected set; }
-        #endregion
+        private readonly string _login;
+        private string _fullName, _facebookLink, _instagramLink, _twitterLink, _description, _newImage;
+        private ImageSource _avatar;
+        private DateTime? _birthDate;
+        private ApiProfile _profileInfo;
+        public string FullName { get => _fullName; set { _fullName = value; OnPropertyChanged(nameof(FullName)); } }
+        public string FacebookLink { get => _facebookLink; set { _facebookLink = value; OnPropertyChanged(nameof(FacebookLink)); } }
+        public string InstagramLink { get => _instagramLink; set { _instagramLink = value; OnPropertyChanged(nameof(InstagramLink)); } }
+        public string TwitterLink { get => _twitterLink; set { _twitterLink = value; OnPropertyChanged(nameof(TwitterLink)); } }
+        public string Description { get => _description; set { _description = value; OnPropertyChanged(nameof(Description)); } }
+        public ImageSource Avatar { get => _avatar; set { _avatar = value; OnPropertyChanged(nameof(Avatar)); } }
+        public DateTime? BirthDate { get => _birthDate; set { _birthDate = value; OnPropertyChanged(nameof(BirthDate)); } }
+        public ICommand TakePhoto => new Command(async () => await TakePhotoWithCamera());
+        public ICommand UploadPhoto => new Command(async () => await UploadPhotoFromGallery());
+        public ICommand EditProfile => new Command(async () => await ConfirmEdit());
 
-        #region Constructors
-        public EditProfilePageViewModel(IBaseHttp baseHttp, ProfileDTO profileInfo, string login) {
+        public EditProfilePageViewModel(IBaseHttp baseHttp, ApiProfile profileInfo, string login) {
             BaseHttp = baseHttp;
-            ProfileInfo = profileInfo;
-            this.login = login;
-            TakePhoto = new Command(async () => await TakePhotoWithCamera());
-            UploadPhoto = new Command(async () => await UploadPhotoFromGallery());
-            EditProfile = new Command(async () => await ConfirmEdit());
+            _profileInfo = profileInfo;
+            _login = login;
         }
-        #endregion
 
-        #region Methods
         public void ApplyQueryAttributes(IDictionary<string, object> query) {
-            ProfileInfo = query["ProfileInfo"] as ProfileDTO;
-            Task.Run( () => { FillEditing(ProfileInfo); });
+            _profileInfo = query["ProfileInfo"] as ApiProfile;
+            Task.Run(() => FillEditing(_profileInfo));
         }
 
         public async Task TakePhotoWithCamera() {
@@ -95,8 +43,8 @@ namespace Art_Critique.Pages.ViewModels {
                 if (photo != null) {
                     using Stream sourceStream = await photo.OpenReadAsync();
                     var imageBase64 = sourceStream.ConvertToBase64();
-                    newImage = imageBase64;
-                    Avatar = Converter.Base64ToImageSource(imageBase64);
+                    _newImage = imageBase64;
+                    Avatar = imageBase64.Base64ToImageSource();
                 }
             }
         }
@@ -108,17 +56,17 @@ namespace Art_Critique.Pages.ViewModels {
                 if (photo != null) {
                     using Stream sourceStream = await photo.OpenReadAsync();
                     var imageBase64 = sourceStream.ConvertToBase64();
-                    newImage = imageBase64;
-                    Avatar = Converter.Base64ToImageSource(imageBase64);
+                    _newImage = imageBase64;
+                    Avatar = imageBase64.Base64ToImageSource();
                 }
             }
         }
 
-        private Task FillEditing(ProfileDTO profileInfo) {
+        private void FillEditing(ApiProfile profileInfo) {
             // Filling entries which we can edit.
-            ProfileInfo = profileInfo;
+            _profileInfo = profileInfo;
             if (!string.IsNullOrEmpty(profileInfo.Avatar)) {
-                Avatar = Converter.Base64ToImageSource(profileInfo.Avatar);
+                Avatar = profileInfo.Avatar.Base64ToImageSource();
             } else {
                 Avatar = "defaultuser_icon.png";
             }
@@ -128,35 +76,34 @@ namespace Art_Critique.Pages.ViewModels {
             InstagramLink = profileInfo.Instagram;
             TwitterLink = profileInfo.Twitter;
             Description = profileInfo.Description;
-            return Task.CompletedTask;
         }
 
         private async Task ConfirmEdit() {
             var task = new Func<Task<ApiResponse>>(async () => {
                 // Validating entries.
-                var entries = new Dictionary<EntryEnum, string>() {
-                    { EntryEnum.ProfileFullName, FullName },
-                    { EntryEnum.ProfileBirthDate, BirthDate.ToString() },
-                    { EntryEnum.FacebookLink, FacebookLink },
-                    { EntryEnum.InstagramLink, InstagramLink },
-                    { EntryEnum.TwitterLink, TwitterLink },
-                    { EntryEnum.ProfileDescription, Description }
+                var entries = new Dictionary<Core.Utils.Enums.Entry, string>() {
+                    { Core.Utils.Enums.Entry.ProfileFullName, FullName },
+                    { Core.Utils.Enums.Entry.ProfileBirthDate, BirthDate.ToString() },
+                    { Core.Utils.Enums.Entry.FacebookLink, FacebookLink },
+                    { Core.Utils.Enums.Entry.InstagramLink, InstagramLink },
+                    { Core.Utils.Enums.Entry.TwitterLink, TwitterLink },
+                    { Core.Utils.Enums.Entry.ProfileDescription, Description }
                 };
                 Validators.ValidateEntries(entries);
 
                 // Making a body for profile edit request.
-                var body = JsonConvert.SerializeObject(new ProfileDTO() {
-                    Avatar = newImage,
+                var body = JsonConvert.SerializeObject(new ApiProfile() {
+                    Avatar = _newImage,
                     FullName = FullName,
                     Birthdate = BirthDate,
                     Facebook = FacebookLink,
-                    Instagram = InstagramLink,  
+                    Instagram = InstagramLink,
                     Twitter = TwitterLink,
                     Description = Description
                 });
 
                 // Sending request to API, successful edit results in `IsSuccess` set to true.
-                return await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.ProfileEdit}?login={login}", body);
+                return await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.ProfileEdit}?login={_login}", body);
             });
 
             // Executing task with try/catch.
@@ -167,6 +114,5 @@ namespace Art_Critique.Pages.ViewModels {
                 await Shell.Current.GoToAsync("../");
             }
         }
-        #endregion
     }
 }

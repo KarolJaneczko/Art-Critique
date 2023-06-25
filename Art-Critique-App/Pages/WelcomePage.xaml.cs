@@ -2,22 +2,17 @@
 
 namespace Art_Critique {
     public partial class WelcomePage : ContentPage {
-        #region Services
         private readonly IProperties Properties;
         private readonly IStyles Styles;
-        #endregion
 
-        #region Constructor
         public WelcomePage(IProperties properties, IStyles styles) {
             InitializeComponent();
-            RegisterRoutes();
             Properties = properties;
             Styles = styles;
+            RegisterRoutes();
             SetStyles();
         }
-        #endregion
 
-        #region Methods
         private void RegisterRoutes() {
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
@@ -40,6 +35,5 @@ namespace Art_Critique {
         protected override bool OnBackButtonPressed() {
             return true;
         }
-        #endregion
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Art_Critique.Core.Services {
     public class CredentialsService : ICredentials {
-        #region Implementation of methods
         public void SetCurrentUserToken(string userToken) {
             Preferences.Set("UserLoginToken", userToken);
         }
@@ -13,7 +12,7 @@ namespace Art_Critique.Core.Services {
 
         public bool IsUserLoggedIn() {
             var token = GetCurrentUserToken();
-            return token != null && token.Length > 0;
+            return !string.IsNullOrEmpty(token);
         }
 
         public void SetCurrentUserLogin(string userLogin) {
@@ -28,6 +27,5 @@ namespace Art_Critique.Core.Services {
             Preferences.Set("UserLoginToken", null);
             Preferences.Set("UserLogin", null);
         }
-        #endregion
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Art_Critique_Api.Services {
     public class BaseService {
-        #region Methods
         public async Task<ApiResponse> ExecuteWithTryCatch(Func<Task<ApiResponse>> method) {
             try {
                 return await method();
@@ -15,6 +14,5 @@ namespace Art_Critique_Api.Services {
                 };
             }
         }
-        #endregion
     }
 }

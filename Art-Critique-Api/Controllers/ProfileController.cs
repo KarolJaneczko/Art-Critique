@@ -6,26 +6,19 @@ namespace Art_Critique_Api.Controllers {
     [Route("api/Profile")]
     [ApiController]
     public class ProfileController : ControllerBase {
-        #region Service
-        private readonly IProfile profileService;
-        #endregion
-
-        #region Constructor
+        private readonly IProfile ProfileService;
         public ProfileController(IProfile profileService) {
-            this.profileService = profileService;
+            ProfileService = profileService;
         }
-        #endregion
 
-        #region Methods
         [HttpGet("GetProfile")]
         public async Task<ApiResponse> GetProfile(string login) {
-            return await profileService.GetProfile(login);
+            return await ProfileService.GetProfile(login);
         }
 
         [HttpPost("EditProfile")]
-        public async Task<ApiResponse> EditProfile(string login, ProfileDTO profileDTO) {
-            return await profileService.EditProfile(login, profileDTO);
+        public async Task<ApiResponse> EditProfile(string login, ApiProfile profileDTO) {
+            return await ProfileService.EditProfile(login, profileDTO);
         }
-        #endregion
     }
 }

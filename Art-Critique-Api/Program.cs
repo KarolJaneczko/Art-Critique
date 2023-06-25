@@ -4,9 +4,7 @@ using Art_Critique_Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using MySql.EntityFrameworkCore.Extensions;
 
-#region Creating a builder with database context
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddEntityFrameworkMySQL().AddDbContext<ArtCritiqueDbContext>(options => {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     if (string.IsNullOrEmpty(connectionString)) {
@@ -14,14 +12,9 @@ builder.Services.AddEntityFrameworkMySQL().AddDbContext<ArtCritiqueDbContext>(op
     }
     options.UseMySQL(connectionString);
 });
-#endregion
-
-#region Adding services
 builder.Services.AddScoped<IUser, UserService>();
 builder.Services.AddScoped<IProfile, ProfileService>();
-#endregion
-
-#region Rest of the invokes
+builder.Services.AddScoped<IArtwork, ArtworkService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -31,10 +24,8 @@ if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
-#endregion
 //Scaffold-DbContext "server=localhost;port=3306;user=root;password=Niewiem123;database=art-critique-db" MySql.EntityFrameworkCore -OutputDir Entities -f

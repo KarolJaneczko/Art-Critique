@@ -3,10 +3,8 @@ using Art_Critique.Core.Services.Interfaces;
 
 namespace Art_Critique.Core {
     public static class MauiProgram {
-        #region Builder & services
         public static MauiApp CreateMauiApp() {
             var builder = MauiApp.CreateBuilder();
-
             builder.UseMauiApp<App>().ConfigureFonts(fonts => {
                 fonts.AddFont("Pragmatica-ExtraLight.ttf", "PragmaticaExtraLight");
                 fonts.AddFont("Pragmatica-Medium.otf", "PragmaticaMedium");
@@ -16,10 +14,10 @@ namespace Art_Critique.Core {
         }
 
         private static void AddServices (MauiAppBuilder builder) {
-            builder.Services.AddScoped<ICredentials, CredentialsService>();
-            builder.Services.AddScoped<IProperties, PropertiesService>();
-            builder.Services.AddScoped<IStyles, StylesService>();
-            builder.Services.AddScoped<IBaseHttp, BaseHttpService>();
+            builder.Services.AddTransient<ICredentials, CredentialsService>();
+            builder.Services.AddTransient<IProperties, PropertiesService>();
+            builder.Services.AddTransient<IStyles, StylesService>();
+            builder.Services.AddTransient<IBaseHttp, BaseHttpService>();
 
             builder.Services.AddTransient<WelcomePage>();
             builder.Services.AddTransient<RegisterPage>();
@@ -27,7 +25,7 @@ namespace Art_Critique.Core {
             builder.Services.AddTransient<ProfilePage>();
             builder.Services.AddTransient<EditProfilePage>();
             builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<AddArtworkPage>();
         }
-        #endregion
     }
 }
