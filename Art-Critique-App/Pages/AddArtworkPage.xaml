@@ -25,11 +25,11 @@
 
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
 
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
-            
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
+
             <!-- Adding images for your artwork -->
             <Label Grid.Row="1" Text="Add photos of your work:" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0,10,0,0"/>
-            
+
             <VerticalStackLayout Grid.Row="2" HorizontalOptions="Center" Margin="0,10,0,0">
                 <CollectionView x:Name="AddedPhotos" ItemsSource="{Binding ArtworkPhotos}" ItemsLayout="HorizontalList">
                     <CollectionView.ItemTemplate>
@@ -44,7 +44,7 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </VerticalStackLayout>
-            
+
             <HorizontalStackLayout Grid.Row="3" HorizontalOptions="Center" Margin="0, 10, 0, 0">
                 <Button Text="Take a photo" Command="{Binding TakePhoto}" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
                 <Button Text="Upload picture" Command="{Binding UploadPhoto}" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
@@ -58,37 +58,25 @@
             </Frame>
 
             <Label Grid.Row="6" Text="Description:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 20, 0, 0"/>
-            <Frame Grid.Row="15" Style="{DynamicResource EntryFrame}" HeightRequest="150" WidthRequest="150">
+            <Frame Grid.Row="7" Style="{DynamicResource EntryFrame}" HeightRequest="150" WidthRequest="300" BorderColor="Black">
                 <Grid Style="{DynamicResource EntryGrid}">
-                    <Editor Text="{Binding Description}" Placeholder="Description" HorizontalTextAlignment="Center" FontSize="16" />
-                </Grid>
-            </Frame>
-            
-            <!-- Change Twitter link -->
-            <!--
-            <Label Grid.Row="12" Text="Full name:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
-            <Frame Grid.Row="13" Style="{DynamicResource EntryFrame}">
-                <Grid Style="{DynamicResource EntryGrid}">
-                    <Entry Text="{Binding TwitterLink}" Placeholder="Twitter link" HorizontalTextAlignment="Center" FontSize="16"/>
+                    <Editor Text="{Binding Description}" Placeholder="Description" HorizontalTextAlignment="Center" FontSize="16" WidthRequest="250" />
                 </Grid>
             </Frame>
 
-            -->
-            <!-- Change profile bio -->
-            <!--
-            <Label Grid.Row="14" Text="Profile description:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
-            <Frame Grid.Row="15" Style="{DynamicResource EntryFrame}" HeightRequest="150" WidthRequest="150">
+            <Label Grid.Row="8" Text="Genre:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 20, 0, 0"/>
+            <Frame Grid.Row="9" Style="{DynamicResource EntryFrame}">
+                <Picker Title="Pick a genre" ItemsSource="{Binding PaintingGenres}" ItemDisplayBinding="{Binding Name}" HorizontalTextAlignment="Center" SelectedItem="{Binding SelectedGenre}" />
+            </Frame>
+            <Frame Grid.Row="10" Style="{DynamicResource EntryFrame}" IsVisible="{Binding IsOtherGenre}">
                 <Grid Style="{DynamicResource EntryGrid}">
-                    <Editor Text="{Binding Description}" Placeholder="Description" HorizontalTextAlignment="Center" FontSize="16" />
+                    <Entry Text="{Binding OtherGenre}" Placeholder="Genre name" HorizontalTextAlignment="Center" FontSize="16"/>
                 </Grid>
             </Frame>
 
-            -->
-            <!-- Buttons -->
-            <!--
-            <VerticalStackLayout Grid.Row="16" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
-                <Button Text="Confirm" Command="{Binding EditProfile}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50" Margin="10,10,10,10"/>
-            </VerticalStackLayout>-->
+            <VerticalStackLayout Grid.Row="11" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
+                <Button Text="Add artwork" Command="{Binding AddArtwork}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50" Margin="10,10,10,10"/>
+            </VerticalStackLayout>
         </Grid>
     </ScrollView>
 </ContentPage>

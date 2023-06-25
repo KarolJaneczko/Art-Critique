@@ -8,14 +8,8 @@ namespace Art_Critique {
         private readonly IBaseHttp BaseHttp;
         private readonly ICredentials Credentials;
 
-        private string login;
-        public string Login {
-            get { return login; }
-            set {
-                login = value;
-                OnPropertyChanged(nameof(Login));
-            }
-        }
+        private string _login;
+        public string Login { get => _login; set { _login = value; OnPropertyChanged(nameof(Login)); } }
 
         public ProfilePage(IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();

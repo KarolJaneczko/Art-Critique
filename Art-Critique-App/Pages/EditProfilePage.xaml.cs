@@ -7,14 +7,8 @@ namespace Art_Critique {
     public partial class EditProfilePage : ContentPage {
         private ICredentials Credentials { get; set; }
 
-        private ProfileDTO profileInfo;
-        public ProfileDTO ProfileInfo {
-            get { return profileInfo; }
-            set {
-                profileInfo = value;
-                OnPropertyChanged(nameof(ProfileInfo));
-            }
-        }
+        private ApiProfile _profileInfo;
+        public ApiProfile ProfileInfo { get => _profileInfo; set { _profileInfo = value; OnPropertyChanged(nameof(ProfileInfo)); } }
 
         public EditProfilePage(IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();

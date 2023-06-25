@@ -25,17 +25,16 @@ namespace Art_Critique.Core.Utils.Helpers {
 #if WINDOWS
                     return null;
 #elif ANDROID
-            var handler = new CustomAndroidMessageHandler {
-                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => {
-                    if (cert != null && cert.Issuer.Equals("CN=localhost"))
+            return new CustomAndroidMessageHandler {
+                ServerCertificateCustomValidationCallback = (_, cert, __, errors) => {
+                    if (cert?.Issuer.Equals("CN=localhost") == true)
                         return true;
                     return errors == SslPolicyErrors.None;
                 }
             };
-            return handler;
 
 #else
-                        throw new PlatformNotSupportedException("Only Windows and Android currently supported.");
+            throw new PlatformNotSupportedException("Only Windows and Android currently supported.");
 #endif
         }
 
@@ -48,7 +47,7 @@ namespace Art_Critique.Core.Utils.Helpers {
                 public bool Verify(string hostname, Javax.Net.Ssl.ISSLSession session) {
                     return
                         Javax.Net.Ssl.HttpsURLConnection.DefaultHostnameVerifier.Verify(hostname, session)
-                        || hostname == "10.0.2.2" && session.PeerPrincipal?.Name == "CN=localhost";
+                        || (hostname == "10.0.2.2" && session.PeerPrincipal?.Name == "CN=localhost");
                 }
             }
         }

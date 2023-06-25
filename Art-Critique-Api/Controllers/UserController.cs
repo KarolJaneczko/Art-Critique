@@ -15,9 +15,9 @@ namespace Art_Critique_Api.Controllers {
         public async Task<ApiResponse> GetUsers() {
             return await UserService.GetUsers();
         }
- 
+
         [HttpPost("RegisterUser")]
-        public async Task<ApiResponse> RegisterUser(UserDTO User) {
+        public async Task<ApiResponse> RegisterUser(ApiUser User) {
             return await UserService.RegisterUser(User);
         }
 

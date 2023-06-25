@@ -15,5 +15,10 @@ namespace Art_Critique_Api.Controllers {
         public async Task<ApiResponse> GetArtworkGenres() {
             return await ArtworkService.GetArtworkGenres();
         }
+
+        [HttpPost("InsertUserArtwork")]
+        public async Task<ApiResponse> InsertUserArtwork(ApiUserArtwork artwork) {
+            return await ArtworkService.InsertUserArtwork(artwork);
+        }
     }
 }

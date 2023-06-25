@@ -14,10 +14,10 @@ namespace Art_Critique_Api.Services {
         }
 
         public async Task<ApiResponse> GetUsers() {
-            var userList = new List<UserDTO>();
+            var userList = new List<ApiUser>();
             var task = new Func<Task<ApiResponse>>(async () => {
                 userList = await DbContext.TUsers.Select(
-                    s => new UserDTO {
+                    s => new ApiUser {
                         UsId = s.UsId,
                         UsLogin = s.UsLogin,
                         UsPassword = Encryptor.DecryptString(s.UsPassword),
@@ -46,7 +46,7 @@ namespace Art_Critique_Api.Services {
             return await ExecuteWithTryCatch(task);
         }
 
-        public async Task<ApiResponse> RegisterUser(UserDTO User) {
+        public async Task<ApiResponse> RegisterUser(ApiUser User) {
             var task = new Func<Task<ApiResponse>>(async () => {
                 var newUser = new TUser() {
                     UsLogin = User.UsLogin,

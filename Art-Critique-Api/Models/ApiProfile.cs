@@ -1,5 +1,5 @@
 ﻿namespace Art_Critique_Api.Models {
-    public class ProfileDTO {
+    public class ApiProfile {
         public string? FullName { get; set; }
         public DateTime? Birthdate { get; set; }
         public string? Avatar { get; set; }

@@ -14,7 +14,7 @@ namespace Art_Critique.Core.Services {
         public async Task<ApiResponse> SendApiRequest(HttpMethod method, string path, string body = "") {
             var request = new HttpRequestMessage {
                 Method = method,
-                RequestUri = new Uri(string.Join(string.Empty, Dictionary.ApiAddress, path)),
+                RequestUri = new Uri(string.Concat(Dictionary.ApiAddress, path)),
                 Content = method == HttpMethod.Get ? null : new StringContent(body, Encoding.UTF8, "application/json"),
             };
 

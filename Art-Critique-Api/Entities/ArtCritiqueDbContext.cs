@@ -27,7 +27,9 @@ public partial class ArtCritiqueDbContext : DbContext
 
     public virtual DbSet<TUserArtwork> TUserArtworks { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Niewiem123;database=art-critique-db");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Niewiem123;database=art-critique-db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -49,10 +51,18 @@ public partial class ArtCritiqueDbContext : DbContext
 
             entity.ToTable("t_custom_painting");
 
+            entity.HasIndex(e => e.ArtworkId, "FK_ArtworkID_idx");
+
             entity.HasIndex(e => e.PaintingId, "idt_custom_painting_UNIQUE").IsUnique();
 
             entity.Property(e => e.PaintingId).HasColumnName("PaintingID");
+            entity.Property(e => e.ArtworkId).HasColumnName("ArtworkID");
             entity.Property(e => e.PaintingPath).HasMaxLength(300);
+
+            entity.HasOne(d => d.Artwork).WithMany(p => p.TCustomPaintings)
+                .HasForeignKey(d => d.ArtworkId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ArtworkID");
         });
 
         modelBuilder.Entity<TPaintingGenre>(entity =>

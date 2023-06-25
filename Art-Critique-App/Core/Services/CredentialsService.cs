@@ -12,7 +12,7 @@ namespace Art_Critique.Core.Services {
 
         public bool IsUserLoggedIn() {
             var token = GetCurrentUserToken();
-            return token != null && token.Length > 0;
+            return !string.IsNullOrEmpty(token);
         }
 
         public void SetCurrentUserLogin(string userLogin) {

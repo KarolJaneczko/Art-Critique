@@ -1,5 +1,5 @@
 ﻿namespace Art_Critique.Core.Utils.Enums {
-    public enum AppExceptionEnum {
+    public enum ExceptionType {
         Undefined = 0,
         EntryTooShort = 1,
         EntryTooLong = 2,

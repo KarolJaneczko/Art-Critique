@@ -87,7 +87,7 @@ namespace Art_Critique_Api.Services {
                     IsSuccess = true,
                     Title = string.Empty,
                     Message = string.Empty,
-                    Data = new ProfileDTO() {
+                    Data = new ApiProfile() {
                         FullName = profile?.ProfileFullName,
                         Birthdate = profile?.ProfileBirthdate,
                         Avatar = avatarImage,
@@ -101,7 +101,7 @@ namespace Art_Critique_Api.Services {
             return await ExecuteWithTryCatch(task);
         }
 
-        public async Task<ApiResponse> EditProfile(string login, ProfileDTO profileDTO) {
+        public async Task<ApiResponse> EditProfile(string login, ApiProfile profileDTO) {
             var task = new Func<Task<ApiResponse>>(async () => {
                 var userID = DbContext.TUsers.FirstOrDefault(x => x.UsLogin == login)?.UsId;
                 if (userID == null) {

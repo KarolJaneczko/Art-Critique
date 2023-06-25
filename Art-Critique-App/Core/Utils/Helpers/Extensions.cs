@@ -10,8 +10,7 @@
 
         public static ImageSource Base64ToImageSource(this string image) {
             var stream = new MemoryStream(Convert.FromBase64String(image));
-            var imageSource = ImageSource.FromStream(() => stream);
-            return imageSource;
+            return ImageSource.FromStream(() => stream);
         }
     }
 }

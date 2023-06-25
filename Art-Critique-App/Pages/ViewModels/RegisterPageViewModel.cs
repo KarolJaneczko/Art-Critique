@@ -1,6 +1,5 @@
 ﻿using Art_Critique.Core.Models.API;
 using Art_Critique.Core.Services.Interfaces;
-using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
 using Newtonsoft.Json;
 using System.Windows.Input;
@@ -9,35 +8,11 @@ namespace Art_Critique.Pages.ViewModels {
     public class RegisterPageViewModel : BaseViewModel {
         private readonly IBaseHttp BaseHttp;
 
-        private string email, login, password, passwordConfirm;
-        public string Email {
-            get { return email; }
-            set {
-                email = value.Trim();
-                OnPropertyChanged(nameof(Email));
-            }
-        }
-        public string Login {
-            get { return login; }
-            set {
-                login = value.Trim();
-                OnPropertyChanged(nameof(Login));
-            }
-        }
-        public string Password {
-            get { return password; }
-            set {
-                password = value.Trim();
-                OnPropertyChanged(nameof(Password));
-            }
-        }
-        public string PasswordConfirm {
-            get { return passwordConfirm; }
-            set {
-                passwordConfirm = value.Trim();
-                OnPropertyChanged(nameof(PasswordConfirm));
-            }
-        }
+        private string _email, _login, _password, _passwordConfirm;
+        public string Email { get => _email; set { _email = value.Trim(); OnPropertyChanged(nameof(Email)); } }
+        public string Login { get => _login; set { _login = value.Trim(); OnPropertyChanged(nameof(Login)); } }
+        public string Password { get => _password; set { _password = value.Trim(); OnPropertyChanged(nameof(Password)); } }
+        public string PasswordConfirm { get => _passwordConfirm; set { _passwordConfirm = value.Trim(); OnPropertyChanged(nameof(PasswordConfirm)); } }
         public ICommand RegisterCommand => new Command(Register);
 
         public RegisterPageViewModel(IBaseHttp baseHttp) {
@@ -47,19 +22,19 @@ namespace Art_Critique.Pages.ViewModels {
         public async void Register() {
             var task = new Func<Task<ApiResponse>>(async () => {
                 // Validating entries.
-                var entries = new Dictionary<EntryEnum, string>() {
-                    { EntryEnum.Email, email },
-                    { EntryEnum.Login, login },
-                    { EntryEnum.Password, password },
-                    { EntryEnum.PasswordConfirm, passwordConfirm }
+                var entries = new Dictionary<Core.Utils.Enums.Entry, string>() {
+                    { Core.Utils.Enums.Entry.Email, Email },
+                    { Core.Utils.Enums.Entry.Login, Login },
+                    { Core.Utils.Enums.Entry.Password, Password },
+                    { Core.Utils.Enums.Entry.PasswordConfirm, PasswordConfirm }
                 };
                 Validators.ValidateEntries(entries);
 
                 // Making a body for registration request which consists of email, login and password.
-                var body = JsonConvert.SerializeObject(new RegisterUserDTO() {
-                    UsEmail = email,
-                    UsLogin = login,
-                    UsPassword = password
+                var body = JsonConvert.SerializeObject(new ApiRegisterUser() {
+                    UsEmail = Email,
+                    UsLogin = Login,
+                    UsPassword = Password
                 });
 
                 // Sending request to API, successful registration results in `IsSuccess` set to true.

@@ -16,8 +16,9 @@ namespace Art_Critique {
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
             var result = await BaseHttp.SendApiRequest(HttpMethod.Get, Dictionary.ArtworkGetGenres);
-            var genres = JsonConvert.DeserializeObject<List<ArtworkGenreDTO>>(result.Data.ToString());
-            BindingContext = new AddArtworkPageViewModel(BaseHttp);
+            var resultGenres = JsonConvert.DeserializeObject<List<ApiArtworkGenre>>(result.Data.ToString());
+            var genres = resultGenres.Select(x => new Core.Models.Logic.PaintingGenre(x.Id, x.Name));
+            BindingContext = new AddArtworkPageViewModel(BaseHttp, genres);
         }
     }
 }

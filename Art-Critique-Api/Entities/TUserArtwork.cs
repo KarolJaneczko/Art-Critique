@@ -23,5 +23,7 @@ public partial class TUserArtwork
 
     public virtual TPaintingGenre Genre { get; set; } = null!;
 
+    public virtual ICollection<TCustomPainting> TCustomPaintings { get; } = new List<TCustomPainting>();
+
     public virtual TUser User { get; set; } = null!;
 }

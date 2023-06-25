@@ -17,7 +17,7 @@ namespace Art_Critique_Api.Controllers {
         }
 
         [HttpPost("EditProfile")]
-        public async Task<ApiResponse> EditProfile(string login, ProfileDTO profileDTO) {
+        public async Task<ApiResponse> EditProfile(string login, ApiProfile profileDTO) {
             return await ProfileService.EditProfile(login, profileDTO);
         }
     }

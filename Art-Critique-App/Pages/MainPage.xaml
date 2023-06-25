@@ -4,26 +4,6 @@
              x:Class="Art_Critique.MainPage">
 
     <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
-
-            <Frame WidthRequest="150" HeightRequest="150" CornerRadius="100" BorderColor="Transparent" IsClippedToBounds="true" Margin="0,10,0,10">
-                <Image Source="{Binding Avatar}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill"/>
-            </Frame>
-            <Button
-                Text="Take a photo"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Command="{Binding TakePhoto}"
-                HorizontalOptions="Center" />
-            <Button
-                Text="Upload photo"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Command="{Binding UploadPhoto}"
-                HorizontalOptions="Center" />
-
-        </VerticalStackLayout>
     </ScrollView>
 
 </ContentPage>
