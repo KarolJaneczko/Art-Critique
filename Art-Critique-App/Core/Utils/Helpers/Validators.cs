@@ -127,10 +127,7 @@ namespace Art_Critique.Core.Utils.Helpers {
         }
 
         private static void ValidateArtworkDescription(string description) {
-            if (string.IsNullOrEmpty(description)) {
-                throw new Base.AppException("Description cannot be empty", Enums.ExceptionType.EntryIsEmpty);
-            }
-            if (description.Length > 500) {
+            if (!string.IsNullOrEmpty(description) && description.Length > 500) {
                 throw new Base.AppException("Your artwork description is too long", Enums.ExceptionType.EntryTooLong);
             }
         }
