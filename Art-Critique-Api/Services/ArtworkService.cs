@@ -1,6 +1,7 @@
 ﻿using Art_Critique_Api.Entities;
 using Art_Critique_Api.Models;
 using Art_Critique_Api.Services.Interfaces;
+using Art_Critique_Api.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace Art_Critique_Api.Services {
@@ -61,6 +62,44 @@ namespace Art_Critique_Api.Services {
                     Title = string.Empty,
                     Message = string.Empty,
                     Data = id
+                };
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> GetUserArtwork(int id) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var artwork = DbContext.TUserArtworks.FirstOrDefault(x => x.ArtworkId == id);
+                if (artwork is null) {
+                    return new ApiResponse {
+                        IsSuccess = false,
+                        Title = "Artwork not found!",
+                        Message = "There is no artwork with this id!",
+                        Data = null
+                    };
+                }
+                var genreName = DbContext.TPaintingGenres.FirstOrDefault(x => x.GenreId == artwork.GenreId)?.GenreName;
+                var login = DbContext.TUsers.FirstOrDefault(x => x.UsId == artwork.UserId)?.UsLogin;
+                var paths = DbContext.TCustomPaintings.Where(x => x.ArtworkId == artwork.ArtworkId).Select(x => x.PaintingPath).ToList();
+                var images = new List<string>();
+                foreach (var path in paths) {
+                    images.Add(Converter.ConvertImageToBase64(path));
+                }
+                return new ApiResponse() {
+                    IsSuccess = true,
+                    Title = string.Empty,
+                    Message = string.Empty,
+                    Data = new ApiGetUserArtwork() {
+                        Date = artwork.ArtworkDate,
+                        Description = artwork.ArtworkDescription,
+                        Images = images,
+                        GenreId = artwork.GenreId,
+                        GenreName = genreName ?? string.Empty,
+                        GenreOtherName = artwork.GenreOtherName,
+                        Login = login ?? string.Empty,
+                        Title = artwork.ArtworkTitle,
+                        Views = artwork.ArtworkViews ?? 0
+                    }
                 };
             });
             return await ExecuteWithTryCatch(task);
