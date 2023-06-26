@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Art_Critique.ArtworkPage">
+
+    <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
+
+        <Grid RowDefinitions="Auto,Auto,Auto" Padding="20,0">
+
+            <!-- Artwork's title -->
+            <Label Grid.Row="1" Text="{Binding Title}" TextColor="Black" CharacterSpacing="1" FontAttributes="Bold" HorizontalTextAlignment="Center" FontSize="30" Margin="0,20,0,0"/>
+
+            <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto" VerticalOptions="Center"
+            
+            
+            <!-- User's avatar --><!--
+            <Frame Grid.Row="1" WidthRequest="150" HeightRequest="150" CornerRadius="100" BorderColor="Transparent" IsClippedToBounds="true" Margin="0,20,0,10">
+                <Image Source="{Binding Avatar}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill"/>
+            </Frame>
+
+            --><!-- User's login --><!--
+            <Label Grid.Row="2" Text="{Binding Login}" TextColor="Goldenrod" HorizontalTextAlignment="Center" FontSize="15"/>
+
+            --><!-- User's full name --><!--
+            <Label Grid.Row="3" Text="{Binding FullName}" IsVisible="{Binding FullNameVisible}" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="22"/>
+
+            --><!-- Birthdate & total views --><!--
+            <Grid Grid.Row="4" ColumnDefinitions="Auto,Auto,Auto,Auto" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,20,0,0">
+                <Frame Grid.Column="0" WidthRequest="25" HeightRequest="25" BorderColor="Transparent" IsClippedToBounds="true" Margin="5,0,5,0" HorizontalOptions="Center">
+                    <Image Source="icon_calendar.png"  WidthRequest="20" HeightRequest="20" Aspect="AspectFill"/>
+                </Frame>
+                <Label Grid.Column="1" Text="{Binding Birthdate}" FontSize="15" TextColor="Black"/>
+                <Frame Grid.Column="2" WidthRequest="25" HeightRequest="25" BorderColor="Transparent" IsClippedToBounds="true" Margin="5,0,5,0" HorizontalOptions="Center">
+                    <Image Source="icon_eye.png"  WidthRequest="20" HeightRequest="20" Aspect="AspectFill"/>
+                </Frame>
+                <Label Grid.Column="3" Text="{Binding TotalViews}" FontSize="15" TextColor="Black"/>
+            </Grid>
+
+            --><!-- Social media --><!--
+            <HorizontalStackLayout Grid.Row="5" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,20,0,20">
+                <Frame Opacity="{Binding FacebookOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
+                    <ImageButton Source="facebook_icon.png" Command="{Binding FacebookOpen}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
+                </Frame>
+                <Frame Opacity="{Binding InstagramOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
+                    <ImageButton Source="instagram_icon.png" Command="{Binding InstagramOpen}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
+                </Frame>
+                <Frame Opacity="{Binding TwitterOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
+                    <ImageButton Source="twitter_icon.png" Command="{Binding TwitterOpen}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
+                </Frame>
+            </HorizontalStackLayout>
+
+            --><!-- Profile description --><!--
+            <Label Grid.Row="6" Text="Bio" FontAttributes="Bold" TextColor="Goldenrod" HorizontalTextAlignment="Start" Margin="0,20,0,20" FontSize="20"/>
+            <Label Grid.Row="7" TextColor="Black" HorizontalTextAlignment="Start" FontSize="15" Text="{Binding Description}"/>
+
+            --><!-- User's artworks --><!--
+            <VerticalStackLayout Grid.Row="8" VerticalOptions="Center" Margin="0,20,0,20">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GalleryCommand}"/>
+                </VerticalStackLayout.GestureRecognizers>
+
+                <Label Text="Artworks   ➡" FontAttributes="Bold" TextColor="Goldenrod" HorizontalTextAlignment="Start" Margin="0,30,0,10" FontSize="20"/>
+
+                <VerticalStackLayout Grid.Row="5" HorizontalOptions="Center" Margin="0,10,0,0">
+                    <CollectionView ItemsSource="{Binding Thumbnails}" ItemsLayout="HorizontalList">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame WidthRequest="90" HeightRequest="120" BorderColor="Transparent" CornerRadius="30" IsClippedToBounds="true" HorizontalOptions="Center" Margin="15,0,15,0">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding GoToGallery}"/>
+                                    </Frame.GestureRecognizers>
+                                    <Image Source="{Binding ImageFromBase64}"  WidthRequest="90" HeightRequest="120" Aspect="AspectFill"/>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        
+                    </CollectionView>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+            
+            --><!-- Buttons --><!--
+            <HorizontalStackLayout Grid.Row="10" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
+                <Button Text="{Binding ButtonText}" Command="{Binding ButtonCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50"/>
+            </HorizontalStackLayout>-->
+        </Grid>
+    </ScrollView>
+</ContentPage>

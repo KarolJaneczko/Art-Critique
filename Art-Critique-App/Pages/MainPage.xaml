@@ -4,6 +4,7 @@
              x:Class="Art_Critique.MainPage">
 
     <ScrollView>
+        <Button Text="Add artwork" Clicked="Button_Clicked" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50" Margin="10,10,10,10"/>
     </ScrollView>
 
 </ContentPage>

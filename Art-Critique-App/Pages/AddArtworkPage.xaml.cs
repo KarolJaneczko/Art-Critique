@@ -12,8 +12,9 @@ namespace Art_Critique {
         public AddArtworkPage(IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();
             BaseHttp = baseHttp;
-            BindingContext = new AddArtworkPageViewModel(baseHttp);
             Credentials = credentials;
+            BindingContext = new AddArtworkPageViewModel(baseHttp);
+            Routing.RegisterRoute(nameof(ArtworkPage), typeof(ArtworkPage));
         }
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {

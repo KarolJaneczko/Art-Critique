@@ -117,7 +117,7 @@ namespace Art_Critique.Pages.ViewModels {
 
             // If editing resulted in success, we are going back to the profile page.
             if (result.IsSuccess) {
-                await Shell.Current.GoToAsync("../");
+                await Shell.Current.GoToAsync(nameof(ArtworkPage), new Dictionary<string, object> { { "ArtworkId", (int)result.Data } });
             }
         }
     }
