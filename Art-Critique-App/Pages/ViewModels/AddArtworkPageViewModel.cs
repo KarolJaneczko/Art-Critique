@@ -14,8 +14,8 @@ namespace Art_Critique.Pages.ViewModels {
         private readonly IBaseHttp BaseHttp;
         private readonly ICredentials Credentials;
 
-        private ObservableCollection<GalleryThumbnail> artworkPhotos = new();
-        public ObservableCollection<GalleryThumbnail> ArtworkPhotos {
+        private ObservableCollection<ImageThumbnail> artworkPhotos = new();
+        public ObservableCollection<ImageThumbnail> ArtworkPhotos {
             get { return artworkPhotos; }
             set {
                 artworkPhotos = value;
@@ -35,7 +35,7 @@ namespace Art_Critique.Pages.ViewModels {
         public PaintingGenre SelectedGenre { get => _selectedGenre; set { _selectedGenre = value; IsOtherGenre = value.Name == "Other"; OnPropertyChanged(nameof(SelectedGenre)); } }
         public ICommand TakePhoto => new Command(async () => await TakePhotoWithCamera());
         public ICommand UploadPhoto => new Command(async () => await UploadPhotoFromGallery());
-        public ICommand DeleteCommand => new Command<GalleryThumbnail>(RemovePhoto);
+        public ICommand DeleteCommand => new Command<ImageThumbnail>(RemovePhoto);
         public ICommand AddArtwork => new Command(async () => await ConfirmAdding());
 
         public AddArtworkPageViewModel(IBaseHttp baseHttp) {
@@ -48,9 +48,9 @@ namespace Art_Critique.Pages.ViewModels {
             PaintingGenres = paintingGenres.ToList();
         }
 
-        public void RemovePhoto(GalleryThumbnail photo) {
+        public void RemovePhoto(ImageThumbnail photo) {
             if (ArtworkPhotos.Contains(photo)) {
-                ArtworkPhotos = new ObservableCollection<GalleryThumbnail>(ArtworkPhotos.Where(x => !x.Equals(photo)).ToList());
+                ArtworkPhotos = new ObservableCollection<ImageThumbnail>(ArtworkPhotos.Where(x => !x.Equals(photo)).ToList());
             }
         }
 
@@ -61,7 +61,7 @@ namespace Art_Critique.Pages.ViewModels {
                 if (photo != null) {
                     var sourceStream = await photo.OpenReadAsync();
                     var imageBase64 = sourceStream.ConvertToBase64();
-                    ArtworkPhotos.Add(new GalleryThumbnail(imageBase64));
+                    ArtworkPhotos.Add(new ImageThumbnail(imageBase64));
                 }
             }
         }
@@ -73,7 +73,7 @@ namespace Art_Critique.Pages.ViewModels {
                 if (photo != null) {
                     var sourceStream = await photo.OpenReadAsync();
                     var imageBase64 = sourceStream.ConvertToBase64();
-                    ArtworkPhotos.Add(new GalleryThumbnail(imageBase64));
+                    ArtworkPhotos.Add(new ImageThumbnail(imageBase64));
                 }
             }
         }
