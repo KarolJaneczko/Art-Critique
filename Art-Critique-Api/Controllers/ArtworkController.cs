@@ -22,7 +22,7 @@ namespace Art_Critique_Api.Controllers {
         }
 
         [HttpGet("GetUserArtwork")]
-        public async Task <ApiResponse> GetUserArtwork(int id) {
+        public async Task<ApiResponse> GetUserArtwork(int id) {
             return await ArtworkService.GetUserArtwork(id);
         }
     }

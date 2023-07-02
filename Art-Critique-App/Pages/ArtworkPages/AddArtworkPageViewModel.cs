@@ -4,17 +4,20 @@ using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Base;
 using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
+using Art_Critique.Pages.ViewModels;
 using Art_Critique_Api.Models;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ViewModels {
+namespace Art_Critique.Pages.ArtworkPages {
+
     public class AddArtworkPageViewModel : BaseViewModel {
         private readonly IBaseHttp BaseHttp;
         private readonly ICredentials Credentials;
 
         private ObservableCollection<ImageThumbnail> artworkPhotos = new();
+
         public ObservableCollection<ImageThumbnail> ArtworkPhotos {
             get { return artworkPhotos; }
             set {

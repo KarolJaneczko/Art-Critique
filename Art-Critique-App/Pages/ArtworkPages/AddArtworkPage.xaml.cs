@@ -1,10 +1,11 @@
 ﻿using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
-using Art_Critique.Pages.ViewModels;
+using Art_Critique.Pages.ArtworkPages;
 using Art_Critique_Api.Models;
 using Newtonsoft.Json;
 
 namespace Art_Critique {
+
     public partial class AddArtworkPage : ContentPage {
         private IBaseHttp BaseHttp { get; set; }
         private ICredentials Credentials { get; set; }

@@ -158,6 +158,11 @@ namespace Art_Critique.Core.Utils.Helpers {
                 if (!entry.ToLower().Contains(site)) {
                     throw new Base.AppException($"This is not a {site} link", Enums.ExceptionType.EntryInvalidFormat);
                 }
+                var checkFormat = entry.ToLower().Contains("www." + site) || entry.ToLower().Contains("https://" + site) || entry.ToLower().StartsWith(site);
+                if (!checkFormat) {
+                    throw new Base.AppException($"This is not a {site} link", Enums.ExceptionType.EntryInvalidFormat);
+                }
+
                 var isUri = Uri.IsWellFormedUriString(entry, UriKind.RelativeOrAbsolute);
                 if (!isUri) {
                     throw new Base.AppException($"{entry} is invalid URL format, check the link and re-entry it again", Enums.ExceptionType.EntryInvalidFormat);
