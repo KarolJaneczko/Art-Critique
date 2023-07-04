@@ -16,12 +16,12 @@ namespace Art_Critique {
         }
 
         protected override void OnStart() {
+            base.OnStart();
             MainThread.BeginInvokeOnMainThread(async () => {
                 if (!Credentials.IsUserLoggedIn()) {
                     await Shell.Current.GoToAsync(nameof(WelcomePage));
                 }
             });
-            base.OnStart();
         }
     }
 }

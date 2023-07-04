@@ -11,31 +11,22 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Art_Critique.Pages.ArtworkPages {
-
     public class AddArtworkPageViewModel : BaseViewModel {
         private readonly IBaseHttp BaseHttp;
         private readonly ICredentials Credentials;
 
         private ObservableCollection<ImageThumbnail> artworkPhotos = new();
-
-        public ObservableCollection<ImageThumbnail> ArtworkPhotos {
-            get { return artworkPhotos; }
-            set {
-                artworkPhotos = value;
-                OnPropertyChanged(nameof(ArtworkPhotos));
-            }
-        }
-
-        private string _title, _description, _otherGenre;
-        private bool _isOtherGenre;
-        private List<PaintingGenre> _paintingGenres;
-        private PaintingGenre _selectedGenre;
-        public string Title { get => _title; set { _title = value; OnPropertyChanged(nameof(Title)); } }
-        public string Description { get => _description; set { _description = value; OnPropertyChanged(nameof(Description)); } }
-        public string OtherGenre { get => _otherGenre; set { _otherGenre = value; OnPropertyChanged(nameof(OtherGenre)); } }
-        public bool IsOtherGenre { get => _isOtherGenre; set { _isOtherGenre = value; OnPropertyChanged(nameof(IsOtherGenre)); } }
-        public List<PaintingGenre> PaintingGenres { get => _paintingGenres ??= new List<PaintingGenre>(); set { _paintingGenres = value; OnPropertyChanged(nameof(PaintingGenres)); } }
-        public PaintingGenre SelectedGenre { get => _selectedGenre; set { _selectedGenre = value; IsOtherGenre = value.Name == "Other"; OnPropertyChanged(nameof(SelectedGenre)); } }
+        private string title, description, otherGenre;
+        private bool isOtherGenre;
+        private List<PaintingGenre> paintingGenres;
+        private PaintingGenre selectedGenre;
+        public ObservableCollection<ImageThumbnail> ArtworkPhotos { get => artworkPhotos; set { artworkPhotos = value; OnPropertyChanged(nameof(ArtworkPhotos)); } }
+        public string Title { get => title; set { title = value; OnPropertyChanged(nameof(Title)); } }
+        public string Description { get => description; set { description = value; OnPropertyChanged(nameof(Description)); } }
+        public string OtherGenre { get => otherGenre; set { otherGenre = value; OnPropertyChanged(nameof(OtherGenre)); } }
+        public bool IsOtherGenre { get => isOtherGenre; set { isOtherGenre = value; OnPropertyChanged(nameof(IsOtherGenre)); } }
+        public List<PaintingGenre> PaintingGenres { get => paintingGenres ??= new List<PaintingGenre>(); set { paintingGenres = value; OnPropertyChanged(nameof(PaintingGenres)); } }
+        public PaintingGenre SelectedGenre { get => selectedGenre; set { selectedGenre = value; IsOtherGenre = value.Name == "Other"; OnPropertyChanged(nameof(SelectedGenre)); } }
         public ICommand TakePhoto => new Command(async () => await TakePhotoWithCamera());
         public ICommand UploadPhoto => new Command(async () => await UploadPhotoFromGallery());
         public ICommand DeleteCommand => new Command<ImageThumbnail>(RemovePhoto);
@@ -60,7 +51,6 @@ namespace Art_Critique.Pages.ArtworkPages {
         public async Task TakePhotoWithCamera() {
             if (MediaPicker.Default.IsCaptureSupported) {
                 FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
-
                 if (photo != null) {
                     var sourceStream = await photo.OpenReadAsync();
                     var imageBase64 = sourceStream.ConvertToBase64();
@@ -72,7 +62,6 @@ namespace Art_Critique.Pages.ArtworkPages {
         public async Task UploadPhotoFromGallery() {
             if (MediaPicker.Default.IsCaptureSupported) {
                 FileResult photo = await MediaPicker.Default.PickPhotoAsync();
-
                 if (photo != null) {
                     var sourceStream = await photo.OpenReadAsync();
                     var imageBase64 = sourceStream.ConvertToBase64();
@@ -93,7 +82,7 @@ namespace Art_Critique.Pages.ArtworkPages {
                     { Core.Utils.Enums.Entry.ArtworkDescription, Description },
                 };
                 if (SelectedGenre?.Name == "Other") {
-                    entries.Add(Core.Utils.Enums.Entry.ArtworkGenreName, _otherGenre);
+                    entries.Add(Core.Utils.Enums.Entry.ArtworkGenreName, otherGenre);
                 }
                 Validators.ValidateEntries(entries);
 
@@ -101,14 +90,14 @@ namespace Art_Critique.Pages.ArtworkPages {
                     throw new AppException("You must pick a genre of your work", ExceptionType.EntryIsEmpty);
                 }
 
-                // Making a body for profile edit request.
+                // Making a body for artwork insert request.
                 var body = JsonConvert.SerializeObject(new ApiUserArtwork() {
                     Login = Credentials.GetCurrentUserLogin(),
                     Title = Title,
                     Description = Description,
                     Date = DateTime.Now,
                     GenreId = SelectedGenre.Id,
-                    GenreOtherName = _otherGenre,
+                    GenreOtherName = otherGenre,
                     Images = ArtworkPhotos.Select(x => x.ImageBase).ToList()
                 });
                 // Sending request to API, successful edit results in `IsSuccess` set to true.
@@ -118,9 +107,9 @@ namespace Art_Critique.Pages.ArtworkPages {
             // Executing task with try/catch.
             var result = await ExecuteWithTryCatch(task);
 
-            // If editing resulted in success, we are going back to the profile page.
+            // If adding resulted in success, we are going to the artwork page.
             if (result.IsSuccess) {
-                await Shell.Current.GoToAsync(nameof(ArtworkPage), new Dictionary<string, object> { { "ArtworkId", (int)result.Data } });
+                await Shell.Current.GoToAsync(nameof(ArtworkPage), new Dictionary<string, object> { { "ArtworkId", result.Data.ToString() } });
             }
         }
     }

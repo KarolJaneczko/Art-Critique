@@ -7,6 +7,6 @@
         public int GenreId { get; set; }
         public string GenreOtherName { get; set; }
         public DateTime Date { get; set; }
-        public int Views { get; set; } = 0;
+        public int Views { get; set; }
     }
 }

@@ -5,7 +5,6 @@ using Art_Critique_Api.Models;
 using Newtonsoft.Json;
 
 namespace Art_Critique {
-
     [QueryProperty(nameof(ArtworkId), nameof(ArtworkId))]
     public partial class ArtworkPage : ContentPage {
         private readonly IBaseHttp BaseHttp;

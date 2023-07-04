@@ -6,10 +6,9 @@ using Art_Critique_Api.Models;
 using Newtonsoft.Json;
 
 namespace Art_Critique {
-
     public partial class AddArtworkPage : ContentPage {
-        private IBaseHttp BaseHttp { get; set; }
-        private ICredentials Credentials { get; set; }
+        private readonly IBaseHttp BaseHttp;
+        private readonly ICredentials Credentials;
 
         public AddArtworkPage(IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();

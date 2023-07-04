@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Art_Critique.Pages.ArtworkPages {
-
     public class ArtworkPageViewModel : BaseViewModel {
         private readonly IBaseHttp BaseHttp;
         private readonly ICredentials Credentials;
