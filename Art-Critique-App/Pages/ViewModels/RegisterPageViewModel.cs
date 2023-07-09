@@ -1,5 +1,6 @@
 ﻿using Art_Critique.Core.Models.API;
 using Art_Critique.Core.Services.Interfaces;
+using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
 using Newtonsoft.Json;
 using System.Windows.Input;
@@ -22,11 +23,11 @@ namespace Art_Critique.Pages.ViewModels {
         public async void Register() {
             var task = new Func<Task<ApiResponse>>(async () => {
                 // Validating entries.
-                var entries = new Dictionary<Core.Utils.Enums.Entry, string>() {
-                    { Core.Utils.Enums.Entry.Email, Email },
-                    { Core.Utils.Enums.Entry.Login, Login },
-                    { Core.Utils.Enums.Entry.Password, Password },
-                    { Core.Utils.Enums.Entry.PasswordConfirm, PasswordConfirm }
+                var entries = new Dictionary<EntryType, string>() {
+                    { EntryType.Email, Email },
+                    { EntryType.Login, Login },
+                    { EntryType.Password, Password },
+                    { EntryType.PasswordConfirm, PasswordConfirm }
                 };
                 Validators.ValidateEntries(entries);
 

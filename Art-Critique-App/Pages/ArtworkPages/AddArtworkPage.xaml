@@ -71,7 +71,7 @@
             <Frame Grid.Row="9" Style="{DynamicResource EntryFrame}">
                 <Picker Title="Pick a genre" ItemsSource="{Binding PaintingGenres}" ItemDisplayBinding="{Binding Name}" HorizontalTextAlignment="Center" SelectedItem="{Binding SelectedGenre}" />
             </Frame>
-            <Frame Grid.Row="10" Style="{DynamicResource EntryFrame}" IsVisible="{Binding IsOtherGenre}">
+            <Frame Grid.Row="10" Style="{DynamicResource EntryFrame}" IsVisible="{Binding IsOtherGenreVisible}">
                 <Grid Style="{DynamicResource EntryGrid}">
                     <Entry Text="{Binding OtherGenre}" Placeholder="Genre name" HorizontalTextAlignment="Center" FontSize="16"/>
                 </Grid>

@@ -1,5 +1,5 @@
 ﻿namespace Art_Critique.Core.Utils.Enums {
-    public enum Entry {
+    public enum EntryType {
         Email = 0,
         Login = 1,
         Password = 2,
