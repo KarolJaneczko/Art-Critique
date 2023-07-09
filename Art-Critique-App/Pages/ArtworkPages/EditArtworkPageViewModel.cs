@@ -1,5 +1,4 @@
-﻿using Android.Net;
-using Art_Critique.Core.Models.API;
+﻿using Art_Critique.Core.Models.API;
 using Art_Critique.Core.Models.Logic;
 using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Base;

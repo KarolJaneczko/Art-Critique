@@ -5,5 +5,6 @@ namespace Art_Critique_Api.Services.Interfaces {
         public Task<ApiResponse> GetArtworkGenres();
         public Task<ApiResponse> InsertUserArtwork(ApiUserArtwork artwork);
         public Task<ApiResponse> GetUserArtwork(int id);
+        public Task<ApiResponse> GetLast3UserArtworks(string login);
     }
 }

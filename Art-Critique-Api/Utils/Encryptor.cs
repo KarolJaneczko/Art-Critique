@@ -2,8 +2,8 @@
 using System.Text;
 
 namespace Art_Critique_Api.Utils {
-    public class Encryptor {
-        private readonly static string Key = "a32axh431h3u2137xddd6aa2137x1939";
+    public static class Encryptor {
+        private const string Key = "a32axh431h3u2137xddd6aa2137x1939";
 
         public static string EncryptString(string input) {
             byte[] iv = new byte[16];
@@ -42,10 +42,9 @@ namespace Art_Critique_Api.Utils {
         }
 
         public static string GenerateToken() {
-            var allChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            const string allChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             var random = new Random();
-            var resultToken = new string(Enumerable.Repeat(allChars, 30).Select(token => token[random.Next(token.Length)]).ToArray());
-            return resultToken.ToString();
+            return new string(Enumerable.Repeat(allChars, 30).Select(token => token[random.Next(token.Length)]).ToArray());
         }
     }
 }

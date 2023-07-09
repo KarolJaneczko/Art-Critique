@@ -88,6 +88,7 @@ namespace Art_Critique_Api.Services {
                     Title = string.Empty,
                     Message = string.Empty,
                     Data = new ApiProfile() {
+                        Login = login,
                         FullName = profile?.ProfileFullName,
                         Birthdate = profile?.ProfileBirthdate,
                         Avatar = avatarImage,
