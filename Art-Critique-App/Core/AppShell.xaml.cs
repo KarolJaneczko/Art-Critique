@@ -18,12 +18,10 @@ namespace Art_Critique {
             var token = Credentials.GetCurrentUserToken();
             try {
                 var logoutResult = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.UserLogout}?login={login}&token={token}");
-
                 if (logoutResult.IsSuccess) {
                     Credentials.Logout();
                     await Current.GoToAsync($"/{nameof(WelcomePage)}");
                 }
-
             } catch (AppException ex) {
                 await Application.Current.MainPage.DisplayAlert(ex.Title, ex.ErrorMessage, "OK");
             } catch (Exception ex) {

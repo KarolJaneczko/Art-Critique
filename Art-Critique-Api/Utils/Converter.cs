@@ -1,5 +1,5 @@
 ﻿namespace Art_Critique_Api.Utils {
-    public class Converter {
+    public static class Converter {
         public static string ConvertImageToBase64(string path) {
             try {
                 byte[] imageArray = File.ReadAllBytes(path);
