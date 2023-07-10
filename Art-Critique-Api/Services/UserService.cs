@@ -1,10 +1,12 @@
 ﻿using Art_Critique_Api.Entities;
-using Art_Critique_Api.Models;
+using Art_Critique_Api.Models.Base;
+using Art_Critique_Api.Models.UserData;
 using Art_Critique_Api.Services.Interfaces;
 using Art_Critique_Api.Utils;
 using Microsoft.EntityFrameworkCore;
 
-namespace Art_Critique_Api.Services {
+namespace Art_Critique_Api.Services
+{
     public class UserService : BaseService, IUser {
         private readonly ArtCritiqueDbContext DbContext;
         private readonly IProfile Profile;

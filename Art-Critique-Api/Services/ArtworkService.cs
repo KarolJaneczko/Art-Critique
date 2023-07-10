@@ -1,12 +1,15 @@
 ﻿using Art_Critique_Api.Entities;
 using Art_Critique_Api.Models;
+using Art_Critique_Api.Models.ArtworkData;
+using Art_Critique_Api.Models.Base;
 using Art_Critique_Api.Services.Interfaces;
 using Art_Critique_Api.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Linq;
 
-namespace Art_Critique_Api.Services {
+namespace Art_Critique_Api.Services
+{
     public class ArtworkService : BaseService, IArtwork {
         private readonly ArtCritiqueDbContext DbContext;
         public ArtworkService(ArtCritiqueDbContext dbContext) {
@@ -91,7 +94,7 @@ namespace Art_Critique_Api.Services {
                     IsSuccess = true,
                     Title = string.Empty,
                     Message = string.Empty,
-                    Data = new ApiGetUserArtwork() {
+                    Data = new ApiUserArtwork() {
                         Date = artwork.ArtworkDate,
                         Description = artwork.ArtworkDescription,
                         Images = images,

@@ -1,8 +1,10 @@
-﻿using Art_Critique_Api.Models;
+﻿using Art_Critique_Api.Models.ArtworkData;
+using Art_Critique_Api.Models.Base;
 using Art_Critique_Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Art_Critique_Api.Controllers {
+namespace Art_Critique_Api.Controllers
+{
     [Route("api/Artwork")]
     [ApiController]
     public class ArtworkController : ControllerBase {

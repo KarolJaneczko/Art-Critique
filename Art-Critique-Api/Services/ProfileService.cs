@@ -1,9 +1,11 @@
 ﻿using Art_Critique_Api.Entities;
-using Art_Critique_Api.Models;
+using Art_Critique_Api.Models.Base;
+using Art_Critique_Api.Models.UserData;
 using Art_Critique_Api.Services.Interfaces;
 using Art_Critique_Api.Utils;
 
-namespace Art_Critique_Api.Services {
+namespace Art_Critique_Api.Services
+{
     public class ProfileService : BaseService, IProfile {
         private readonly ArtCritiqueDbContext DbContext;
         public ProfileService(ArtCritiqueDbContext dbContext) {
