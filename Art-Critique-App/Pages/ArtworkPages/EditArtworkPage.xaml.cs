@@ -1,8 +1,8 @@
-﻿using Art_Critique.Core.Models.Logic;
+﻿using Art_Critique.Core.Models.API.ArtworkData;
+using Art_Critique.Core.Models.Logic;
 using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ArtworkPages;
-using Art_Critique_Api.Models;
 using Newtonsoft.Json;
 
 namespace Art_Critique {
@@ -10,8 +10,8 @@ namespace Art_Critique {
     [QueryProperty(nameof(ArtworkData), nameof(ArtworkData))]
     public partial class EditArtworkPage : ContentPage {
         private IBaseHttp BaseHttp;
-        private ApiGetUserArtwork artworkData;
-        public ApiGetUserArtwork ArtworkData { get => artworkData; set { artworkData = value; OnPropertyChanged(nameof(ArtworkData)); } }
+        private ApiUserArtwork artworkData;
+        public ApiUserArtwork ArtworkData { get => artworkData; set { artworkData = value; OnPropertyChanged(nameof(ArtworkData)); } }
 
         public EditArtworkPage(IBaseHttp baseHttp) {
             InitializeComponent();

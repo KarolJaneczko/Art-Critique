@@ -1,11 +1,8 @@
-﻿using Art_Critique.Core.Models.API;
+﻿using Art_Critique.Core.Models.API.ArtworkData;
 using Art_Critique.Core.Models.Logic;
 using Art_Critique.Core.Services.Interfaces;
-using Art_Critique.Core.Utils.Base;
-using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ViewModels;
-using Art_Critique_Api.Models;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -36,13 +33,13 @@ namespace Art_Critique.Pages.ArtworkPages {
             BaseHttp = baseHttp;
         }
 
-        public EditArtworkPageViewModel(IBaseHttp baseHttp, ApiGetUserArtwork artworkData, IEnumerable<PaintingGenre> genres) {
+        public EditArtworkPageViewModel(IBaseHttp baseHttp, ApiUserArtwork artworkData, IEnumerable<PaintingGenre> genres) {
             BaseHttp = baseHttp;
             PaintingGenres = genres.ToList();
             FillArtworkData(artworkData);
         }
 
-        private void FillArtworkData(ApiGetUserArtwork artworkData) {
+        private void FillArtworkData(ApiUserArtwork artworkData) {
             foreach (var image in artworkData.Images) {
                 ArtworkPhotos.Add(new ImageThumbnail(image));
             }

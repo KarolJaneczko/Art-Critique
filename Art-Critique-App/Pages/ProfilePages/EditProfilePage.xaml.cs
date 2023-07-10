@@ -1,6 +1,6 @@
-﻿using Art_Critique.Core.Services.Interfaces;
+﻿using Art_Critique.Core.Models.API.UserData;
+using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Pages.ProfilePages;
-using Art_Critique_Api.Models;
 
 namespace Art_Critique {
     [QueryProperty(nameof(ApiProfile), nameof(ApiProfile))]

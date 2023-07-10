@@ -1,11 +1,14 @@
 ﻿using Art_Critique.Core.Models.API;
+using Art_Critique.Core.Models.API.Base;
+using Art_Critique.Core.Models.API.UserData;
 using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
 using Newtonsoft.Json;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ViewModels {
+namespace Art_Critique.Pages.ViewModels
+{
     public class RegisterPageViewModel : BaseViewModel {
         private readonly IBaseHttp BaseHttp;
 

@@ -1,8 +1,9 @@
-﻿using Art_Critique.Core.Models.Logic;
+﻿using Art_Critique.Core.Models.API.ArtworkData;
+using Art_Critique.Core.Models.API.UserData;
+using Art_Critique.Core.Models.Logic;
 using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ViewModels;
-using Art_Critique_Api.Models;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Input;

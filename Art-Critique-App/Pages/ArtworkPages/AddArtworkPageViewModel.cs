@@ -1,11 +1,11 @@
-﻿using Art_Critique.Core.Models.API;
+﻿using Art_Critique.Core.Models.API.ArtworkData;
+using Art_Critique.Core.Models.API.Base;
 using Art_Critique.Core.Models.Logic;
 using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Base;
 using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ViewModels;
-using Art_Critique_Api.Models;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -20,7 +20,7 @@ namespace Art_Critique.Pages.ArtworkPages {
         private bool isOtherGenreVisible;
         public ObservableCollection<ImageThumbnail> ArtworkPhotos { get => artworkPhotos; set { artworkPhotos = value; OnPropertyChanged(nameof(ArtworkPhotos)); } }
         public List<PaintingGenre> PaintingGenres { get => paintingGenres ??= new List<PaintingGenre>(); set { paintingGenres = value; OnPropertyChanged(nameof(PaintingGenres)); } }
-        public PaintingGenre SelectedGenre { get => selectedGenre; set { selectedGenre = value; IsOtherGenreVisible = value.Name == "Other"; OnPropertyChanged(nameof(SelectedGenre)); } }
+        public PaintingGenre SelectedGenre { get => selectedGenre; set { selectedGenre = value; IsOtherGenreVisible = value?.Name == "Other"; OnPropertyChanged(nameof(SelectedGenre)); } }
         public string Title { get => apiUserArtwork.Title; set { apiUserArtwork.Title = value; OnPropertyChanged(nameof(Title)); } }
         public string Description { get => apiUserArtwork.Description; set { apiUserArtwork.Description = value; OnPropertyChanged(nameof(Description)); } }
         public string OtherGenre { get => apiUserArtwork.GenreOtherName; set { apiUserArtwork.GenreOtherName = value; OnPropertyChanged(nameof(OtherGenre)); } }
@@ -31,6 +31,7 @@ namespace Art_Critique.Pages.ArtworkPages {
         public ICommand AddArtwork => new Command(async () => await ConfirmAdding());
         public AddArtworkPageViewModel(IBaseHttp baseHttp, ICredentials credentials, IEnumerable<PaintingGenre> paintingGenres) {
             BaseHttp = baseHttp;
+            SelectedGenre = null;
             PaintingGenres = paintingGenres.ToList();
             apiUserArtwork = new ApiUserArtwork() {
                 Date = DateTime.Now,

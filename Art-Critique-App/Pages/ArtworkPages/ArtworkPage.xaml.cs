@@ -1,7 +1,7 @@
-﻿using Art_Critique.Core.Services.Interfaces;
+﻿using Art_Critique.Core.Models.API.ArtworkData;
+using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ArtworkPages;
-using Art_Critique_Api.Models;
 using Newtonsoft.Json;
 
 namespace Art_Critique {
@@ -14,15 +14,15 @@ namespace Art_Critique {
 
         public ArtworkPage(IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();
+            Routing.RegisterRoute(nameof(EditArtworkPage), typeof(EditArtworkPage));
             BaseHttp = baseHttp;
             Credentials = credentials;
-            Routing.RegisterRoute(nameof(EditArtworkPage), typeof(EditArtworkPage));
         }
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
             base.OnNavigatedTo(args);
-            var result = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetUserArtwork}?id={int.Parse(ArtworkId)}");
-            var userArtwork = JsonConvert.DeserializeObject<ApiGetUserArtwork>(result.Data.ToString());
+            var result = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetUserArtwork}?id={ArtworkId}");
+            var userArtwork = JsonConvert.DeserializeObject<ApiUserArtwork>(result.Data.ToString());
             BindingContext = new ArtworkPageViewModel(BaseHttp, Credentials, userArtwork);
         }
     }

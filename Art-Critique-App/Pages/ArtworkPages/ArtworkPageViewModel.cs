@@ -1,7 +1,7 @@
-﻿using Art_Critique.Core.Models.Logic;
+﻿using Art_Critique.Core.Models.API.ArtworkData;
+using Art_Critique.Core.Models.Logic;
 using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Pages.ViewModels;
-using Art_Critique_Api.Models;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -9,7 +9,7 @@ namespace Art_Critique.Pages.ArtworkPages {
     public class ArtworkPageViewModel : BaseViewModel {
         private readonly IBaseHttp BaseHttp;
         private readonly ICredentials Credentials;
-        private readonly ApiGetUserArtwork UserArtwork;
+        private readonly ApiUserArtwork UserArtwork;
         private ObservableCollection<ImageThumbnail> images = new();
         private string date, genre, buttonText;
         private bool isRateVisible;
@@ -24,14 +24,14 @@ namespace Art_Critique.Pages.ArtworkPages {
         public bool IsRateVisible { get => isRateVisible; set { isRateVisible = value; OnPropertyChanged(nameof(IsRateVisible)); } }
         public ICommand ButtonCommand { get; protected set; }
 
-        public ArtworkPageViewModel(IBaseHttp baseHttp, ICredentials credentials, ApiGetUserArtwork userArtwork) {
+        public ArtworkPageViewModel(IBaseHttp baseHttp, ICredentials credentials, ApiUserArtwork userArtwork) {
             BaseHttp = baseHttp;
             Credentials = credentials;
             UserArtwork = userArtwork;
             FillArtwork(userArtwork);
         }
 
-        private void FillArtwork(ApiGetUserArtwork userArtwork) {
+        private void FillArtwork(ApiUserArtwork userArtwork) {
             foreach (var image in userArtwork.Images) {
                 Images.Add(new ImageThumbnail(image));
             }

@@ -1,6 +1,7 @@
-﻿using Art_Critique.Core.Models.API;
+﻿using Art_Critique.Core.Models.API.Base;
 
-namespace Art_Critique.Core.Services.Interfaces {
+namespace Art_Critique.Core.Services.Interfaces
+{
     public interface IBaseHttp {
         public Task<ApiResponse> SendApiRequest(HttpMethod method, string path, string body = "");
     }

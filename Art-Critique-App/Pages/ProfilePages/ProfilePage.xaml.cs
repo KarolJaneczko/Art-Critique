@@ -1,7 +1,8 @@
-﻿using Art_Critique.Core.Services.Interfaces;
+﻿using Art_Critique.Core.Models.API.ArtworkData;
+using Art_Critique.Core.Models.API.UserData;
+using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ProfilePages;
-using Art_Critique_Api.Models;
 using Newtonsoft.Json;
 
 namespace Art_Critique {
