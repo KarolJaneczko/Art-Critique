@@ -28,6 +28,8 @@ namespace Art_Critique.Pages.ArtworkPages {
         public bool IsRateVisible { get => isRateVisible; set { isRateVisible = value; OnPropertyChanged(nameof(IsRateVisible)); } }
         public ICommand ButtonCommand { get; protected set; }
         public ICommand GoToProfile { get; protected set; }
+        public ICommand RateCommand { get; protected set; }
+
         public ArtworkPageViewModel(IBaseHttp baseHttp, ICredentials credentials, ApiUserArtwork userArtwork, ApiProfile userProfile) {
             BaseHttp = baseHttp;
             Credentials = credentials;
@@ -45,6 +47,7 @@ namespace Art_Critique.Pages.ArtworkPages {
             ButtonText = isMyArtwork ? "Edit" : "Review";
             IsRateVisible = !isMyArtwork;
             ButtonCommand = isMyArtwork ? new Command(async () => await GoEdit()) : new Command(async () => await GoReview());
+            RateCommand = new Command(async () => await RateArtwork());
 
             Avatar = userProfile.Avatar.Base64ToImageSource();
             GoToProfile = new Command(async () => await GoToUserProfile(userArtwork.Login));
@@ -52,6 +55,10 @@ namespace Art_Critique.Pages.ArtworkPages {
 
         private async Task GoToUserProfile(string login) {
             await Shell.Current.GoToAsync(nameof(ProfilePage), new Dictionary<string, object> { { "Login", login } });
+        }
+
+        private async Task RateArtwork() {
+            string action = await Shell.Current.DisplayActionSheet("Set your rating", "Cancel", null, "5", "4", "3", "2", "1");
         }
 
         private async Task GoEdit() {

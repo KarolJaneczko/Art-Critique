@@ -22,13 +22,9 @@ namespace Art_Critique {
 
         public void SetStyles() {
             LoginEntry.Style = Styles.EntryStyle();
-            LoginEntry.Completed += (object sender, EventArgs e) => {
-                PasswordEntry.Focus();
-            };
+            LoginEntry.Completed += (object sender, EventArgs e) => PasswordEntry.Focus();
             PasswordEntry.Style = Styles.EntryStyle();
-            PasswordEntry.Completed += (object sender, EventArgs e) => {
-                SignInButton.Command.Execute(null);
-            };
+            PasswordEntry.Completed += (object sender, EventArgs e) => SignInButton.Command.Execute(null);
 
             ButtonsLayout.Padding = new Thickness(0, Properties.GetHeightPercent(1), 0, Properties.GetHeightPercent(1));
             SignInButton.Style = Styles.ButtonStyle();
