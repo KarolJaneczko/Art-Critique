@@ -6,7 +6,6 @@ using Art_Critique.Pages.ArtworkPages;
 using Newtonsoft.Json;
 
 namespace Art_Critique {
-
     [QueryProperty(nameof(ArtworkData), nameof(ArtworkData))]
     public partial class EditArtworkPage : ContentPage {
         private IBaseHttp BaseHttp;
@@ -16,7 +15,6 @@ namespace Art_Critique {
         public EditArtworkPage(IBaseHttp baseHttp) {
             InitializeComponent();
             BaseHttp = baseHttp;
-            BindingContext = new EditArtworkPageViewModel(baseHttp);
         }
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {

@@ -41,7 +41,7 @@ namespace Art_Critique.Pages.ViewModels
                 Credentials.SetCurrentUserToken((string)result.Data);
 
                 // Saving login to an app memory.
-                Credentials.SetCurrentUserLogin(Login);
+                Credentials.SetCurrentUserLogin(Login.ToLower());
 
                 // Switching current page to a main page.
                 await Shell.Current.GoToAsync($"///{nameof(MainPage)}");

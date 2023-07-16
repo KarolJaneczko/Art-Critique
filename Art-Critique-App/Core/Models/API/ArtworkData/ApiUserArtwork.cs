@@ -1,5 +1,6 @@
 ﻿namespace Art_Critique.Core.Models.API.ArtworkData {
     public class ApiUserArtwork {
+        public int ArtworkId { get; set; }
         public string Login { get; set; }
         public string Title { get; set; }
         public List<string> Images { get; set; }

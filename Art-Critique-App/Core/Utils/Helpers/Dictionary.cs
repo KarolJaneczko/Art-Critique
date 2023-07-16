@@ -9,7 +9,7 @@
         public const string ArtworkGetGenres = "Artwork/GetArtworkGenres";
         public const string InsertUserArtwork = "Artwork/InsertUserArtwork";
         public const string GetUserArtwork = "Artwork/GetUserArtwork";
-        public const string UpdateUserArtwork = "Artwork/UpdateUserArtwork";
         public const string GetLast3UserArtworks = "Artwork/GetLast3UserArtworks";
+        public const string EditUserArtwork = "Artwork/EditUserArtwork";
     }
 }

@@ -8,8 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Linq;
 
-namespace Art_Critique_Api.Services
-{
+namespace Art_Critique_Api.Services {
     public class ArtworkService : BaseService, IArtwork {
         private readonly ArtCritiqueDbContext DbContext;
         public ArtworkService(ArtCritiqueDbContext dbContext) {
@@ -54,7 +53,7 @@ namespace Art_Critique_Api.Services
                 await DbContext.SaveChangesAsync();
                 var id = result.Entity.ArtworkId;
                 foreach (var image in artwork.Images) {
-                    var path = $"D:\\Art-Critique\\Artworks\\{Utils.Helpers.CreateString(10)}.jpg";
+                    var path = $"D:\\Art-Critique\\Artworks\\{Helpers.CreateString(10)}.jpg";
                     File.WriteAllBytes(path, Convert.FromBase64String(image));
                     DbContext.TCustomPaintings.Add(new TCustomPainting() {
                         ArtworkId = id,
@@ -95,6 +94,7 @@ namespace Art_Critique_Api.Services
                     Title = string.Empty,
                     Message = string.Empty,
                     Data = new ApiUserArtwork() {
+                        ArtworkId = artwork.ArtworkId,
                         Date = artwork.ArtworkDate,
                         Description = artwork.ArtworkDescription,
                         Images = images,
@@ -135,6 +135,50 @@ namespace Art_Critique_Api.Services
                     Title = string.Empty,
                     Message = string.Empty,
                     Data = artworks
+                };
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> EditUserArtwork(ApiUserArtwork artwork) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var myArtwork = DbContext.TUserArtworks.FirstOrDefault(x => x.ArtworkId == artwork.ArtworkId);
+                if (myArtwork is null) {
+                    return new ApiResponse {
+                        IsSuccess = false,
+                        Title = "Artwork not found!",
+                        Message = "There is no artwork going by that id!",
+                        Data = null
+                    };
+                }
+
+                myArtwork.ArtworkTitle = artwork.Title;
+                myArtwork.ArtworkDescription = artwork.Description;
+                myArtwork.GenreId = artwork.GenreId;
+                myArtwork.GenreOtherName = artwork.GenreOtherName;
+                foreach (var path in DbContext.TCustomPaintings.Where(x => x.ArtworkId == artwork.ArtworkId).Select(x => x.PaintingPath).ToList()) {
+                    File.Delete(path);
+                }
+                foreach (var painting in DbContext.TCustomPaintings.Where(x => x.ArtworkId == artwork.ArtworkId)) {
+                    DbContext.TCustomPaintings.Remove(painting);
+                }
+                await DbContext.SaveChangesAsync();
+
+                foreach (var image in artwork.Images) {
+                    var path = $"D:\\Art-Critique\\Artworks\\{Helpers.CreateString(10)}.jpg";
+                    File.WriteAllBytes(path, Convert.FromBase64String(image));
+                    DbContext.TCustomPaintings.Add(new TCustomPainting() {
+                        ArtworkId = artwork.ArtworkId,
+                        PaintingPath = path
+                    });
+                }
+
+                await DbContext.SaveChangesAsync();
+                return new ApiResponse() {
+                    IsSuccess = true,
+                    Title = string.Empty,
+                    Message = string.Empty,
+                    Data = null
                 };
             });
             return await ExecuteWithTryCatch(task);

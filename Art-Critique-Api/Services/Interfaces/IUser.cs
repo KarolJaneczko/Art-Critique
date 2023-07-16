@@ -1,8 +1,7 @@
 ﻿using Art_Critique_Api.Models.Base;
 using Art_Critique_Api.Models.UserData;
 
-namespace Art_Critique_Api.Services.Interfaces
-{
+namespace Art_Critique_Api.Services.Interfaces {
     public interface IUser {
         public Task<ApiResponse> GetUsers();
         public Task<ApiResponse> RegisterUser(ApiUser User);
