@@ -123,6 +123,9 @@
 	  <Compile Update="Pages\ArtworkPages\ArtworkPage.xaml.cs">
 	    <DependentUpon>ArtworkPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\ProfilePages\GalleryPage.xaml.cs">
+	    <DependentUpon>GalleryPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\ProfilePages\ProfilePage.xaml.cs">
 	    <DependentUpon>ProfilePage.xaml</DependentUpon>
 	  </Compile>
@@ -148,6 +151,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\ArtworkPages\ArtworkPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ProfilePages\GalleryPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\ProfilePages\ProfilePage.xaml">

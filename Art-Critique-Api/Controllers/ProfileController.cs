@@ -22,5 +22,10 @@ namespace Art_Critique_Api.Controllers
         public async Task<ApiResponse> EditProfile(string login, ApiProfile profileDTO) {
             return await ProfileService.EditProfile(login, profileDTO);
         }
+
+        [HttpGet("GetTotalViews")]
+        public async Task<ApiResponse> GetTotalViews(string login) {
+            return await ProfileService.GetTotalViews(login);
+        }
     }
 }

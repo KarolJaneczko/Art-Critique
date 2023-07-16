@@ -146,5 +146,29 @@ namespace Art_Critique_Api.Services {
             });
             return await ExecuteWithTryCatch(task);
         }
+
+        public Task<ApiResponse> GetTotalViews(string login) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var userID = DbContext.TUsers.FirstOrDefault(x => x.UsLogin == login)?.UsId;
+                if (userID == null) {
+                    return new ApiResponse {
+                        IsSuccess = false,
+                        Title = "User not found!",
+                        Message = "There is no user going by that login!",
+                        Data = null
+                    };
+                }
+
+                var viewCount = DbContext.TUserArtworks.Where(x => x.UserId == userID).Sum(x => x.ArtworkViews) ?? 0;
+
+                return new ApiResponse() {
+                    IsSuccess = true,
+                    Title = string.Empty,
+                    Message = string.Empty,
+                    Data = viewCount
+                };
+            });
+            return ExecuteWithTryCatch(task);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
+using Art_Critique.Core.Models.API.UserData;
 using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ArtworkPages;
@@ -15,15 +16,26 @@ namespace Art_Critique {
         public ArtworkPage(IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(EditArtworkPage), typeof(EditArtworkPage));
+            Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
             BaseHttp = baseHttp;
             Credentials = credentials;
         }
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
             base.OnNavigatedTo(args);
+
+            // Adding a view to an artwork.
+            await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.AddViewToArtwork}?login={Credentials.GetCurrentUserLogin()}&artworkId={ArtworkId}");
+
+            // Loading artwork data.
             var result = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetUserArtwork}?id={ArtworkId}");
             var userArtwork = JsonConvert.DeserializeObject<ApiUserArtwork>(result.Data.ToString());
-            BindingContext = new ArtworkPageViewModel(BaseHttp, Credentials, userArtwork);
+
+            // Loading profile data.
+            var profileInfo = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileGet}?login={userArtwork.Login}");
+            var userProfile = JsonConvert.DeserializeObject<ApiProfile>(profileInfo.Data.ToString());
+
+            BindingContext = new ArtworkPageViewModel(BaseHttp, Credentials, userArtwork, userProfile);
         }
     }
 }

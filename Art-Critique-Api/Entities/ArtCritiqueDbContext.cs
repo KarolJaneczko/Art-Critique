@@ -27,9 +27,9 @@ public partial class ArtCritiqueDbContext : DbContext
 
     public virtual DbSet<TUserArtwork> TUserArtworks { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Niewiem123;database=art-critique-db");
+    public virtual DbSet<TView> TViews { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Niewiem123;database=art-critique-db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -196,6 +196,19 @@ public partial class ArtCritiqueDbContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_userID");
+        });
+
+        modelBuilder.Entity<TView>(entity =>
+        {
+            entity.HasKey(e => e.ViewId).HasName("PRIMARY");
+
+            entity.ToTable("t_view");
+
+            entity.HasIndex(e => e.ViewId, "viewId_UNIQUE").IsUnique();
+
+            entity.Property(e => e.ViewId).HasColumnName("viewId");
+            entity.Property(e => e.ArtworkId).HasColumnName("artworkId");
+            entity.Property(e => e.UserId).HasColumnName("userId");
         });
 
         OnModelCreatingPartial(modelBuilder);
