@@ -1,15 +1,15 @@
-﻿using Art_Critique.Core.Models.Logic;
+﻿using Art_Critique.Core.Models.API.ArtworkData;
+using Art_Critique.Core.Models.API.UserData;
+using Art_Critique.Core.Models.Logic;
 using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ViewModels;
-using Art_Critique_Api.Models;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Input;
 
 namespace Art_Critique.Pages.ProfilePages {
     public class ProfilePageViewModel : BaseViewModel {
-        private readonly IBaseHttp BaseHttp;
         private readonly ICredentials Credentials;
 
         private ApiProfile apiProfile;
@@ -21,7 +21,7 @@ namespace Art_Critique.Pages.ProfilePages {
         public string FullName { get => apiProfile.FullName ?? string.Empty; }
         public bool FullNameVisible => !string.IsNullOrEmpty(FullName);
         public string Birthdate { get => apiProfile.Birthdate?.ToShortDateString() ?? "N/A"; }
-        public string TotalViews { get => $"Total views: {totalViews}"; set { totalViews = value; OnPropertyChanged(nameof(TotalViews)); } }
+        public string TotalViews { get => totalViews; set { totalViews = value; OnPropertyChanged(nameof(TotalViews)); } }
         public string Description { get { return string.IsNullOrEmpty(apiProfile.Description) ? "No information." : apiProfile.Description; } }
         public double FacebookOpacity => string.IsNullOrEmpty(apiProfile.Facebook) ? 0.3 : 0.99;
         public double InstagramOpacity => string.IsNullOrEmpty(apiProfile.Instagram) ? 0.3 : 0.99;
@@ -34,10 +34,11 @@ namespace Art_Critique.Pages.ProfilePages {
         public ICommand TwitterOpen { get; protected set; }
         public ICommand ButtonCommand { get; protected set; }
         public ICommand GalleryCommand { get; protected set; }
+        public ICommand ShowArtworkCommand => new Command<ImageThumbnail>(GoToArtwork);
 
-        public ProfilePageViewModel(IBaseHttp baseHttp, ICredentials credentials, ApiProfile apiProfile, List<ApiCustomPainting> thumbnails) {
-            BaseHttp = baseHttp;
+        public ProfilePageViewModel(ICredentials credentials, ApiProfile apiProfile, List<ApiCustomPainting> thumbnails, string viewCount) {
             Credentials = credentials;
+            TotalViews = viewCount;
             FillProfile(apiProfile);
             FillThumbnails(thumbnails);
         }
@@ -51,9 +52,6 @@ namespace Art_Critique.Pages.ProfilePages {
             } else {
                 Avatar = "defaultuser_icon.png";
             }
-
-            // tu-du pobieranie informacji o wyświetleniach
-            TotalViews = "0";
 
             var isMyProfile = _apiProfile.Login == Credentials.GetCurrentUserLogin();
             var isFollowed = false;
@@ -79,9 +77,13 @@ namespace Art_Critique.Pages.ProfilePages {
         }
 
         private async Task GoToGallery(string login) {
-            // TODO idz do galerii
-            //await Shell.Current.GoToAsync(nameof(EditProfilePage), new Dictionary<string, object> { { "ProfileInfo", profileInfo } });
-            await Task.CompletedTask;
+            await Shell.Current.GoToAsync(nameof(GalleryPage), new Dictionary<string, object> { { "Login", login } });
+        }
+
+        public async void GoToArtwork(ImageThumbnail photo) {
+            if (photo is not null) {
+                await Shell.Current.GoToAsync(nameof(ArtworkPage), new Dictionary<string, object> { { "ArtworkId", photo.ArtworkId.ToString() } });
+            }
         }
 
         private async Task GoEditProfile(ApiProfile apiProfile) {

@@ -1,9 +1,10 @@
-﻿using Art_Critique.Core.Models.API;
+﻿using Art_Critique.Core.Models.API.Base;
 using Art_Critique.Core.Utils.Base;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Art_Critique.Pages.ViewModels {
+namespace Art_Critique.Pages.ViewModels
+{
     public class BaseViewModel : INotifyPropertyChanged {
         public event PropertyChangedEventHandler PropertyChanged;
 

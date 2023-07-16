@@ -1,4 +1,5 @@
-﻿using Art_Critique_Api.Models;
+﻿using Art_Critique_Api.Models.Base;
+using Art_Critique_Api.Models.UserData;
 
 namespace Art_Critique_Api.Services.Interfaces {
     public interface IProfile {
@@ -6,5 +7,6 @@ namespace Art_Critique_Api.Services.Interfaces {
         public Task<ApiResponse> DeleteProfile(int userID);
         public Task<ApiResponse> GetProfile(string login);
         public Task<ApiResponse> EditProfile(string login, ApiProfile profileDTO);
+        public Task<ApiResponse> GetTotalViews(string login);
     }
 }

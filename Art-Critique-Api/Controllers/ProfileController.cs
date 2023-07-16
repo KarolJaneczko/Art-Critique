@@ -1,8 +1,10 @@
-﻿using Art_Critique_Api.Models;
+﻿using Art_Critique_Api.Models.Base;
+using Art_Critique_Api.Models.UserData;
 using Art_Critique_Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Art_Critique_Api.Controllers {
+namespace Art_Critique_Api.Controllers
+{
     [Route("api/Profile")]
     [ApiController]
     public class ProfileController : ControllerBase {
@@ -19,6 +21,11 @@ namespace Art_Critique_Api.Controllers {
         [HttpPost("EditProfile")]
         public async Task<ApiResponse> EditProfile(string login, ApiProfile profileDTO) {
             return await ProfileService.EditProfile(login, profileDTO);
+        }
+
+        [HttpGet("GetTotalViews")]
+        public async Task<ApiResponse> GetTotalViews(string login) {
+            return await ProfileService.GetTotalViews(login);
         }
     }
 }

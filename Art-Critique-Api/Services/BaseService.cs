@@ -1,4 +1,4 @@
-﻿using Art_Critique_Api.Models;
+﻿using Art_Critique_Api.Models.Base;
 
 namespace Art_Critique_Api.Services {
     public class BaseService {

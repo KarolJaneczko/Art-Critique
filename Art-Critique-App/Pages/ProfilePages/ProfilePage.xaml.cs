@@ -1,7 +1,8 @@
-﻿using Art_Critique.Core.Services.Interfaces;
+﻿using Art_Critique.Core.Models.API.ArtworkData;
+using Art_Critique.Core.Models.API.UserData;
+using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ProfilePages;
-using Art_Critique_Api.Models;
 using Newtonsoft.Json;
 
 namespace Art_Critique {
@@ -15,6 +16,7 @@ namespace Art_Critique {
         public ProfilePage(IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(EditProfilePage), typeof(EditProfilePage));
+            Routing.RegisterRoute(nameof(GalleryPage), typeof(GalleryPage));
             BaseHttp = baseHttp;
             Credentials = credentials;
         }
@@ -31,7 +33,11 @@ namespace Art_Critique {
             var artworks = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetLast3UserArtworks}?login={currentLogin}");
             var thumbnails = JsonConvert.DeserializeObject<List<ApiCustomPainting>>(artworks.Data.ToString());
 
-            BindingContext = new ProfilePageViewModel(BaseHttp, Credentials, apiProfile, thumbnails);
+            // Loading total viewcount for user's artworks.
+            var viewCount = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileViewCount}?login={currentLogin}");
+            var views = JsonConvert.DeserializeObject<string>(viewCount.Data.ToString());
+
+            BindingContext = new ProfilePageViewModel(Credentials, apiProfile, thumbnails, views);
         }
     }
 }

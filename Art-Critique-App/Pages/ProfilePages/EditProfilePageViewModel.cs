@@ -1,9 +1,9 @@
-﻿using Art_Critique.Core.Models.API;
+﻿using Art_Critique.Core.Models.API.Base;
+using Art_Critique.Core.Models.API.UserData;
 using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ViewModels;
-using Art_Critique_Api.Models;
 using Newtonsoft.Json;
 using System.Windows.Input;
 

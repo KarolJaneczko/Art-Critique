@@ -1,5 +1,5 @@
-﻿using Art_Critique.Core.Utils.Helpers;
-using Art_Critique_Api.Models;
+﻿using Art_Critique.Core.Models.API.ArtworkData;
+using Art_Critique.Core.Utils.Helpers;
 
 namespace Art_Critique.Core.Models.Logic {
     public class ImageThumbnail {

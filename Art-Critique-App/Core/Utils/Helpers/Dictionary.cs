@@ -6,10 +6,13 @@
         public const string UserLogout = "User/Logout";
         public const string ProfileGet = "Profile/GetProfile";
         public const string ProfileEdit = "Profile/EditProfile";
+        public const string ProfileViewCount = "Profile/GetTotalViews";
         public const string ArtworkGetGenres = "Artwork/GetArtworkGenres";
         public const string InsertUserArtwork = "Artwork/InsertUserArtwork";
         public const string GetUserArtwork = "Artwork/GetUserArtwork";
-        public const string UpdateUserArtwork = "Artwork/UpdateUserArtwork";
         public const string GetLast3UserArtworks = "Artwork/GetLast3UserArtworks";
+        public const string EditUserArtwork = "Artwork/EditUserArtwork";
+        public const string AddViewToArtwork = "Artwork/AddViewToArtwork";
+        public const string GetUserArtworks = "Artwork/GetUserArtworks";
     }
 }

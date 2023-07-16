@@ -1,4 +1,4 @@
-﻿namespace Art_Critique_Api.Models {
+﻿namespace Art_Critique_Api.Models.UserData {
     public class ApiUser {
         public int UsId { get; set; }
         public string UsLogin { get; set; } = null!;
