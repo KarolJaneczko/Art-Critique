@@ -251,5 +251,63 @@ namespace Art_Critique_Api.Services {
             });
             return await ExecuteWithTryCatch(task);
         }
+
+        public async Task<ApiResponse> GetArtworkRating(string login, int artworkId) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var userID = DbContext.TUsers.FirstOrDefault(x => x.UsLogin == login)?.UsId;
+                if (userID is null) {
+                    return new ApiResponse {
+                        IsSuccess = false,
+                        Title = "User not found!",
+                        Message = "There is no user going by that login!",
+                        Data = null
+                    };
+                }
+
+                var rating = (await DbContext.TArtworkRatings.FirstOrDefaultAsync(x => x.ArtworkId == artworkId && x.UserId == userID))?.RatingValue.ToString() ?? string.Empty;
+
+                return new ApiResponse() {
+                    IsSuccess = true,
+                    Title = string.Empty,
+                    Message = string.Empty,
+                    Data = rating
+                };
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> RateArtwork(string login, int artworkId, int rating) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var userID = DbContext.TUsers.FirstOrDefault(x => x.UsLogin == login)?.UsId;
+                if (userID is null) {
+                    return new ApiResponse {
+                        IsSuccess = false,
+                        Title = "User not found!",
+                        Message = "There is no user going by that login!",
+                        Data = null
+                    };
+                }
+
+                var userRating = await DbContext.TArtworkRatings.FirstOrDefaultAsync(x => x.ArtworkId == artworkId && x.UserId == userID);
+                if (userRating is null) {
+                    DbContext.TArtworkRatings.Add(new TArtworkRating() {
+                        ArtworkId = artworkId,
+                        UserId = (int)userID,
+                        RatingValue = rating
+                    });
+                } else {
+                    userRating.RatingValue = rating;
+                }
+                await DbContext.SaveChangesAsync();
+
+                return new ApiResponse() {
+                    IsSuccess = true,
+                    Title = string.Empty,
+                    Message = string.Empty,
+                    Data = null
+                };
+            });
+            return await ExecuteWithTryCatch(task);
+        }
     }
 }

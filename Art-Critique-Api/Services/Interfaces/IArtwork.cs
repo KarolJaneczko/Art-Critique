@@ -10,5 +10,7 @@ namespace Art_Critique_Api.Services.Interfaces {
         public Task<ApiResponse> EditUserArtwork(ApiUserArtwork artwork);
         public Task<ApiResponse> AddViewToArtwork(string login, int artworkId);
         public Task<ApiResponse> GetUserArtworks(string login);
+        public Task<ApiResponse> GetArtworkRating(string login, int artworkId);
+        public Task<ApiResponse> RateArtwork(string login, int artworkId, int rating);
     }
 }

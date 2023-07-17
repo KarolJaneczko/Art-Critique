@@ -15,6 +15,8 @@ public partial class ArtCritiqueDbContext : DbContext
     {
     }
 
+    public virtual DbSet<TArtworkRating> TArtworkRatings { get; set; }
+
     public virtual DbSet<TAvatar> TAvatars { get; set; }
 
     public virtual DbSet<TCustomPainting> TCustomPaintings { get; set; }
@@ -29,10 +31,25 @@ public partial class ArtCritiqueDbContext : DbContext
 
     public virtual DbSet<TView> TViews { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Niewiem123;database=art-critique-db");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Niewiem123;database=art-critique-db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<TArtworkRating>(entity =>
+        {
+            entity.HasKey(e => e.RatingId).HasName("PRIMARY");
+
+            entity.ToTable("t_artwork_rating");
+
+            entity.HasIndex(e => e.RatingId, "ratingId_UNIQUE").IsUnique();
+
+            entity.Property(e => e.RatingId).HasColumnName("ratingId");
+            entity.Property(e => e.ArtworkId).HasColumnName("artworkId");
+            entity.Property(e => e.RatingValue).HasColumnName("ratingValue");
+            entity.Property(e => e.UserId).HasColumnName("userId");
+        });
+
         modelBuilder.Entity<TAvatar>(entity =>
         {
             entity.HasKey(e => e.AvatarId).HasName("PRIMARY");

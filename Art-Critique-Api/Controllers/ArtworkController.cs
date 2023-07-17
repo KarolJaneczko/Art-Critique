@@ -47,5 +47,15 @@ namespace Art_Critique_Api.Controllers
         public async Task<ApiResponse> GetUserArtworks(string login) {
             return await ArtworkService.GetUserArtworks(login);
         }
+
+        [HttpGet("GetArtworkRating")]
+        public async Task<ApiResponse> GetArtworkRating(string login, int artworkId) {
+            return await ArtworkService.GetArtworkRating(login, artworkId);
+        }
+
+        [HttpPost("RateArtwork")]
+        public async Task<ApiResponse> RateArtwork(string login, int artworkId, int rating) {
+            return await ArtworkService.RateArtwork(login, artworkId, rating);
+        }
     }
 }

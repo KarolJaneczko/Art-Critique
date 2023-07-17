@@ -14,7 +14,7 @@ namespace Art_Critique.Pages.ArtworkPages {
         private readonly ApiUserArtwork UserArtwork;
         private ObservableCollection<ImageThumbnail> images = new();
         private ImageSource avatar;
-        private string date, genre, buttonText;
+        private string date, genre, secondButtonText;
         private bool isRateVisible;
         public string Title { get => UserArtwork.Title; set { UserArtwork.Title = value; OnPropertyChanged(nameof(Title)); } }
         public string Login { get => UserArtwork.Login; set { UserArtwork.Login = value; OnPropertyChanged(nameof(Login)); } }
@@ -24,16 +24,18 @@ namespace Art_Critique.Pages.ArtworkPages {
         public string Genre { get => genre; set { genre = value; OnPropertyChanged(nameof(Genre)); } }
         public int Views { get => UserArtwork.Views; set { UserArtwork.Views = value; OnPropertyChanged(nameof(Views)); } }
         public string Description { get => UserArtwork.Description; set { UserArtwork.Description = value; OnPropertyChanged(nameof(Description)); } }
-        public string ButtonText { get => buttonText; set { buttonText = value; OnPropertyChanged(nameof(ButtonText)); } }
+        public string SecondButtonText { get => secondButtonText; set { secondButtonText = value; OnPropertyChanged(nameof(SecondButtonText)); } }
         public bool IsRateVisible { get => isRateVisible; set { isRateVisible = value; OnPropertyChanged(nameof(IsRateVisible)); } }
-        public ICommand ButtonCommand { get; protected set; }
+        public string Rating { get; set; }
+        public ICommand FirstButtonCommand => new Command(async () => await RateArtwork());
+        public ICommand SecondButtonCommand { get; protected set; }
         public ICommand GoToProfile { get; protected set; }
-        public ICommand RateCommand { get; protected set; }
 
-        public ArtworkPageViewModel(IBaseHttp baseHttp, ICredentials credentials, ApiUserArtwork userArtwork, ApiProfile userProfile) {
+        public ArtworkPageViewModel(IBaseHttp baseHttp, ICredentials credentials, ApiUserArtwork userArtwork, ApiProfile userProfile, string rating) {
             BaseHttp = baseHttp;
             Credentials = credentials;
             UserArtwork = userArtwork;
+            Rating = rating;
             FillArtwork(userArtwork, userProfile);
         }
 
@@ -43,11 +45,11 @@ namespace Art_Critique.Pages.ArtworkPages {
             }
             Date = string.Format("{0:dd/MM/yyyy}", userArtwork.Date);
             Genre = userArtwork.GenreName != "Other" ? userArtwork.GenreName : userArtwork.GenreOtherName;
+
             var isMyArtwork = userArtwork.Login == Credentials.GetCurrentUserLogin();
-            ButtonText = isMyArtwork ? "Edit" : "Review";
             IsRateVisible = !isMyArtwork;
-            ButtonCommand = isMyArtwork ? new Command(async () => await GoEdit()) : new Command(async () => await GoReview());
-            RateCommand = new Command(async () => await RateArtwork());
+            SecondButtonText = isMyArtwork ? "Edit" : "Review";
+            SecondButtonCommand = isMyArtwork ? new Command(async () => await GoEdit()) : new Command(async () => await GoReview());
 
             Avatar = userProfile.Avatar.Base64ToImageSource();
             GoToProfile = new Command(async () => await GoToUserProfile(userArtwork.Login));
@@ -58,7 +60,12 @@ namespace Art_Critique.Pages.ArtworkPages {
         }
 
         private async Task RateArtwork() {
-            string action = await Shell.Current.DisplayActionSheet("Set your rating", "Cancel", null, "5", "4", "3", "2", "1");
+            var yourRating = string.IsNullOrEmpty(Rating) ? string.Empty : $", your rating: {Rating}/5";
+            var rating = await Shell.Current.DisplayActionSheet(string.Concat("Set your rating", yourRating), "Cancel", null, "5", "4", "3", "2", "1");
+            if (rating != "Cancel") {
+                await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.RateArtwork}?login={Login}&artworkId={UserArtwork.ArtworkId}&rating={rating}");
+                Rating = rating;
+            }
         }
 
         private async Task GoEdit() {

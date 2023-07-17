@@ -52,8 +52,8 @@
 
             <!-- Button -->
             <HorizontalStackLayout Grid.Row="9" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
-                <Button Text="Rate" Command="{Binding RateCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" Margin="5,0,5,0" IsVisible="{Binding IsRateVisible}"/>
-                <Button Text="{Binding ButtonText}" Command="{Binding ButtonCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" Margin="5,0,5,0"/>
+                <Button Text="Rating" Command="{Binding FirstButtonCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" Margin="5,0,5,0" IsVisible="{Binding IsRateVisible}"/>
+                <Button Text="{Binding SecondButtonText}" Command="{Binding SecondButtonCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" Margin="5,0,5,0"/>
             </HorizontalStackLayout>
         </Grid>
     </ScrollView>
