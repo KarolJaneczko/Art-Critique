@@ -5,5 +5,6 @@ namespace Art_Critique_Api.Services.Interfaces {
         public Task<ApiResponse> GetRating(string login, int artworkId);
         public Task<ApiResponse> RateArtwork(string login, int artworkId, int rating);
         public Task<ApiResponse> RemoveRating(string login, int artworkId);
+        public Task<ApiResponse> GetAverageRatingInfo(int artworkId);
     }
 }

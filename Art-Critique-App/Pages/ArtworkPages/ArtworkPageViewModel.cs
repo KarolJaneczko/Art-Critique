@@ -27,15 +27,17 @@ namespace Art_Critique.Pages.ArtworkPages {
         public string SecondButtonText { get => secondButtonText; set { secondButtonText = value; OnPropertyChanged(nameof(SecondButtonText)); } }
         public bool IsRateVisible { get => isRateVisible; set { isRateVisible = value; OnPropertyChanged(nameof(IsRateVisible)); } }
         public string Rating { get; set; }
+        public string AverageRating { get; set; }
         public ICommand FirstButtonCommand => new Command(async () => await RateArtwork());
         public ICommand SecondButtonCommand { get; protected set; }
         public ICommand GoToProfile { get; protected set; }
 
-        public ArtworkPageViewModel(IBaseHttp baseHttp, ICredentials credentials, ApiUserArtwork userArtwork, ApiProfile userProfile, string rating) {
+        public ArtworkPageViewModel(IBaseHttp baseHttp, ICredentials credentials, ApiUserArtwork userArtwork, ApiProfile userProfile, string rating, string averageRating) {
             BaseHttp = baseHttp;
             Credentials = credentials;
             UserArtwork = userArtwork;
             Rating = rating;
+            AverageRating = averageRating;
             FillArtwork(userArtwork, userProfile);
         }
 
@@ -61,10 +63,20 @@ namespace Art_Critique.Pages.ArtworkPages {
 
         private async Task RateArtwork() {
             var yourRating = string.IsNullOrEmpty(Rating) ? string.Empty : $", your rating: {Rating}/5";
-            var rating = await Shell.Current.DisplayActionSheet(string.Concat("Set your rating", yourRating), "Cancel", null, "5", "4", "3", "2", "1");
-            if (rating != "Cancel") {
-                await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.RateArtwork}?login={Login}&artworkId={UserArtwork.ArtworkId}&rating={rating}");
-                Rating = rating;
+            string resultRating;
+
+            if (string.IsNullOrEmpty(Rating)) {
+                resultRating = await Shell.Current.DisplayActionSheet(string.Concat("Set your rating", yourRating), "Cancel", null, "5", "4", "3", "2", "1");
+            } else {
+                resultRating = await Shell.Current.DisplayActionSheet(string.Concat("Set your rating", yourRating), "Cancel", null, "5", "4", "3", "2", "1", "Remove rating");
+            }
+
+            if (resultRating == "Remove rating") {
+                await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.RemoveRating}?login={Login}&artworkId={UserArtwork.ArtworkId}&rating={resultRating}");
+                Rating = string.Empty;
+            } else if (resultRating != "Cancel") {
+                await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.RateArtwork}?login={Login}&artworkId={UserArtwork.ArtworkId}&rating={resultRating}");
+                Rating = resultRating;
             }
         }
 

@@ -39,7 +39,11 @@ namespace Art_Critique {
             var rating = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetRating}?login={userArtwork.Login}&artworkId={ArtworkId}");
             var userRating = JsonConvert.DeserializeObject<string>(rating.Data.ToString());
 
-            BindingContext = new ArtworkPageViewModel(BaseHttp, Credentials, userArtwork, userProfile, userRating);
+            // Loading average rating data.
+            var averageRatingResult = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetAverageRatingInfo}?artworkId={ArtworkId}");
+            var averageRating = averageRatingResult.Data.ToString();
+
+            BindingContext = new ArtworkPageViewModel(BaseHttp, Credentials, userArtwork, userProfile, userRating, averageRating);
         }
     }
 }

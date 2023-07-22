@@ -9,6 +9,7 @@ namespace Art_Critique_Api.Services {
         public ReviewService(ArtCritiqueDbContext dbContext) {
             DbContext = dbContext;
         }
+
         public async Task<ApiResponse> GetRating(string login, int artworkId) {
             var task = new Func<Task<ApiResponse>>(async () => {
                 // Finding user's id by input login.
@@ -73,6 +74,32 @@ namespace Art_Critique_Api.Services {
                     Title = string.Empty,
                     Message = string.Empty,
                     Data = null
+                };
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> GetAverageRatingInfo(int artworkId) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                // Validating if artwork going by input id exists.
+                if (await DbContext.TUserArtworks.FirstOrDefaultAsync(x => x.ArtworkId == artworkId) is null) {
+                    throw new ApiException("Searching error!", $"Artwork going by id '{artworkId}' doesn't exists.");
+                }
+
+                // Getting average artwork rating.
+                var ratings = DbContext.TArtworkRatings.Where(x => x.ArtworkId == artworkId).ToList();
+                var ratingInfo = string.Empty;
+                if (ratings.Count == 0) {
+                    ratingInfo = "Average rating: N/A";
+                } else {
+                    ratingInfo = $"Average rating: {ratings.Sum(x => x.RatingValue) / ratings.Count}/5 ({ratings.Count})";
+                }
+
+                return new ApiResponse() {
+                    IsSuccess = true,
+                    Title = string.Empty,
+                    Message = string.Empty,
+                    Data = ratingInfo
                 };
             });
             return await ExecuteWithTryCatch(task);
