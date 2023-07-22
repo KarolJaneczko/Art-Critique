@@ -3,8 +3,7 @@ using Art_Critique_Api.Models.Base;
 using Art_Critique_Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Art_Critique_Api.Controllers
-{
+namespace Art_Critique_Api.Controllers {
     [Route("api/Artwork")]
     [ApiController]
     public class ArtworkController : ControllerBase {
@@ -46,16 +45,6 @@ namespace Art_Critique_Api.Controllers
         [HttpGet("GetUserArtworks")]
         public async Task<ApiResponse> GetUserArtworks(string login) {
             return await ArtworkService.GetUserArtworks(login);
-        }
-
-        [HttpGet("GetArtworkRating")]
-        public async Task<ApiResponse> GetArtworkRating(string login, int artworkId) {
-            return await ArtworkService.GetArtworkRating(login, artworkId);
-        }
-
-        [HttpPost("RateArtwork")]
-        public async Task<ApiResponse> RateArtwork(string login, int artworkId, int rating) {
-            return await ArtworkService.RateArtwork(login, artworkId, rating);
         }
     }
 }
