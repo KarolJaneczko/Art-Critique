@@ -1,5 +1,8 @@
-﻿using Art_Critique.Core.Services.Interfaces;
+﻿using Art_Critique.Core.Models.API.ArtworkData;
+using Art_Critique.Core.Services.Interfaces;
+using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ArtworkPages;
+using Newtonsoft.Json;
 
 namespace Art_Critique {
     [QueryProperty(nameof(ArtworkId), nameof(ArtworkId))]
@@ -19,7 +22,14 @@ namespace Art_Critique {
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
             base.OnNavigatedTo(args);
 
-            BindingContext = new ArtworkReviewPageViewModel(BaseHttp, Credentials);
+            // Loading your review.
+            var review = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworkReview}?login={Credentials.GetCurrentUserLogin()}&artworkId={ArtworkId}");
+            ApiArtworkReview userReview = null;
+            if (review.Data is not null) {
+                userReview = JsonConvert.DeserializeObject<ApiArtworkReview>(review.Data.ToString());
+            }
+
+            BindingContext = new ArtworkReviewPageViewModel(BaseHttp, Credentials, userReview);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Art_Critique_Api.Entities;
+﻿using Art_Critique.Core.Models.API.ArtworkData;
+using Art_Critique_Api.Entities;
 using Art_Critique_Api.Models.Base;
 using Art_Critique_Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -101,6 +102,45 @@ namespace Art_Critique_Api.Services {
                     Message = string.Empty,
                     Data = ratingInfo
                 };
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> GetArtworkReview(string login, int artworkId) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                // Finding user's id by input login.
+                var userId = await GetUserIdFromLogin(DbContext, login);
+
+                // Finding user's review by user's id and artwork id.
+                var review = await DbContext.TArtworkReviews.FirstOrDefaultAsync(x => x.UserId == userId && x.ArtworkId == artworkId);
+
+                if (review != null) {
+                    var rating = (await DbContext.TArtworkRatings.FirstOrDefaultAsync(x => x.ArtworkId == artworkId && x.UserId == userId))?.RatingValue.ToString() ?? string.Empty;
+
+                    var artworkReview = new ApiArtworkReview() {
+                        ArtworkId = review.ArtworkId,
+                        AuthorLogin = login,
+                        Content = review.ReviewContent,
+                        ReviewDate = review.ReviewDate ?? default,
+                        Id = review.ReviewId,
+                        Title = review.ReviewTitle,
+                        Rating = string.IsNullOrEmpty(rating) ? "Not rated" : $"{rating}/5"
+                    };
+
+                    return new ApiResponse() {
+                        IsSuccess = true,
+                        Title = string.Empty,
+                        Message = string.Empty,
+                        Data = artworkReview
+                    };
+                } else {
+                    return new ApiResponse() {
+                        IsSuccess = true,
+                        Title = string.Empty,
+                        Message = string.Empty,
+                        Data = null
+                    };
+                }
             });
             return await ExecuteWithTryCatch(task);
         }

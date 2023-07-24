@@ -4,18 +4,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Art_Critique_Api.Entities;
 
-public partial class ArtCritiqueDbContext : DbContext
-{
-    public ArtCritiqueDbContext()
-    {
+public partial class ArtCritiqueDbContext : DbContext {
+    public ArtCritiqueDbContext() {
     }
 
     public ArtCritiqueDbContext(DbContextOptions<ArtCritiqueDbContext> options)
-        : base(options)
-    {
+        : base(options) {
     }
 
     public virtual DbSet<TArtworkRating> TArtworkRatings { get; set; }
+
+    public virtual DbSet<TArtworkReview> TArtworkReviews { get; set; }
 
     public virtual DbSet<TAvatar> TAvatars { get; set; }
 
@@ -31,13 +30,10 @@ public partial class ArtCritiqueDbContext : DbContext
 
     public virtual DbSet<TView> TViews { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Niewiem123;database=art-critique-db");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL("server=localhost;port=3306;user=root;password=Niewiem123;database=art-critique-db");
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<TArtworkRating>(entity =>
-        {
+    protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        modelBuilder.Entity<TArtworkRating>(entity => {
             entity.HasKey(e => e.RatingId).HasName("PRIMARY");
 
             entity.ToTable("t_artwork_rating");
@@ -50,8 +46,28 @@ public partial class ArtCritiqueDbContext : DbContext
             entity.Property(e => e.UserId).HasColumnName("userId");
         });
 
-        modelBuilder.Entity<TAvatar>(entity =>
-        {
+        modelBuilder.Entity<TArtworkReview>(entity => {
+            entity.HasKey(e => e.ReviewId).HasName("PRIMARY");
+
+            entity.ToTable("t_artwork_review");
+
+            entity.HasIndex(e => e.ReviewId, "reviewId_UNIQUE").IsUnique();
+
+            entity.Property(e => e.ReviewId).HasColumnName("reviewId");
+            entity.Property(e => e.ArtworkId).HasColumnName("artworkId");
+            entity.Property(e => e.ReviewContent)
+                .HasMaxLength(400)
+                .HasColumnName("reviewContent");
+            entity.Property(e => e.ReviewDate)
+                .HasColumnType("datetime")
+                .HasColumnName("reviewDate");
+            entity.Property(e => e.ReviewTitle)
+                .HasMaxLength(50)
+                .HasColumnName("reviewTitle");
+            entity.Property(e => e.UserId).HasColumnName("userId");
+        });
+
+        modelBuilder.Entity<TAvatar>(entity => {
             entity.HasKey(e => e.AvatarId).HasName("PRIMARY");
 
             entity.ToTable("t_avatar");
@@ -62,8 +78,7 @@ public partial class ArtCritiqueDbContext : DbContext
             entity.Property(e => e.AvatarPath).HasMaxLength(300);
         });
 
-        modelBuilder.Entity<TCustomPainting>(entity =>
-        {
+        modelBuilder.Entity<TCustomPainting>(entity => {
             entity.HasKey(e => e.PaintingId).HasName("PRIMARY");
 
             entity.ToTable("t_custom_painting");
@@ -82,8 +97,7 @@ public partial class ArtCritiqueDbContext : DbContext
                 .HasConstraintName("FK_ArtworkID");
         });
 
-        modelBuilder.Entity<TPaintingGenre>(entity =>
-        {
+        modelBuilder.Entity<TPaintingGenre>(entity => {
             entity.HasKey(e => e.GenreId).HasName("PRIMARY");
 
             entity.ToTable("t_painting_genre");
@@ -99,8 +113,7 @@ public partial class ArtCritiqueDbContext : DbContext
                 .HasColumnName("genreName");
         });
 
-        modelBuilder.Entity<TProfile>(entity =>
-        {
+        modelBuilder.Entity<TProfile>(entity => {
             entity.HasKey(e => e.ProfileId).HasName("PRIMARY");
 
             entity.ToTable("t_profile");
@@ -143,8 +156,7 @@ public partial class ArtCritiqueDbContext : DbContext
                 .HasConstraintName("FK_usID");
         });
 
-        modelBuilder.Entity<TUser>(entity =>
-        {
+        modelBuilder.Entity<TUser>(entity => {
             entity.HasKey(e => e.UsId).HasName("PRIMARY");
 
             entity.ToTable("t_user");
@@ -175,8 +187,7 @@ public partial class ArtCritiqueDbContext : DbContext
                 .HasColumnName("usSignedInToken");
         });
 
-        modelBuilder.Entity<TUserArtwork>(entity =>
-        {
+        modelBuilder.Entity<TUserArtwork>(entity => {
             entity.HasKey(e => e.ArtworkId).HasName("PRIMARY");
 
             entity.ToTable("t_user_artwork");
@@ -215,8 +226,7 @@ public partial class ArtCritiqueDbContext : DbContext
                 .HasConstraintName("FK_userID");
         });
 
-        modelBuilder.Entity<TView>(entity =>
-        {
+        modelBuilder.Entity<TView>(entity => {
             entity.HasKey(e => e.ViewId).HasName("PRIMARY");
 
             entity.ToTable("t_view");

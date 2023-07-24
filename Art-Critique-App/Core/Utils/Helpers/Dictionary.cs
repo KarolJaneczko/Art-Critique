@@ -18,5 +18,6 @@
         public const string RateArtwork = "Review/RateArtwork";
         public const string RemoveRating = "Review/RemoveRating";
         public const string GetAverageRatingInfo = "Review/GetAverageRatingInfo";
+        public const string GetArtworkReview = "Review/GetArtworkReview";
     }
 }
