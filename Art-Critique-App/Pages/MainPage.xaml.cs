@@ -11,8 +11,7 @@ namespace Art_Critique {
         }
 
         private async void Button_Clicked(object sender, EventArgs e) {
-            //await Shell.Current.GoToAsync(nameof(ArtworkPage), new Dictionary<string, object> { { "ArtworkId", "9" } });
-            await Shell.Current.GoToAsync(nameof(AddArtworkReviewPage), new Dictionary<string, object> { { "ArtworkId", "9" } });
+            await Shell.Current.GoToAsync(nameof(ArtworkPage), new Dictionary<string, object> { { "ArtworkId", "9" } });
         }
     }
 }

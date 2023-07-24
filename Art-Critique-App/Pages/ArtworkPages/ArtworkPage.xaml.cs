@@ -17,6 +17,7 @@ namespace Art_Critique {
             InitializeComponent();
             Routing.RegisterRoute(nameof(EditArtworkPage), typeof(EditArtworkPage));
             Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
+            Routing.RegisterRoute(nameof(ArtworkReviewPage), typeof(ArtworkReviewPage));
             BaseHttp = baseHttp;
             Credentials = credentials;
         }

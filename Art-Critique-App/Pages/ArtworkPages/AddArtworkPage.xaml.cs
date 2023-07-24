@@ -19,6 +19,7 @@ namespace Art_Critique {
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
             try {
+                // Loading artwork genres from the database.
                 var result = await BaseHttp.SendApiRequest(HttpMethod.Get, Dictionary.ArtworkGetGenres);
                 var resultGenres = JsonConvert.DeserializeObject<List<ApiArtworkGenre>>(result.Data.ToString());
                 var genres = resultGenres.Select(x => new PaintingGenre(x.Id, x.Name));
