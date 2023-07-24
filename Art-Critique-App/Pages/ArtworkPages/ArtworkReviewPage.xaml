@@ -5,7 +5,13 @@
              Title="Reviews">
 
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
+        <Grid RowDefinitions="Auto,Auto,Auto" Padding="20,0">
+            <Label Grid.Row="1" Text="Your review:" HorizontalTextAlignment="Center" CharacterSpacing="2" FontSize="Large" />
+
+            <Grid Grid.Row="2" IsVisible="{Binding IsYourReviewVisible}">
+                
+            </Grid>
+            
         </Grid>
     </ScrollView>
 </ContentPage>
