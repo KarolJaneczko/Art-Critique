@@ -108,6 +108,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\ArtworkPages\AddArtworkReviewPage.xaml.cs">
+	    <DependentUpon>AddArtworkReviewPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\ArtworkPages\AddArtworkPage.xaml.cs">
 	    <DependentUpon>AddArtworkPage.xaml</DependentUpon>
 	  </Compile>
@@ -138,6 +141,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Pages\ArtworkPages\AddArtworkReviewPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\ArtworkPages\AddArtworkPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

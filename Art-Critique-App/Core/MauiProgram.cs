@@ -29,6 +29,7 @@ namespace Art_Critique.Core {
             builder.Services.AddTransient<ArtworkPage>();
             builder.Services.AddTransient<EditArtworkPage>();
             builder.Services.AddTransient<GalleryPage>();
+            builder.Services.AddTransient<AddArtworkReviewPage>();
         }
     }
 }
