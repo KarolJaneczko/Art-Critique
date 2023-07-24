@@ -14,7 +14,7 @@ namespace Art_Critique.Pages.ArtworkPages {
         private readonly ApiUserArtwork UserArtwork;
         private ObservableCollection<ImageThumbnail> images = new();
         private ImageSource avatar;
-        private string date, genre, buttonText;
+        private string date, genre, secondButtonText, rating, averageRating;
         private bool isRateVisible;
         public string Title { get => UserArtwork.Title; set { UserArtwork.Title = value; OnPropertyChanged(nameof(Title)); } }
         public string Login { get => UserArtwork.Login; set { UserArtwork.Login = value; OnPropertyChanged(nameof(Login)); } }
@@ -24,14 +24,21 @@ namespace Art_Critique.Pages.ArtworkPages {
         public string Genre { get => genre; set { genre = value; OnPropertyChanged(nameof(Genre)); } }
         public int Views { get => UserArtwork.Views; set { UserArtwork.Views = value; OnPropertyChanged(nameof(Views)); } }
         public string Description { get => UserArtwork.Description; set { UserArtwork.Description = value; OnPropertyChanged(nameof(Description)); } }
-        public string ButtonText { get => buttonText; set { buttonText = value; OnPropertyChanged(nameof(ButtonText)); } }
+        public string SecondButtonText { get => secondButtonText; set { secondButtonText = value; OnPropertyChanged(nameof(SecondButtonText)); } }
         public bool IsRateVisible { get => isRateVisible; set { isRateVisible = value; OnPropertyChanged(nameof(IsRateVisible)); } }
-        public ICommand ButtonCommand { get; protected set; }
+        public string Rating { get => rating; set { rating = value; OnPropertyChanged(nameof(Rating)); } }
+        public string AverageRating { get => averageRating; set { averageRating = value; OnPropertyChanged(nameof(AverageRating)); } }
+        public ICommand FirstButtonCommand => new Command(async () => await RateArtwork());
+        public ICommand SecondButtonCommand { get; protected set; }
         public ICommand GoToProfile { get; protected set; }
-        public ArtworkPageViewModel(IBaseHttp baseHttp, ICredentials credentials, ApiUserArtwork userArtwork, ApiProfile userProfile) {
+        public ICommand GoToReviews => new Command(async () => await GoSeeReviews());
+
+        public ArtworkPageViewModel(IBaseHttp baseHttp, ICredentials credentials, ApiUserArtwork userArtwork, ApiProfile userProfile, string rating, string averageRating) {
             BaseHttp = baseHttp;
             Credentials = credentials;
             UserArtwork = userArtwork;
+            Rating = rating;
+            AverageRating = averageRating;
             FillArtwork(userArtwork, userProfile);
         }
 
@@ -41,10 +48,11 @@ namespace Art_Critique.Pages.ArtworkPages {
             }
             Date = string.Format("{0:dd/MM/yyyy}", userArtwork.Date);
             Genre = userArtwork.GenreName != "Other" ? userArtwork.GenreName : userArtwork.GenreOtherName;
+
             var isMyArtwork = userArtwork.Login == Credentials.GetCurrentUserLogin();
-            ButtonText = isMyArtwork ? "Edit" : "Review";
             IsRateVisible = !isMyArtwork;
-            ButtonCommand = isMyArtwork ? new Command(async () => await GoEdit()) : new Command(async () => await GoReview());
+            SecondButtonText = isMyArtwork ? "Edit" : "Review";
+            SecondButtonCommand = isMyArtwork ? new Command(async () => await GoEdit()) : new Command(async () => await GoSeeReviews());
 
             Avatar = userProfile.Avatar.Base64ToImageSource();
             GoToProfile = new Command(async () => await GoToUserProfile(userArtwork.Login));
@@ -54,12 +62,32 @@ namespace Art_Critique.Pages.ArtworkPages {
             await Shell.Current.GoToAsync(nameof(ProfilePage), new Dictionary<string, object> { { "Login", login } });
         }
 
-        private async Task GoEdit() {
-            await Shell.Current.GoToAsync(nameof(EditArtworkPage), new Dictionary<string, object> { { "ArtworkData", UserArtwork } });
+        private async Task RateArtwork() {
+            var yourRating = string.IsNullOrEmpty(Rating) ? string.Empty : $", your rating: {Rating}/5";
+            string resultRating;
+
+            if (string.IsNullOrEmpty(Rating)) {
+                resultRating = await Shell.Current.DisplayActionSheet(string.Concat("Set your rating", yourRating), "Cancel", null, "5", "4", "3", "2", "1");
+            } else {
+                resultRating = await Shell.Current.DisplayActionSheet(string.Concat("Set your rating", yourRating), "Cancel", null, "5", "4", "3", "2", "1", "Remove rating");
+            }
+
+            if (resultRating == "Remove rating") {
+                await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.RemoveRating}?login={Login}&artworkId={UserArtwork.ArtworkId}&rating={resultRating}");
+                Rating = string.Empty;
+            } else if (resultRating != "Cancel" && resultRating is not null) {
+                await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.RateArtwork}?login={Login}&artworkId={UserArtwork.ArtworkId}&rating={resultRating}");
+                AverageRating = (await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetAverageRatingInfo}?artworkId={UserArtwork.ArtworkId}")).Data.ToString();
+                Rating = resultRating;
+            }
         }
 
-        private async Task GoReview() {
-            await Task.CompletedTask;
+        private async Task GoSeeReviews() {
+            await Shell.Current.GoToAsync(nameof(ArtworkReviewPage), new Dictionary<string, object> { { "ArtworkId", UserArtwork.ArtworkId.ToString() } });
+        }
+
+        private async Task GoEdit() {
+            await Shell.Current.GoToAsync(nameof(EditArtworkPage), new Dictionary<string, object> { { "ArtworkData", UserArtwork } });
         }
     }
 }

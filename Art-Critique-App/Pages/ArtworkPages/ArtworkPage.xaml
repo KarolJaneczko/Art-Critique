@@ -5,7 +5,7 @@
 
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
 
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
 
             <!-- Artwork's title -->
             <Label Grid.Row="1" Text="{Binding Title}" TextColor="Black" CharacterSpacing="1" FontAttributes="Bold" HorizontalTextAlignment="Center" FontSize="30" Margin="0,20,0,0" />
@@ -43,17 +43,31 @@
             <!-- Artwork's genre -->
             <Label Grid.Row="5" CharacterSpacing="1" HorizontalOptions="Center" FontAttributes="Bold" Text="{Binding Genre, StringFormat='Genre: {0}'}" Margin="0,10,0,0" />
 
+            <!-- Artwork's genre -->
+            <Label Grid.Row="6" CharacterSpacing="1" HorizontalOptions="Center" FontAttributes="Bold" Text="{Binding AverageRating}" Margin="0,10,0,0" />
+
+            <!-- Yours rating -->
+            <Label Grid.Row="7" CharacterSpacing="1" HorizontalOptions="Center" FontAttributes="Bold" Text="{Binding Rating, StringFormat='Your rating: {0}'}" Margin="0,10,0,0" />
+
             <!-- Artwork's date -->
-            <Label Grid.Row="6" CharacterSpacing="1" HorizontalOptions="Center" FontAttributes="Bold" Text="{Binding Date, StringFormat='Created: {0}'}" Margin="0,5,0,0" />
+            <Label Grid.Row="8" CharacterSpacing="1" HorizontalOptions="Center" FontAttributes="Bold" Text="{Binding Date, StringFormat='Created: {0}'}" Margin="0,10,0,0" />
 
             <!-- Artwork's description -->
-            <Label Grid.Row="7" CharacterSpacing="2" Text="Description" FontAttributes="Bold" HorizontalTextAlignment="Center" Margin="0,25,0,10" FontSize="20" />
-            <Label Grid.Row="8" CharacterSpacing="1" Text="{Binding Description}" FontAttributes="Bold" HorizontalTextAlignment="Center" Margin="0,10,0,20" />
+            <Label Grid.Row="9" CharacterSpacing="2" Text="Description" FontAttributes="Bold" HorizontalTextAlignment="Center" Margin="0,25,0,10" FontSize="20" />
+            <Label Grid.Row="10" CharacterSpacing="1" Text="{Binding Description}" FontAttributes="Bold" HorizontalTextAlignment="Center" Margin="0,10,0,20" />
+
+            <!-- Link to the reviews -->
+            <VerticalStackLayout Grid.Row="11" VerticalOptions="Center" Margin="0,20,0,20">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToReviews}"/>
+                </VerticalStackLayout.GestureRecognizers>
+                <Label Text="See reviews ➡" FontAttributes="Bold" TextColor="White" BackgroundColor="Goldenrod" HorizontalTextAlignment="Center" Margin="0,20,0,10" FontSize="20" />
+            </VerticalStackLayout>
 
             <!-- Button -->
-            <HorizontalStackLayout Grid.Row="9" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
-                <Button Text="Rate" Command="{Binding RateCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" Margin="5,0,5,0" IsVisible="{Binding IsRateVisible}"/>
-                <Button Text="{Binding ButtonText}" Command="{Binding ButtonCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" Margin="5,0,5,0"/>
+            <HorizontalStackLayout Grid.Row="12" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
+                <Button Text="Rating" Command="{Binding FirstButtonCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" Margin="5,0,5,0" IsVisible="{Binding IsRateVisible}"/>
+                <Button Text="{Binding SecondButtonText}" Command="{Binding SecondButtonCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" Margin="5,0,5,0"/>
             </HorizontalStackLayout>
         </Grid>
     </ScrollView>

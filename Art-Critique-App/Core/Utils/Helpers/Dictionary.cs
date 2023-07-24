@@ -14,5 +14,10 @@
         public const string EditUserArtwork = "Artwork/EditUserArtwork";
         public const string AddViewToArtwork = "Artwork/AddViewToArtwork";
         public const string GetUserArtworks = "Artwork/GetUserArtworks";
+        public const string GetRating = "Review/GetRating";
+        public const string RateArtwork = "Review/RateArtwork";
+        public const string RemoveRating = "Review/RemoveRating";
+        public const string GetAverageRatingInfo = "Review/GetAverageRatingInfo";
+        public const string GetArtworkReview = "Review/GetArtworkReview";
     }
 }

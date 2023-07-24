@@ -5,7 +5,6 @@
              Title="User's gallery">
 
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
-
         <Grid>
             <ScrollView>
                 <FlexLayout Wrap="Wrap" JustifyContent="SpaceAround" >

@@ -15,6 +15,7 @@ builder.Services.AddEntityFrameworkMySQL().AddDbContext<ArtCritiqueDbContext>(op
 builder.Services.AddScoped<IUser, UserService>();
 builder.Services.AddScoped<IProfile, ProfileService>();
 builder.Services.AddScoped<IArtwork, ArtworkService>();
+builder.Services.AddScoped<IReview,  ReviewService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

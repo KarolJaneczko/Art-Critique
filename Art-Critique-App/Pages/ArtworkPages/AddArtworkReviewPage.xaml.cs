@@ -1,16 +1,17 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
-using Art_Critique.Core.Models.Logic;
 using Art_Critique.Core.Services.Interfaces;
-using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ArtworkPages;
 using Newtonsoft.Json;
 
 namespace Art_Critique {
-    public partial class AddArtworkPage : ContentPage {
+    [QueryProperty(nameof(ArtworkId), nameof(ArtworkId))]
+    public partial class AddArtworkReviewPage : ContentPage {
         private readonly IBaseHttp BaseHttp;
         private readonly ICredentials Credentials;
+        private string artworkId;
+        public string ArtworkId { get => artworkId; set { artworkId = value; OnPropertyChanged(nameof(ArtworkId)); } }
 
-        public AddArtworkPage(IBaseHttp baseHttp, ICredentials credentials) {
+        public AddArtworkReviewPage(IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(ArtworkPage), typeof(ArtworkPage));
             BaseHttp = baseHttp;
@@ -19,11 +20,9 @@ namespace Art_Critique {
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
             try {
-                // Loading artwork genres from the database.
-                var result = await BaseHttp.SendApiRequest(HttpMethod.Get, Dictionary.ArtworkGetGenres);
-                var resultGenres = JsonConvert.DeserializeObject<List<ApiArtworkGenre>>(result.Data.ToString());
-                var genres = resultGenres.Select(x => new PaintingGenre(x.Id, x.Name));
-                BindingContext = new AddArtworkPageViewModel(BaseHttp, Credentials, genres);
+                //spróbuj pobrać recenzje zalogowanego uzytkownika
+                ApiArtworkReview artworkReview = new() { Title = "COŚ" };
+                BindingContext = new AddArtworkReviewPageViewModel(BaseHttp, artworkReview);
             } catch (Exception ex) {
                 await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
             }

@@ -17,6 +17,7 @@ namespace Art_Critique {
             InitializeComponent();
             Routing.RegisterRoute(nameof(EditArtworkPage), typeof(EditArtworkPage));
             Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
+            Routing.RegisterRoute(nameof(ArtworkReviewPage), typeof(ArtworkReviewPage));
             BaseHttp = baseHttp;
             Credentials = credentials;
         }
@@ -35,7 +36,15 @@ namespace Art_Critique {
             var profileInfo = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileGet}?login={userArtwork.Login}");
             var userProfile = JsonConvert.DeserializeObject<ApiProfile>(profileInfo.Data.ToString());
 
-            BindingContext = new ArtworkPageViewModel(BaseHttp, Credentials, userArtwork, userProfile);
+            // Loading rating data.
+            var rating = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetRating}?login={userArtwork.Login}&artworkId={ArtworkId}");
+            var userRating = JsonConvert.DeserializeObject<string>(rating.Data.ToString());
+
+            // Loading average rating data.
+            var averageRatingResult = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetAverageRatingInfo}?artworkId={ArtworkId}");
+            var averageRating = averageRatingResult.Data.ToString();
+
+            BindingContext = new ArtworkPageViewModel(BaseHttp, Credentials, userArtwork, userProfile, userRating, averageRating);
         }
     }
 }
