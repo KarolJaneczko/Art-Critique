@@ -93,7 +93,8 @@ namespace Art_Critique_Api.Services {
                 if (ratings.Count == 0) {
                     ratingInfo = "Average rating: N/A";
                 } else {
-                    ratingInfo = $"Average rating: {ratings.Sum(x => x.RatingValue) / ratings.Count}/5 ({ratings.Count})";
+                    var averageRating = decimal.Round((decimal)ratings.Sum(x => x.RatingValue) / ratings.Count, 2);
+                    ratingInfo = $"Average rating: {averageRating}/5 ({ratings.Count})";
                 }
 
                 return new ApiResponse() {
@@ -141,6 +142,37 @@ namespace Art_Critique_Api.Services {
                         Data = null
                     };
                 }
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> CreateOrUpdateReview(string login, ApiArtworkReview artworkReview) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                // Finding user's id by input login.
+                var userId = await GetUserIdFromLogin(DbContext, login);
+
+                // Finding user's review by user's id and artwork id.
+                var review = await DbContext.TArtworkReviews.FirstOrDefaultAsync(x => x.UserId == userId && x.ArtworkId == artworkReview.ArtworkId);
+                if (review == null) {
+                    DbContext.TArtworkReviews.Add(new TArtworkReview() {
+                        ArtworkId = artworkReview.ArtworkId,
+                        ReviewContent = artworkReview.Content,
+                        ReviewDate = artworkReview.ReviewDate,
+                        ReviewTitle = artworkReview.Title,
+                        UserId = (int)userId
+                    });
+                } else {
+                    review.ReviewTitle = artworkReview.Title;
+                    review.ReviewContent = artworkReview.Content;
+                }
+                await DbContext.SaveChangesAsync();
+
+                return new ApiResponse() {
+                    IsSuccess = true,
+                    Title = string.Empty,
+                    Message = string.Empty,
+                    Data = null
+                };
             });
             return await ExecuteWithTryCatch(task);
         }

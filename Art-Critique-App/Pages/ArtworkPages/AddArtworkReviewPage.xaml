@@ -43,10 +43,9 @@
                 </Grid>
             </Frame>
 
-
             <!-- Confirm adding your artwork -->
             <VerticalStackLayout Grid.Row="5" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
-                <Button Text="Add artwork" Command="{Binding AddArtwork}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50" Margin="10,10,10,10"/>
+                <Button Text="Add artwork" Command="{Binding AddReview}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50" Margin="10,10,10,10"/>
             </VerticalStackLayout>
         </Grid>
     </ScrollView>

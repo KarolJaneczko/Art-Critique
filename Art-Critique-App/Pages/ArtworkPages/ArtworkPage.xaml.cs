@@ -37,7 +37,7 @@ namespace Art_Critique {
             var userProfile = JsonConvert.DeserializeObject<ApiProfile>(profileInfo.Data.ToString());
 
             // Loading rating data.
-            var rating = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetRating}?login={userArtwork.Login}&artworkId={ArtworkId}");
+            var rating = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetRating}?login={Credentials.GetCurrentUserLogin()}&artworkId={ArtworkId}");
             var userRating = JsonConvert.DeserializeObject<string>(rating.Data.ToString());
 
             // Loading average rating data.

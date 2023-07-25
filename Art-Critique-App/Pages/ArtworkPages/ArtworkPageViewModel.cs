@@ -15,7 +15,7 @@ namespace Art_Critique.Pages.ArtworkPages {
         private ObservableCollection<ImageThumbnail> images = new();
         private ImageSource avatar;
         private string date, genre, secondButtonText, rating, averageRating;
-        private bool isRateVisible;
+        private bool isRateVisible, isMyRatingVisible;
         public string Title { get => UserArtwork.Title; set { UserArtwork.Title = value; OnPropertyChanged(nameof(Title)); } }
         public string Login { get => UserArtwork.Login; set { UserArtwork.Login = value; OnPropertyChanged(nameof(Login)); } }
         public ObservableCollection<ImageThumbnail> Images { get => images; set { images = value; OnPropertyChanged(nameof(Images)); } }
@@ -27,6 +27,7 @@ namespace Art_Critique.Pages.ArtworkPages {
         public string SecondButtonText { get => secondButtonText; set { secondButtonText = value; OnPropertyChanged(nameof(SecondButtonText)); } }
         public bool IsRateVisible { get => isRateVisible; set { isRateVisible = value; OnPropertyChanged(nameof(IsRateVisible)); } }
         public string Rating { get => rating; set { rating = value; OnPropertyChanged(nameof(Rating)); } }
+        public bool IsMyRatingVisible { get => isMyRatingVisible; set { isMyRatingVisible = value; OnPropertyChanged(nameof(IsMyRatingVisible)); } }
         public string AverageRating { get => averageRating; set { averageRating = value; OnPropertyChanged(nameof(AverageRating)); } }
         public ICommand FirstButtonCommand => new Command(async () => await RateArtwork());
         public ICommand SecondButtonCommand { get; protected set; }
@@ -39,6 +40,7 @@ namespace Art_Critique.Pages.ArtworkPages {
             UserArtwork = userArtwork;
             Rating = rating;
             AverageRating = averageRating;
+            IsMyRatingVisible = !string.IsNullOrEmpty(rating);
             FillArtwork(userArtwork, userProfile);
         }
 
@@ -73,13 +75,15 @@ namespace Art_Critique.Pages.ArtworkPages {
             }
 
             if (resultRating == "Remove rating") {
-                await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.RemoveRating}?login={Login}&artworkId={UserArtwork.ArtworkId}&rating={resultRating}");
+                await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.RemoveRating}?login={Credentials.GetCurrentUserLogin()}&artworkId={UserArtwork.ArtworkId}&rating={resultRating}");
                 Rating = string.Empty;
+                IsMyRatingVisible = false;
             } else if (resultRating != "Cancel" && resultRating is not null) {
-                await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.RateArtwork}?login={Login}&artworkId={UserArtwork.ArtworkId}&rating={resultRating}");
-                AverageRating = (await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetAverageRatingInfo}?artworkId={UserArtwork.ArtworkId}")).Data.ToString();
+                await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.RateArtwork}?login={Credentials.GetCurrentUserLogin()}&artworkId={UserArtwork.ArtworkId}&rating={resultRating}");
                 Rating = resultRating;
+                IsMyRatingVisible = true;
             }
+            AverageRating = (await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetAverageRatingInfo}?artworkId={UserArtwork.ArtworkId}")).Data.ToString();
         }
 
         private async Task GoSeeReviews() {

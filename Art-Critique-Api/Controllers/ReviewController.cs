@@ -1,4 +1,5 @@
-﻿using Art_Critique_Api.Models.Base;
+﻿using Art_Critique.Core.Models.API.ArtworkData;
+using Art_Critique_Api.Models.Base;
 using Art_Critique_Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,6 +35,11 @@ namespace Art_Critique_Api.Controllers {
         [HttpGet("GetArtworkReview")]
         public async Task<ApiResponse> GetArtworkReview(string login, int artworkId) {
             return await ReviewService.GetArtworkReview(login, artworkId);
+        }
+
+        [HttpPost("CreateOrUpdateReview")]
+        public async Task<ApiResponse> CreateOrUpdateReview(string login, ApiArtworkReview artworkReview) {
+            return await ReviewService.CreateOrUpdateReview(login, artworkReview);
         }
     }
 }

@@ -1,31 +1,45 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
 using Art_Critique.Core.Services.Interfaces;
+using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ArtworkPages;
 using Newtonsoft.Json;
 
 namespace Art_Critique {
     [QueryProperty(nameof(ArtworkId), nameof(ArtworkId))]
     public partial class AddArtworkReviewPage : ContentPage {
+        #region Services
         private readonly IBaseHttp BaseHttp;
         private readonly ICredentials Credentials;
+        #endregion
+
+        #region Properties
         private string artworkId;
         public string ArtworkId { get => artworkId; set { artworkId = value; OnPropertyChanged(nameof(ArtworkId)); } }
+        #endregion
 
+        #region Constructor
         public AddArtworkReviewPage(IBaseHttp baseHttp, ICredentials credentials) {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(ArtworkPage), typeof(ArtworkPage));
+            Routing.RegisterRoute(nameof(ArtworkReviewPage), typeof(ArtworkReviewPage));
             BaseHttp = baseHttp;
             Credentials = credentials;
         }
+        #endregion
 
+        #region Methods
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
             try {
-                //spróbuj pobrać recenzje zalogowanego uzytkownika
-                ApiArtworkReview artworkReview = new() { Title = "COŚ" };
-                BindingContext = new AddArtworkReviewPageViewModel(BaseHttp, artworkReview);
+                // Trying to load your review, if review is empty we will create a new one.
+                var review = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworkReview}?login={Credentials.GetCurrentUserLogin()}&artworkId={ArtworkId}");
+                ApiArtworkReview userReview = null;
+                if (review.Data is not null) {
+                    userReview = JsonConvert.DeserializeObject<ApiArtworkReview>(review.Data.ToString());
+                }
+                BindingContext = new AddArtworkReviewPageViewModel(BaseHttp, Credentials, ArtworkId, userReview);
             } catch (Exception ex) {
                 await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
             }
         }
+        #endregion
     }
 }

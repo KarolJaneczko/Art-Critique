@@ -1,4 +1,5 @@
-﻿using Art_Critique_Api.Models.Base;
+﻿using Art_Critique.Core.Models.API.ArtworkData;
+using Art_Critique_Api.Models.Base;
 
 namespace Art_Critique_Api.Services.Interfaces {
     public interface IReview {
@@ -7,5 +8,6 @@ namespace Art_Critique_Api.Services.Interfaces {
         public Task<ApiResponse> RemoveRating(string login, int artworkId);
         public Task<ApiResponse> GetAverageRatingInfo(int artworkId);
         public Task<ApiResponse> GetArtworkReview(string login, int artworkId);
+        public Task<ApiResponse> CreateOrUpdateReview(string login, ApiArtworkReview artworkReview);
     }
 }

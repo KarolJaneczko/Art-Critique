@@ -29,7 +29,7 @@ namespace Art_Critique {
                 userReview = JsonConvert.DeserializeObject<ApiArtworkReview>(review.Data.ToString());
             }
 
-            BindingContext = new ArtworkReviewPageViewModel(BaseHttp, Credentials, userReview);
+            BindingContext = new ArtworkReviewPageViewModel(BaseHttp, Credentials, ArtworkId, userReview);
         }
     }
 }
