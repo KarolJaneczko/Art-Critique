@@ -12,6 +12,13 @@ namespace Art_Critique_Api.Controllers {
             ReviewService = reviewService;
         }
 
+        #region Get methods
+        [HttpGet("GetArtworkReviews")]
+        public async Task<ApiResponse> GetArtworkReviews(string login, int artworkId) {
+            return await ReviewService.GetArtworkReviews(login, artworkId);
+        }
+        #endregion
+
         [HttpGet("GetRating")]
         public async Task<ApiResponse> GetRating(string login, int artworkId) {
             return await ReviewService.GetRating(login, artworkId);
