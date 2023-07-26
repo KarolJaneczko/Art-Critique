@@ -3,10 +3,10 @@ using Art_Critique.Pages.ViewModels;
 
 namespace Art_Critique {
     public partial class RegisterPage : ContentPage {
-        private readonly IProperties Properties;
-        private readonly IStyles Styles;
+        private readonly IPropertiesService Properties;
+        private readonly IStylesService Styles;
 
-        public RegisterPage(IProperties properties, IStyles styles, IBaseHttp baseHttp) {
+        public RegisterPage(IPropertiesService properties, IStylesService styles, IBaseHttpService baseHttp) {
             InitializeComponent();
             Properties = properties;
             Styles = styles;
@@ -40,7 +40,7 @@ namespace Art_Critique {
                 SignUpButton.Command.Execute(null);
             };
 
-            ButtonsLayout.Padding = new Thickness(0, Properties.GetHeightPercent(1), 0, Properties.GetHeightPercent(1));
+            ButtonsLayout.Padding = new Thickness(0, Properties.GetHeightByPercent(1), 0, Properties.GetHeightByPercent(1));
             SignUpButton.Style = Styles.ButtonStyle();
             BackButton.Style = Styles.ButtonStyle();
         }

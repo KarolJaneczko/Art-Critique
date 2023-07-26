@@ -13,5 +13,7 @@
         ArtworkTitle = 10,
         ArtworkDescription = 11,
         ArtworkGenreName = 12,
+        ReviewTitle = 13,
+        ReviewContent = 14
     }
 }

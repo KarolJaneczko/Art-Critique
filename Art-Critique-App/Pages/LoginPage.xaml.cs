@@ -3,10 +3,10 @@ using Art_Critique.Pages.ViewModels;
 
 namespace Art_Critique {
     public partial class LoginPage : ContentPage {
-        private readonly IProperties Properties;
-        private readonly IStyles Styles;
+        private readonly IPropertiesService Properties;
+        private readonly IStylesService Styles;
 
-        public LoginPage(IStyles styles, IProperties properties, IBaseHttp baseHttp, ICredentials credentials) {
+        public LoginPage(IStylesService styles, IPropertiesService properties, IBaseHttpService baseHttp, ICredentialsService credentials) {
             InitializeComponent();
             Styles = styles;
             Properties = properties;
@@ -26,7 +26,7 @@ namespace Art_Critique {
             PasswordEntry.Style = Styles.EntryStyle();
             PasswordEntry.Completed += (object sender, EventArgs e) => SignInButton.Command.Execute(null);
 
-            ButtonsLayout.Padding = new Thickness(0, Properties.GetHeightPercent(1), 0, Properties.GetHeightPercent(1));
+            ButtonsLayout.Padding = new Thickness(0, Properties.GetHeightByPercent(1), 0, Properties.GetHeightByPercent(1));
             SignInButton.Style = Styles.ButtonStyle();
             BackButton.Style = Styles.ButtonStyle();
         }

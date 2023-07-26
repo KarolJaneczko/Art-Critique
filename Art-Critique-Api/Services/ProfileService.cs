@@ -5,7 +5,7 @@ using Art_Critique_Api.Services.Interfaces;
 using Art_Critique_Api.Utils;
 
 namespace Art_Critique_Api.Services {
-    public class ProfileService : BaseService, IProfile {
+    public class ProfileService : BaseService, IProfileService {
         private readonly ArtCritiqueDbContext DbContext;
         public ProfileService(ArtCritiqueDbContext dbContext) {
             DbContext = dbContext;

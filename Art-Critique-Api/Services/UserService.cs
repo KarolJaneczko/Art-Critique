@@ -6,10 +6,10 @@ using Art_Critique_Api.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace Art_Critique_Api.Services {
-    public class UserService : BaseService, IUser {
+    public class UserService : BaseService, IUserService {
         private readonly ArtCritiqueDbContext DbContext;
-        private readonly IProfile Profile;
-        public UserService(ArtCritiqueDbContext dbContext, IProfile profile) {
+        private readonly IProfileService Profile;
+        public UserService(ArtCritiqueDbContext dbContext, IProfileService profile) {
             DbContext = dbContext;
             Profile = profile;
         }

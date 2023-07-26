@@ -108,31 +108,31 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Pages\ArtworkPages\AddArtworkReviewPage.xaml.cs">
-	    <DependentUpon>AddArtworkReviewPage.xaml</DependentUpon>
+	  <Compile Update="Pages\ReviewPages\AddReviewPage.xaml.cs">
+	    <DependentUpon>AddReviewPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\ArtworkPages\AddArtworkPage.xaml.cs">
+	  <Compile Update="Pages\ArtworkPagesXX\AddArtworkPage.xaml.cs">
 	    <DependentUpon>AddArtworkPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\ArtworkPages\ArtworkReviewPage.xaml.cs">
-	    <DependentUpon>ArtworkReviewPage.xaml</DependentUpon>
+	  <Compile Update="Pages\ReviewPages\ReviewPage.xaml.cs">
+	    <DependentUpon>ReviewPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\ArtworkPages\EditArtworkPage.xaml.cs">
+	  <Compile Update="Pages\ArtworkPagesXX\EditArtworkPage.xaml.cs">
 	    <DependentUpon>EditArtworkPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Pages\LoginPage.xaml.cs">
 	    <DependentUpon>LoginPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\ProfilePages\EditProfilePage.xaml.cs">
+	  <Compile Update="Pages\ProfilePagesXX\EditProfilePage.xaml.cs">
 	    <DependentUpon>EditProfilePage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\ArtworkPages\ArtworkPage.xaml.cs">
+	  <Compile Update="Pages\ArtworkPagesXX\ArtworkPage.xaml.cs">
 	    <DependentUpon>ArtworkPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\ProfilePages\GalleryPage.xaml.cs">
+	  <Compile Update="Pages\ProfilePagesXX\GalleryPage.xaml.cs">
 	    <DependentUpon>GalleryPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\ProfilePages\ProfilePage.xaml.cs">
+	  <Compile Update="Pages\ProfilePagesXX\ProfilePage.xaml.cs">
 	    <DependentUpon>ProfilePage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Pages\RegisterPage.xaml.cs">
@@ -144,31 +144,31 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Pages\ArtworkPages\AddArtworkReviewPage.xaml">
+	  <MauiXaml Update="Pages\ReviewPages\AddReviewPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ArtworkPages\AddArtworkPage.xaml">
+	  <MauiXaml Update="Pages\ArtworkPagesXX\AddArtworkPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ArtworkPages\ArtworkReviewPage.xaml">
+	  <MauiXaml Update="Pages\ReviewPages\ReviewPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ArtworkPages\EditArtworkPage.xaml">
+	  <MauiXaml Update="Pages\ArtworkPagesXX\EditArtworkPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ProfilePages\EditProfilePage.xaml">
+	  <MauiXaml Update="Pages\ProfilePagesXX\EditProfilePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ArtworkPages\ArtworkPage.xaml">
+	  <MauiXaml Update="Pages\ArtworkPagesXX\ArtworkPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ProfilePages\GalleryPage.xaml">
+	  <MauiXaml Update="Pages\ProfilePagesXX\GalleryPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ProfilePages\ProfilePage.xaml">
+	  <MauiXaml Update="Pages\ProfilePagesXX\ProfilePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\RegisterPage.xaml">
@@ -177,6 +177,11 @@
 	  <MauiXaml Update="Pages\WelcomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Pages\FeaturePages\" />
+	  <Folder Include="Services\Interfaces\" />
 	</ItemGroup>
 
 </Project>

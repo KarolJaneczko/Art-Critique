@@ -1,5 +1,6 @@
 ﻿using Art_Critique.Core.Services;
 using Art_Critique.Core.Services.Interfaces;
+using Art_Critique.Pages.ReviewPages;
 
 namespace Art_Critique.Core {
     public static class MauiProgram {
@@ -14,10 +15,13 @@ namespace Art_Critique.Core {
         }
 
         private static void AddServices (MauiAppBuilder builder) {
-            builder.Services.AddTransient<ICredentials, CredentialsService>();
-            builder.Services.AddTransient<IProperties, PropertiesService>();
-            builder.Services.AddTransient<IStyles, StylesService>();
-            builder.Services.AddTransient<IBaseHttp, BaseHttpService>();
+            builder.Services.AddTransient<ICredentialsService, CredentialsService>();
+            builder.Services.AddTransient<IPropertiesService, PropertiesService>();
+            builder.Services.AddTransient<IStylesService, StylesService>();
+            builder.Services.AddTransient<IBaseHttpService, BaseHttpService>();
+
+            builder.Services.AddTransient<ReviewPage>();
+            builder.Services.AddTransient<AddReviewPage>();
 
             builder.Services.AddTransient<WelcomePage>();
             builder.Services.AddTransient<RegisterPage>();
@@ -29,8 +33,6 @@ namespace Art_Critique.Core {
             builder.Services.AddTransient<ArtworkPage>();
             builder.Services.AddTransient<EditArtworkPage>();
             builder.Services.AddTransient<GalleryPage>();
-            builder.Services.AddTransient<ArtworkReviewPage>();
-            builder.Services.AddTransient<AddArtworkReviewPage>();
         }
     }
 }

@@ -45,6 +45,12 @@ namespace Art_Critique.Core.Utils.Helpers {
                     case EntryType.ArtworkGenreName:
                         ValidateArtworkGenreName(entry.Value);
                         break;
+                    case EntryType.ReviewTitle:
+                        ValidateReviewTitle(entry.Value);
+                        break;
+                    case EntryType.ReviewContent:
+                        ValidateReviewContent(entry.Value);
+                        break;
                 }
             }
         }
@@ -139,6 +145,24 @@ namespace Art_Critique.Core.Utils.Helpers {
             }
             if (name.Length > 100) {
                 throw new Base.AppException("Your custom genre name is too long", ExceptionType.EntryTooLong);
+            }
+        }
+
+        private static void ValidateReviewTitle(string entry) {
+            if (string.IsNullOrEmpty(entry)) {
+                throw new Base.AppException("Review title cannot be empty", ExceptionType.EntryIsEmpty);
+            }
+            if (entry.Length > 50) {
+                throw new Base.AppException("Your review title is too long", ExceptionType.EntryTooLong);
+            }
+        }
+
+        private static void ValidateReviewContent(string entry) {
+            if (string.IsNullOrEmpty(entry)) {
+                throw new Base.AppException("Review cannot be empty", ExceptionType.EntryIsEmpty);
+            }
+            if (entry.Length > 400) {
+                throw new Base.AppException("Your review is too long", ExceptionType.EntryTooLong);
             }
         }
 

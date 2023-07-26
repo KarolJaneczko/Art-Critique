@@ -1,7 +1,7 @@
 ﻿using Art_Critique.Core.Services.Interfaces;
 
 namespace Art_Critique.Core.Services {
-    public class CredentialsService : ICredentials {
+    public class CredentialsService : ICredentialsService {
         public void SetCurrentUserToken(string userToken) {
             Preferences.Set("UserLoginToken", userToken);
         }

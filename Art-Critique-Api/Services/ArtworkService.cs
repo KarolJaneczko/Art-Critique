@@ -6,7 +6,7 @@ using Art_Critique_Api.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace Art_Critique_Api.Services {
-    public class ArtworkService : BaseService, IArtwork {
+    public class ArtworkService : BaseService, IArtworkService {
         private readonly ArtCritiqueDbContext DbContext;
         public ArtworkService(ArtCritiqueDbContext dbContext) {
             DbContext = dbContext;

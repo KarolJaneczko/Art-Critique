@@ -5,10 +5,79 @@ using Art_Critique_Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Art_Critique_Api.Services {
-    public class ReviewService : BaseService, IReview {
+    public class ReviewService : BaseService, IReviewService {
         private readonly ArtCritiqueDbContext DbContext;
         public ReviewService(ArtCritiqueDbContext dbContext) {
             DbContext = dbContext;
+        }
+        public async Task<ApiResponse> GetArtworkReview(string login, int artworkId) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                // Finding user's id by input login.
+                var userId = await GetUserIdFromLogin(DbContext, login);
+
+                // Finding user's review by user's id and artwork id.
+                var review = await DbContext.TArtworkReviews.FirstOrDefaultAsync(x => x.UserId == userId && x.ArtworkId == artworkId);
+
+                if (review != null) {
+                    var rating = (await DbContext.TArtworkRatings.FirstOrDefaultAsync(x => x.ArtworkId == artworkId && x.UserId == userId))?.RatingValue.ToString() ?? string.Empty;
+
+                    var artworkReview = new ApiArtworkReview() {
+                        ArtworkId = review.ArtworkId,
+                        AuthorLogin = login,
+                        Content = review.ReviewContent,
+                        ReviewDate = review.ReviewDate ?? default,
+                        Id = review.ReviewId,
+                        Title = review.ReviewTitle,
+                        Rating = string.IsNullOrEmpty(rating) ? "Not rated" : $"{rating}/5"
+                    };
+
+                    return new ApiResponse() {
+                        IsSuccess = true,
+                        Title = string.Empty,
+                        Message = string.Empty,
+                        Data = artworkReview
+                    };
+                } else {
+                    return new ApiResponse() {
+                        IsSuccess = true,
+                        Title = string.Empty,
+                        Message = string.Empty,
+                        Data = null
+                    };
+                }
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> GetArtworkReviews(string login, int artworkId) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                // Finding user's id by input login.
+                var userId = await GetUserIdFromLogin(DbContext, login);
+
+                // Finding user's review by user's id and artwork id.
+                var reviews = DbContext.TArtworkReviews.Where(x => x.UserId != userId && x.ArtworkId == artworkId).ToList();
+                var reviewList = new List<ApiArtworkReview>();
+                foreach (var review in reviews) {
+                    var userLogin = (await DbContext.TUsers.FirstOrDefaultAsync(x => x.UsId == review.UserId))?.UsLogin;
+                    var userRating = (await DbContext.TArtworkRatings.FirstOrDefaultAsync(x => x.ArtworkId == artworkId && x.UserId == userId))?.RatingValue.ToString() ?? string.Empty;
+                    reviewList.Add(new ApiArtworkReview() {
+                        ArtworkId = review.ArtworkId,
+                        AuthorLogin = userLogin,
+                        Content = review.ReviewContent,
+                        ReviewDate = (DateTime)review.ReviewDate!,
+                        Title = review.ReviewTitle,
+                        Rating = string.IsNullOrEmpty(userRating) ? "Not rated" : $"{userRating}/5"
+                    });
+                }
+
+                return new ApiResponse() {
+                    IsSuccess = true,
+                    Title = string.Empty,
+                    Message = string.Empty,
+                    Data = reviewList
+                };
+            });
+            return await ExecuteWithTryCatch(task);
         }
 
         public async Task<ApiResponse> GetRating(string login, int artworkId) {
@@ -93,7 +162,8 @@ namespace Art_Critique_Api.Services {
                 if (ratings.Count == 0) {
                     ratingInfo = "Average rating: N/A";
                 } else {
-                    ratingInfo = $"Average rating: {ratings.Sum(x => x.RatingValue) / ratings.Count}/5 ({ratings.Count})";
+                    var averageRating = decimal.Round((decimal)ratings.Sum(x => x.RatingValue) / ratings.Count, 2);
+                    ratingInfo = $"Average rating: {averageRating}/5 ({ratings.Count})";
                 }
 
                 return new ApiResponse() {
@@ -106,7 +176,38 @@ namespace Art_Critique_Api.Services {
             return await ExecuteWithTryCatch(task);
         }
 
-        public async Task<ApiResponse> GetArtworkReview(string login, int artworkId) {
+        public async Task<ApiResponse> CreateOrUpdateReview(string login, ApiArtworkReview artworkReview) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                // Finding user's id by input login.
+                var userId = await GetUserIdFromLogin(DbContext, login);
+
+                // Finding user's review by user's id and artwork id.
+                var review = await DbContext.TArtworkReviews.FirstOrDefaultAsync(x => x.UserId == userId && x.ArtworkId == artworkReview.ArtworkId);
+                if (review == null) {
+                    DbContext.TArtworkReviews.Add(new TArtworkReview() {
+                        ArtworkId = artworkReview.ArtworkId,
+                        ReviewContent = artworkReview.Content,
+                        ReviewDate = artworkReview.ReviewDate,
+                        ReviewTitle = artworkReview.Title,
+                        UserId = (int)userId
+                    });
+                } else {
+                    review.ReviewTitle = artworkReview.Title;
+                    review.ReviewContent = artworkReview.Content;
+                }
+                await DbContext.SaveChangesAsync();
+
+                return new ApiResponse() {
+                    IsSuccess = true,
+                    Title = string.Empty,
+                    Message = string.Empty,
+                    Data = null
+                };
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> RemoveReview(string login, int artworkId) {
             var task = new Func<Task<ApiResponse>>(async () => {
                 // Finding user's id by input login.
                 var userId = await GetUserIdFromLogin(DbContext, login);
@@ -114,33 +215,16 @@ namespace Art_Critique_Api.Services {
                 // Finding user's review by user's id and artwork id.
                 var review = await DbContext.TArtworkReviews.FirstOrDefaultAsync(x => x.UserId == userId && x.ArtworkId == artworkId);
 
-                if (review != null) {
-                    var rating = (await DbContext.TArtworkRatings.FirstOrDefaultAsync(x => x.ArtworkId == artworkId && x.UserId == userId))?.RatingValue.ToString() ?? string.Empty;
+                // Removing the review.
+                DbContext.TArtworkReviews.Remove(review!);
+                await DbContext.SaveChangesAsync();
 
-                    var artworkReview = new ApiArtworkReview() {
-                        ArtworkId = review.ArtworkId,
-                        AuthorLogin = login,
-                        Content = review.ReviewContent,
-                        ReviewDate = review.ReviewDate ?? default,
-                        Id = review.ReviewId,
-                        Title = review.ReviewTitle,
-                        Rating = string.IsNullOrEmpty(rating) ? "Not rated" : $"{rating}/5"
-                    };
-
-                    return new ApiResponse() {
-                        IsSuccess = true,
-                        Title = string.Empty,
-                        Message = string.Empty,
-                        Data = artworkReview
-                    };
-                } else {
-                    return new ApiResponse() {
-                        IsSuccess = true,
-                        Title = string.Empty,
-                        Message = string.Empty,
-                        Data = null
-                    };
-                }
+                return new ApiResponse() {
+                    IsSuccess = true,
+                    Title = string.Empty,
+                    Message = string.Empty,
+                    Data = null
+                };
             });
             return await ExecuteWithTryCatch(task);
         }
