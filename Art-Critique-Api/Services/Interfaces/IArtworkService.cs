@@ -2,7 +2,7 @@
 using Art_Critique_Api.Models.Base;
 
 namespace Art_Critique_Api.Services.Interfaces {
-    public interface IArtwork {
+    public interface IArtworkService {
         public Task<ApiResponse> GetArtworkGenres();
         public Task<ApiResponse> InsertUserArtwork(ApiUserArtwork artwork);
         public Task<ApiResponse> GetUserArtwork(int id);

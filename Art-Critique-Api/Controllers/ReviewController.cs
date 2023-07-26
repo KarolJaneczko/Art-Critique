@@ -22,7 +22,7 @@ namespace Art_Critique_Api.Controllers {
         #region Post methods
         [HttpPost("RemoveReview")]
         public async Task<ApiResponse> RemoveReview(string login, int artworkId) {
-            return await ReviewService.RemoveRating(login, artworkId);
+            return await ReviewService.RemoveReview(login, artworkId);
         }
         #endregion
 

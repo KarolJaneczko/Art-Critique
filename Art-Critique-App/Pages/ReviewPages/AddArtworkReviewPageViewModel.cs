@@ -7,8 +7,10 @@ using Art_Critique.Pages.ViewModels;
 using Newtonsoft.Json;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ArtworkPages {
-    public class AddArtworkReviewPageViewModel : BaseViewModel {
+namespace Art_Critique.Pages.ReviewPages
+{
+    public class AddArtworkReviewPageViewModel : BaseViewModel
+    {
         #region Services
         private readonly IBaseHttpService BaseHttp;
         private readonly ICredentialsService Credentials;
@@ -26,7 +28,8 @@ namespace Art_Critique.Pages.ArtworkPages {
         #endregion
 
         #region Constructor
-        public AddArtworkReviewPageViewModel(IBaseHttpService baseHttp, ICredentialsService credentials, string artworkId, ApiArtworkReview artworkReview) {
+        public AddArtworkReviewPageViewModel(IBaseHttpService baseHttp, ICredentialsService credentials, string artworkId, ApiArtworkReview artworkReview)
+        {
             BaseHttp = baseHttp;
             Credentials = credentials;
             ArtworkId = artworkId;
@@ -35,15 +38,18 @@ namespace Art_Critique.Pages.ArtworkPages {
         #endregion
 
         #region Methods
-        private async Task ConfirmAddingReview() {
-            var task = new Func<Task<ApiResponse>>(async () => {
+        private async Task ConfirmAddingReview()
+        {
+            var task = new Func<Task<ApiResponse>>(async () =>
+            {
                 var entries = new Dictionary<EntryType, string>() {
                     { EntryType.ReviewTitle, ArtworkReview.Title },
                     { EntryType.ReviewContent, ArtworkReview.Content },
                 };
                 Validators.ValidateEntries(entries);
 
-                var body = JsonConvert.SerializeObject(new ApiArtworkReview() {
+                var body = JsonConvert.SerializeObject(new ApiArtworkReview()
+                {
                     ArtworkId = int.Parse(ArtworkId),
                     AuthorLogin = Credentials.GetCurrentUserLogin(),
                     ReviewDate = DateTime.Now,
@@ -54,7 +60,8 @@ namespace Art_Critique.Pages.ArtworkPages {
             });
 
             var result = await ExecuteWithTryCatch(task);
-            if (result.IsSuccess) {
+            if (result.IsSuccess)
+            {
                 await Shell.Current.GoToAsync("../");
             }
         }

@@ -2,7 +2,7 @@
 using Art_Critique_Api.Models.UserData;
 
 namespace Art_Critique_Api.Services.Interfaces {
-    public interface IProfile {
+    public interface IProfileService {
         public Task<ApiResponse> CreateProfile(int userID);
         public Task<ApiResponse> DeleteProfile(int userID);
         public Task<ApiResponse> GetProfile(string login);

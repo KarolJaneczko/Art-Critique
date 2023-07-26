@@ -8,8 +8,8 @@ namespace Art_Critique_Api.Controllers {
     [ApiController]
     public class ProfileController : ControllerBase {
 
-        private readonly IProfile ProfileService;
-        public ProfileController(IProfile profileService) {
+        private readonly IProfileService ProfileService;
+        public ProfileController(IProfileService profileService) {
             ProfileService = profileService;
         }
 

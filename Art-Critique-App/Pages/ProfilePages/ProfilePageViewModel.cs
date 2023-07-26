@@ -4,6 +4,7 @@ using Art_Critique.Core.Models.Logic;
 using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ViewModels;
+using Art_Critique.Utils.Helpers;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Input;
@@ -63,9 +64,9 @@ namespace Art_Critique.Pages.ProfilePages {
                 ButtonText = "Follow";
             }
 
-            FacebookOpen = string.IsNullOrEmpty(_apiProfile.Facebook) ? null : new Command(async () => await Utils.OpenUrl(_apiProfile.Facebook));
-            InstagramOpen = string.IsNullOrEmpty(_apiProfile.Instagram) ? null : new Command(async () => await Utils.OpenUrl(_apiProfile.Instagram));
-            TwitterOpen = string.IsNullOrEmpty(_apiProfile.Twitter) ? null : new Command(async () => await Utils.OpenUrl(_apiProfile.Twitter));
+            FacebookOpen = string.IsNullOrEmpty(_apiProfile.Facebook) ? null : new Command(async () => await MethodHelper.OpenUrl(_apiProfile.Facebook));
+            InstagramOpen = string.IsNullOrEmpty(_apiProfile.Instagram) ? null : new Command(async () => await MethodHelper.OpenUrl(_apiProfile.Instagram));
+            TwitterOpen = string.IsNullOrEmpty(_apiProfile.Twitter) ? null : new Command(async () => await MethodHelper.OpenUrl(_apiProfile.Twitter));
             GalleryCommand = new Command(async () => await GoToGallery(_apiProfile.Login));
             ButtonCommand = new Command(async () => await GoEditProfile(_apiProfile));
         }

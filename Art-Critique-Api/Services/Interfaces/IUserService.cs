@@ -2,7 +2,7 @@
 using Art_Critique_Api.Models.UserData;
 
 namespace Art_Critique_Api.Services.Interfaces {
-    public interface IUser {
+    public interface IUserService {
         public Task<ApiResponse> GetUsers();
         public Task<ApiResponse> RegisterUser(ApiUser User);
         public Task<ApiResponse> Login(string login, string password);

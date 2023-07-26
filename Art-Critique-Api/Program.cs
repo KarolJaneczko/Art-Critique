@@ -12,9 +12,9 @@ builder.Services.AddEntityFrameworkMySQL().AddDbContext<ArtCritiqueDbContext>(op
     }
     options.UseMySQL(connectionString);
 });
-builder.Services.AddScoped<IUser, UserService>();
-builder.Services.AddScoped<IProfile, ProfileService>();
-builder.Services.AddScoped<IArtwork, ArtworkService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IArtworkService, ArtworkService>();
 builder.Services.AddScoped<IReviewService,  ReviewService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

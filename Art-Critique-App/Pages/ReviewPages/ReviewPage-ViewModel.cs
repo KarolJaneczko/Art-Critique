@@ -3,7 +3,6 @@ using Art_Critique.Core.Models.API.Base;
 using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ViewModels;
-using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -33,11 +32,11 @@ namespace Art_Critique.Pages.ReviewPages {
         #endregion
 
         #region Visibility flags
-        private bool isLoading = true;
-        public bool IsLoading { get => isLoading; set { isLoading = value; OnPropertyChanged(nameof(IsLoading)); } }
+        private bool isLoading = true, isYourReviewVisible, isAddingReviewVisible;
         public bool IsMyArtwork { get; set; }
-        public bool IsYourReviewVisible { get => MyReview is not null && !IsMyArtwork; }
-        public bool IsAddingReviewVisible { get => MyReview is null && !IsMyArtwork; }
+        public bool IsLoading { get => isLoading; set { isLoading = value; OnPropertyChanged(nameof(IsLoading)); } }
+        public bool IsYourReviewVisible { get => isYourReviewVisible; set { isYourReviewVisible = value; OnPropertyChanged(nameof(IsYourReviewVisible)); } }
+        public bool IsAddingReviewVisible { get => isAddingReviewVisible; set { isAddingReviewVisible = value; OnPropertyChanged(nameof(IsAddingReviewVisible)); } }
         #endregion
 
         #region Commands
@@ -64,6 +63,8 @@ namespace Art_Critique.Pages.ReviewPages {
             if (!reviews.Any()) {
                 OtherReviewsText = "There are no reviews!";
             }
+            IsYourReviewVisible = myReview is not null && !isMyArtwork;
+            IsAddingReviewVisible = myReview is null && !isMyArtwork;
             IsLoading = false;
         }
 
@@ -75,6 +76,8 @@ namespace Art_Critique.Pages.ReviewPages {
 
             var result = await ExecuteWithTryCatch(task);
             if (result.IsSuccess) {
+                IsYourReviewVisible = false;
+                IsAddingReviewVisible = true;
             }
         }
 

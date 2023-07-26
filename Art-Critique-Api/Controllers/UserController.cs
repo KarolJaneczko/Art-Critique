@@ -7,8 +7,8 @@ namespace Art_Critique_Api.Controllers {
     [Route("api/User")]
     [ApiController]
     public class UserController : ControllerBase {
-        private readonly IUser UserService;
-        public UserController(IUser userService) {
+        private readonly IUserService UserService;
+        public UserController(IUserService userService) {
             UserService = userService;
         }
 

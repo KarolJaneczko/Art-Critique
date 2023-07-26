@@ -8,11 +8,11 @@ namespace Art_Critique_Api.Controllers {
     [ApiController]
     public class ArtworkController : ControllerBase {
         #region Service
-        private readonly IArtwork ArtworkService;
+        private readonly IArtworkService ArtworkService;
         #endregion
 
         #region Constructor
-        public ArtworkController(IArtwork artworkService) {
+        public ArtworkController(IArtworkService artworkService) {
             ArtworkService = artworkService;
         }
         #endregion
