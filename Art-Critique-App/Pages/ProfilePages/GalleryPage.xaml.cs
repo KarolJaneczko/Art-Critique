@@ -9,11 +9,11 @@ using Newtonsoft.Json;
 namespace Art_Critique {
     [QueryProperty(nameof(Login), nameof(Login))]
     public partial class GalleryPage : ContentPage {
-        private readonly IBaseHttp BaseHttp;
+        private readonly IBaseHttpService BaseHttp;
         private string login;
         public string Login { get => login; set { login = value; OnPropertyChanged(nameof(Login)); } }
 
-        public GalleryPage(IBaseHttp baseHttp) {
+        public GalleryPage(IBaseHttpService baseHttp) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(EditProfilePage), typeof(EditProfilePage));
             BaseHttp = baseHttp;

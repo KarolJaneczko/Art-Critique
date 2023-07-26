@@ -8,12 +8,12 @@ using Newtonsoft.Json;
 namespace Art_Critique {
     [QueryProperty(nameof(Login), nameof(Login))]
     public partial class ProfilePage : ContentPage {
-        private readonly IBaseHttp BaseHttp;
+        private readonly IBaseHttpService BaseHttp;
         private readonly ICredentials Credentials;
         private string login;
         public string Login { get => login; set { login = value; OnPropertyChanged(nameof(Login)); } }
 
-        public ProfilePage(IBaseHttp baseHttp, ICredentials credentials) {
+        public ProfilePage(IBaseHttpService baseHttp, ICredentials credentials) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(EditProfilePage), typeof(EditProfilePage));
             Routing.RegisterRoute(nameof(GalleryPage), typeof(GalleryPage));

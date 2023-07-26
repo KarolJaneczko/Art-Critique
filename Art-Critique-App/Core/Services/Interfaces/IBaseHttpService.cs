@@ -2,7 +2,7 @@
 
 namespace Art_Critique.Core.Services.Interfaces
 {
-    public interface IBaseHttp {
+    public interface IBaseHttpService {
         public Task<ApiResponse> SendApiRequest(HttpMethod method, string path, string body = "");
     }
 }

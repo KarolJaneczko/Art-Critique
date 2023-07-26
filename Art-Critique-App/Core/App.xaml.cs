@@ -4,7 +4,7 @@ namespace Art_Critique {
     public partial class App : Application {
         private ICredentials Credentials { get; set; }
 
-        public App(ICredentials credentials, IBaseHttp baseHttp) {
+        public App(ICredentials credentials, IBaseHttpService baseHttp) {
             InitializeComponent();
             RegisterRoutes();
             Credentials = credentials;

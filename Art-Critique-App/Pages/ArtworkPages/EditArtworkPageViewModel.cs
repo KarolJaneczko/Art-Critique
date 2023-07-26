@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace Art_Critique.Pages.ArtworkPages {
     public class EditArtworkPageViewModel : BaseViewModel {
-        private readonly IBaseHttp BaseHttp;
+        private readonly IBaseHttpService BaseHttp;
         private readonly ApiUserArtwork UserArtwork;
         private ObservableCollection<ImageThumbnail> artworkPhotos = new();
         private List<PaintingGenre> paintingGenres;
@@ -30,7 +30,7 @@ namespace Art_Critique.Pages.ArtworkPages {
         public ICommand UploadPhoto => new Command(async () => await UploadPhotoFromGallery());
         public ICommand ConfirmChanges => new Command(async () => await Confirm());
 
-        public EditArtworkPageViewModel(IBaseHttp baseHttp, ApiUserArtwork artworkData, IEnumerable<PaintingGenre> genres) {
+        public EditArtworkPageViewModel(IBaseHttpService baseHttp, ApiUserArtwork artworkData, IEnumerable<PaintingGenre> genres) {
             BaseHttp = baseHttp;
             UserArtwork = artworkData;
             PaintingGenres = genres.ToList();

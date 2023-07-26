@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace Art_Critique.Pages.ViewModels
 {
     public class LoginPageViewModel : BaseViewModel {
-        private readonly IBaseHttp BaseHttp;
+        private readonly IBaseHttpService BaseHttp;
         private readonly ICredentials Credentials;
 
         private string _login, _password;
@@ -15,7 +15,7 @@ namespace Art_Critique.Pages.ViewModels
         public string Password { get => _password; set { _password = value.Trim(); OnPropertyChanged(nameof(Password)); } }
         public ICommand LoginCommand => new Command(SignIn);
 
-        public LoginPageViewModel(IBaseHttp baseHttp, ICredentials credentials) {
+        public LoginPageViewModel(IBaseHttpService baseHttp, ICredentials credentials) {
             BaseHttp = baseHttp;
             Credentials = credentials;
         }

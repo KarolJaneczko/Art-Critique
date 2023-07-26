@@ -3,7 +3,7 @@ using Art_Critique.Pages.ViewModels;
 
 namespace Art_Critique {
     public partial class MainPage : ContentPage {
-        public MainPage(IBaseHttp baseHttp) {
+        public MainPage(IBaseHttpService baseHttp) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(ArtworkPage), typeof(ArtworkPage));
             Routing.RegisterRoute(nameof(AddArtworkReviewPage), typeof(AddArtworkReviewPage));

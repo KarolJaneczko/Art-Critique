@@ -7,10 +7,10 @@ using Newtonsoft.Json;
 
 namespace Art_Critique {
     public partial class AddArtworkPage : ContentPage {
-        private readonly IBaseHttp BaseHttp;
+        private readonly IBaseHttpService BaseHttp;
         private readonly ICredentials Credentials;
 
-        public AddArtworkPage(IBaseHttp baseHttp, ICredentials credentials) {
+        public AddArtworkPage(IBaseHttpService baseHttp, ICredentials credentials) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(ArtworkPage), typeof(ArtworkPage));
             BaseHttp = baseHttp;

@@ -10,7 +10,7 @@ using System.Windows.Input;
 namespace Art_Critique.Pages.ViewModels
 {
     public class RegisterPageViewModel : BaseViewModel {
-        private readonly IBaseHttp BaseHttp;
+        private readonly IBaseHttpService BaseHttp;
 
         private string _email, _login, _password, _passwordConfirm;
         public string Email { get => _email; set { _email = value.Trim(); OnPropertyChanged(nameof(Email)); } }
@@ -19,7 +19,7 @@ namespace Art_Critique.Pages.ViewModels
         public string PasswordConfirm { get => _passwordConfirm; set { _passwordConfirm = value.Trim(); OnPropertyChanged(nameof(PasswordConfirm)); } }
         public ICommand RegisterCommand => new Command(Register);
 
-        public RegisterPageViewModel(IBaseHttp baseHttp) {
+        public RegisterPageViewModel(IBaseHttpService baseHttp) {
             BaseHttp = baseHttp;
         }
 

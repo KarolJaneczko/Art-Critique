@@ -10,7 +10,7 @@ using System.Windows.Input;
 namespace Art_Critique.Pages.ArtworkPages {
     public class AddArtworkReviewPageViewModel : BaseViewModel {
         #region Services
-        private readonly IBaseHttp BaseHttp;
+        private readonly IBaseHttpService BaseHttp;
         private readonly ICredentials Credentials;
         #endregion
 
@@ -26,7 +26,7 @@ namespace Art_Critique.Pages.ArtworkPages {
         #endregion
 
         #region Constructor
-        public AddArtworkReviewPageViewModel(IBaseHttp baseHttp, ICredentials credentials, string artworkId, ApiArtworkReview artworkReview) {
+        public AddArtworkReviewPageViewModel(IBaseHttpService baseHttp, ICredentials credentials, string artworkId, ApiArtworkReview artworkReview) {
             BaseHttp = baseHttp;
             Credentials = credentials;
             ArtworkId = artworkId;

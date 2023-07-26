@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Art_Critique.Pages.ProfilePages {
     public class EditProfilePageViewModel : BaseViewModel {
-        private readonly IBaseHttp BaseHttp;
+        private readonly IBaseHttpService BaseHttp;
         private readonly ApiProfile apiProfile;
         private string newAvatar;
         private ImageSource avatar;
@@ -23,7 +23,7 @@ namespace Art_Critique.Pages.ProfilePages {
         public ICommand TakePhoto => new Command(async () => await TakePhotoWithCamera());
         public ICommand UploadPhoto => new Command(async () => await UploadPhotoFromGallery());
         public ICommand EditProfile => new Command(async () => await ConfirmEdit());
-        public EditProfilePageViewModel(IBaseHttp baseHttp, ApiProfile _apiProfile) {
+        public EditProfilePageViewModel(IBaseHttpService baseHttp, ApiProfile _apiProfile) {
             BaseHttp = baseHttp;
             apiProfile = _apiProfile;
             if (!string.IsNullOrEmpty(_apiProfile.Avatar)) {

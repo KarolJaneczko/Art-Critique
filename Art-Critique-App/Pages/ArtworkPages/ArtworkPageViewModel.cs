@@ -3,13 +3,14 @@ using Art_Critique.Core.Models.API.UserData;
 using Art_Critique.Core.Models.Logic;
 using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
+using Art_Critique.Pages.ReviewPages;
 using Art_Critique.Pages.ViewModels;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Art_Critique.Pages.ArtworkPages {
     public class ArtworkPageViewModel : BaseViewModel {
-        private readonly IBaseHttp BaseHttp;
+        private readonly IBaseHttpService BaseHttp;
         private readonly ICredentials Credentials;
         private readonly ApiUserArtwork UserArtwork;
         private ObservableCollection<ImageThumbnail> images = new();
@@ -33,8 +34,9 @@ namespace Art_Critique.Pages.ArtworkPages {
         public ICommand SecondButtonCommand { get; protected set; }
         public ICommand GoToProfile { get; protected set; }
         public ICommand GoToReviews => new Command(async () => await GoSeeReviews());
+        public bool IsMyArtwork { get; set; }
 
-        public ArtworkPageViewModel(IBaseHttp baseHttp, ICredentials credentials, ApiUserArtwork userArtwork, ApiProfile userProfile, string rating, string averageRating) {
+        public ArtworkPageViewModel(IBaseHttpService baseHttp, ICredentials credentials, ApiUserArtwork userArtwork, ApiProfile userProfile, string rating, string averageRating) {
             BaseHttp = baseHttp;
             Credentials = credentials;
             UserArtwork = userArtwork;
@@ -51,10 +53,10 @@ namespace Art_Critique.Pages.ArtworkPages {
             Date = string.Format("{0:dd/MM/yyyy}", userArtwork.Date);
             Genre = userArtwork.GenreName != "Other" ? userArtwork.GenreName : userArtwork.GenreOtherName;
 
-            var isMyArtwork = userArtwork.Login == Credentials.GetCurrentUserLogin();
-            IsRateVisible = !isMyArtwork;
-            SecondButtonText = isMyArtwork ? "Edit" : "Review";
-            SecondButtonCommand = isMyArtwork ? new Command(async () => await GoEdit()) : new Command(async () => await GoSeeReviews());
+            IsMyArtwork = userArtwork.Login == Credentials.GetCurrentUserLogin();
+            IsRateVisible = !IsMyArtwork;
+            SecondButtonText = IsMyArtwork ? "Edit" : "Review";
+            SecondButtonCommand = IsMyArtwork ? new Command(async () => await GoEdit()) : new Command(async () => await GoSeeReviews());
 
             Avatar = userProfile.Avatar.Base64ToImageSource();
             GoToProfile = new Command(async () => await GoToUserProfile(userArtwork.Login));
@@ -87,7 +89,7 @@ namespace Art_Critique.Pages.ArtworkPages {
         }
 
         private async Task GoSeeReviews() {
-            await Shell.Current.GoToAsync(nameof(ArtworkReviewPage), new Dictionary<string, object> { { "ArtworkId", UserArtwork.ArtworkId.ToString() } });
+            await Shell.Current.GoToAsync(nameof(ReviewPage), new Dictionary<string, object> { { "ArtworkId", UserArtwork.ArtworkId.ToString() }, { "IsMyArtwork", IsMyArtwork } });
         }
 
         private async Task GoEdit() {

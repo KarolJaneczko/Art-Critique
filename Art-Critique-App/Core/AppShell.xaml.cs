@@ -4,10 +4,10 @@ using Art_Critique.Core.Utils.Helpers;
 
 namespace Art_Critique {
     public partial class AppShell : Shell {
-        private readonly IBaseHttp BaseHttp;
+        private readonly IBaseHttpService BaseHttp;
         private readonly ICredentials Credentials;
 
-        public AppShell(IBaseHttp baseHttp, ICredentials credentials) {
+        public AppShell(IBaseHttpService baseHttp, ICredentials credentials) {
             InitializeComponent();
             BaseHttp = baseHttp;
             Credentials = credentials;

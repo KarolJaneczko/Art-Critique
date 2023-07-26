@@ -8,11 +8,11 @@ using Newtonsoft.Json;
 namespace Art_Critique {
     [QueryProperty(nameof(ArtworkData), nameof(ArtworkData))]
     public partial class EditArtworkPage : ContentPage {
-        private readonly IBaseHttp BaseHttp;
+        private readonly IBaseHttpService BaseHttp;
         private ApiUserArtwork artworkData;
         public ApiUserArtwork ArtworkData { get => artworkData; set { artworkData = value; OnPropertyChanged(nameof(ArtworkData)); } }
 
-        public EditArtworkPage(IBaseHttp baseHttp) {
+        public EditArtworkPage(IBaseHttpService baseHttp) {
             InitializeComponent();
             BaseHttp = baseHttp;
         }

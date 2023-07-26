@@ -2,17 +2,17 @@
 
 namespace Art_Critique.Core.Services {
     public class StylesService : IStyles {
-        private readonly IProperties Properties;
+        private readonly IPropertiesService Properties;
 
-        public StylesService(IProperties properties) {
+        public StylesService(IPropertiesService properties) {
             Properties = properties;
         }
 
         public Style ButtonStyle() {
             return new Style(typeof(Button)) {
                 Setters = {
-                    new Setter { Property = VisualElement.WidthRequestProperty, Value = Properties.GetWidthPercent(20) },
-                    new Setter { Property = VisualElement.HeightRequestProperty, Value = Properties.GetHeightPercent(2) },
+                    new Setter { Property = VisualElement.WidthRequestProperty, Value = Properties.GetWidthByPercent(20) },
+                    new Setter { Property = VisualElement.HeightRequestProperty, Value = Properties.GetHeightByPercent(2) },
                     new Setter { Property = Button.CornerRadiusProperty, Value = 25 },
                     new Setter { Property = Button.FontSizeProperty, Value = 18 },
                     new Setter { Property = Button.FontFamilyProperty, Value = "PragmaticaMedium" },
@@ -24,7 +24,7 @@ namespace Art_Critique.Core.Services {
         public Style EntryStyle() {
             return new Style(typeof(Entry)) {
                 Setters = {
-                    new Setter { Property = VisualElement.WidthRequestProperty, Value = Properties.GetWidthPercent(20) },
+                    new Setter { Property = VisualElement.WidthRequestProperty, Value = Properties.GetWidthByPercent(20) },
                     new Setter { Property = Entry.PlaceholderColorProperty, Value = Color.FromRgb(0, 0, 0) },
                     new Setter { Property = Entry.TextColorProperty, Value = Color.FromRgb(0, 0, 0) },
                     new Setter { Property = Entry.HorizontalTextAlignmentProperty, Value = TextAlignment.Center },

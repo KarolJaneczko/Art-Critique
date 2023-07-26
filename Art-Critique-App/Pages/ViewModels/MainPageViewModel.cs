@@ -4,7 +4,7 @@ using System.Windows.Input;
 namespace Art_Critique.Pages.ViewModels {
 
     public class MainPageViewModel : BaseViewModel {
-        private readonly IBaseHttp BaseHttp;
+        private readonly IBaseHttpService BaseHttp;
         private string login, rating;
         private List<string> searchResults1, searchResults2, profile, prace;
         public string Login { get => login; set { login = value; OnPropertyChanged(nameof(Login)); } }
@@ -12,7 +12,7 @@ namespace Art_Critique.Pages.ViewModels {
 
         public List<string> SearchResults1 { get { return searchResults1; } set { searchResults1 = value; OnPropertyChanged(nameof(SearchResults1)); } }
         public List<string> SearchResults2 { get { return searchResults2; } set { searchResults2 = value; OnPropertyChanged(nameof(SearchResults2)); } }
-        public MainPageViewModel(IBaseHttp baseHttp) {
+        public MainPageViewModel(IBaseHttpService baseHttp) {
             BaseHttp = baseHttp;
             Login = "testowe konto";
             Rating = "5";

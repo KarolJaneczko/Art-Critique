@@ -2,10 +2,10 @@
 
 namespace Art_Critique {
     public partial class WelcomePage : ContentPage {
-        private readonly IProperties Properties;
+        private readonly IPropertiesService Properties;
         private readonly IStyles Styles;
 
-        public WelcomePage(IProperties properties, IStyles styles) {
+        public WelcomePage(IPropertiesService properties, IStyles styles) {
             InitializeComponent();
             Properties = properties;
             Styles = styles;
@@ -19,7 +19,7 @@ namespace Art_Critique {
         }
 
         private void SetStyles() {
-            ButtonsLayout.Padding = new Thickness(0, 0, 0, Properties.GetHeightPercent(1));
+            ButtonsLayout.Padding = new Thickness(0, 0, 0, Properties.GetHeightByPercent(1));
             LoginButton.Style = Styles.ButtonStyle();
             RegisterButton.Style = Styles.ButtonStyle();
         }

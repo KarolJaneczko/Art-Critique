@@ -3,10 +3,10 @@ using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Pages.ViewModels;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ArtworkPages {
-    public class ArtworkReviewPageViewModel : BaseViewModel {
+namespace Art_Critique.Pages.ReviewPages {
+    public class ReviewPageViewModel : BaseViewModel {
         #region Services
-        private readonly IBaseHttp BaseHttp;
+        private readonly IBaseHttpService BaseHttp;
         private readonly ICredentials Credentials;
         #endregion
 
@@ -22,8 +22,11 @@ namespace Art_Critique.Pages.ArtworkPages {
         #endregion
 
         #region Visibility flags
-        public bool IsYourReviewVisible { get => MyReview is not null; }
-        public bool IsAddingReviewVisible { get => MyReview is null; }
+        private bool isLoading = true;
+        public bool IsLoading { get => isLoading; set { isLoading = value; OnPropertyChanged(nameof(IsLoading)); } }
+        public bool IsMyArtwork { get; set; }
+        public bool IsYourReviewVisible { get => MyReview is not null && !IsMyArtwork; }
+        public bool IsAddingReviewVisible { get => MyReview is null && !IsMyArtwork; }
         #endregion
 
         #region Commands
@@ -31,17 +34,17 @@ namespace Art_Critique.Pages.ArtworkPages {
         #endregion
         #endregion
 
-        public ArtworkReviewPageViewModel(IBaseHttp baseHttp, ICredentials credentials, string artworkId, ApiArtworkReview myReview) {
+        public ReviewPageViewModel(IBaseHttpService baseHttp, ICredentials credentials, string artworkId, bool isMyArtwork, ApiArtworkReview myReview) {
             BaseHttp = baseHttp;
             Credentials = credentials;
-            FillReviewPage(artworkId, myReview);
+            FillReviewPage(artworkId, isMyArtwork, myReview);
         }
 
-        private void FillReviewPage(string artworkId, ApiArtworkReview myReview) {
+        private void FillReviewPage(string artworkId, bool isMyArtwork, ApiArtworkReview myReview) {
             ArtworkId = artworkId;
-            if (myReview is not null) {
-                MyReview = myReview;
-            }
+            IsMyArtwork = isMyArtwork;
+            MyReview = myReview ?? new();
+            //IsLoading = false;
         }
     }
 }

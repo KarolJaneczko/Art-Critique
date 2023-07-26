@@ -5,12 +5,12 @@ using Art_Critique.Pages.ProfilePages;
 namespace Art_Critique {
     [QueryProperty(nameof(ApiProfile), nameof(ApiProfile))]
     public partial class EditProfilePage : ContentPage {
-        private IBaseHttp BaseHttp { get; set; }
+        private IBaseHttpService BaseHttp { get; set; }
 
         private ApiProfile apiProfile;
         public ApiProfile ApiProfile { get => apiProfile; set { apiProfile = value; OnPropertyChanged(nameof(ApiProfile)); } }
 
-        public EditProfilePage(IBaseHttp baseHttp) {
+        public EditProfilePage(IBaseHttpService baseHttp) {
             InitializeComponent();
             BaseHttp = baseHttp;
         }
