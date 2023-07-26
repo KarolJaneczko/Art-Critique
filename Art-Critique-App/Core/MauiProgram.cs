@@ -20,6 +20,9 @@ namespace Art_Critique.Core {
             builder.Services.AddTransient<IStylesService, StylesService>();
             builder.Services.AddTransient<IBaseHttpService, BaseHttpService>();
 
+            builder.Services.AddTransient<ReviewPage>();
+            builder.Services.AddTransient<AddReviewPage>();
+
             builder.Services.AddTransient<WelcomePage>();
             builder.Services.AddTransient<RegisterPage>();
             builder.Services.AddTransient<LoginPage>();
@@ -30,8 +33,6 @@ namespace Art_Critique.Core {
             builder.Services.AddTransient<ArtworkPage>();
             builder.Services.AddTransient<EditArtworkPage>();
             builder.Services.AddTransient<GalleryPage>();
-            builder.Services.AddTransient<ReviewPage>();
-            builder.Services.AddTransient<AddArtworkReviewPage>();
         }
     }
 }

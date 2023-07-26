@@ -6,7 +6,6 @@ namespace Art_Critique {
         public MainPage(IBaseHttpService baseHttp) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(ArtworkPage), typeof(ArtworkPage));
-            Routing.RegisterRoute(nameof(AddArtworkReviewPage), typeof(AddArtworkReviewPage));
             BindingContext = new MainPageViewModel(baseHttp);
         }
 

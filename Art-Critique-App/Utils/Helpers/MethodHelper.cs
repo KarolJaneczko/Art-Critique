@@ -1,5 +1,4 @@
-﻿using Art_Critique.Core.Models.API.Base;
-using Art_Critique.Core.Utils.Base;
+﻿using Art_Critique.Core.Utils.Base;
 
 namespace Art_Critique.Utils.Helpers {
     public static class MethodHelper {

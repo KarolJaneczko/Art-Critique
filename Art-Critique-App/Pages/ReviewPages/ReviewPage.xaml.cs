@@ -33,7 +33,7 @@ namespace Art_Critique.Pages.ReviewPages {
 
         #region Methods
         private void InitializeValues() {
-            Routing.RegisterRoute(nameof(AddArtworkReviewPage), typeof(AddArtworkReviewPage));
+            Routing.RegisterRoute(nameof(AddReviewPage), typeof(AddReviewPage));
             Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
             Loading.HeightRequest = PropertiesService.GetHeightByPercent(85);
             Loading.WidthRequest = PropertiesService.GetWidthByPercent(100);

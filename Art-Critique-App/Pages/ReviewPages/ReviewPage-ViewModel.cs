@@ -40,7 +40,7 @@ namespace Art_Critique.Pages.ReviewPages {
         #endregion
 
         #region Commands
-        public ICommand AddReviewCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(AddArtworkReviewPage), new Dictionary<string, object> { { "ArtworkId", ArtworkId } }));
+        public ICommand AddReviewCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(AddReviewPage), new Dictionary<string, object> { { "ArtworkId", ArtworkId } }));
         public ICommand RemoveReviewCommand => new Command(async () => await RemoveReview());
         public ICommand GoToProfileCommand => new Command<ApiArtworkReview>(GoToProfile);
         #endregion
