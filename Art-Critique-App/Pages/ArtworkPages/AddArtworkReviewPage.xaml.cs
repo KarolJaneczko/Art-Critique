@@ -10,7 +10,7 @@ namespace Art_Critique {
     public partial class AddArtworkReviewPage : ContentPage {
         #region Services
         private readonly IBaseHttpService BaseHttp;
-        private readonly ICredentials Credentials;
+        private readonly ICredentialsService Credentials;
         #endregion
 
         #region Properties
@@ -19,7 +19,7 @@ namespace Art_Critique {
         #endregion
 
         #region Constructor
-        public AddArtworkReviewPage(IBaseHttpService baseHttp, ICredentials credentials) {
+        public AddArtworkReviewPage(IBaseHttpService baseHttp, ICredentialsService credentials) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(ReviewPage), typeof(ReviewPage));
             BaseHttp = baseHttp;

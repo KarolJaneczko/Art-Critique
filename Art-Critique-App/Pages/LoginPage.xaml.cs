@@ -4,9 +4,9 @@ using Art_Critique.Pages.ViewModels;
 namespace Art_Critique {
     public partial class LoginPage : ContentPage {
         private readonly IPropertiesService Properties;
-        private readonly IStyles Styles;
+        private readonly IStylesService Styles;
 
-        public LoginPage(IStyles styles, IPropertiesService properties, IBaseHttpService baseHttp, ICredentials credentials) {
+        public LoginPage(IStylesService styles, IPropertiesService properties, IBaseHttpService baseHttp, ICredentialsService credentials) {
             InitializeComponent();
             Styles = styles;
             Properties = properties;

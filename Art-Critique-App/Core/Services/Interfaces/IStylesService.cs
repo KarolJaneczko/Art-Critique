@@ -1,5 +1,5 @@
 ﻿namespace Art_Critique.Core.Services.Interfaces {
-    public interface IStyles {
+    public interface IStylesService {
         public Style ButtonStyle();
         public Style EntryStyle();
     }

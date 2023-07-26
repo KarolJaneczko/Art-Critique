@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace Art_Critique.Pages.ProfilePages {
     public class ProfilePageViewModel : BaseViewModel {
-        private readonly ICredentials Credentials;
+        private readonly ICredentialsService Credentials;
 
         private ApiProfile apiProfile;
         private ImageSource avatar;
@@ -36,7 +36,7 @@ namespace Art_Critique.Pages.ProfilePages {
         public ICommand GalleryCommand { get; protected set; }
         public ICommand ShowArtworkCommand => new Command<ImageThumbnail>(GoToArtwork);
 
-        public ProfilePageViewModel(ICredentials credentials, ApiProfile apiProfile, List<ApiCustomPainting> thumbnails, string viewCount) {
+        public ProfilePageViewModel(ICredentialsService credentials, ApiProfile apiProfile, List<ApiCustomPainting> thumbnails, string viewCount) {
             Credentials = credentials;
             TotalViews = viewCount;
             FillProfile(apiProfile);

@@ -29,7 +29,7 @@ namespace Art_Critique.Pages.ArtworkPages {
         public ICommand UploadPhoto => new Command(async () => await UploadPhotoFromGallery());
         public ICommand DeleteCommand => new Command<ImageThumbnail>(RemovePhoto);
         public ICommand AddArtwork => new Command(async () => await ConfirmAdding());
-        public AddArtworkPageViewModel(IBaseHttpService baseHttp, ICredentials credentials, IEnumerable<PaintingGenre> paintingGenres) {
+        public AddArtworkPageViewModel(IBaseHttpService baseHttp, ICredentialsService credentials, IEnumerable<PaintingGenre> paintingGenres) {
             BaseHttp = baseHttp;
             SelectedGenre = null;
             PaintingGenres = paintingGenres.ToList();

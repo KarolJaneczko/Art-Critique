@@ -5,8 +5,9 @@
              Title="Reviews">
 
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
-        <Grid RowDefinitions="Auto,Auto,Auto" Padding="20,0">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Padding="20,0">
 
+            <!-- Loading indicator -->
             <StackLayout x:Name="Loading" BackgroundColor="LightGray" IsVisible="{Binding IsLoading}">
                 <ActivityIndicator IsVisible="True" IsRunning="True" HeightRequest="50" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
             </StackLayout>
@@ -27,15 +28,41 @@
 
                 <Label Grid.Row="3" Text="{Binding MyContent}" HorizontalTextAlignment="Center" FontSize="16" WidthRequest="250" Margin="0,10,0,10" />
                 <HorizontalStackLayout Grid.Row="4" >
-                    <Button Text="Edit" Command="{Binding AddReview}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="125" HeightRequest="50" Margin="5,0,5,0"/>
-                    <Button Text="Delete" Command="{Binding AddReview}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="125" HeightRequest="50" Margin="5,0,5,0"/>
+                    <Button Text="Edit" Command="{Binding AddReviewCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="125" HeightRequest="50" Margin="5,0,5,0"/>
+                    <Button Text="Delete" Command="{Binding AddReviewCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="125" HeightRequest="50" Margin="5,0,5,0"/>
                 </HorizontalStackLayout>
             </Grid>
 
             <!-- Showing button that allows you to add a review -->
             <Grid Grid.Row="2" IsVisible="{Binding IsAddingReviewVisible}">
-                <Button Text="Add your review!" Command="{Binding AddReview}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" Margin="5,0,5,0"/>
+                <Button Text="Add your review!" Command="{Binding AddReviewCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" Margin="5,0,5,0"/>
             </Grid>
+
+            <Label Grid.Row="3" Text="{Binding OtherReviewsText}" HorizontalTextAlignment="Center" CharacterSpacing="2" FontSize="Large" Margin="0,10,0,10"/>
+
+            <!-- Reviews made by other users -->
+            <CollectionView Grid.Row="4" x:Name="UserReviews" ItemsSource="{Binding Reviews}" ItemsLayout="VerticalList">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto" Padding="10" BackgroundColor="LightGray">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference UserReviews}, Path=BindingContext.GoToProfileCommand}" CommandParameter="{Binding}"/>
+                            </Grid.GestureRecognizers>
+                            
+                            <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto" HorizontalOptions="Center" Margin="0,10,0,10">
+                                <Label Grid.Column="1" Text="{Binding AuthorLogin, StringFormat='@{0}'}" CharacterSpacing="1" FontAttributes="Bold" VerticalTextAlignment="Center" Margin="10,0,0,0" />
+                                <Label Grid.Column="2" Text="{Binding Rating}" CharacterSpacing="1" FontAttributes="Bold" VerticalTextAlignment="Center" Padding="25,0,0,0"/>
+                            </Grid>
+
+                            <Grid Grid.Row="2" ColumnDefinitions="Auto, Auto" HorizontalOptions="Center">
+                                <Label Grid.Column="1" Text="{Binding Title}" CharacterSpacing="1" FontAttributes="Bold" VerticalTextAlignment="Center" FontSize="Large" />
+                            </Grid>
+
+                            <Label Grid.Row="3" Text="{Binding Content}" HorizontalTextAlignment="Center" FontSize="16" WidthRequest="250" Margin="0,10,0,10" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
         </Grid>
     </ScrollView>

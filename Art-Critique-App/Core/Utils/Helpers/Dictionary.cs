@@ -14,13 +14,16 @@
         public const string EditUserArtwork = "Artwork/EditUserArtwork";
         public const string AddViewToArtwork = "Artwork/AddViewToArtwork";
         public const string GetUserArtworks = "Artwork/GetUserArtworks";
+
         #region Review paths
+        public const string GetArtworkReview = "Review/GetArtworkReview";
+        public const string GetArtworkReviews = "Review/GetArtworkReviews";
+        public const string GetAverageRatingInfo = "Review/GetAverageRatingInfo";
         public const string GetRating = "Review/GetRating";
+
+        public const string CreateOrUpdateReview = "Review/CreateOrUpdateReview";
         public const string RateArtwork = "Review/RateArtwork";
         public const string RemoveRating = "Review/RemoveRating";
-        public const string GetAverageRatingInfo = "Review/GetAverageRatingInfo";
-        public const string GetArtworkReview = "Review/GetArtworkReview";
-        public const string CreateOrUpdateReview = "Review/CreateOrUpdateReview";
         #endregion
     }
 }

@@ -11,7 +11,7 @@ using System.Windows.Input;
 namespace Art_Critique.Pages.ArtworkPages {
     public class ArtworkPageViewModel : BaseViewModel {
         private readonly IBaseHttpService BaseHttp;
-        private readonly ICredentials Credentials;
+        private readonly ICredentialsService Credentials;
         private readonly ApiUserArtwork UserArtwork;
         private ObservableCollection<ImageThumbnail> images = new();
         private ImageSource avatar;
@@ -36,7 +36,7 @@ namespace Art_Critique.Pages.ArtworkPages {
         public ICommand GoToReviews => new Command(async () => await GoSeeReviews());
         public bool IsMyArtwork { get; set; }
 
-        public ArtworkPageViewModel(IBaseHttpService baseHttp, ICredentials credentials, ApiUserArtwork userArtwork, ApiProfile userProfile, string rating, string averageRating) {
+        public ArtworkPageViewModel(IBaseHttpService baseHttp, ICredentialsService credentials, ApiUserArtwork userArtwork, ApiProfile userProfile, string rating, string averageRating) {
             BaseHttp = baseHttp;
             Credentials = credentials;
             UserArtwork = userArtwork;

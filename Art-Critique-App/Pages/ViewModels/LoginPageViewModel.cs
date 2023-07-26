@@ -8,14 +8,14 @@ namespace Art_Critique.Pages.ViewModels
 {
     public class LoginPageViewModel : BaseViewModel {
         private readonly IBaseHttpService BaseHttp;
-        private readonly ICredentials Credentials;
+        private readonly ICredentialsService Credentials;
 
         private string _login, _password;
         public string Login { get => _login; set { _login = value.Trim(); OnPropertyChanged(nameof(Login)); } }
         public string Password { get => _password; set { _password = value.Trim(); OnPropertyChanged(nameof(Password)); } }
         public ICommand LoginCommand => new Command(SignIn);
 
-        public LoginPageViewModel(IBaseHttpService baseHttp, ICredentials credentials) {
+        public LoginPageViewModel(IBaseHttpService baseHttp, ICredentialsService credentials) {
             BaseHttp = baseHttp;
             Credentials = credentials;
         }

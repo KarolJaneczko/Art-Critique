@@ -10,11 +10,11 @@ namespace Art_Critique {
     [QueryProperty(nameof(ArtworkId), nameof(ArtworkId))]
     public partial class ArtworkPage : ContentPage {
         private readonly IBaseHttpService BaseHttp;
-        private readonly ICredentials Credentials;
+        private readonly ICredentialsService Credentials;
         private string artworkId;
         public string ArtworkId { get => artworkId; set { artworkId = value; OnPropertyChanged(nameof(ArtworkId)); } }
 
-        public ArtworkPage(IBaseHttpService baseHttp, ICredentials credentials) {
+        public ArtworkPage(IBaseHttpService baseHttp, ICredentialsService credentials) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(EditArtworkPage), typeof(EditArtworkPage));
             Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));

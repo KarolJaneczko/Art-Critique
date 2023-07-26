@@ -11,7 +11,7 @@ namespace Art_Critique.Pages.ArtworkPages {
     public class AddArtworkReviewPageViewModel : BaseViewModel {
         #region Services
         private readonly IBaseHttpService BaseHttp;
-        private readonly ICredentials Credentials;
+        private readonly ICredentialsService Credentials;
         #endregion
 
         #region Properties
@@ -26,7 +26,7 @@ namespace Art_Critique.Pages.ArtworkPages {
         #endregion
 
         #region Constructor
-        public AddArtworkReviewPageViewModel(IBaseHttpService baseHttp, ICredentials credentials, string artworkId, ApiArtworkReview artworkReview) {
+        public AddArtworkReviewPageViewModel(IBaseHttpService baseHttp, ICredentialsService credentials, string artworkId, ApiArtworkReview artworkReview) {
             BaseHttp = baseHttp;
             Credentials = credentials;
             ArtworkId = artworkId;

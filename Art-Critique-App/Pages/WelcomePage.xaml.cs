@@ -3,9 +3,9 @@
 namespace Art_Critique {
     public partial class WelcomePage : ContentPage {
         private readonly IPropertiesService Properties;
-        private readonly IStyles Styles;
+        private readonly IStylesService Styles;
 
-        public WelcomePage(IPropertiesService properties, IStyles styles) {
+        public WelcomePage(IPropertiesService properties, IStylesService styles) {
             InitializeComponent();
             Properties = properties;
             Styles = styles;

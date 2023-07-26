@@ -1,7 +1,7 @@
 ﻿using Art_Critique.Core.Services.Interfaces;
 
 namespace Art_Critique.Core.Services {
-    public class StylesService : IStyles {
+    public class StylesService : IStylesService {
         private readonly IPropertiesService Properties;
 
         public StylesService(IPropertiesService properties) {

@@ -9,11 +9,11 @@ namespace Art_Critique {
     [QueryProperty(nameof(Login), nameof(Login))]
     public partial class ProfilePage : ContentPage {
         private readonly IBaseHttpService BaseHttp;
-        private readonly ICredentials Credentials;
+        private readonly ICredentialsService Credentials;
         private string login;
         public string Login { get => login; set { login = value; OnPropertyChanged(nameof(Login)); } }
 
-        public ProfilePage(IBaseHttpService baseHttp, ICredentials credentials) {
+        public ProfilePage(IBaseHttpService baseHttp, ICredentialsService credentials) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(EditProfilePage), typeof(EditProfilePage));
             Routing.RegisterRoute(nameof(GalleryPage), typeof(GalleryPage));
