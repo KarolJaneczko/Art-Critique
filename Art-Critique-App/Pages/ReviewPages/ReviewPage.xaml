@@ -29,7 +29,7 @@
                 <Label Grid.Row="3" Text="{Binding MyContent}" HorizontalTextAlignment="Center" FontSize="16" WidthRequest="250" Margin="0,10,0,10" />
                 <HorizontalStackLayout Grid.Row="4" >
                     <Button Text="Edit" Command="{Binding AddReviewCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="125" HeightRequest="50" Margin="5,0,5,0"/>
-                    <Button Text="Delete" Command="{Binding AddReviewCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="125" HeightRequest="50" Margin="5,0,5,0"/>
+                    <Button Text="Remove" Command="{Binding RemoveReviewCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="125" HeightRequest="50" Margin="5,0,5,0"/>
                 </HorizontalStackLayout>
             </Grid>
 

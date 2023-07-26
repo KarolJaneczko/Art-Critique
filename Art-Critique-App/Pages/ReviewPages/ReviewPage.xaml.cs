@@ -55,7 +55,7 @@ namespace Art_Critique.Pages.ReviewPages {
                 userReviews = JsonConvert.DeserializeObject<List<ApiArtworkReview>>(reviews.Data.ToString());
             }
 
-            BindingContext = new ReviewPageViewModel(ArtworkId, IsMyArtwork, userReview, userReviews);
+            BindingContext = new ReviewPageViewModel(BaseHttpService, CredentialsService, ArtworkId, IsMyArtwork, userReview, userReviews);
         }
         #endregion
     }

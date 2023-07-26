@@ -24,6 +24,7 @@
         public const string CreateOrUpdateReview = "Review/CreateOrUpdateReview";
         public const string RateArtwork = "Review/RateArtwork";
         public const string RemoveRating = "Review/RemoveRating";
+        public const string RemoveReview = "Review/RemoveReview";
         #endregion
     }
 }

@@ -7,8 +7,8 @@ namespace Art_Critique_Api.Controllers {
     [Route("api/Review")]
     [ApiController]
     public class ReviewController : ControllerBase {
-        private readonly IReview ReviewService;
-        public ReviewController(IReview reviewService) {
+        private readonly IReviewService ReviewService;
+        public ReviewController(IReviewService reviewService) {
             ReviewService = reviewService;
         }
 
@@ -18,6 +18,14 @@ namespace Art_Critique_Api.Controllers {
             return await ReviewService.GetArtworkReviews(login, artworkId);
         }
         #endregion
+
+        #region Post methods
+        [HttpPost("RemoveReview")]
+        public async Task<ApiResponse> RemoveReview(string login, int artworkId) {
+            return await ReviewService.RemoveRating(login, artworkId);
+        }
+        #endregion
+
 
         [HttpGet("GetRating")]
         public async Task<ApiResponse> GetRating(string login, int artworkId) {

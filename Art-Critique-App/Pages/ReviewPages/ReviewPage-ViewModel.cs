@@ -1,10 +1,19 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
+using Art_Critique.Core.Models.API.Base;
+using Art_Critique.Core.Services.Interfaces;
+using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ViewModels;
+using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Art_Critique.Pages.ReviewPages {
     public class ReviewPageViewModel : BaseViewModel {
+        #region Services
+        private readonly IBaseHttpService BaseHttpService;
+        private readonly ICredentialsService CredentialsService;
+        #endregion
+
         #region Properties
         private string ArtworkId;
 
@@ -33,12 +42,15 @@ namespace Art_Critique.Pages.ReviewPages {
 
         #region Commands
         public ICommand AddReviewCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(AddArtworkReviewPage), new Dictionary<string, object> { { "ArtworkId", ArtworkId } }));
+        public ICommand RemoveReviewCommand => new Command(async () => await RemoveReview());
         public ICommand GoToProfileCommand => new Command<ApiArtworkReview>(GoToProfile);
         #endregion
         #endregion
 
         #region Constructor
-        public ReviewPageViewModel(string artworkId, bool isMyArtwork, ApiArtworkReview myReview, List<ApiArtworkReview> reviews) {
+        public ReviewPageViewModel(IBaseHttpService baseHttpService, ICredentialsService credentialsService, string artworkId, bool isMyArtwork, ApiArtworkReview myReview, List<ApiArtworkReview> reviews) {
+            BaseHttpService = baseHttpService;
+            CredentialsService = credentialsService;
             FillReviewPage(artworkId, isMyArtwork, myReview, reviews);
         }
         #endregion
@@ -53,6 +65,17 @@ namespace Art_Critique.Pages.ReviewPages {
                 OtherReviewsText = "There are no reviews!";
             }
             IsLoading = false;
+        }
+
+        private async Task RemoveReview() {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var login = CredentialsService.GetCurrentUserLogin();
+                return await BaseHttpService.SendApiRequest(HttpMethod.Post, $"{Dictionary.RemoveReview}?login={login}&artworkId={ArtworkId}");
+            });
+
+            var result = await ExecuteWithTryCatch(task);
+            if (result.IsSuccess) {
+            }
         }
 
         private async void GoToProfile(ApiArtworkReview artworkReview) {

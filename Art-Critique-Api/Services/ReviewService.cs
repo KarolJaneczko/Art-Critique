@@ -5,7 +5,7 @@ using Art_Critique_Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Art_Critique_Api.Services {
-    public class ReviewService : BaseService, IReview {
+    public class ReviewService : BaseService, IReviewService {
         private readonly ArtCritiqueDbContext DbContext;
         public ReviewService(ArtCritiqueDbContext dbContext) {
             DbContext = dbContext;
@@ -195,6 +195,28 @@ namespace Art_Critique_Api.Services {
                     review.ReviewTitle = artworkReview.Title;
                     review.ReviewContent = artworkReview.Content;
                 }
+                await DbContext.SaveChangesAsync();
+
+                return new ApiResponse() {
+                    IsSuccess = true,
+                    Title = string.Empty,
+                    Message = string.Empty,
+                    Data = null
+                };
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> RemoveReview(string login, int artworkId) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                // Finding user's id by input login.
+                var userId = await GetUserIdFromLogin(DbContext, login);
+
+                // Finding user's review by user's id and artwork id.
+                var review = await DbContext.TArtworkReviews.FirstOrDefaultAsync(x => x.UserId == userId && x.ArtworkId == artworkId);
+
+                // Removing the review.
+                DbContext.TArtworkReviews.Remove(review!);
                 await DbContext.SaveChangesAsync();
 
                 return new ApiResponse() {
