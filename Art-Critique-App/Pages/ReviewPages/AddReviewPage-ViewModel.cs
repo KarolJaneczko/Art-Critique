@@ -1,17 +1,17 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
 using Art_Critique.Core.Models.API.Base;
-using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ViewModels;
+using Art_Critique.Services.Interfaces;
 using Newtonsoft.Json;
 using System.Windows.Input;
 
 namespace Art_Critique.Pages.ReviewPages {
     public class AddReviewPageViewModel : BaseViewModel {
         #region Services
-        private readonly IBaseHttpService BaseHttpService;
-        private readonly ICredentialsService CredentialsService;
+        private readonly ICacheService CacheService;
+        private readonly IHttpService HttpService;
         #endregion
 
         #region Properties
@@ -26,9 +26,9 @@ namespace Art_Critique.Pages.ReviewPages {
         #endregion
 
         #region Constructor
-        public AddReviewPageViewModel(IBaseHttpService baseHttpService, ICredentialsService credentialsService, string artworkId, ApiArtworkReview artworkReview) {
-            BaseHttpService = baseHttpService;
-            CredentialsService = credentialsService;
+        public AddReviewPageViewModel(ICacheService cacheService, IHttpService httpService, string artworkId, ApiArtworkReview artworkReview) {
+            CacheService = cacheService;
+            HttpService = httpService;
             FillAddReviewPage(artworkId, artworkReview);
         }
         #endregion
@@ -51,12 +51,12 @@ namespace Art_Critique.Pages.ReviewPages {
                 // Creating a body for an API request.
                 var body = JsonConvert.SerializeObject(new ApiArtworkReview() {
                     ArtworkId = int.Parse(ArtworkId),
-                    AuthorLogin = CredentialsService.GetCurrentUserLogin(),
+                    AuthorLogin = CacheService.GetCurrentLogin(),
                     ReviewDate = DateTime.Now,
                     Title = ArtworkReview.Title,
                     Content = ArtworkReview.Content
                 });
-                return await BaseHttpService.SendApiRequest(HttpMethod.Post, $"{Dictionary.CreateOrUpdateReview}?login={CredentialsService.GetCurrentUserLogin()}", body);
+                return await HttpService.SendApiRequest(HttpMethod.Post, $"{Dictionary.CreateOrUpdateReview}?login={CacheService.GetCurrentLogin()}", body);
             });
 
             var result = await ExecuteWithTryCatch(task);

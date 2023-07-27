@@ -1,15 +1,15 @@
 ﻿using Art_Critique.Core.Models.API.Base;
 using Art_Critique.Core.Models.API.UserData;
-using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ViewModels;
+using Art_Critique.Services.Interfaces;
 using Newtonsoft.Json;
 using System.Windows.Input;
 
 namespace Art_Critique.Pages.ProfilePages {
     public class EditProfilePageViewModel : BaseViewModel {
-        private readonly IBaseHttpService BaseHttp;
+        private readonly IHttpService BaseHttp;
         private readonly ApiProfile apiProfile;
         private string newAvatar;
         private ImageSource avatar;
@@ -23,7 +23,7 @@ namespace Art_Critique.Pages.ProfilePages {
         public ICommand TakePhoto => new Command(async () => await TakePhotoWithCamera());
         public ICommand UploadPhoto => new Command(async () => await UploadPhotoFromGallery());
         public ICommand EditProfile => new Command(async () => await ConfirmEdit());
-        public EditProfilePageViewModel(IBaseHttpService baseHttp, ApiProfile _apiProfile) {
+        public EditProfilePageViewModel(IHttpService baseHttp, ApiProfile _apiProfile) {
             BaseHttp = baseHttp;
             apiProfile = _apiProfile;
             if (!string.IsNullOrEmpty(_apiProfile.Avatar)) {

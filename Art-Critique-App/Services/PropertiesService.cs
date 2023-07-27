@@ -1,21 +1,15 @@
-﻿using Art_Critique.Core.Services.Interfaces;
+﻿using Art_Critique.Services.Interfaces;
 
-namespace Art_Critique.Core.Services {
+namespace Art_Critique.Services {
     public class PropertiesService : IPropertiesService {
+        #region Methods
         public double GetWidthByPercent(int percent) {
             return Math.Ceiling(DeviceDisplay.MainDisplayInfo.Width * percent / 100) / DeviceDisplay.MainDisplayInfo.Density;
-        }
-
-        public int GetWidthPerMille(int perMille) {
-            return (int)Math.Ceiling(DeviceDisplay.MainDisplayInfo.Width * perMille / 1000);
         }
 
         public double GetHeightByPercent(int percent) {
             return Math.Ceiling(DeviceDisplay.MainDisplayInfo.Height * percent / 100) / DeviceDisplay.MainDisplayInfo.Density;
         }
-
-        public int GetHeightPerMille(int perMille) {
-            return (int)Math.Ceiling(DeviceDisplay.MainDisplayInfo.Height * perMille / 1000);
-        }
+        #endregion
     }
 }

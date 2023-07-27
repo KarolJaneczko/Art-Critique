@@ -1,18 +1,18 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
 using Art_Critique.Core.Models.Logic;
-using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ArtworkPages;
+using Art_Critique.Services.Interfaces;
 using Newtonsoft.Json;
 
 namespace Art_Critique {
     [QueryProperty(nameof(ArtworkData), nameof(ArtworkData))]
     public partial class EditArtworkPage : ContentPage {
-        private readonly IBaseHttpService BaseHttp;
+        private readonly IHttpService BaseHttp;
         private ApiUserArtwork artworkData;
         public ApiUserArtwork ArtworkData { get => artworkData; set { artworkData = value; OnPropertyChanged(nameof(ArtworkData)); } }
 
-        public EditArtworkPage(IBaseHttpService baseHttp) {
+        public EditArtworkPage(IHttpService baseHttp) {
             InitializeComponent();
             BaseHttp = baseHttp;
         }

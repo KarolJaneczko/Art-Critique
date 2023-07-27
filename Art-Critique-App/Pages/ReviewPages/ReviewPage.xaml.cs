@@ -1,6 +1,6 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
-using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
+using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Helpers;
 using Newtonsoft.Json;
 
@@ -9,8 +9,8 @@ namespace Art_Critique.Pages.ReviewPages {
     [QueryProperty(nameof(IsMyArtwork), nameof(IsMyArtwork))]
     public partial class ReviewPage : ContentPage {
         #region Services
-        private readonly IBaseHttpService BaseHttpService;
-        private readonly ICredentialsService CredentialsService;
+        private readonly ICacheService CacheService;
+        private readonly IHttpService HttpService;
         private readonly IPropertiesService PropertiesService;
         #endregion
 
@@ -22,10 +22,10 @@ namespace Art_Critique.Pages.ReviewPages {
         #endregion
 
         #region Constructor
-        public ReviewPage(IBaseHttpService baseHttpService, ICredentialsService credentialsService, IPropertiesService propertiesService) {
+        public ReviewPage(ICacheService cacheService, IHttpService httpService, IPropertiesService propertiesService) {
             InitializeComponent();
-            BaseHttpService = baseHttpService;
-            CredentialsService = credentialsService;
+            CacheService = cacheService;
+            HttpService = httpService;
             PropertiesService = propertiesService;
             InitializeValues();
         }
@@ -44,20 +44,20 @@ namespace Art_Critique.Pages.ReviewPages {
 
             var task = new Func<Task>(async () => {
                 // Trying to load your review.
-                var review = await BaseHttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworkReview}?login={CredentialsService.GetCurrentUserLogin()}&artworkId={ArtworkId}");
+                var review = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworkReview}?login={CacheService.GetCurrentLogin()}&artworkId={ArtworkId}");
                 ApiArtworkReview userReview = null;
                 if (review.Data is not null) {
                     userReview = JsonConvert.DeserializeObject<ApiArtworkReview>(review.Data.ToString());
                 }
 
                 // Trying to load other reviews.
-                var reviews = await BaseHttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworkReviews}?login={CredentialsService.GetCurrentUserLogin()}&artworkId={ArtworkId}");
+                var reviews = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworkReviews}?login={CacheService.GetCurrentLogin()}&artworkId={ArtworkId}");
                 List<ApiArtworkReview> userReviews = new();
                 if (reviews.Data is not null) {
                     userReviews = JsonConvert.DeserializeObject<List<ApiArtworkReview>>(reviews.Data.ToString());
                 }
 
-                BindingContext = new ReviewPageViewModel(BaseHttpService, CredentialsService, ArtworkId, IsMyArtwork, userReview, userReviews);
+                BindingContext = new ReviewPageViewModel(CacheService, HttpService, ArtworkId, IsMyArtwork, userReview, userReviews);
             });
 
             // Run task with try/catch.

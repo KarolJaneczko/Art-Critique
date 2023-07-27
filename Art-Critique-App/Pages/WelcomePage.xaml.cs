@@ -1,14 +1,12 @@
-﻿using Art_Critique.Core.Services.Interfaces;
+﻿using Art_Critique.Services.Interfaces;
 
 namespace Art_Critique {
     public partial class WelcomePage : ContentPage {
         private readonly IPropertiesService Properties;
-        private readonly IStylesService Styles;
 
-        public WelcomePage(IPropertiesService properties, IStylesService styles) {
+        public WelcomePage(IPropertiesService properties) {
             InitializeComponent();
             Properties = properties;
-            Styles = styles;
             RegisterRoutes();
             SetStyles();
         }
@@ -20,8 +18,26 @@ namespace Art_Critique {
 
         private void SetStyles() {
             ButtonsLayout.Padding = new Thickness(0, 0, 0, Properties.GetHeightByPercent(1));
-            LoginButton.Style = Styles.ButtonStyle();
-            RegisterButton.Style = Styles.ButtonStyle();
+            LoginButton.Style = new Style(typeof(Button)) {
+                Setters = {
+                    new Setter { Property = VisualElement.WidthRequestProperty, Value = Properties.GetWidthByPercent(20) },
+                    new Setter { Property = VisualElement.HeightRequestProperty, Value = Properties.GetHeightByPercent(2) },
+                    new Setter { Property = Button.CornerRadiusProperty, Value = 25 },
+                    new Setter { Property = Button.FontSizeProperty, Value = 18 },
+                    new Setter { Property = Button.FontFamilyProperty, Value = "PragmaticaMedium" },
+                    new Setter { Property = Button.FontAttributesProperty, Value = FontAttributes.Bold }
+                }
+            };
+            RegisterButton.Style = new Style(typeof(Button)) {
+                Setters = {
+                    new Setter { Property = VisualElement.WidthRequestProperty, Value = Properties.GetWidthByPercent(20) },
+                    new Setter { Property = VisualElement.HeightRequestProperty, Value = Properties.GetHeightByPercent(2) },
+                    new Setter { Property = Button.CornerRadiusProperty, Value = 25 },
+                    new Setter { Property = Button.FontSizeProperty, Value = 18 },
+                    new Setter { Property = Button.FontFamilyProperty, Value = "PragmaticaMedium" },
+                    new Setter { Property = Button.FontAttributesProperty, Value = FontAttributes.Bold }
+                }
+            };
         }
 
         private async void GoToLogin(object sender, EventArgs args) {

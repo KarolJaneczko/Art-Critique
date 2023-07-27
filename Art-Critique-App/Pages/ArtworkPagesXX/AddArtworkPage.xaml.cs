@@ -1,16 +1,16 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
 using Art_Critique.Core.Models.Logic;
-using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ArtworkPages;
+using Art_Critique.Services.Interfaces;
 using Newtonsoft.Json;
 
 namespace Art_Critique {
     public partial class AddArtworkPage : ContentPage {
-        private readonly IBaseHttpService BaseHttp;
-        private readonly ICredentialsService Credentials;
+        private readonly IHttpService BaseHttp;
+        private readonly ICacheService Credentials;
 
-        public AddArtworkPage(IBaseHttpService baseHttp, ICredentialsService credentials) {
+        public AddArtworkPage(IHttpService baseHttp, ICacheService credentials) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(ArtworkPage), typeof(ArtworkPage));
             BaseHttp = baseHttp;

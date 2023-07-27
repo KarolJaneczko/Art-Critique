@@ -1,18 +1,18 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
 using Art_Critique.Core.Models.API.Base;
 using Art_Critique.Core.Models.Logic;
-using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Base;
 using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ViewModels;
+using Art_Critique.Services.Interfaces;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Art_Critique.Pages.ArtworkPages {
     public class EditArtworkPageViewModel : BaseViewModel {
-        private readonly IBaseHttpService BaseHttp;
+        private readonly IHttpService BaseHttp;
         private readonly ApiUserArtwork UserArtwork;
         private ObservableCollection<ImageThumbnail> artworkPhotos = new();
         private List<PaintingGenre> paintingGenres;
@@ -30,7 +30,7 @@ namespace Art_Critique.Pages.ArtworkPages {
         public ICommand UploadPhoto => new Command(async () => await UploadPhotoFromGallery());
         public ICommand ConfirmChanges => new Command(async () => await Confirm());
 
-        public EditArtworkPageViewModel(IBaseHttpService baseHttp, ApiUserArtwork artworkData, IEnumerable<PaintingGenre> genres) {
+        public EditArtworkPageViewModel(IHttpService baseHttp, ApiUserArtwork artworkData, IEnumerable<PaintingGenre> genres) {
             BaseHttp = baseHttp;
             UserArtwork = artworkData;
             PaintingGenres = genres.ToList();

@@ -108,6 +108,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\FeaturePages\HistoryPage.xaml.cs">
+	    <DependentUpon>HistoryPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\ReviewPages\AddReviewPage.xaml.cs">
 	    <DependentUpon>AddReviewPage.xaml</DependentUpon>
 	  </Compile>
@@ -144,6 +147,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Pages\FeaturePages\HistoryPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\ReviewPages\AddReviewPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -177,10 +183,6 @@
 	  <MauiXaml Update="Pages\WelcomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Pages\FeaturePages\" />
 	</ItemGroup>
 
 </Project>
