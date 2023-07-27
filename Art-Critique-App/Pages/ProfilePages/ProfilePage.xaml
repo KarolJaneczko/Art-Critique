@@ -6,6 +6,10 @@
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
 
         <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
+            <!-- Loading indicator -->
+            <StackLayout x:Name="Loading" BackgroundColor="LightGray" IsVisible="{Binding IsLoading}">
+                <ActivityIndicator IsVisible="True" IsRunning="True" HeightRequest="50" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
+            </StackLayout>
 
             <!-- User's avatar -->
             <Frame Grid.Row="1" WidthRequest="150" HeightRequest="150" CornerRadius="100" BorderColor="Transparent" IsClippedToBounds="true" Margin="0,20,0,10">
