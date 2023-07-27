@@ -1,19 +1,19 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
 using Art_Critique.Core.Models.API.UserData;
-using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ProfilePages;
+using Art_Critique.Services.Interfaces;
 using Newtonsoft.Json;
 
 namespace Art_Critique {
     [QueryProperty(nameof(Login), nameof(Login))]
     public partial class ProfilePage : ContentPage {
-        private readonly IBaseHttpService BaseHttp;
-        private readonly ICredentialsService Credentials;
+        private readonly IHttpService BaseHttp;
+        private readonly ICacheService Credentials;
         private string login;
         public string Login { get => login; set { login = value; OnPropertyChanged(nameof(Login)); } }
 
-        public ProfilePage(IBaseHttpService baseHttp, ICredentialsService credentials) {
+        public ProfilePage(IHttpService baseHttp, ICacheService credentials) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(EditProfilePage), typeof(EditProfilePage));
             Routing.RegisterRoute(nameof(GalleryPage), typeof(GalleryPage));
@@ -23,7 +23,7 @@ namespace Art_Critique {
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
             base.OnNavigatedTo(args);
-            var currentLogin = !string.IsNullOrEmpty(Login) ? Login : Credentials.GetCurrentUserLogin();
+            var currentLogin = !string.IsNullOrEmpty(Login) ? Login : Credentials.GetCurrentLogin();
 
             // Loading profile data.
             var profileInfo = await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileGet}?login={currentLogin}");

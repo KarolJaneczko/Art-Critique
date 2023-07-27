@@ -1,8 +1,8 @@
-﻿namespace Art_Critique.Core.Services.Interfaces {
+﻿namespace Art_Critique.Services.Interfaces {
     public interface IPropertiesService {
+        #region Methods
         public double GetWidthByPercent(int percent);
-        public int GetWidthPerMille(int perMille);
         public double GetHeightByPercent(int percent);
-        public int GetHeightPerMille(int perMille);
+        #endregion
     }
 }

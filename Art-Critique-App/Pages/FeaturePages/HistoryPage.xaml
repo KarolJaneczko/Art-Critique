@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Art_Critique.Pages.FeaturePages.HistoryPage"
+             Title="History">
+
+    <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
+        <Grid RowDefinitions="Auto,Auto,Auto" Padding="20,0">
+            <!-- Loading indicator -->
+            <StackLayout x:Name="Loading" BackgroundColor="LightGray" IsVisible="{Binding IsLoading}">
+                <ActivityIndicator IsVisible="True" IsRunning="True" HeightRequest="50" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
+            </StackLayout>
+
+            <!-- Header for showing your history -->
+            <Label Grid.Row="1" Text="Browsing history:" HorizontalTextAlignment="Center" CharacterSpacing="2" FontSize="Large" Margin="0,10,0,10"/>
+
+            <!-- Browsing history -->
+            <CollectionView Grid.Row="2" x:Name="UserHistory" ItemsSource="{Binding History}" ItemsLayout="VerticalList">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="Auto,Auto,Auto,Auto" Padding="10" BackgroundColor="LightGray">
+                            
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </ScrollView>
+</ContentPage>

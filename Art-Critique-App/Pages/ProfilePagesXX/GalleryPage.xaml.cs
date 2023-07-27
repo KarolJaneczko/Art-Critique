@@ -1,19 +1,17 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
-using Art_Critique.Core.Models.API.UserData;
-using Art_Critique.Core.Models.Logic;
-using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ProfilePages;
+using Art_Critique.Services.Interfaces;
 using Newtonsoft.Json;
 
 namespace Art_Critique {
     [QueryProperty(nameof(Login), nameof(Login))]
     public partial class GalleryPage : ContentPage {
-        private readonly IBaseHttpService BaseHttp;
+        private readonly IHttpService BaseHttp;
         private string login;
         public string Login { get => login; set { login = value; OnPropertyChanged(nameof(Login)); } }
 
-        public GalleryPage(IBaseHttpService baseHttp) {
+        public GalleryPage(IHttpService baseHttp) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(EditProfilePage), typeof(EditProfilePage));
             BaseHttp = baseHttp;

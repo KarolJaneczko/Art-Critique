@@ -1,9 +1,9 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
 using Art_Critique.Core.Models.API.UserData;
 using Art_Critique.Core.Models.Logic;
-using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ViewModels;
+using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Helpers;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace Art_Critique.Pages.ProfilePages {
     public class ProfilePageViewModel : BaseViewModel {
-        private readonly ICredentialsService Credentials;
+        private readonly ICacheService Credentials;
 
         private ApiProfile apiProfile;
         private ImageSource avatar;
@@ -37,7 +37,7 @@ namespace Art_Critique.Pages.ProfilePages {
         public ICommand GalleryCommand { get; protected set; }
         public ICommand ShowArtworkCommand => new Command<ImageThumbnail>(GoToArtwork);
 
-        public ProfilePageViewModel(ICredentialsService credentials, ApiProfile apiProfile, List<ApiCustomPainting> thumbnails, string viewCount) {
+        public ProfilePageViewModel(ICacheService credentials, ApiProfile apiProfile, List<ApiCustomPainting> thumbnails, string viewCount) {
             Credentials = credentials;
             TotalViews = viewCount;
             FillProfile(apiProfile);
@@ -54,7 +54,7 @@ namespace Art_Critique.Pages.ProfilePages {
                 Avatar = "defaultuser_icon.png";
             }
 
-            var isMyProfile = _apiProfile.Login == Credentials.GetCurrentUserLogin();
+            var isMyProfile = _apiProfile.Login == Credentials.GetCurrentLogin();
             var isFollowed = false;
             if (isMyProfile) {
                 ButtonText = "Edit";

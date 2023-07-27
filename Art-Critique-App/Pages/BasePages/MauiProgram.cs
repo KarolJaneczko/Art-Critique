@@ -1,9 +1,11 @@
-﻿using Art_Critique.Core.Services;
-using Art_Critique.Core.Services.Interfaces;
+﻿using Art_Critique.Pages.FeaturePages;
 using Art_Critique.Pages.ReviewPages;
+using Art_Critique.Services;
+using Art_Critique.Services.Interfaces;
 
-namespace Art_Critique.Core {
+namespace Art_Critique.Pages.BasePages {
     public static class MauiProgram {
+        #region Methods
         public static MauiApp CreateMauiApp() {
             var builder = MauiApp.CreateBuilder();
             builder.UseMauiApp<App>().ConfigureFonts(fonts => {
@@ -14,12 +16,12 @@ namespace Art_Critique.Core {
             return builder.Build();
         }
 
-        private static void AddServices (MauiAppBuilder builder) {
-            builder.Services.AddTransient<ICredentialsService, CredentialsService>();
+        private static void AddServices(MauiAppBuilder builder) {
+            builder.Services.AddTransient<ICacheService, CacheService>();
+            builder.Services.AddTransient<IHttpService, HttpService>();
             builder.Services.AddTransient<IPropertiesService, PropertiesService>();
-            builder.Services.AddTransient<IStylesService, StylesService>();
-            builder.Services.AddTransient<IBaseHttpService, BaseHttpService>();
 
+            builder.Services.AddTransient<HistoryPage>();
             builder.Services.AddTransient<ReviewPage>();
             builder.Services.AddTransient<AddReviewPage>();
 
@@ -34,5 +36,6 @@ namespace Art_Critique.Core {
             builder.Services.AddTransient<EditArtworkPage>();
             builder.Services.AddTransient<GalleryPage>();
         }
+        #endregion
     }
 }

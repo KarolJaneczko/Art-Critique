@@ -1,16 +1,19 @@
 ﻿using Art_Critique.Core.Models.API.Base;
-using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Base;
 using Art_Critique.Core.Utils.Helpers;
+using Art_Critique.Services.Interfaces;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 
-namespace Art_Critique.Core.Services {
-    public class BaseHttpService : IBaseHttpService {
+namespace Art_Critique.Services {
+    public class HttpService : IHttpService {
+        #region Properties
         private static readonly HttpsConnectionHelper ConnectionHelper = new(sslPort: 7038);
         private readonly HttpClient httpClient = ConnectionHelper.HttpClient;
+        #endregion
 
+        #region Methods
         public async Task<ApiResponse> SendApiRequest(HttpMethod method, string path, string body = "") {
             var request = new HttpRequestMessage {
                 Method = method,
@@ -25,5 +28,6 @@ namespace Art_Critique.Core.Services {
                 throw new AppException(response.StatusCode);
             }
         }
+        #endregion
     }
 }

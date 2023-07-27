@@ -1,9 +1,9 @@
-﻿using Art_Critique.Core.Services.Interfaces;
-using Art_Critique.Pages.ViewModels;
+﻿using Art_Critique.Pages.ViewModels;
+using Art_Critique.Services.Interfaces;
 
 namespace Art_Critique {
     public partial class MainPage : ContentPage {
-        public MainPage(IBaseHttpService baseHttp) {
+        public MainPage(IHttpService baseHttp) {
             InitializeComponent();
             Routing.RegisterRoute(nameof(ArtworkPage), typeof(ArtworkPage));
             BindingContext = new MainPageViewModel(baseHttp);

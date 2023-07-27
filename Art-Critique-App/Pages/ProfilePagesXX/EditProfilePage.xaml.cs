@@ -1,16 +1,16 @@
 ﻿using Art_Critique.Core.Models.API.UserData;
-using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Pages.ProfilePages;
+using Art_Critique.Services.Interfaces;
 
 namespace Art_Critique {
     [QueryProperty(nameof(ApiProfile), nameof(ApiProfile))]
     public partial class EditProfilePage : ContentPage {
-        private IBaseHttpService BaseHttp { get; set; }
+        private IHttpService BaseHttp { get; set; }
 
         private ApiProfile apiProfile;
         public ApiProfile ApiProfile { get => apiProfile; set { apiProfile = value; OnPropertyChanged(nameof(ApiProfile)); } }
 
-        public EditProfilePage(IBaseHttpService baseHttp) {
+        public EditProfilePage(IHttpService baseHttp) {
             InitializeComponent();
             BaseHttp = baseHttp;
         }

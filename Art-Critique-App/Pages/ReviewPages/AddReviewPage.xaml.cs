@@ -1,7 +1,7 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
-using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ReviewPages;
+using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Helpers;
 using Newtonsoft.Json;
 
@@ -9,8 +9,8 @@ namespace Art_Critique {
     [QueryProperty(nameof(ArtworkId), nameof(ArtworkId))]
     public partial class AddReviewPage : ContentPage {
         #region Services
-        private readonly IBaseHttpService BaseHttpService;
-        private readonly ICredentialsService CredentialsService;
+        private readonly ICacheService CacheService;
+        private readonly IHttpService HttpService;
         #endregion
 
         #region Properties
@@ -19,10 +19,10 @@ namespace Art_Critique {
         #endregion
 
         #region Constructor
-        public AddReviewPage(IBaseHttpService baseHttpService, ICredentialsService credentialsService) {
+        public AddReviewPage(ICacheService cacheService, IHttpService httpService) {
             InitializeComponent();
-            BaseHttpService = baseHttpService;
-            CredentialsService = credentialsService;
+            CacheService = cacheService;
+            HttpService = httpService;
             InitializeValues();
         }
         #endregion
@@ -35,13 +35,13 @@ namespace Art_Critique {
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
             var task = new Func<Task>(async () => {
                 // Trying to load your review, if review is empty we will create a new one.
-                var review = await BaseHttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworkReview}?login={CredentialsService.GetCurrentUserLogin()}&artworkId={ArtworkId}");
+                var review = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworkReview}?login={CacheService.GetCurrentLogin()}&artworkId={ArtworkId}");
                 ApiArtworkReview userReview = null;
                 if (review.Data is not null) {
                     userReview = JsonConvert.DeserializeObject<ApiArtworkReview>(review.Data.ToString());
                 }
 
-                BindingContext = new AddReviewPageViewModel(BaseHttpService, CredentialsService, ArtworkId, userReview);
+                BindingContext = new AddReviewPageViewModel(CacheService, HttpService, ArtworkId, userReview);
             });
 
             // Run task with try/catch.

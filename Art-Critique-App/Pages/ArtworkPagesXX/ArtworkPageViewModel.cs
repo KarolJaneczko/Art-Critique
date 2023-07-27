@@ -1,17 +1,17 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
 using Art_Critique.Core.Models.API.UserData;
 using Art_Critique.Core.Models.Logic;
-using Art_Critique.Core.Services.Interfaces;
 using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Pages.ReviewPages;
 using Art_Critique.Pages.ViewModels;
+using Art_Critique.Services.Interfaces;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Art_Critique.Pages.ArtworkPages {
     public class ArtworkPageViewModel : BaseViewModel {
-        private readonly IBaseHttpService BaseHttp;
-        private readonly ICredentialsService Credentials;
+        private readonly IHttpService BaseHttp;
+        private readonly ICacheService Credentials;
         private readonly ApiUserArtwork UserArtwork;
         private ObservableCollection<ImageThumbnail> images = new();
         private ImageSource avatar;
@@ -36,7 +36,7 @@ namespace Art_Critique.Pages.ArtworkPages {
         public ICommand GoToReviews => new Command(async () => await GoSeeReviews());
         public bool IsMyArtwork { get; set; }
 
-        public ArtworkPageViewModel(IBaseHttpService baseHttp, ICredentialsService credentials, ApiUserArtwork userArtwork, ApiProfile userProfile, string rating, string averageRating) {
+        public ArtworkPageViewModel(IHttpService baseHttp, ICacheService credentials, ApiUserArtwork userArtwork, ApiProfile userProfile, string rating, string averageRating) {
             BaseHttp = baseHttp;
             Credentials = credentials;
             UserArtwork = userArtwork;
@@ -53,7 +53,7 @@ namespace Art_Critique.Pages.ArtworkPages {
             Date = string.Format("{0:dd/MM/yyyy}", userArtwork.Date);
             Genre = userArtwork.GenreName != "Other" ? userArtwork.GenreName : userArtwork.GenreOtherName;
 
-            IsMyArtwork = userArtwork.Login == Credentials.GetCurrentUserLogin();
+            IsMyArtwork = userArtwork.Login == Credentials.GetCurrentLogin();
             IsRateVisible = !IsMyArtwork;
             SecondButtonText = IsMyArtwork ? "Edit" : "Review";
             SecondButtonCommand = IsMyArtwork ? new Command(async () => await GoEdit()) : new Command(async () => await GoSeeReviews());
@@ -77,11 +77,11 @@ namespace Art_Critique.Pages.ArtworkPages {
             }
 
             if (resultRating == "Remove rating") {
-                await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.RemoveRating}?login={Credentials.GetCurrentUserLogin()}&artworkId={UserArtwork.ArtworkId}&rating={resultRating}");
+                await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.RemoveRating}?login={Credentials.GetCurrentLogin()}&artworkId={UserArtwork.ArtworkId}&rating={resultRating}");
                 Rating = string.Empty;
                 IsMyRatingVisible = false;
             } else if (resultRating != "Cancel" && resultRating is not null) {
-                await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.RateArtwork}?login={Credentials.GetCurrentUserLogin()}&artworkId={UserArtwork.ArtworkId}&rating={resultRating}");
+                await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.RateArtwork}?login={Credentials.GetCurrentLogin()}&artworkId={UserArtwork.ArtworkId}&rating={resultRating}");
                 Rating = resultRating;
                 IsMyRatingVisible = true;
             }
