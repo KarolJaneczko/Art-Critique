@@ -1,3 +1,10 @@
 .vs
 bin
 obj
+Art-Critique-App/.vs
+Art-Critique-App/bin
+Art-Critique-App/obj
+Art-Critique-Api/.vs
+Art-Critique-Api/bin
+Art-Critique-Api/obj
+/Art-Critique.Android/obj
