@@ -33,7 +33,7 @@ namespace Art_Critique_Api.Services {
                 var artworks = (from artwork in userArtworks
                                 select new ApiCustomPainting() {
                                     ArtworkId = artwork.ArtworkId,
-                                    Images = DbContext.TCustomPaintings.Where(x => x.ArtworkId == artwork.ArtworkId).Select(x => Converter.ConvertImageToBase64(x.PaintingPath)).ToList(),
+                                    Images = DbContext.TCustomPaintings.Where(x => x.ArtworkId == artwork.ArtworkId).Select(x => Helpers.ConvertImageToBase64(x.PaintingPath)).ToList(),
                                     Login = login ?? string.Empty,
                                 }).ToList();
 
@@ -54,7 +54,7 @@ namespace Art_Critique_Api.Services {
                 var paths = DbContext.TCustomPaintings.Where(x => x.ArtworkId == artwork.ArtworkId).Select(x => x.PaintingPath).ToList();
                 var images = new List<string>();
                 foreach (var path in paths) {
-                    images.Add(Converter.ConvertImageToBase64(path));
+                    images.Add(Helpers.ConvertImageToBase64(path));
                 }
 
                 var result = new ApiUserArtwork() {
@@ -81,7 +81,7 @@ namespace Art_Critique_Api.Services {
                 var artworks = (from artwork in userArtworks
                                 select new ApiCustomPainting() {
                                     ArtworkId = artwork.ArtworkId,
-                                    Images = DbContext.TCustomPaintings.Where(x => x.ArtworkId == artwork.ArtworkId).Select(x => Converter.ConvertImageToBase64(x.PaintingPath)).ToList(),
+                                    Images = DbContext.TCustomPaintings.Where(x => x.ArtworkId == artwork.ArtworkId).Select(x => Helpers.ConvertImageToBase64(x.PaintingPath)).ToList(),
                                     Login = login ?? string.Empty,
                                 }).ToList();
                 return new ApiResponse(true, artworks);
