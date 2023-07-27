@@ -8,58 +8,77 @@ using Art_Critique.Utils.Helpers;
 using Newtonsoft.Json;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ProfilePages
-{
+namespace Art_Critique.Pages.ProfilePages {
     public class EditProfilePageViewModel : BaseViewModel {
-        private readonly IHttpService BaseHttp;
-        private readonly ApiProfile apiProfile;
-        private string newAvatar;
+        #region Services
+        private readonly IHttpService HttpService;
+        #endregion
+
+        #region Properties
+        private ApiProfile ApiProfile;
+        private string NewAvatar;
+
+        #region Profile fields
         private ImageSource avatar;
-        public string FullName { get => apiProfile.FullName; set { apiProfile.FullName = value; OnPropertyChanged(nameof(FullName)); } }
-        public string FacebookLink { get => apiProfile.Facebook; set { apiProfile.Facebook = value; OnPropertyChanged(nameof(FacebookLink)); } }
-        public string InstagramLink { get => apiProfile.Instagram; set { apiProfile.Instagram = value; OnPropertyChanged(nameof(InstagramLink)); } }
-        public string TwitterLink { get => apiProfile.Twitter; set { apiProfile.Twitter = value; OnPropertyChanged(nameof(TwitterLink)); } }
-        public string Description { get => apiProfile.Description; set { apiProfile.Description = value; OnPropertyChanged(nameof(Description)); } }
-        public DateTime? BirthDate { get => apiProfile.Birthdate ?? DateTime.Now; set { apiProfile.Birthdate = value; OnPropertyChanged(nameof(BirthDate)); } }
+
         public ImageSource Avatar { get => avatar; set { avatar = value; OnPropertyChanged(nameof(Avatar)); } }
-        public ICommand TakePhoto => new Command(async () => await TakePhotoWithCamera());
-        public ICommand UploadPhoto => new Command(async () => await UploadPhotoFromGallery());
-        public ICommand EditProfile => new Command(async () => await ConfirmEdit());
-        public EditProfilePageViewModel(IHttpService baseHttp, ApiProfile _apiProfile) {
-            BaseHttp = baseHttp;
-            apiProfile = _apiProfile;
-            if (!string.IsNullOrEmpty(_apiProfile.Avatar)) {
-                Avatar = _apiProfile.Avatar.Base64ToImageSource();
+        public string FullName { get => ApiProfile.FullName; set { ApiProfile.FullName = value; OnPropertyChanged(nameof(FullName)); } }
+        public DateTime? BirthDate { get => ApiProfile.Birthdate ?? DateTime.Now; set { ApiProfile.Birthdate = value; OnPropertyChanged(nameof(BirthDate)); } }
+        public string FacebookLink { get => ApiProfile.Facebook; set { ApiProfile.Facebook = value; OnPropertyChanged(nameof(FacebookLink)); } }
+        public string InstagramLink { get => ApiProfile.Instagram; set { ApiProfile.Instagram = value; OnPropertyChanged(nameof(InstagramLink)); } }
+        public string TwitterLink { get => ApiProfile.Twitter; set { ApiProfile.Twitter = value; OnPropertyChanged(nameof(TwitterLink)); } }
+        public string Description { get => ApiProfile.Description; set { ApiProfile.Description = value; OnPropertyChanged(nameof(Description)); } }
+        #endregion
+
+        #region Commands
+        public ICommand TakePhotoCommand => new Command(async () => await TakePhoto());
+        public ICommand UploadPhotoCommand => new Command(async () => await UploadPhoto());
+        public ICommand EditProfileCommand => new Command(async () => await EditProfile());
+        #endregion
+        #endregion
+
+        #region Constructor
+        public EditProfilePageViewModel(IHttpService httpService, ApiProfile apiProfile) {
+            HttpService = httpService;
+            FillEditingPage(apiProfile);
+        }
+        #endregion
+
+        #region Methods
+        private void FillEditingPage(ApiProfile apiProfile) {
+            ApiProfile = apiProfile;
+            if (!string.IsNullOrEmpty(apiProfile.Avatar)) {
+                Avatar = apiProfile.Avatar.Base64ToImageSource();
             } else {
                 Avatar = "defaultuser_icon.png";
             }
         }
 
-        public async Task TakePhotoWithCamera() {
+        public async Task TakePhoto() {
             if (MediaPicker.Default.IsCaptureSupported) {
                 FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
                 if (photo != null) {
                     using Stream sourceStream = await photo.OpenReadAsync();
                     var imageBase64 = sourceStream.ConvertToBase64();
-                    newAvatar = imageBase64;
+                    NewAvatar = imageBase64;
                     Avatar = imageBase64.Base64ToImageSource();
                 }
             }
         }
 
-        public async Task UploadPhotoFromGallery() {
+        public async Task UploadPhoto() {
             if (MediaPicker.Default.IsCaptureSupported) {
                 FileResult photo = await MediaPicker.Default.PickPhotoAsync();
                 if (photo != null) {
                     using Stream sourceStream = await photo.OpenReadAsync();
                     var imageBase64 = sourceStream.ConvertToBase64();
-                    newAvatar = imageBase64;
+                    NewAvatar = imageBase64;
                     Avatar = imageBase64.Base64ToImageSource();
                 }
             }
         }
 
-        private async Task ConfirmEdit() {
+        private async Task EditProfile() {
             var task = new Func<Task<ApiResponse>>(async () => {
                 var entries = new Dictionary<EntryType, string>() {
                     { EntryType.ProfileFullName, FullName },
@@ -72,7 +91,7 @@ namespace Art_Critique.Pages.ProfilePages
                 Validators.ValidateEntries(entries);
 
                 var body = JsonConvert.SerializeObject(new ApiProfile() {
-                    Avatar = newAvatar,
+                    Avatar = NewAvatar,
                     FullName = FullName,
                     Birthdate = BirthDate,
                     Facebook = FacebookLink,
@@ -80,7 +99,7 @@ namespace Art_Critique.Pages.ProfilePages
                     Twitter = TwitterLink,
                     Description = Description
                 });
-                return await BaseHttp.SendApiRequest(HttpMethod.Post, $"{Dictionary.ProfileEdit}?login={apiProfile.Login}", body);
+                return await HttpService.SendApiRequest(HttpMethod.Post, $"{Dictionary.ProfileEdit}?login={ApiProfile.Login}", body);
             });
 
             var result = await ExecuteWithTryCatch(task);
@@ -88,5 +107,6 @@ namespace Art_Critique.Pages.ProfilePages
                 await Shell.Current.GoToAsync("../");
             }
         }
+        #endregion
     }
 }

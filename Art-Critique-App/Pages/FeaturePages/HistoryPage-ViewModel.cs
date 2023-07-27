@@ -5,8 +5,7 @@ using Art_Critique.Utils.Helpers;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.FeaturePages
-{
+namespace Art_Critique.Pages.FeaturePages {
     public class HistoryPageViewModel : BaseViewModel {
         #region Services
         private readonly ICacheService CacheService;

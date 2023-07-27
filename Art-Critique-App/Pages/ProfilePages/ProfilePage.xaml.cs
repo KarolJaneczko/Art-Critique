@@ -6,8 +6,7 @@ using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Helpers;
 using Newtonsoft.Json;
 
-namespace Art_Critique
-{
+namespace Art_Critique {
     [QueryProperty(nameof(Login), nameof(Login))]
     public partial class ProfilePage : ContentPage {
         #region Services

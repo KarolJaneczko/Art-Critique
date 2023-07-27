@@ -8,8 +8,7 @@ using Art_Critique.Utils.Helpers;
 using Newtonsoft.Json;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ReviewPages
-{
+namespace Art_Critique.Pages.ReviewPages {
     public class AddReviewPageViewModel : BaseViewModel {
         #region Services
         private readonly ICacheService CacheService;
