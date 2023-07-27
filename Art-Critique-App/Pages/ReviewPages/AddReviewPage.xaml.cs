@@ -4,8 +4,7 @@ using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Helpers;
 using Newtonsoft.Json;
 
-namespace Art_Critique
-{
+namespace Art_Critique {
     [QueryProperty(nameof(ArtworkId), nameof(ArtworkId))]
     public partial class AddReviewPage : ContentPage {
         #region Services

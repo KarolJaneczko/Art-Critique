@@ -4,17 +4,26 @@ using Art_Critique.Pages.ViewModels;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ProfilePages
-{
+namespace Art_Critique.Pages.ProfilePages {
     public class GalleryPageViewModel : BaseViewModel {
+        #region Properties
         private ObservableCollection<ImageThumbnail> thumbnails = new();
         public ObservableCollection<ImageThumbnail> Thumbnails { get => thumbnails; set { thumbnails = value; OnPropertyChanged(nameof(Thumbnails)); } }
-        public ICommand ShowArtworkCommand => new Command<ImageThumbnail>(GoToArtwork);
 
+        #region Commands
+        public ICommand ShowArtworkCommand => new Command<ImageThumbnail>(GoToArtwork);
+        #endregion
+        #endregion
+
+        #region Constructor
         public GalleryPageViewModel(List<ApiCustomPainting> thumbnails) {
-            foreach (var thumbnail in thumbnails) {
-                Thumbnails.Add(new ImageThumbnail(thumbnail));
-            }
+            FillGalleryPage(thumbnails);
+        }
+        #endregion
+
+        #region Methods
+        private void FillGalleryPage(List<ApiCustomPainting> thumbnails) {
+            thumbnails.ForEach(x => Thumbnails.Add(new ImageThumbnail(x)));
         }
 
         public async void GoToArtwork(ImageThumbnail photo) {
@@ -22,5 +31,6 @@ namespace Art_Critique.Pages.ProfilePages
                 await Shell.Current.GoToAsync(nameof(ArtworkPage), new Dictionary<string, object> { { "ArtworkId", photo.ArtworkId.ToString() } });
             }
         }
+        #endregion
     }
 }

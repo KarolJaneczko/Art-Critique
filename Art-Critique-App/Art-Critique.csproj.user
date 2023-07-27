@@ -15,7 +15,7 @@
     <MauiXaml Update="Pages\ProfilePages\ProfilePage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="Pages\WelcomePage.xaml">
+    <MauiXaml Update="Pages\ViewModelsXX\WelcomePage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
   </ItemGroup>

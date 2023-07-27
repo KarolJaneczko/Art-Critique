@@ -8,8 +8,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ProfilePages
-{
+namespace Art_Critique.Pages.ProfilePages {
     public class ProfilePageViewModel : BaseViewModel {
         #region Services
         private readonly ICacheService CacheService;

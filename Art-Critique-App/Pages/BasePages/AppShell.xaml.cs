@@ -1,8 +1,7 @@
 ﻿using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Helpers;
 
-namespace Art_Critique
-{
+namespace Art_Critique {
     public partial class AppShell : Shell {
         #region Services
         private readonly ICacheService CacheService;

@@ -53,7 +53,7 @@ namespace Art_Critique.Utils.Helpers {
                 public bool Verify(string hostname, Javax.Net.Ssl.ISSLSession session) {
                     return
                         Javax.Net.Ssl.HttpsURLConnection.DefaultHostnameVerifier.Verify(hostname, session)
-                        || hostname == "10.0.2.2" && session.PeerPrincipal?.Name == "CN=localhost";
+                        || (hostname == "10.0.2.2" && session.PeerPrincipal?.Name == "CN=localhost");
                 }
             }
         }
