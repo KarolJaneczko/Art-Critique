@@ -1,10 +1,10 @@
-﻿using Art_Critique.Core.Models.API.ArtworkData;
-using Art_Critique.Core.Utils.Helpers;
+﻿using Art_Critique.Models.API.Artwork;
 using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Helpers;
 using Newtonsoft.Json;
 
-namespace Art_Critique.Pages.ReviewPages {
+namespace Art_Critique.Pages.ReviewPages
+{
     [QueryProperty(nameof(ArtworkId), nameof(ArtworkId))]
     [QueryProperty(nameof(IsMyArtwork), nameof(IsMyArtwork))]
     public partial class ReviewPage : ContentPage {

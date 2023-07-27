@@ -1,7 +1,8 @@
-﻿using Art_Critique.Core.Models.API.Base;
-using Art_Critique.Core.Utils.Enums;
-using Art_Critique.Core.Utils.Helpers;
+﻿using Art_Critique.Core.Utils.Helpers;
+using Art_Critique.Models.API.Base;
 using Art_Critique.Services.Interfaces;
+using Art_Critique.Utils.Enums;
+using Art_Critique.Utils.Helpers;
 using System.Windows.Input;
 
 namespace Art_Critique.Pages.ViewModels

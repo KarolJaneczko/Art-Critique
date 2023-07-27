@@ -1,4 +1,4 @@
-﻿namespace Art_Critique.Core.Utils.Enums {
+﻿namespace Art_Critique.Utils.Enums {
     public enum ExceptionType {
         Undefined = 0,
         EntryTooShort = 1,

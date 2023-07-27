@@ -1,4 +1,4 @@
-﻿namespace Art_Critique.Core.Models.API.Base {
+﻿namespace Art_Critique.Models.API.Base {
     public class ApiResponse {
         public bool IsSuccess { get; set; }
         public string Title { get; set; }

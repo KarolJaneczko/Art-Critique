@@ -1,12 +1,13 @@
-﻿using Art_Critique.Core.Models.API.Base;
-using Art_Critique.Core.Utils.Base;
-using Art_Critique.Core.Utils.Helpers;
+﻿using Art_Critique.Models.API.Base;
+using Art_Critique.Models.Logic;
 using Art_Critique.Services.Interfaces;
+using Art_Critique.Utils.Helpers;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 
-namespace Art_Critique.Services {
+namespace Art_Critique.Services
+{
     public class HttpService : IHttpService {
         #region Properties
         private static readonly HttpsConnectionHelper ConnectionHelper = new(sslPort: 7038);

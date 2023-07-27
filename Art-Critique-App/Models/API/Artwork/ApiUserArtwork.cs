@@ -1,4 +1,4 @@
-﻿namespace Art_Critique.Core.Models.API.ArtworkData {
+﻿namespace Art_Critique.Models.API.Artwork {
     public class ApiUserArtwork {
         public int ArtworkId { get; set; }
         public string Login { get; set; }
