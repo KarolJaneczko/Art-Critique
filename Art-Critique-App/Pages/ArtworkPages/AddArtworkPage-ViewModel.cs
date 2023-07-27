@@ -10,47 +10,65 @@ using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ArtworkPages
-{
-    public class AddArtworkPageViewModel : BaseViewModel {
-        private readonly IHttpService BaseHttp;
-        private readonly ApiUserArtwork apiUserArtwork;
+namespace Art_Critique.Pages.ArtworkPages {
+    public class AddArtworkPageViewModel : BaseViewModel{
+        #region Services
+        private readonly ICacheService CacheService;
+        private readonly IHttpService HttpService;
+        #endregion
+
+        #region Properties
+        private ApiUserArtwork ApiUserArtwork;
+
+        #region Artwork fields
         private ObservableCollection<ImageThumbnail> artworkPhotos = new();
         private List<PaintingGenre> paintingGenres;
         private PaintingGenre selectedGenre;
-        private bool isOtherGenreVisible;
+
         public ObservableCollection<ImageThumbnail> ArtworkPhotos { get => artworkPhotos; set { artworkPhotos = value; OnPropertyChanged(nameof(ArtworkPhotos)); } }
         public List<PaintingGenre> PaintingGenres { get => paintingGenres ??= new List<PaintingGenre>(); set { paintingGenres = value; OnPropertyChanged(nameof(PaintingGenres)); } }
         public PaintingGenre SelectedGenre { get => selectedGenre; set { selectedGenre = value; IsOtherGenreVisible = value?.Name == "Other"; OnPropertyChanged(nameof(SelectedGenre)); } }
-        public string Title { get => apiUserArtwork.Title; set { apiUserArtwork.Title = value; OnPropertyChanged(nameof(Title)); } }
-        public string Description { get => apiUserArtwork.Description; set { apiUserArtwork.Description = value; OnPropertyChanged(nameof(Description)); } }
-        public string OtherGenre { get => apiUserArtwork.GenreOtherName; set { apiUserArtwork.GenreOtherName = value; OnPropertyChanged(nameof(OtherGenre)); } }
+        public string Title { get => ApiUserArtwork.Title; set { ApiUserArtwork.Title = value; OnPropertyChanged(nameof(Title)); } }
+        public string Description { get => ApiUserArtwork.Description; set { ApiUserArtwork.Description = value; OnPropertyChanged(nameof(Description)); } }
+        public string OtherGenre { get => ApiUserArtwork.GenreOtherName; set { ApiUserArtwork.GenreOtherName = value; OnPropertyChanged(nameof(OtherGenre)); } }
+        #endregion
+
+        #region Visibility flags
+        private bool isOtherGenreVisible;
         public bool IsOtherGenreVisible { get => isOtherGenreVisible; set { isOtherGenreVisible = value; OnPropertyChanged(nameof(IsOtherGenreVisible)); } }
-        public ICommand TakePhoto => new Command(async () => await TakePhotoWithCamera());
-        public ICommand UploadPhoto => new Command(async () => await UploadPhotoFromGallery());
-        public ICommand DeleteCommand => new Command<ImageThumbnail>(RemovePhoto);
-        public ICommand AddArtwork => new Command(async () => await ConfirmAdding());
-        public AddArtworkPageViewModel(IHttpService baseHttp, ICacheService cacheService, IEnumerable<PaintingGenre> paintingGenres) {
-            BaseHttp = baseHttp;
+        #endregion
+
+        #region Commands
+        public ICommand TakePhotoCommand => new Command(async () => await TakePhoto());
+        public ICommand UploadPhotoCommand => new Command(async () => await UploadPhoto());
+        public ICommand DeletePhotoCommand => new Command<ImageThumbnail>(DeletePhoto);
+        public ICommand AddArtworkCommand => new Command(async () => await AddArtwork());
+        #endregion
+        #endregion
+
+        #region Constructor
+        public AddArtworkPageViewModel(ICacheService cacheService, IHttpService httpService, List<PaintingGenre> paintingGenres) {
+            CacheService = cacheService;
+            HttpService = httpService;
+            FillAddArtworkPage(paintingGenres);
+        }
+        #endregion
+
+        #region Methods
+        private void FillAddArtworkPage(List<PaintingGenre> paintingGenres) {
+            PaintingGenres = paintingGenres;
             SelectedGenre = null;
-            PaintingGenres = paintingGenres.ToList();
-            apiUserArtwork = new ApiUserArtwork() {
+            ApiUserArtwork = new ApiUserArtwork() {
                 Date = DateTime.Now,
                 Description = string.Empty,
                 GenreOtherName = string.Empty,
                 Images = null,
-                Login = cacheService.GetCurrentLogin(),
+                Login = CacheService.GetCurrentLogin(),
                 Title = string.Empty
             };
         }
 
-        public void RemovePhoto(ImageThumbnail photo) {
-            if (ArtworkPhotos.Contains(photo)) {
-                ArtworkPhotos = new ObservableCollection<ImageThumbnail>(ArtworkPhotos.Where(x => !x.Equals(photo)).ToList());
-            }
-        }
-
-        public async Task TakePhotoWithCamera() {
+        public async Task TakePhoto() {
             if (MediaPicker.Default.IsCaptureSupported) {
                 FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
                 if (photo != null) {
@@ -61,7 +79,7 @@ namespace Art_Critique.Pages.ArtworkPages
             }
         }
 
-        public async Task UploadPhotoFromGallery() {
+        public async Task UploadPhoto() {
             if (MediaPicker.Default.IsCaptureSupported) {
                 FileResult photo = await MediaPicker.Default.PickPhotoAsync();
                 if (photo != null) {
@@ -72,7 +90,13 @@ namespace Art_Critique.Pages.ArtworkPages
             }
         }
 
-        public async Task ConfirmAdding() {
+        public void DeletePhoto(ImageThumbnail photo) {
+            if (ArtworkPhotos.Contains(photo)) {
+                ArtworkPhotos = new ObservableCollection<ImageThumbnail>(ArtworkPhotos.Where(x => !x.Equals(photo)).ToList());
+            }
+        }
+
+        public async Task AddArtwork() {
             var task = new Func<Task<ApiResponse>>(async () => {
                 if (ArtworkPhotos?.Count == 0) {
                     throw new AppException("Upload minimum 1 photo of your work", ExceptionType.EntryIsEmpty);
@@ -83,7 +107,7 @@ namespace Art_Critique.Pages.ArtworkPages
                     { EntryType.ArtworkDescription, Description },
                 };
                 if (SelectedGenre?.Name == "Other") {
-                    entries.Add(EntryType.ArtworkGenreName, apiUserArtwork.GenreOtherName);
+                    entries.Add(EntryType.ArtworkGenreName, ApiUserArtwork.GenreOtherName);
                 }
                 Validators.ValidateEntries(entries);
 
@@ -92,15 +116,15 @@ namespace Art_Critique.Pages.ArtworkPages
                 }
 
                 var body = JsonConvert.SerializeObject(new ApiUserArtwork() {
-                    Login = apiUserArtwork.Login,
-                    Title = apiUserArtwork.Title,
-                    Description = apiUserArtwork.Description,
+                    Login = ApiUserArtwork.Login,
+                    Title = ApiUserArtwork.Title,
+                    Description = ApiUserArtwork.Description,
                     Date = DateTime.Now,
                     GenreId = SelectedGenre.Id,
-                    GenreOtherName = apiUserArtwork.GenreOtherName,
+                    GenreOtherName = ApiUserArtwork.GenreOtherName,
                     Images = ArtworkPhotos.Select(x => x.ImageBase).ToList()
                 });
-                return await BaseHttp.SendApiRequest(HttpMethod.Post, Dictionary.InsertUserArtwork, body);
+                return await HttpService.SendApiRequest(HttpMethod.Post, Dictionary.InsertUserArtwork, body);
             });
 
             var result = await ExecuteWithTryCatch(task);
@@ -108,5 +132,6 @@ namespace Art_Critique.Pages.ArtworkPages
                 await Shell.Current.GoToAsync(nameof(ArtworkPage), new Dictionary<string, object> { { "ArtworkId", result.Data.ToString() } });
             }
         }
+        #endregion
     }
 }
