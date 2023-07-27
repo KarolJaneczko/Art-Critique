@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Art_Critique.Pages.FeaturePages.HistoryPage"
+             x:Class="Art_Critique.HistoryPage"
              Title="History">
 
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
-        <Grid RowDefinitions="Auto,Auto,Auto" Padding="20,0">
+        <Grid RowDefinitions="Auto,Auto,Auto" Padding="20,0" RowSpacing="20">
             <!-- Loading indicator -->
             <StackLayout x:Name="Loading" BackgroundColor="LightGray" IsVisible="{Binding IsLoading}">
                 <ActivityIndicator IsVisible="True" IsRunning="True" HeightRequest="50" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
@@ -18,8 +18,25 @@
             <CollectionView Grid.Row="2" x:Name="UserHistory" ItemsSource="{Binding History}" ItemsLayout="VerticalList">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="Auto,Auto,Auto,Auto" Padding="10" BackgroundColor="LightGray">
-                            
+                        <Grid ColumnDefinitions="Auto,Auto,Auto,Auto" BackgroundColor="LightGray" ColumnSpacing="20" Margin="0,10,0,10">
+                            <Frame Grid.Column="1" WidthRequest="60" HeightRequest="60" CornerRadius="20" BorderColor="Transparent" IsClippedToBounds="true">
+                                <Image Source="{Binding Image}" WidthRequest="60" HeightRequest="60" Aspect="AspectFill" />
+                            </Frame>
+
+                            <HorizontalStackLayout Grid.Column="2" Spacing="20">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Title}" HorizontalTextAlignment="Center" CharacterSpacing="2" FontSize="Small" Margin="0,20,0,0"/>
+                                    <Label Text="{Binding Type, StringFormat='({0})'}" TextColor="Gray" HorizontalTextAlignment="Center" CharacterSpacing="1" FontSize="Small" Margin="0,10,0,10"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Date}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" CharacterSpacing="1" FontSize="Small" Margin="0,20,0,0"/>
+                                    <Label Text="{Binding Time}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" CharacterSpacing="1" FontSize="Small" Margin="0,10,0,10"/>
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+
+                            <Button Grid.Column="3" Text="Go" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="50" HeightRequest="50"
+                                    Command="{Binding Source={x:Reference UserHistory}, Path=BindingContext.GoCommand}" CommandParameter="{Binding}"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

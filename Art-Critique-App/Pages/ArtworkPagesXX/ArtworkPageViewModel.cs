@@ -1,14 +1,15 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
 using Art_Critique.Core.Models.API.UserData;
-using Art_Critique.Core.Models.Logic;
 using Art_Critique.Core.Utils.Helpers;
+using Art_Critique.Models.Logic;
 using Art_Critique.Pages.ReviewPages;
 using Art_Critique.Pages.ViewModels;
 using Art_Critique.Services.Interfaces;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ArtworkPages {
+namespace Art_Critique.Pages.ArtworkPages
+{
     public class ArtworkPageViewModel : BaseViewModel {
         private readonly IHttpService BaseHttp;
         private readonly ICacheService Credentials;

@@ -5,5 +5,6 @@
         public string Type { get; set; }
         public DateTime Date { get; set; }
         public string Path { get; set; }
+        public Dictionary<string, object> Parameters { get; set; }
     }
 }
