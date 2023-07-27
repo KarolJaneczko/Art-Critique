@@ -13,6 +13,7 @@ namespace Art_Critique {
         #region Services
         private readonly ICacheService CacheService;
         private readonly IHttpService HttpService;
+        private readonly IPropertiesService PropertiesService;
         #endregion
 
         #region Properties
@@ -21,10 +22,11 @@ namespace Art_Critique {
         #endregion
 
         #region Constructor
-        public ProfilePage(ICacheService cacheService, IHttpService httpService) {
+        public ProfilePage(ICacheService cacheService, IHttpService httpService, IPropertiesService propertiesService) {
             InitializeComponent();
             CacheService = cacheService;
             HttpService = httpService;
+            PropertiesService = propertiesService;
             InitializeValues();
         }
         #endregion
@@ -33,6 +35,8 @@ namespace Art_Critique {
         private void InitializeValues() {
             Routing.RegisterRoute(nameof(EditProfilePage), typeof(EditProfilePage));
             Routing.RegisterRoute(nameof(GalleryPage), typeof(GalleryPage));
+            Loading.HeightRequest = PropertiesService.GetHeightByPercent(85);
+            Loading.WidthRequest = PropertiesService.GetWidthByPercent(100);
         }
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
@@ -55,9 +59,16 @@ namespace Art_Critique {
                 var views = JsonConvert.DeserializeObject<string>(viewCount.Data.ToString());
 
                 // Saving navigation to app's history.
-                CacheService.AddToHistory(new HistoryEntry() { Image = profile.Avatar, Title = userLogin });
+                CacheService.AddToHistory(new HistoryEntry() {
+                    Image = profile.Avatar,
+                    Title = userLogin,
+                    Type = "Profile",
+                    Date = DateTime.Now,
+                    Path = nameof(ProfilePage),
+                    Parameters = new() { { "Login", userLogin } }
+                });
 
-                BindingContext = new ProfilePageViewModel(CacheService, profile, thumbnails, views);
+                BindingContext = new ProfilePageViewModel(CacheService, views, profile, thumbnails);
             });
 
             // Run task with try/catch.

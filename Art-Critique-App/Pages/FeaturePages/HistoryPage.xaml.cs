@@ -1,7 +1,8 @@
-﻿using Art_Critique.Pages.ReviewPages;
+﻿using Art_Critique.Pages.FeaturePages;
+using Art_Critique.Pages.ReviewPages;
 using Art_Critique.Services.Interfaces;
 
-namespace Art_Critique.Pages.FeaturePages {
+namespace Art_Critique {
     public partial class HistoryPage : ContentPage {
         #region Services
         private readonly ICacheService CacheService;

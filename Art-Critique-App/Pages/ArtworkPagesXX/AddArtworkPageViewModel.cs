@@ -4,13 +4,15 @@ using Art_Critique.Core.Models.Logic;
 using Art_Critique.Core.Utils.Base;
 using Art_Critique.Core.Utils.Enums;
 using Art_Critique.Core.Utils.Helpers;
+using Art_Critique.Models.Logic;
 using Art_Critique.Pages.ViewModels;
 using Art_Critique.Services.Interfaces;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ArtworkPages {
+namespace Art_Critique.Pages.ArtworkPages
+{
     public class AddArtworkPageViewModel : BaseViewModel {
         private readonly IHttpService BaseHttp;
         private readonly ApiUserArtwork apiUserArtwork;

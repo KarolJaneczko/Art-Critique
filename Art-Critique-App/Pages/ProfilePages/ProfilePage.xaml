@@ -37,13 +37,13 @@
             <!-- Social media -->
             <HorizontalStackLayout Grid.Row="5" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,20,0,20">
                 <Frame Opacity="{Binding FacebookOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
-                    <ImageButton Source="facebook_icon.png" Command="{Binding FacebookOpen}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
+                    <ImageButton Source="facebook_icon.png" Command="{Binding FacebookCommand}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
                 </Frame>
                 <Frame Opacity="{Binding InstagramOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
-                    <ImageButton Source="instagram_icon.png" Command="{Binding InstagramOpen}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
+                    <ImageButton Source="instagram_icon.png" Command="{Binding InstagramCommand}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
                 </Frame>
                 <Frame Opacity="{Binding TwitterOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
-                    <ImageButton Source="twitter_icon.png" Command="{Binding TwitterOpen}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
+                    <ImageButton Source="twitter_icon.png" Command="{Binding TwitterCommand}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
                 </Frame>
             </HorizontalStackLayout>
 
@@ -54,7 +54,7 @@
             <!-- User's artworks -->
             <VerticalStackLayout Grid.Row="8" VerticalOptions="Center" Margin="0,20,0,20" IsVisible="{Binding AreThumbnailsVisible}">
                 <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding GalleryCommand}"/>
+                    <TapGestureRecognizer Command="{Binding GoToGalleryCommand}"/>
                 </VerticalStackLayout.GestureRecognizers>
                 <Label Text="Artworks   ➡" FontAttributes="Bold" TextColor="Goldenrod" HorizontalTextAlignment="Start" Margin="0,30,0,10" FontSize="20"/>
                 <VerticalStackLayout Grid.Row="5" HorizontalOptions="Center" Margin="0,10,0,0">
@@ -75,7 +75,7 @@
             
             <!-- Buttons -->
             <HorizontalStackLayout Grid.Row="9" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
-                <Button Text="{Binding ButtonText}" Command="{Binding ButtonCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50"/>
+                <Button Text="{Binding FunctionText}" Command="{Binding FunctionCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50"/>
             </HorizontalStackLayout>
         </Grid>
     </ScrollView>

@@ -1,10 +1,11 @@
 ﻿using Art_Critique.Core.Models.API.ArtworkData;
-using Art_Critique.Core.Models.Logic;
+using Art_Critique.Models.Logic;
 using Art_Critique.Pages.ViewModels;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ProfilePages {
+namespace Art_Critique.Pages.ProfilePages
+{
     public class GalleryPageViewModel : BaseViewModel {
         private ObservableCollection<ImageThumbnail> thumbnails = new();
         public ObservableCollection<ImageThumbnail> Thumbnails { get => thumbnails; set { thumbnails = value; OnPropertyChanged(nameof(Thumbnails)); } }
