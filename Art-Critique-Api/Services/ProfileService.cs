@@ -1,6 +1,6 @@
 ﻿using Art_Critique_Api.Entities;
 using Art_Critique_Api.Models.Base;
-using Art_Critique_Api.Models.UserData;
+using Art_Critique_Api.Models.User;
 using Art_Critique_Api.Services.Interfaces;
 using Art_Critique_Api.Utils;
 

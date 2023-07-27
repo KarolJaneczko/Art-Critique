@@ -1,4 +1,4 @@
-﻿namespace Art_Critique_Api.Models.UserData {
+﻿namespace Art_Critique_Api.Models.User {
     public class ApiProfile {
         public string? Login { get; set; }
         public string? FullName { get; set; }

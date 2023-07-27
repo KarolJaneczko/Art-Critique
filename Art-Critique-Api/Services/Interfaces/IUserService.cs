@@ -1,5 +1,5 @@
 ﻿using Art_Critique_Api.Models.Base;
-using Art_Critique_Api.Models.UserData;
+using Art_Critique_Api.Models.User;
 
 namespace Art_Critique_Api.Services.Interfaces {
     public interface IUserService {
