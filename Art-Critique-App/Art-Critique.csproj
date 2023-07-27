@@ -83,15 +83,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AndroidResource Remove="Core\Enums\**" />
-	  <Compile Remove="Core\Enums\**" />
-	  <EmbeddedResource Remove="Core\Enums\**" />
-	  <MauiCss Remove="Core\Enums\**" />
-	  <MauiXaml Remove="Core\Enums\**" />
-	  <None Remove="Core\Enums\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <None Remove="Resources\Fonts\Pragmatica-ExtraLight.ttf" />
 	  <None Remove="Resources\Fonts\Pragmatica-Medium.otf" />
 	  <None Remove="Resources\Images\artcritique_logo.png" />

@@ -1,11 +1,12 @@
-﻿using Art_Critique.Core.Utils.Helpers;
-using Art_Critique.Models.Logic;
+﻿using Art_Critique.Models.Logic;
 using Art_Critique.Pages.ViewModels;
 using Art_Critique.Services.Interfaces;
+using Art_Critique.Utils.Helpers;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.FeaturePages {
+namespace Art_Critique.Pages.FeaturePages
+{
     public class HistoryPageViewModel : BaseViewModel {
         #region Services
         private readonly ICacheService CacheService;

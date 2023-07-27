@@ -1,4 +1,4 @@
-﻿using Art_Critique.Core.Models.API.ArtworkData;
+﻿using Art_Critique.Models.API.Artwork;
 using Art_Critique.Models.Logic;
 using Art_Critique.Pages.ViewModels;
 using System.Collections.ObjectModel;

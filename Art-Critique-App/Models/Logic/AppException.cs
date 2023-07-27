@@ -1,12 +1,15 @@
-﻿using Art_Critique.Core.Utils.Enums;
+﻿using Art_Critique.Utils.Enums;
 using System.Net;
 
-namespace Art_Critique.Core.Utils.Base {
+namespace Art_Critique.Models.Logic {
     public class AppException : Exception {
+        #region Properties
         public readonly string Title;
         public readonly string ErrorMessage;
         public readonly HttpStatusCode? StatusCode;
+        #endregion
 
+        #region Constructors
         public AppException(string errorMessage, ExceptionType errorType = ExceptionType.Undefined) {
             Title = SetTitle(errorType);
             ErrorMessage = errorMessage;
@@ -17,7 +20,9 @@ namespace Art_Critique.Core.Utils.Base {
             ErrorMessage = SetMessageBasedOnStatusCode(statusCode);
             StatusCode = statusCode;
         }
+        #endregion
 
+        #region Methods
         private static string SetTitle(ExceptionType errorType) {
             return errorType switch {
                 ExceptionType.Undefined => "Undefined error!",
@@ -47,5 +52,6 @@ namespace Art_Critique.Core.Utils.Base {
                 _ => "Unknown error!",
             };
         }
+        #endregion
     }
 }

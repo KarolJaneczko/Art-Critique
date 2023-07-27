@@ -1,9 +1,9 @@
-﻿using Art_Critique.Core.Models.API;
-using Art_Critique.Core.Models.API.Base;
-using Art_Critique.Core.Models.API.UserData;
-using Art_Critique.Core.Utils.Enums;
-using Art_Critique.Core.Utils.Helpers;
+﻿using Art_Critique.Core.Utils.Helpers;
+using Art_Critique.Models.API.Base;
+using Art_Critique.Models.API.User;
 using Art_Critique.Services.Interfaces;
+using Art_Critique.Utils.Enums;
+using Art_Critique.Utils.Helpers;
 using Newtonsoft.Json;
 using System.Windows.Input;
 
@@ -35,7 +35,7 @@ namespace Art_Critique.Pages.ViewModels
                 Validators.ValidateEntries(entries);
 
                 // Making a body for registration request which consists of email, login and password.
-                var body = JsonConvert.SerializeObject(new ApiRegisterUser() {
+                var body = JsonConvert.SerializeObject(new ApiUser() {
                     UsEmail = Email,
                     UsLogin = Login,
                     UsPassword = Password

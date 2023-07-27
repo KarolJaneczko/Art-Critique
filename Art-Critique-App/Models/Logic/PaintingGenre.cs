@@ -1,4 +1,4 @@
-﻿namespace Art_Critique.Core.Models.Logic {
+﻿namespace Art_Critique.Models.Logic {
     public class PaintingGenre {
         public int Id { get; set; }
         public string Name { get; set; }

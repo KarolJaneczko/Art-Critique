@@ -1,8 +1,9 @@
-﻿using Art_Critique.Core.Models.API.UserData;
+﻿using Art_Critique.Models.API.User;
 using Art_Critique.Pages.ProfilePages;
 using Art_Critique.Services.Interfaces;
 
-namespace Art_Critique {
+namespace Art_Critique
+{
     [QueryProperty(nameof(ApiProfile), nameof(ApiProfile))]
     public partial class EditProfilePage : ContentPage {
         private IHttpService BaseHttp { get; set; }

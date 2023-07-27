@@ -1,12 +1,11 @@
-﻿using Art_Critique.Core.Models.API.ArtworkData;
-using Art_Critique.Core.Models.API.Base;
-using Art_Critique.Core.Models.Logic;
-using Art_Critique.Core.Utils.Base;
-using Art_Critique.Core.Utils.Enums;
-using Art_Critique.Core.Utils.Helpers;
+﻿using Art_Critique.Core.Utils.Helpers;
+using Art_Critique.Models.API.Artwork;
+using Art_Critique.Models.API.Base;
 using Art_Critique.Models.Logic;
 using Art_Critique.Pages.ViewModels;
 using Art_Critique.Services.Interfaces;
+using Art_Critique.Utils.Enums;
+using Art_Critique.Utils.Helpers;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Windows.Input;

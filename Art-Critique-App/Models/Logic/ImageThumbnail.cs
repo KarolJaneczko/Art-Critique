@@ -1,7 +1,8 @@
-﻿using Art_Critique.Core.Models.API.ArtworkData;
-using Art_Critique.Core.Utils.Helpers;
+﻿using Art_Critique.Models.API.Artwork;
+using Art_Critique.Utils.Helpers;
 
-namespace Art_Critique.Models.Logic {
+namespace Art_Critique.Models.Logic
+{
     public class ImageThumbnail {
         public ImageSource Image { get { return ImageBase.Base64ToImageSource(); } }
         public string ImageBase { get; set; }

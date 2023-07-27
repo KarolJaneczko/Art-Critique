@@ -1,6 +1,5 @@
-﻿using Art_Critique.Core.Models.API.ArtworkData;
-using Art_Critique.Core.Models.API.UserData;
-using Art_Critique.Core.Utils.Helpers;
+﻿using Art_Critique.Models.API.Artwork;
+using Art_Critique.Models.API.User;
 using Art_Critique.Models.Logic;
 using Art_Critique.Pages.ViewModels;
 using Art_Critique.Services.Interfaces;
@@ -9,7 +8,8 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ProfilePages {
+namespace Art_Critique.Pages.ProfilePages
+{
     public class ProfilePageViewModel : BaseViewModel {
         #region Services
         private readonly ICacheService CacheService;

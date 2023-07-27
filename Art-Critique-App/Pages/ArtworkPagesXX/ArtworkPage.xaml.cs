@@ -1,12 +1,13 @@
-﻿using Art_Critique.Core.Models.API.ArtworkData;
-using Art_Critique.Core.Models.API.UserData;
-using Art_Critique.Core.Utils.Helpers;
+﻿using Art_Critique.Models.API.Artwork;
+using Art_Critique.Models.API.User;
 using Art_Critique.Pages.ArtworkPages;
 using Art_Critique.Pages.ReviewPages;
 using Art_Critique.Services.Interfaces;
+using Art_Critique.Utils.Helpers;
 using Newtonsoft.Json;
 
-namespace Art_Critique {
+namespace Art_Critique
+{
     [QueryProperty(nameof(ArtworkId), nameof(ArtworkId))]
     public partial class ArtworkPage : ContentPage {
         private readonly IHttpService BaseHttp;
