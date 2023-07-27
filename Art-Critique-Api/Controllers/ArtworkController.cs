@@ -1,4 +1,4 @@
-﻿using Art_Critique_Api.Models.ArtworkData;
+﻿using Art_Critique_Api.Models.Artwork;
 using Art_Critique_Api.Models.Base;
 using Art_Critique_Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,5 @@
-﻿using Art_Critique.Core.Models.API.ArtworkData;
-using Art_Critique_Api.Entities;
+﻿using Art_Critique_Api.Entities;
+using Art_Critique_Api.Models.Artwork;
 using Art_Critique_Api.Models.Base;
 using Art_Critique_Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
