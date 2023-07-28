@@ -1,23 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Art_Critique.ArtworkPage">
+             x:Class="Art_Critique.ArtworkPage"
+             Title="{Binding Title}">
 
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
-
         <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
+            <!-- Loading indicator -->
+            <StackLayout x:Name="Loading" BackgroundColor="LightGray" IsVisible="{Binding IsLoading}">
+                <ActivityIndicator IsVisible="True" IsRunning="True" HeightRequest="50" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
+            </StackLayout>
 
             <!-- Artwork's title -->
             <Label Grid.Row="1" Text="{Binding Title}" TextColor="Black" CharacterSpacing="1" FontAttributes="Bold" HorizontalTextAlignment="Center" FontSize="30" Margin="0,20,0,0" />
 
+            <!-- Author's avatar and login -->
             <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto" HorizontalOptions="Center" Margin="0,10,0,10">
                 <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding GoToProfile}"/>
+                    <TapGestureRecognizer Command="{Binding GoToProfileCommand}"/>
                 </Grid.GestureRecognizers>
                 
                 <Frame Grid.Column="1" WidthRequest="50" HeightRequest="50" CornerRadius="20" BorderColor="Transparent" IsClippedToBounds="true">
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding GoToProfile}"/>
+                        <TapGestureRecognizer Command="{Binding GoToProfileCommand}"/>
                     </Frame.GestureRecognizers>
                     <Image  Source="{Binding Avatar}" WidthRequest="50" HeightRequest="50" Aspect="AspectFill" />
                 </Frame>
@@ -46,7 +51,7 @@
             <!-- Artwork's genre -->
             <Label Grid.Row="6" CharacterSpacing="1" HorizontalOptions="Center" FontAttributes="Bold" Text="{Binding AverageRating}" Margin="0,10,0,0" />
 
-            <!-- Yours rating -->
+            <!-- Your's rating -->
             <Label Grid.Row="7" CharacterSpacing="1" HorizontalOptions="Center" FontAttributes="Bold" Text="{Binding Rating, StringFormat='Your rating: {0}'}" Margin="0,10,0,0" IsVisible="{Binding IsMyRatingVisible}" />
 
             <!-- Artwork's date -->
@@ -59,12 +64,12 @@
             <!-- Link to the reviews -->
             <VerticalStackLayout Grid.Row="11" VerticalOptions="Center" Margin="0,20,0,20">
                 <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding GoToReviews}"/>
+                    <TapGestureRecognizer Command="{Binding GoToReviewsCommand}"/>
                 </VerticalStackLayout.GestureRecognizers>
                 <Label Text="See reviews ➡" FontAttributes="Bold" TextColor="White" BackgroundColor="Goldenrod" HorizontalTextAlignment="Center" Margin="0,20,0,10" FontSize="20" />
             </VerticalStackLayout>
 
-            <!-- Button -->
+            <!-- Buttons -->
             <HorizontalStackLayout Grid.Row="12" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
                 <Button Text="Rating" Command="{Binding FirstButtonCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" Margin="5,0,5,0" IsVisible="{Binding IsRateVisible}"/>
                 <Button Text="{Binding SecondButtonText}" Command="{Binding SecondButtonCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" Margin="5,0,5,0"/>

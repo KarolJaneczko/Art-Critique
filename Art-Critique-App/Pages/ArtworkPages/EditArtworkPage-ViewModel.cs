@@ -2,7 +2,7 @@
 using Art_Critique.Models.API.Artwork;
 using Art_Critique.Models.API.Base;
 using Art_Critique.Models.Logic;
-using Art_Critique.Pages.ViewModels;
+using Art_Critique.Pages.BasePages;
 using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Enums;
 using Art_Critique.Utils.Helpers;
@@ -10,42 +10,62 @@ using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ArtworkPages
-{
+namespace Art_Critique.Pages.ArtworkPages {
     public class EditArtworkPageViewModel : BaseViewModel {
-        private readonly IHttpService BaseHttp;
-        private readonly ApiUserArtwork UserArtwork;
+        #region Services
+        private readonly IHttpService HttpService;
+        #endregion
+
+        #region Properties
+        private ApiUserArtwork UserArtwork;
+        #region Artwork fields
         private ObservableCollection<ImageThumbnail> artworkPhotos = new();
         private List<PaintingGenre> paintingGenres;
         private PaintingGenre selectedGenre;
-        private bool isOtherGenre;
+
         public ObservableCollection<ImageThumbnail> ArtworkPhotos { get => artworkPhotos; set { artworkPhotos = value; OnPropertyChanged(nameof(ArtworkPhotos)); } }
         public List<PaintingGenre> PaintingGenres { get => paintingGenres ??= new List<PaintingGenre>(); set { paintingGenres = value; OnPropertyChanged(nameof(PaintingGenres)); } }
-        public PaintingGenre SelectedGenre { get => selectedGenre; set { selectedGenre = value; IsOtherGenre = value.Name == "Other"; OnPropertyChanged(nameof(SelectedGenre)); } }
-        public bool IsOtherGenre { get => isOtherGenre; set { isOtherGenre = value; OnPropertyChanged(nameof(IsOtherGenre)); } }
+        public PaintingGenre SelectedGenre { get => selectedGenre; set { selectedGenre = value; IsOtherGenreVisible = value.Name == "Other"; OnPropertyChanged(nameof(SelectedGenre)); } }
         public string Title { get => UserArtwork.Title; set { UserArtwork.Title = value; OnPropertyChanged(nameof(Title)); } }
         public string Description { get => UserArtwork.Description; set { UserArtwork.Description = value; OnPropertyChanged(nameof(Description)); } }
         public string OtherGenre { get => UserArtwork.GenreOtherName; set { UserArtwork.GenreOtherName = value; OnPropertyChanged(nameof(OtherGenre)); } }
-        public ICommand DeleteCommand => new Command<ImageThumbnail>(RemovePhoto);
-        public ICommand TakePhoto => new Command(async () => await TakePhotoWithCamera());
-        public ICommand UploadPhoto => new Command(async () => await UploadPhotoFromGallery());
-        public ICommand ConfirmChanges => new Command(async () => await Confirm());
+        #endregion
 
-        public EditArtworkPageViewModel(IHttpService baseHttp, ApiUserArtwork artworkData, IEnumerable<PaintingGenre> genres) {
-            BaseHttp = baseHttp;
-            UserArtwork = artworkData;
-            PaintingGenres = genres.ToList();
-            artworkData.Images.ForEach(x => ArtworkPhotos.Add(new ImageThumbnail(x)));
-            SelectedGenre = PaintingGenres.Find(x => x.Id == artworkData.GenreId);
+        #region Visibility flags
+        private bool isOtherGenreVisible;
+        public bool IsOtherGenreVisible { get => isOtherGenreVisible; set { isOtherGenreVisible = value; OnPropertyChanged(nameof(IsOtherGenreVisible)); } }
+        #endregion
+
+        #region Commands
+        public ICommand DeleteCommand => new Command<ImageThumbnail>(Delete);
+        public ICommand TakePhotoCommand => new Command(async () => await TakePhoto());
+        public ICommand UploadPhotoCommand => new Command(async () => await UploadPhoto());
+        public ICommand ConfirmCommand => new Command(async () => await Confirm());
+        #endregion
+        #endregion
+
+        #region Constructor
+        public EditArtworkPageViewModel(IHttpService httpService, ApiUserArtwork userArtwork, List<PaintingGenre> genres) {
+            HttpService = httpService;
+            FillEditArtworkPage(userArtwork, genres);
+        }
+        #endregion
+
+        #region Methods
+        private void FillEditArtworkPage(ApiUserArtwork userArtwork, List<PaintingGenre> genres) {
+            UserArtwork = userArtwork;
+            PaintingGenres = genres;
+            userArtwork.Images.ForEach(x => ArtworkPhotos.Add(new ImageThumbnail(x)));
+            SelectedGenre = PaintingGenres.Find(x => x.Id == userArtwork.GenreId);
         }
 
-        public void RemovePhoto(ImageThumbnail photo) {
+        public void Delete(ImageThumbnail photo) {
             if (ArtworkPhotos.Contains(photo)) {
                 ArtworkPhotos = new ObservableCollection<ImageThumbnail>(ArtworkPhotos.Where(x => !x.Equals(photo)).ToList());
             }
         }
 
-        public async Task TakePhotoWithCamera() {
+        public async Task TakePhoto() {
             if (MediaPicker.Default.IsCaptureSupported) {
                 FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
                 if (photo != null) {
@@ -56,7 +76,7 @@ namespace Art_Critique.Pages.ArtworkPages
             }
         }
 
-        public async Task UploadPhotoFromGallery() {
+        public async Task UploadPhoto() {
             if (MediaPicker.Default.IsCaptureSupported) {
                 FileResult photo = await MediaPicker.Default.PickPhotoAsync();
                 if (photo != null) {
@@ -98,7 +118,7 @@ namespace Art_Critique.Pages.ArtworkPages
                     Images = ArtworkPhotos.Select(x => x.ImageBase).ToList()
                 });
 
-                return await BaseHttp.SendApiRequest(HttpMethod.Post, Dictionary.EditUserArtwork, body);
+                return await HttpService.SendApiRequest(HttpMethod.Post, Dictionary.EditUserArtwork, body);
             });
 
             var result = await ExecuteWithTryCatch(task);
@@ -106,5 +126,6 @@ namespace Art_Critique.Pages.ArtworkPages
                 await Shell.Current.GoToAsync(nameof(ArtworkPage), new Dictionary<string, object> { { "ArtworkId", UserArtwork.ArtworkId.ToString() } });
             }
         }
+        #endregion
     }
 }

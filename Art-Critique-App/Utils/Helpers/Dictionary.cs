@@ -33,6 +33,11 @@
         public const string RemoveReview = "Review/RemoveReview";
         #endregion
 
+        #region Search paths
+        public const string GetAllArtworks = "Search/GetAllArtworks";
+        public const string GetAllProfiles = "Search/GetAllProfiles";
+        #endregion
+
         #region User paths
         public const string UserLogin = "User/Login";
         public const string UserLogout = "User/Logout";

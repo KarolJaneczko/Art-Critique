@@ -2,7 +2,7 @@
 using Art_Critique.Models.API.Artwork;
 using Art_Critique.Models.API.Base;
 using Art_Critique.Models.Logic;
-using Art_Critique.Pages.ViewModels;
+using Art_Critique.Pages.BasePages;
 using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Enums;
 using Art_Critique.Utils.Helpers;
@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Art_Critique.Pages.ArtworkPages {
-    public class AddArtworkPageViewModel : BaseViewModel{
+    public class AddArtworkPageViewModel : BaseViewModel {
         #region Services
         private readonly ICacheService CacheService;
         private readonly IHttpService HttpService;

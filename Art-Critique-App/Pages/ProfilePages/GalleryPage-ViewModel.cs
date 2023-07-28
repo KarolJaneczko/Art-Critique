@@ -1,6 +1,6 @@
 ﻿using Art_Critique.Models.API.Artwork;
 using Art_Critique.Models.Logic;
-using Art_Critique.Pages.ViewModels;
+using Art_Critique.Pages.BasePages;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
