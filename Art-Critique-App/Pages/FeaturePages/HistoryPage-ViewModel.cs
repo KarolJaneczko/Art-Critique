@@ -3,6 +3,7 @@ using Art_Critique.Pages.ViewModels;
 using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Helpers;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows.Input;
 
 namespace Art_Critique.Pages.FeaturePages {
@@ -34,6 +35,7 @@ namespace Art_Critique.Pages.FeaturePages {
 
         #region Methods
         private void LoadHistory() {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pl-PL");
             var historyList = CacheService.GetHistory();
             historyList.Reverse();
             historyList.ForEach(x => History.Add(new HistoryRecord(x)));

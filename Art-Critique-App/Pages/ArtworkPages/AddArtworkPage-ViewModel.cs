@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Art_Critique.Pages.ArtworkPages {
-    public class AddArtworkPageViewModel : BaseViewModel{
+    public class AddArtworkPageViewModel : BaseViewModel {
         #region Services
         private readonly ICacheService CacheService;
         private readonly IHttpService HttpService;
