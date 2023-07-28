@@ -20,9 +20,10 @@ namespace Art_Critique.Pages.BasePages {
             builder.Services.AddTransient<IHttpService, HttpService>();
             builder.Services.AddScoped<IPropertiesService, PropertiesService>();
 
+            builder.Services.AddTransient<AddReviewPage>();
             builder.Services.AddTransient<HistoryPage>();
             builder.Services.AddTransient<ReviewPage>();
-            builder.Services.AddTransient<AddReviewPage>();
+            builder.Services.AddScoped<SearchPage>();
 
             builder.Services.AddTransient<WelcomePage>();
             builder.Services.AddTransient<RegisterPage>();
