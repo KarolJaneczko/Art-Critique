@@ -1,16 +1,29 @@
-﻿using Art_Critique.Pages.ViewModels;
+﻿using Art_Critique.Pages.FeaturePages;
 using Art_Critique.Services.Interfaces;
 
 namespace Art_Critique {
     public partial class SearchPage : ContentPage {
-        public SearchPage(IHttpService baseHttp) {
-            InitializeComponent();
+        #region Services
+        private readonly IHttpService HttpService;
+        #endregion
+
+        #region Constructor
+        public SearchPage(IHttpService httpService) {
+            HttpService = httpService;
+            InitializeValues();
+        }
+        #endregion
+
+        #region Methods
+        private void InitializeValues() {
             Routing.RegisterRoute(nameof(ArtworkPage), typeof(ArtworkPage));
-            BindingContext = new MainPageViewModel(baseHttp);
+            Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
         }
 
-        private async void Button_Clicked(object sender, EventArgs e) {
-            await Shell.Current.GoToAsync(nameof(ArtworkPage), new Dictionary<string, object> { { "ArtworkId", "9" } });
+        protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
+            base.OnNavigatedTo(args);
+            BindingContext = new SearchPageViewModel(HttpService);
         }
+        #endregion
     }
 }
