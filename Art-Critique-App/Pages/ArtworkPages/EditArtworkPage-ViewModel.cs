@@ -2,7 +2,7 @@
 using Art_Critique.Models.API.Artwork;
 using Art_Critique.Models.API.Base;
 using Art_Critique.Models.Logic;
-using Art_Critique.Pages.ViewModels;
+using Art_Critique.Pages.BasePages;
 using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Enums;
 using Art_Critique.Utils.Helpers;

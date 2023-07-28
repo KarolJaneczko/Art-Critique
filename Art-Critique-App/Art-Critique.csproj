@@ -102,6 +102,9 @@
 	  <Compile Update="Pages\FeaturePages\HistoryPage.xaml.cs">
 	    <DependentUpon>HistoryPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\FeaturePages\SearchPage.xaml.cs">
+	    <DependentUpon>SearchPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\ReviewPages\AddReviewPage.xaml.cs">
 	    <DependentUpon>AddReviewPage.xaml</DependentUpon>
 	  </Compile>
@@ -136,6 +139,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Pages\FeaturePages\HistoryPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\FeaturePages\SearchPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\ReviewPages\AddReviewPage.xaml">

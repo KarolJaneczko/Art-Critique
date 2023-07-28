@@ -1,4 +1,5 @@
 ﻿using Art_Critique.Models.API.Artwork;
+using Art_Critique.Models.Logic;
 using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Helpers;
 using Newtonsoft.Json;
@@ -55,6 +56,20 @@ namespace Art_Critique.Pages.ReviewPages {
                 if (reviews.Data is not null) {
                     userReviews = JsonConvert.DeserializeObject<List<ApiArtworkReview>>(reviews.Data.ToString());
                 }
+
+                // Loading artwork data.
+                var artworkRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetUserArtwork}?id={ArtworkId}");
+                var artwork = JsonConvert.DeserializeObject<ApiUserArtwork>(artworkRequest.Data.ToString());
+
+                // Saving navigation to app's history.
+                CacheService.AddToHistory(new HistoryEntry() {
+                    Image = artwork.Images[0],
+                    Title = artwork.Title,
+                    Type = "Reviews",
+                    Date = DateTime.Now,
+                    Path = nameof(ReviewPage),
+                    Parameters = new() { { "ArtworkId", ArtworkId }, { "IsMyArtwork", IsMyArtwork } }
+                });
 
                 BindingContext = new ReviewPageViewModel(CacheService, HttpService, ArtworkId, IsMyArtwork, userReview, userReviews);
             });

@@ -1,5 +1,4 @@
-﻿using Art_Critique.Pages.FeaturePages;
-using Art_Critique.Pages.ReviewPages;
+﻿using Art_Critique.Pages.ReviewPages;
 using Art_Critique.Services;
 using Art_Critique.Services.Interfaces;
 
@@ -17,9 +16,9 @@ namespace Art_Critique.Pages.BasePages {
         }
 
         private static void AddServices(MauiAppBuilder builder) {
-            builder.Services.AddTransient<ICacheService, CacheService>();
+            builder.Services.AddScoped<ICacheService, CacheService>();
             builder.Services.AddTransient<IHttpService, HttpService>();
-            builder.Services.AddTransient<IPropertiesService, PropertiesService>();
+            builder.Services.AddScoped<IPropertiesService, PropertiesService>();
 
             builder.Services.AddTransient<HistoryPage>();
             builder.Services.AddTransient<ReviewPage>();

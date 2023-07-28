@@ -1,6 +1,7 @@
 ﻿using Art_Critique.Core.Utils.Helpers;
 using Art_Critique.Models.API.Base;
 using Art_Critique.Models.API.User;
+using Art_Critique.Pages.BasePages;
 using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Enums;
 using Art_Critique.Utils.Helpers;

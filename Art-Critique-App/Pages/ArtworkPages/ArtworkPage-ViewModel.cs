@@ -1,8 +1,8 @@
 ﻿using Art_Critique.Models.API.Artwork;
 using Art_Critique.Models.API.User;
 using Art_Critique.Models.Logic;
+using Art_Critique.Pages.BasePages;
 using Art_Critique.Pages.ReviewPages;
-using Art_Critique.Pages.ViewModels;
 using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Helpers;
 using System.Collections.ObjectModel;
@@ -38,15 +38,19 @@ namespace Art_Critique.Pages.ArtworkPages {
         #endregion
 
         #region Visibility flags
-        private bool isLoading = true, isRateVisible, isMyRatingVisible;
-        public bool IsMyArtwork;
+        private bool isLoading = true, isRateVisible, isMyRatingVisible, isMyArtwork;
         public bool IsLoading { get => isLoading; set { isLoading = value; OnPropertyChanged(nameof(IsLoading)); } }
         public bool IsRateVisible { get => isRateVisible; set { isRateVisible = value; OnPropertyChanged(nameof(IsRateVisible)); } }
         public bool IsMyRatingVisible { get => isMyRatingVisible; set { isMyRatingVisible = value; OnPropertyChanged(nameof(IsMyRatingVisible)); } }
+        public bool IsMyArtwork { get => isMyArtwork; set { isMyArtwork = value; OnPropertyChanged(nameof(IsMyArtwork)); } }
         #endregion
 
         #region Commands
-        public ICommand GoToProfileCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(ProfilePage), new Dictionary<string, object> { { "Login", UserArtwork.Login } }));
+        public ICommand GoToProfileCommand => new Command(async () => {
+            if (Login != CacheService.GetCurrentLogin()) {
+                await Shell.Current.GoToAsync(nameof(ProfilePage), new Dictionary<string, object> { { "Login", UserArtwork.Login } });
+            }
+        });
         public ICommand GoToReviewsCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(ReviewPage), new Dictionary<string, object> { { "ArtworkId", UserArtwork.ArtworkId.ToString() }, { "IsMyArtwork", IsMyArtwork } }));
         public ICommand FirstButtonCommand => new Command(async () => await RateArtwork());
         public ICommand SecondButtonCommand { get; protected set; }

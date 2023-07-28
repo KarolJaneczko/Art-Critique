@@ -1,5 +1,6 @@
 ﻿using Art_Critique.Models.API.Artwork;
 using Art_Critique.Models.API.User;
+using Art_Critique.Models.Logic;
 using Art_Critique.Pages.ArtworkPages;
 using Art_Critique.Pages.ReviewPages;
 using Art_Critique.Services.Interfaces;
@@ -61,6 +62,16 @@ namespace Art_Critique {
                 // Loading average rating data.
                 var averageRatingRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetAverageRatingInfo}?artworkId={ArtworkId}");
                 var averageRating = averageRatingRequest.Data.ToString();
+
+                // Saving navigation to app's history.
+                CacheService.AddToHistory(new HistoryEntry() {
+                    Image = artwork.Images[0],
+                    Title = artwork.Title,
+                    Type = "Artwork",
+                    Date = DateTime.Now,
+                    Path = nameof(ArtworkPage),
+                    Parameters = new() { { "ArtworkId", ArtworkId } }
+                });
 
                 BindingContext = new ArtworkPageViewModel(CacheService, HttpService, artwork, profile, rating, averageRating);
             });
