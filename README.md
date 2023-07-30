@@ -9,7 +9,7 @@ Art-Critique is a mobile application for developing your taste in art, more spec
 Project made by Karol Janeczko in order to get a bachelor degree.
 
 Used technologies:
-- .NET MAUI (.NET 6.0)
+- .NET MAUI (.NET 7.0)
 
 Font links:
 - Pragmatica Extra Light - https://www.cufonfonts.com/font/pragmatica-extralight
