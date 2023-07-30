@@ -1,16 +1,19 @@
 ﻿using Art_Critique.Pages.ReviewPages;
 using Art_Critique.Services;
 using Art_Critique.Services.Interfaces;
+using CommunityToolkit.Maui;
 
 namespace Art_Critique.Pages.BasePages {
     public static class MauiProgram {
         #region Methods
         public static MauiApp CreateMauiApp() {
             var builder = MauiApp.CreateBuilder();
-            builder.UseMauiApp<App>().ConfigureFonts(fonts => {
-                fonts.AddFont("Pragmatica-ExtraLight.ttf", "PragmaticaExtraLight");
-                fonts.AddFont("Pragmatica-Medium.otf", "PragmaticaMedium");
-            });
+            builder.UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
+                .ConfigureFonts(fonts => {
+                    fonts.AddFont("Pragmatica-ExtraLight.ttf", "PragmaticaExtraLight");
+                    fonts.AddFont("Pragmatica-Medium.otf", "PragmaticaMedium");
+                });
             AddServices(builder);
             return builder.Build();
         }
@@ -20,9 +23,10 @@ namespace Art_Critique.Pages.BasePages {
             builder.Services.AddTransient<IHttpService, HttpService>();
             builder.Services.AddScoped<IPropertiesService, PropertiesService>();
 
-            builder.Services.AddTransient<AddReviewPage>();
-            builder.Services.AddTransient<HistoryPage>();
-            builder.Services.AddTransient<ReviewPage>();
+            builder.Services.AddScoped<AddReviewPage>();
+            builder.Services.AddScoped<ChartsPage>();
+            builder.Services.AddScoped<HistoryPage>();
+            builder.Services.AddScoped<ReviewPage>();
             builder.Services.AddScoped<SearchPage>();
 
             builder.Services.AddTransient<WelcomePage>();
