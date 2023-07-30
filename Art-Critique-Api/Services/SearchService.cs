@@ -59,6 +59,65 @@ namespace Art_Critique_Api.Services {
             });
             return await ExecuteWithTryCatch(task);
         }
+
+        public async Task<ApiResponse> GetProfilesByAverageRating() {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var result = new List<ApiChartResult>();
+                foreach (var profile in DbContext.TProfiles.ToList()) {
+                    var login = (await DbContext.TUsers.FirstOrDefaultAsync(x => x.UsId == profile.UsId))?.UsLogin;
+                    var userArtworks = DbContext.TUserArtworks.Where(x => x.UserId == profile.UsId);
+                    var ratings = DbContext.TArtworkRatings.Where(x => userArtworks.Any(y => y.ArtworkId == x.ArtworkId)).ToList();
+                    var avatar = string.Empty;
+
+                    if (profile.ProfileAvatarId != null) {
+                        var path = DbContext.TAvatars.FirstOrDefault(x => x.AvatarId == profile.ProfileAvatarId)?.AvatarPath;
+                        if (!string.IsNullOrEmpty(path)) {
+                            avatar = Helpers.ConvertImageToBase64(path);
+                        }
+                    }
+                    result.Add(new ApiChartResult() {
+                        Image = avatar,
+                        Title = login,
+                        Type = "ProfilePage",
+                        Parameter = login,
+                        Value = ratings.Count > 0 ? decimal.Round(ratings.Sum(x => x.RatingValue) / (decimal)ratings.Count, 2).ToString() : "0.00"
+                    });
+                }
+                result = result.OrderByDescending(x => decimal.Parse(x!.Value!)).ToList();
+
+                return new ApiResponse(true, result);
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> GetProfilesByTotalViews() {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var result = new List<ApiChartResult>();
+                foreach (var profile in DbContext.TProfiles.ToList()) {
+                    var login = (await DbContext.TUsers.FirstOrDefaultAsync(x => x.UsId == profile.UsId))?.UsLogin;
+                    var totalViews = DbContext.TUserArtworks.Where(x => x.UserId == profile.UsId).Sum(x => x.ArtworkViews);
+                    var avatar = string.Empty;
+
+                    if (profile.ProfileAvatarId != null) {
+                        var path = DbContext.TAvatars.FirstOrDefault(x => x.AvatarId == profile.ProfileAvatarId)?.AvatarPath;
+                        if (!string.IsNullOrEmpty(path)) {
+                            avatar = Helpers.ConvertImageToBase64(path);
+                        }
+                    }
+                    result.Add(new ApiChartResult() {
+                        Image = avatar,
+                        Title = login,
+                        Type = "ProfilePage",
+                        Parameter = login,
+                        Value = totalViews.ToString()
+                    });
+                }
+                result = result.OrderByDescending(x => int.Parse(x!.Value!)).ToList();
+
+                return new ApiResponse(true, result);
+            });
+            return await ExecuteWithTryCatch(task);
+        }
         #endregion
     }
 }
