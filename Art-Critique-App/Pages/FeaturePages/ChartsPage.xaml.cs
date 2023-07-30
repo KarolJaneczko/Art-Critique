@@ -1,8 +1,6 @@
 ﻿using Art_Critique.Pages.FeaturePages;
 using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Helpers;
-using Art_Critique_Api.Models.Search;
-using Newtonsoft.Json;
 
 namespace Art_Critique {
     public partial class ChartsPage : ContentPage {
@@ -32,15 +30,13 @@ namespace Art_Critique {
             base.OnNavigatedTo(args);
 
             var task = new Func<Task>(async () => {
-                // Loading all profiles from the database.
-                var profilesRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetAllProfiles);
-                var profiles = JsonConvert.DeserializeObject<List<ApiSearchResult>>(profilesRequest.Data.ToString());
+                // Loading list of profiles ordered by ratings from the database.
 
-                // Loading all artworks from the database.
-                var artworksRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetAllArtworks);
-                var artworks = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksRequest.Data.ToString());
 
-                BindingContext = new ChartsPageViewModel(profiles, artworks);
+                // Loading list of profiles ordered by total views from the database.
+
+
+                BindingContext = new ChartsPageViewModel();
             });
 
             // Run task with try/catch.
