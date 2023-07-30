@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Art_Critique.Pages.FeaturePages {
-    public class SearchPageViewModel : BaseViewModel {
+    public class ChartsPageViewModel : BaseViewModel {
         #region Properties
         private readonly ObservableCollection<SearchRecord> Profiles = new(), Artworks = new();
         private ObservableCollection<SearchRecord> profileSearchResult = new(),  artworkSearchResult = new();
@@ -33,7 +33,7 @@ namespace Art_Critique.Pages.FeaturePages {
         #endregion
 
         #region Constructor
-        public SearchPageViewModel(List<ApiSearchResult> profiles, List<ApiSearchResult> artworks) {
+        public ChartsPageViewModel(List<ApiSearchResult> profiles, List<ApiSearchResult> artworks) {
             FillSearchPage(profiles, artworks);
         }
         #endregion
