@@ -60,6 +60,45 @@ namespace Art_Critique_Api.Services {
             return await ExecuteWithTryCatch(task);
         }
 
+        public async Task<ApiResponse> GetArtworksByAverageRating() {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var result = new List<ApiChartResult>();
+                foreach (var artwork in DbContext.TUserArtworks.ToList()) {
+                    var image = await DbContext.TCustomPaintings.FirstOrDefaultAsync(x => x.ArtworkId == artwork.ArtworkId);
+                    var ratings = DbContext.TArtworkRatings.Where(x => x.ArtworkId == artwork.ArtworkId).ToList();
+                    result.Add(new ApiChartResult() {
+                        Image = Helpers.ConvertImageToBase64(image!.PaintingPath),
+                        Title = artwork.ArtworkTitle,
+                        Type = "ArtworkPage",
+                        Parameter = artwork.ArtworkId.ToString(),
+                        Value = ratings.Count > 0 ? decimal.Round(ratings.Sum(x => x.RatingValue) / (decimal)ratings.Count, 2).ToString("N2") : "0.00"
+                    });
+                }
+                result = result.OrderByDescending(x => decimal.Parse(x!.Value!)).ToList();
+                return new ApiResponse(true, result);
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> GetArtworksByTotalViews() {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var result = new List<ApiChartResult>();
+                foreach (var artwork in DbContext.TUserArtworks.ToList()) {
+                    var image = await DbContext.TCustomPaintings.FirstOrDefaultAsync(x => x.ArtworkId == artwork.ArtworkId);
+                    result.Add(new ApiChartResult() {
+                        Image = Helpers.ConvertImageToBase64(image!.PaintingPath),
+                        Title = artwork.ArtworkTitle,
+                        Type = "ArtworkPage",
+                        Parameter = artwork.ArtworkId.ToString(),
+                        Value = artwork.ArtworkViews.ToString()
+                    });
+                }
+                result = result.OrderByDescending(x => int.Parse(x!.Value!)).ToList();
+                return new ApiResponse(true, result);
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
         public async Task<ApiResponse> GetProfilesByAverageRating() {
             var task = new Func<Task<ApiResponse>>(async () => {
                 var result = new List<ApiChartResult>();
@@ -80,7 +119,7 @@ namespace Art_Critique_Api.Services {
                         Title = login,
                         Type = "ProfilePage",
                         Parameter = login,
-                        Value = ratings.Count > 0 ? decimal.Round(ratings.Sum(x => x.RatingValue) / (decimal)ratings.Count, 2).ToString() : "0.00"
+                        Value = ratings.Count > 0 ? decimal.Round(ratings.Sum(x => x.RatingValue) / (decimal)ratings.Count, 2).ToString("N2") : "0.00"
                     });
                 }
                 result = result.OrderByDescending(x => decimal.Parse(x!.Value!)).ToList();
