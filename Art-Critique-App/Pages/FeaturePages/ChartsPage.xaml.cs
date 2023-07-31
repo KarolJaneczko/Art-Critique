@@ -1,6 +1,8 @@
 ﻿using Art_Critique.Pages.FeaturePages;
 using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Helpers;
+using Art_Critique_Api.Models.Search;
+using Newtonsoft.Json;
 
 namespace Art_Critique {
     public partial class ChartsPage : ContentPage {
@@ -30,13 +32,23 @@ namespace Art_Critique {
             base.OnNavigatedTo(args);
 
             var task = new Func<Task>(async () => {
-                // Loading list of profiles ordered by ratings from the database.
+                // Loading list of artworks ordered by ratings from the database.
+                var artworksAverageRatingRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetArtworksByAverageRating);
+                var artworksAverageRating = JsonConvert.DeserializeObject<List<ApiChartResult>>(artworksAverageRatingRequest.Data.ToString());
 
+                // Loading list of artworks ordered by total views from the database.
+                var artworksTotalViewsRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetArtworksByTotalViews);
+                var artworksTotalViews = JsonConvert.DeserializeObject<List<ApiChartResult>>(artworksTotalViewsRequest.Data.ToString());
+
+                // Loading list of profiles ordered by ratings from the database.
+                var profilesAverageRatingRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetProfilesByAverageRating);
+                var profilesAverageRating = JsonConvert.DeserializeObject<List<ApiChartResult>>(profilesAverageRatingRequest.Data.ToString());
 
                 // Loading list of profiles ordered by total views from the database.
+                var profilesTotalViewsRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetProfilesByTotalViews);
+                var profilesTotalViews = JsonConvert.DeserializeObject<List<ApiChartResult>>(profilesTotalViewsRequest.Data.ToString());
 
-
-                BindingContext = new ChartsPageViewModel();
+                BindingContext = new ChartsPageViewModel(artworksAverageRating, artworksTotalViews, profilesAverageRating, profilesTotalViews);
             });
 
             // Run task with try/catch.

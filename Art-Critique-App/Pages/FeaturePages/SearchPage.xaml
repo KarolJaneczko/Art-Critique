@@ -26,7 +26,7 @@
                                 <Label Grid.Column="2" Text="{Binding Title}" HorizontalTextAlignment="Center" CharacterSpacing="2" FontSize="Small" Margin="0,20,0,0"/>
 
                                 <Button Grid.Column="3" Text="Go" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="50" HeightRequest="50"
-                                    Command="{Binding Source={x:Reference profileResult}, Path=BindingContext.ViewProfileCommand}" CommandParameter="{Binding}"/>
+                                    Command="{Binding Source={x:Reference profileResult}, Path=BindingContext.DisplayRecordCommand}" CommandParameter="{Binding}"/>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
@@ -44,7 +44,7 @@
                                 <Label Grid.Column="2" Text="{Binding Title}" HorizontalTextAlignment="Center" CharacterSpacing="2" FontSize="Small" Margin="0,20,0,0" />
 
                                 <Button Grid.Column="3" Text="Go" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="50" HeightRequest="50"
-                                    Command="{Binding Source={x:Reference artworkResult}, Path=BindingContext.ViewArtworkCommand}" CommandParameter="{Binding}"/>
+                                    Command="{Binding Source={x:Reference artworkResult}, Path=BindingContext.DisplayRecordCommand}" CommandParameter="{Binding}"/>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

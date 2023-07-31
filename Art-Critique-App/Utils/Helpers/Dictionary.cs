@@ -36,6 +36,10 @@
         #region Search paths
         public const string GetAllArtworks = "Search/GetAllArtworks";
         public const string GetAllProfiles = "Search/GetAllProfiles";
+        public const string GetArtworksByAverageRating = "Search/GetArtworksByAverageRating";
+        public const string GetArtworksByTotalViews = "Search/GetArtworksByTotalViews";
+        public const string GetProfilesByAverageRating = "Search/GetProfilesByAverageRating";
+        public const string GetProfilesByTotalViews = "Search/GetProfilesByTotalViews";
         #endregion
 
         #region User paths
