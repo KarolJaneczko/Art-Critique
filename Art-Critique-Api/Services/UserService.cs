@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Art_Critique_Api.Services {
     public class UserService : BaseService, IUserService {
-        #region Service
+        #region Services
+        private readonly IMailService MailService;
         private readonly IProfileService ProfileService;
         #endregion
 
@@ -16,8 +17,9 @@ namespace Art_Critique_Api.Services {
         #endregion
 
         #region Constructor
-        public UserService(ArtCritiqueDbContext dbContext, IProfileService profileService) {
+        public UserService(ArtCritiqueDbContext dbContext, IMailService mailService, IProfileService profileService) {
             DbContext = dbContext;
+            MailService = mailService;
             ProfileService = profileService;
         }
         #endregion
@@ -124,7 +126,18 @@ namespace Art_Critique_Api.Services {
                 DbContext.TUsers.Add(newUser);
                 await DbContext.SaveChangesAsync();
                 await ProfileService.CreateProfile(newUser.UsId);
-                return new ApiResponse(true, "Success!", "Registration completed, you can now sign in");
+
+                var userId = await GetUserIdFromLogin(DbContext, user.UsLogin);
+                var activationCode = Helpers.CreateString(10);
+                await DbContext.TUserRegistrations.AddAsync(new TUserRegistration() {
+                    ActivationCode = activationCode,
+                    IsActivated = 0,
+                    UserId = (int)userId
+                });
+                await DbContext.SaveChangesAsync();
+                await MailService.SendMail(user.UsEmail, "Art-Critique - registration completed!", $"Your activation code: {activationCode}");
+
+                return new ApiResponse(true, "Success!", $"Registration completed, activation code has been sent to {user.UsEmail}");
             });
             return await ExecuteWithTryCatch(task);
         }

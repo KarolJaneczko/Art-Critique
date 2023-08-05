@@ -8,22 +8,33 @@ using Art_Critique.Utils.Helpers;
 using Newtonsoft.Json;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ViewModels
-{
+namespace Art_Critique {
     public class RegisterPageViewModel : BaseViewModel {
-        private readonly IHttpService BaseHttp;
+        #region Services
+        private readonly IHttpService HttpService;
+        #endregion
 
-        private string _email, _login, _password, _passwordConfirm;
-        public string Email { get => _email; set { _email = value.Trim(); OnPropertyChanged(nameof(Email)); } }
-        public string Login { get => _login; set { _login = value.Trim(); OnPropertyChanged(nameof(Login)); } }
-        public string Password { get => _password; set { _password = value.Trim(); OnPropertyChanged(nameof(Password)); } }
-        public string PasswordConfirm { get => _passwordConfirm; set { _passwordConfirm = value.Trim(); OnPropertyChanged(nameof(PasswordConfirm)); } }
+        #region Properties
+        private string email, login, password, passwordConfirm;
+        public string Email { get => email; set { email = value.Trim(); OnPropertyChanged(nameof(Email)); } }
+        public string Login { get => login; set { login = value.Trim(); OnPropertyChanged(nameof(Login)); } }
+        public string Password { get => password; set { password = value.Trim(); OnPropertyChanged(nameof(Password)); } }
+        public string PasswordConfirm { get => passwordConfirm; set { passwordConfirm = value.Trim(); OnPropertyChanged(nameof(PasswordConfirm)); } }
+
+        #region Commands
         public ICommand RegisterCommand => new Command(Register);
+        public ICommand ActivateCommand => new Command(Activate);
+        public ICommand ResendCodeCommand => new Command(ResendCode);
+        #endregion
+        #endregion
 
-        public RegisterPageViewModel(IHttpService baseHttp) {
-            BaseHttp = baseHttp;
+        #region Constructor
+        public RegisterPageViewModel(IHttpService httpService) {
+            HttpService = httpService;
         }
+        #endregion
 
+        #region Methods
         public async void Register() {
             var task = new Func<Task<ApiResponse>>(async () => {
                 // Validating entries.
@@ -43,7 +54,7 @@ namespace Art_Critique.Pages.ViewModels
                 });
 
                 // Sending request to API, successful registration results in `IsSuccess` set to true.
-                return await BaseHttp.SendApiRequest(HttpMethod.Post, Dictionary.UserRegister, body);
+                return await HttpService.SendApiRequest(HttpMethod.Post, Dictionary.UserRegister, body);
             });
 
             // Executing task with try/catch.
@@ -54,5 +65,13 @@ namespace Art_Critique.Pages.ViewModels
                 await Application.Current.MainPage.DisplayAlert(result.Title, result.Message, "OK");
             }
         }
+
+        public async void Activate() {
+        }
+
+        public async void ResendCode() {
+
+        }
+        #endregion
     }
 }

@@ -100,7 +100,7 @@
 	  <Compile Update="Pages\ProfilePages\ProfilePage.xaml.cs">
 	    <DependentUpon>ProfilePage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\ViewModelsXX\RegisterPage.xaml.cs">
+	  <Compile Update="Pages\StartPages\RegisterPage.xaml.cs">
 	    <DependentUpon>RegisterPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Pages\StartPages\WelcomePage.xaml.cs">
@@ -142,7 +142,7 @@
 	  <MauiXaml Update="Pages\ProfilePages\ProfilePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ViewModelsXX\RegisterPage.xaml">
+	  <MauiXaml Update="Pages\StartPages\RegisterPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\StartPages\WelcomePage.xaml">

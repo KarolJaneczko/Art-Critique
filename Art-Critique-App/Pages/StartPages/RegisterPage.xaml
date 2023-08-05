@@ -14,7 +14,7 @@
                 <Setter Property="BorderColor" Value="Transparent"/>
                 <Setter Property="Opacity" Value="0.6"/>
                 <Setter Property="Padding" Value="0"/>
-                <Setter Property="CornerRadius" Value="50"/>
+                <Setter Property="CornerRadius" Value="25"/>
                 <Setter Property="Margin" Value="50, 0, 50, 0"/>
             </Style>
             <Style x:Key="EntryGrid" TargetType="Grid">
@@ -37,35 +37,37 @@
                 <Label Text="Create a new account" FontSize="Large" FontFamily="PragmaticaMedium" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
                 <Frame Style="{DynamicResource EntryFrame}">
                     <Grid Style="{DynamicResource EntryGrid}">
-                        <Entry x:Name="EmailEntry" Text="{Binding Email}" Placeholder="Email"/>
+                        <Entry Text="{Binding Email}" Placeholder="Email" WidthRequest="250" HorizontalTextAlignment="Center" PlaceholderColor="Black"/>
                     </Grid>
                 </Frame>
                 <Frame Style="{DynamicResource EntryFrame}">
                     <Grid Style="{DynamicResource EntryGrid}">
-                        <Entry x:Name="LoginEntry" Text="{Binding Login}" Placeholder="Login"/>
+                        <Entry Text="{Binding Login}" Placeholder="Login" WidthRequest="250" HorizontalTextAlignment="Center" PlaceholderColor="Black"/>
                     </Grid>
                 </Frame>
                 <Frame Style="{DynamicResource EntryFrame}">
                     <Grid Style="{DynamicResource EntryGrid}">
-                        <Entry x:Name="PasswordEntry" Text="{Binding Password}" Placeholder="Password" IsPassword="True"/>
+                        <Entry Text="{Binding Password}" Placeholder="Password" IsPassword="True" WidthRequest="250" HorizontalTextAlignment="Center" PlaceholderColor="Black"/>
                     </Grid>
                 </Frame>
                 <Frame Style="{DynamicResource EntryFrame}">
                     <Grid Style="{DynamicResource EntryGrid}">
-                        <Entry x:Name="PasswordConfirmEntry" Text="{Binding PasswordConfirm}" Placeholder="Confirm password" IsPassword="True"/>
+                        <Entry Text="{Binding PasswordConfirm}" Placeholder="Confirm password" IsPassword="True" WidthRequest="250" HorizontalTextAlignment="Center" PlaceholderColor="Black"/>
                     </Grid>
                 </Frame>
+                <Label Text="Resend activation code" TextColor="White" FontSize="Medium" FontAttributes="Bold" TextDecorations="Underline" HorizontalTextAlignment="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ResendCodeCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
             </StackLayout>
         </StackLayout>
 
-        <!-- Buttons layout -->
-        <StackLayout Orientation="Vertical" VerticalOptions="End">
-
-            <!-- Buttons -->
-            <StackLayout x:Name="ButtonsLayout" Orientation="Vertical" Spacing="25" VerticalOptions="End">
-                <Button x:Name="SignUpButton" Text="Sign up" Command="{Binding RegisterCommand}" BackgroundColor="DarkGoldenrod" TextColor="White"/>
-                <Button x:Name="BackButton" Text="Back" Clicked="GoBack" BackgroundColor="White" TextColor="Black"/>
-            </StackLayout>
+        <!-- Buttons -->
+        <StackLayout Orientation="Vertical" Spacing="15" VerticalOptions="End">
+            <Button Text="Sign up" Command="{Binding RegisterCommand}" BackgroundColor="DarkGoldenrod" TextColor="White" FontAttributes="Bold" WidthRequest="250" HeightRequest="50"/>
+            <Button Text="Activate account" Command="{Binding ActivateCommand}" BackgroundColor="DarkGoldenrod" TextColor="White" FontAttributes="Bold" WidthRequest="250" HeightRequest="50"/>
+            <Button Text="Back" Clicked="GoBack" BackgroundColor="White" TextColor="Black" FontAttributes="Bold" WidthRequest="250" HeightRequest="50" Margin="0,0,0,10"/>
         </StackLayout>
     </Grid>
 </ContentPage>
