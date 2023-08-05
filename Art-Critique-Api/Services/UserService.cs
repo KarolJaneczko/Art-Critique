@@ -88,6 +88,24 @@ namespace Art_Critique_Api.Services {
         #endregion
 
         #region Post methods
+        public async Task<ApiResponse> ActivateAccount(string code) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var registration = await DbContext.TUserRegistrations.FirstOrDefaultAsync(x => x.ActivationCode.Equals(code));
+                if (registration == null) {
+                    return new ApiResponse(false, "Error!", "This activation code doesn't exist");
+                }
+
+                if (Convert.ToBoolean(registration.IsActivated)) {
+                    return new ApiResponse(false, "Error!", "This account is already activated");
+                }
+
+                registration.IsActivated = 1;
+                await DbContext.SaveChangesAsync();
+                return new ApiResponse(true);
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
         public async Task<ApiResponse> DeleteUser(string login) {
             var task = new Func<Task<ApiResponse>>(async () => {
                 var user = DbContext.TUsers.FirstOrDefault(x => x.UsLogin == login);

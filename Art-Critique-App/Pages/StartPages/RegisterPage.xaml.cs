@@ -1,5 +1,4 @@
-﻿using Art_Critique.Pages.ViewModels;
-using Art_Critique.Services.Interfaces;
+﻿using Art_Critique.Services.Interfaces;
 
 namespace Art_Critique {
     public partial class RegisterPage : ContentPage {
@@ -13,6 +12,7 @@ namespace Art_Critique {
 
         #region Methods
         private void InitializeValues() {
+            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(WelcomePage), typeof(WelcomePage));
         }
 

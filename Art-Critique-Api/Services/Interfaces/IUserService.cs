@@ -10,6 +10,7 @@ namespace Art_Critique_Api.Services.Interfaces {
         #endregion
 
         #region Post methods
+        public Task<ApiResponse> ActivateAccount(string code);
         public Task<ApiResponse> DeleteUser(string login);
         public Task<ApiResponse> RegisterUser(ApiUser user);
         #endregion

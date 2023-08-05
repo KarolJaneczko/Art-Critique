@@ -45,6 +45,7 @@
         #region User paths
         public const string UserLogin = "User/Login";
         public const string UserLogout = "User/Logout";
+        public const string ActivateAccount = "User/ActivateAccount";
         public const string UserRegister = "User/RegisterUser";
         #endregion
     }

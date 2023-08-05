@@ -35,6 +35,11 @@ namespace Art_Critique_Api.Controllers {
         #endregion
 
         #region Post methods
+        [HttpPost("ActivateAccount")]
+        public async Task<ApiResponse> ActivateAccount(string code) {
+            return await UserService.ActivateAccount(code);
+        }
+
         [HttpPost("DeleteUser")]
         public async Task<ApiResponse> DeleteUser(string login) {
             return await UserService.DeleteUser(login);
