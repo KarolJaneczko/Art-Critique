@@ -33,6 +33,7 @@ async Task AddServices() {
     builder.Services.AddScoped<IReviewService, ReviewService>();
     builder.Services.AddScoped<ISearchService, SearchService>();
     builder.Services.AddScoped<IMailService, MailService>();
+    builder.Services.AddScoped<IFeedService, FeedService>();
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
