@@ -18,6 +18,11 @@ namespace Art_Critique_Api.Controllers {
         #endregion
 
         #region Get methods
+        [HttpGet("CheckFollowing")]
+        public async Task<ApiResponse> CheckFollowing(string login, string targetLogin) {
+            return await UserService.CheckFollowing(login, targetLogin);
+        }
+
         [HttpGet("GetUsers")]
         public async Task<ApiResponse> GetUsers() {
             return await UserService.GetUsers();
@@ -43,6 +48,11 @@ namespace Art_Critique_Api.Controllers {
         [HttpPost("DeleteUser")]
         public async Task<ApiResponse> DeleteUser(string login) {
             return await UserService.DeleteUser(login);
+        }
+
+        [HttpPost("FollowUser")]
+        public async Task<ApiResponse> FollowUser(string login, string targetLogin) {
+            return await UserService.FollowUser(login, targetLogin);
         }
 
         [HttpPost("RegisterUser")]

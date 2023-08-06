@@ -1,4 +1,5 @@
-﻿using Art_Critique.Models.API.Artwork;
+﻿using Android.Net.Sip;
+using Art_Critique.Models.API.Artwork;
 using Art_Critique.Models.API.User;
 using Art_Critique.Models.Logic;
 using Art_Critique.Pages.BasePages;
@@ -12,10 +13,12 @@ namespace Art_Critique.Pages.ProfilePages {
     public class ProfilePageViewModel : BaseViewModel {
         #region Services
         private readonly ICacheService CacheService;
+        private readonly IHttpService HttpService;
         #endregion
 
         #region Properties
         private ApiProfile ApiProfile;
+        private bool IsFollowing;
 
         #region Profile fields
         private ImageSource avatar;
@@ -53,17 +56,19 @@ namespace Art_Critique.Pages.ProfilePages {
         #endregion
 
         #region Constructor
-        public ProfilePageViewModel(ICacheService cacheService, string viewCount, ApiProfile apiProfile, List<ApiCustomPainting> thumbnails) {
+        public ProfilePageViewModel(ICacheService cacheService, IHttpService httpService, string viewCount, ApiProfile apiProfile, List<ApiCustomPainting> thumbnails, bool following) {
             CacheService = cacheService;
-            FillProfilePage(viewCount, apiProfile, thumbnails);
+            HttpService = httpService;
+            FillProfilePage(viewCount, apiProfile, thumbnails, following);
         }
         #endregion
 
         #region Methods
-        private void FillProfilePage(string viewCount, ApiProfile apiProfile, List<ApiCustomPainting> thumbnails) {
+        private void FillProfilePage(string viewCount, ApiProfile apiProfile, List<ApiCustomPainting> thumbnails, bool following) {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pl-PL");
             TotalViews = viewCount;
             ApiProfile = apiProfile;
+            IsFollowing = following;
 
             if (!string.IsNullOrEmpty(apiProfile.Avatar)) {
                 Avatar = apiProfile.Avatar.Base64ToImageSource();
@@ -72,21 +77,26 @@ namespace Art_Critique.Pages.ProfilePages {
             }
 
             var isMyProfile = apiProfile.Login == CacheService.GetCurrentLogin();
-            var isFollowed = false;
             if (isMyProfile) {
                 FunctionText = "Edit";
-            } else if (isFollowed) {
+                FunctionCommand = new Command(async () => await Shell.Current.GoToAsync(nameof(EditProfilePage), new Dictionary<string, object> { { "ApiProfile", apiProfile } }));
+            } else if (following) {
                 FunctionText = "Unfollow";
+                FunctionCommand = new Command(async () => await FollowUser());
             } else {
                 FunctionText = "Follow";
+                FunctionCommand = new Command(async () => await FollowUser());
             }
 
             foreach (var thumbnail in thumbnails) {
                 Thumbnails.Add(new ImageThumbnail(thumbnail));
             }
-
-            FunctionCommand = new Command(async () => await Shell.Current.GoToAsync(nameof(EditProfilePage), new Dictionary<string, object> { { "ApiProfile", apiProfile } }));
             IsLoading = false;
+        }
+
+        public async Task FollowUser() {
+            FunctionText = IsFollowing ? "Follow" : "Unfollow";
+            await HttpService.SendApiRequest(HttpMethod.Post, $"{Dictionary.FollowUser}?login={CacheService.GetCurrentLogin()}&targetLogin={ApiProfile.Login}");
         }
 
         public async void GoToArtwork(ImageThumbnail photo) {

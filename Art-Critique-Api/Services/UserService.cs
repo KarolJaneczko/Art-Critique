@@ -25,6 +25,28 @@ namespace Art_Critique_Api.Services {
         #endregion
 
         #region Get methods
+        public async Task<ApiResponse> CheckFollowing(string login, string targetLogin) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                if (login == targetLogin) {
+                    return new ApiResponse(true, false);
+                }
+
+                var user = DbContext.TUsers.FirstOrDefault(x => x.UsLogin == login);
+                if (user is null) {
+                    return new ApiResponse(false, "Error!", "User with this login doesn't exists");
+                }
+
+                var targetUser = DbContext.TUsers.FirstOrDefault(x => x.UsLogin == targetLogin);
+                if (targetUser is null) {
+                    return new ApiResponse(false, "Error!", "Targeted user with this login doesn't exists");
+                }
+
+                var isFollowed = await DbContext.TUserFollowings.AnyAsync(x => x.FollowedByUserId == user.UsId && x.UserId == targetUser.UsId);
+                return new ApiResponse(true, isFollowed);
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
         public async Task<ApiResponse> GetUsers() {
             var task = new Func<Task<ApiResponse>>(async () => {
                 var userList = await DbContext.TUsers.Select(
@@ -123,6 +145,34 @@ namespace Art_Critique_Api.Services {
                 }
 
                 DbContext.TUsers.Remove(user);
+                await DbContext.SaveChangesAsync();
+                return new ApiResponse(true);
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> FollowUser(string login, string targetLogin) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var user = DbContext.TUsers.FirstOrDefault(x => x.UsLogin == login);
+                if (user is null) {
+                    return new ApiResponse(false, "Error!", "User with this login doesn't exists");
+                }
+
+                var targetUser = DbContext.TUsers.FirstOrDefault(x => x.UsLogin == targetLogin);
+                if (targetUser is null) {
+                    return new ApiResponse(false, "Error!", "Targeted user with this login doesn't exists");
+                }
+
+                var following = await DbContext.TUserFollowings.FirstOrDefaultAsync(x => x.FollowedByUserId == user.UsId && x.UserId == targetUser.UsId);
+                if (following is null) {
+                    await DbContext.TUserFollowings.AddAsync(new TUserFollowing() {
+                        UserId = targetUser.UsId,
+                        FollowedByUserId = user.UsId,
+                    });
+                } else {
+                    DbContext.TUserFollowings.Remove(following);
+                }
+
                 await DbContext.SaveChangesAsync();
                 return new ApiResponse(true);
             });
