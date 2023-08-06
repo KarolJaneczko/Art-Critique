@@ -6,22 +6,31 @@ using Art_Critique.Utils.Enums;
 using Art_Critique.Utils.Helpers;
 using System.Windows.Input;
 
-namespace Art_Critique.Pages.ViewModels
-{
+namespace Art_Critique.Pages.StartPages {
     public class LoginPageViewModel : BaseViewModel {
-        private readonly IHttpService BaseHttp;
-        private readonly ICacheService Credentials;
+        #region Services
+        private readonly ICacheService CacheService;
+        private readonly IHttpService HttpService;
+        #endregion
 
-        private string _login, _password;
-        public string Login { get => _login; set { _login = value.Trim(); OnPropertyChanged(nameof(Login)); } }
-        public string Password { get => _password; set { _password = value.Trim(); OnPropertyChanged(nameof(Password)); } }
-        public ICommand LoginCommand => new Command(SignIn);
+        #region Properties
+        private string login, password;
+        public string Login { get => login; set { login = value.Trim(); OnPropertyChanged(nameof(SignIn)); } }
+        public string Password { get => password; set { password = value.Trim(); OnPropertyChanged(nameof(Password)); } }
 
-        public LoginPageViewModel(IHttpService baseHttp, ICacheService credentials) {
-            BaseHttp = baseHttp;
-            Credentials = credentials;
+        #region Commands
+        public ICommand SignInCommand => new Command(SignIn);
+        #endregion
+        #endregion
+
+        #region Constructor
+        public LoginPageViewModel(ICacheService cacheService, IHttpService httpService) {
+            CacheService = cacheService;
+            HttpService = httpService;
         }
+        #endregion
 
+        #region Methods
         public async void SignIn() {
             var task = new Func<Task<ApiResponse>>(async () => {
                 // Validating entries.
@@ -32,7 +41,7 @@ namespace Art_Critique.Pages.ViewModels
                 Validators.ValidateEntries(entries);
 
                 // Sending request to API, successful login results in token, which is saved to app memory.
-                return await BaseHttp.SendApiRequest(HttpMethod.Get, $"{Dictionary.UserLogin}?login={Login}&password={Password}");
+                return await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.UserLogin}?login={Login}&password={Password}");
             });
 
             // Executing task with try/catch.
@@ -40,14 +49,15 @@ namespace Art_Critique.Pages.ViewModels
 
             if (result.IsSuccess) {
                 // Saving token to an app memory.
-                Credentials.SetCurrentToken((string)result.Data);
+                CacheService.SetCurrentToken((string)result.Data);
 
                 // Saving login to an app memory.
-                Credentials.SetCurrentLogin(Login.ToLower());
+                CacheService.SetCurrentLogin(Login.ToLower());
 
                 // Switching current page to a main page.
                 await Shell.Current.GoToAsync($"///{nameof(MainPage)}");
             }
         }
+        #endregion
     }
 }

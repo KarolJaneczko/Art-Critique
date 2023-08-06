@@ -47,6 +47,7 @@
         public const string UserLogout = "User/Logout";
         public const string ActivateAccount = "User/ActivateAccount";
         public const string UserRegister = "User/RegisterUser";
+        public const string ResendActivationCode = "User/ResendActivationCode";
         #endregion
     }
 }

@@ -49,6 +49,11 @@ namespace Art_Critique_Api.Controllers {
         public async Task<ApiResponse> RegisterUser(ApiUser User) {
             return await UserService.RegisterUser(User);
         }
+
+        [HttpPost("ResendActivationCode")]
+        public async Task<ApiResponse> ResendActivationCode(string email) {
+            return await UserService.ResendActivationCode(email);
+        }
         #endregion
     }
 }

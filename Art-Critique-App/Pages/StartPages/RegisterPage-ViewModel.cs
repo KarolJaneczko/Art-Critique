@@ -83,7 +83,18 @@ namespace Art_Critique {
         }
 
         public async void ResendCode() {
-            string code = await Application.Current.MainPage.DisplayPromptAsync("Activate account", "Type in your activation code:");
+            var mail = await Application.Current.MainPage.DisplayPromptAsync("Resend activation code", "Type in your email:");
+            var task = new Func<Task<ApiResponse>>(async () => {
+                // Sending request to API, successful activation results in `IsSuccess` set to true.
+                return await HttpService.SendApiRequest(HttpMethod.Post, $"{Dictionary.ResendActivationCode}?email={mail}");
+            });
+
+            // Executing task with try/catch.
+            var result = await ExecuteWithTryCatch(task);
+
+            if (result.IsSuccess) {
+                await Application.Current.MainPage.DisplayAlert("Success!", "Check your email for the activation code", "OK");
+            }
         }
         #endregion
     }
