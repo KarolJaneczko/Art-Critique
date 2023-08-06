@@ -43,9 +43,11 @@
         #endregion
 
         #region User paths
+        public const string CheckFollowing = "User/CheckFollowing";
         public const string UserLogin = "User/Login";
         public const string UserLogout = "User/Logout";
         public const string ActivateAccount = "User/ActivateAccount";
+        public const string FollowUser = "User/FollowUser";
         public const string UserRegister = "User/RegisterUser";
         public const string ResendActivationCode = "User/ResendActivationCode";
         #endregion

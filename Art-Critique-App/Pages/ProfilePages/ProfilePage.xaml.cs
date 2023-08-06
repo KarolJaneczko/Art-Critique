@@ -57,6 +57,10 @@ namespace Art_Critique {
                 var viewCount = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileViewCount}?login={userLogin}");
                 var views = JsonConvert.DeserializeObject<string>(viewCount.Data.ToString());
 
+                // Loading information about following.
+                var followingRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.CheckFollowing}?login={CacheService.GetCurrentLogin()}&targetLogin={userLogin}");
+                var following = bool.Parse(followingRequest.Data.ToString());
+
                 // Saving navigation to app's history.
                 CacheService.AddToHistory(new HistoryEntry() {
                     Image = profile.Avatar,
@@ -67,7 +71,7 @@ namespace Art_Critique {
                     Parameters = new() { { "Login", userLogin } }
                 });
 
-                BindingContext = new ProfilePageViewModel(CacheService, views, profile, thumbnails);
+                BindingContext = new ProfilePageViewModel(CacheService, HttpService, views, profile, thumbnails, following);
             });
 
             // Run task with try/catch.

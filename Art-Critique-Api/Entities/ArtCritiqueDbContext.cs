@@ -31,6 +31,8 @@ public partial class ArtCritiqueDbContext : DbContext
 
     public virtual DbSet<TUserArtwork> TUserArtworks { get; set; }
 
+    public virtual DbSet<TUserFollowing> TUserFollowings { get; set; }
+
     public virtual DbSet<TUserRegistration> TUserRegistrations { get; set; }
 
     public virtual DbSet<TView> TViews { get; set; }
@@ -240,6 +242,15 @@ public partial class ArtCritiqueDbContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_userID");
+        });
+
+        modelBuilder.Entity<TUserFollowing>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("t_user_following");
+
+            entity.HasIndex(e => e.Id, "Id_UNIQUE").IsUnique();
         });
 
         modelBuilder.Entity<TUserRegistration>(entity =>
