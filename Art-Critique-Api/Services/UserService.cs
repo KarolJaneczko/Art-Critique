@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Art_Critique_Api.Services {
     public class UserService : BaseService, IUserService {
-        #region Service
+        #region Services
+        private readonly IMailService MailService;
         private readonly IProfileService ProfileService;
         #endregion
 
@@ -16,8 +17,9 @@ namespace Art_Critique_Api.Services {
         #endregion
 
         #region Constructor
-        public UserService(ArtCritiqueDbContext dbContext, IProfileService profileService) {
+        public UserService(ArtCritiqueDbContext dbContext, IMailService mailService, IProfileService profileService) {
             DbContext = dbContext;
+            MailService = mailService;
             ProfileService = profileService;
         }
         #endregion
@@ -51,9 +53,13 @@ namespace Art_Critique_Api.Services {
                 if (user == null) {
                     return new ApiResponse(false, "Login failed!", "User with this login doesn't exists");
                 }
+
                 var passwordDecrypted = Encryptor.DecryptString(user.UsPassword);
+                var userRegistration = await DbContext.TUserRegistrations.FirstOrDefaultAsync(x => x.UserId == user.UsId);
                 if (!passwordDecrypted.Equals(password)) {
                     return new ApiResponse(false, "Login failed!", "Wrong login or password");
+                } else if (!Convert.ToBoolean(userRegistration?.IsActivated ?? 0)) {
+                    return new ApiResponse(false, "Login failed!", "Account is not activated");
                 } else {
                     var token = Encryptor.GenerateToken();
                     user.UsSignedInToken = token;
@@ -86,6 +92,24 @@ namespace Art_Critique_Api.Services {
         #endregion
 
         #region Post methods
+        public async Task<ApiResponse> ActivateAccount(string code) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var registration = await DbContext.TUserRegistrations.FirstOrDefaultAsync(x => x.ActivationCode.Equals(code));
+                if (registration == null) {
+                    return new ApiResponse(false, "Error!", "This activation code doesn't exist");
+                }
+
+                if (Convert.ToBoolean(registration.IsActivated)) {
+                    return new ApiResponse(false, "Error!", "This account is already activated");
+                }
+
+                registration.IsActivated = 1;
+                await DbContext.SaveChangesAsync();
+                return new ApiResponse(true);
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
         public async Task<ApiResponse> DeleteUser(string login) {
             var task = new Func<Task<ApiResponse>>(async () => {
                 var user = DbContext.TUsers.FirstOrDefault(x => x.UsLogin == login);
@@ -124,7 +148,38 @@ namespace Art_Critique_Api.Services {
                 DbContext.TUsers.Add(newUser);
                 await DbContext.SaveChangesAsync();
                 await ProfileService.CreateProfile(newUser.UsId);
-                return new ApiResponse(true, "Success!", "Registration completed, you can now sign in");
+
+                var userId = await GetUserIdFromLogin(DbContext, user.UsLogin);
+                var activationCode = Helpers.CreateString(10);
+                await DbContext.TUserRegistrations.AddAsync(new TUserRegistration() {
+                    ActivationCode = activationCode,
+                    IsActivated = 0,
+                    UserId = (int)userId
+                });
+                await DbContext.SaveChangesAsync();
+                await MailService.SendMail(user.UsEmail, "Art-Critique - registration completed!", $"Your activation code: {activationCode}");
+
+                return new ApiResponse(true, "Success!", $"Registration completed, activation code has been sent to {user.UsEmail}");
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> ResendActivationCode(string email) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var user = DbContext.TUsers.FirstOrDefault(x => string.Equals(x.UsEmail, email, StringComparison.OrdinalIgnoreCase));
+                if (user == null) {
+                    return new ApiResponse(false, "Error!", "User with this email adress doesn't exist");
+                }
+
+                var userRegistration = await DbContext.TUserRegistrations.FirstOrDefaultAsync(x => x.UserId == user.UsId);
+                if (userRegistration is null) {
+                    return new ApiResponse(false, "Error!", "This user doesn't have activation code generated");
+                } else if (Convert.ToBoolean(userRegistration.IsActivated)) {
+                    return new ApiResponse(false, "Error!", "Account is already activated");
+                }
+
+                await MailService.SendMail(email, "Art-Critique - your activation code", $"Your activation code: {userRegistration.ActivationCode}");
+                return new ApiResponse(true);
             });
             return await ExecuteWithTryCatch(task);
         }

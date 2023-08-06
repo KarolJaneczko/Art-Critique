@@ -36,12 +36,18 @@
         #region Search paths
         public const string GetAllArtworks = "Search/GetAllArtworks";
         public const string GetAllProfiles = "Search/GetAllProfiles";
+        public const string GetArtworksByAverageRating = "Search/GetArtworksByAverageRating";
+        public const string GetArtworksByTotalViews = "Search/GetArtworksByTotalViews";
+        public const string GetProfilesByAverageRating = "Search/GetProfilesByAverageRating";
+        public const string GetProfilesByTotalViews = "Search/GetProfilesByTotalViews";
         #endregion
 
         #region User paths
         public const string UserLogin = "User/Login";
         public const string UserLogout = "User/Logout";
+        public const string ActivateAccount = "User/ActivateAccount";
         public const string UserRegister = "User/RegisterUser";
+        public const string ResendActivationCode = "User/ResendActivationCode";
         #endregion
     }
 }

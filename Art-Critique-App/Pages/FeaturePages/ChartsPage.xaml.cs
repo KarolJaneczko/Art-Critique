@@ -32,15 +32,23 @@ namespace Art_Critique {
             base.OnNavigatedTo(args);
 
             var task = new Func<Task>(async () => {
-                // Loading all profiles from the database.
-                var profilesRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetAllProfiles);
-                var profiles = JsonConvert.DeserializeObject<List<ApiSearchResult>>(profilesRequest.Data.ToString());
+                // Loading list of artworks ordered by ratings from the database.
+                var artworksAverageRatingRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetArtworksByAverageRating);
+                var artworksAverageRating = JsonConvert.DeserializeObject<List<ApiChartResult>>(artworksAverageRatingRequest.Data.ToString());
 
-                // Loading all artworks from the database.
-                var artworksRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetAllArtworks);
-                var artworks = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksRequest.Data.ToString());
+                // Loading list of artworks ordered by total views from the database.
+                var artworksTotalViewsRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetArtworksByTotalViews);
+                var artworksTotalViews = JsonConvert.DeserializeObject<List<ApiChartResult>>(artworksTotalViewsRequest.Data.ToString());
 
-                BindingContext = new ChartsPageViewModel(profiles, artworks);
+                // Loading list of profiles ordered by ratings from the database.
+                var profilesAverageRatingRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetProfilesByAverageRating);
+                var profilesAverageRating = JsonConvert.DeserializeObject<List<ApiChartResult>>(profilesAverageRatingRequest.Data.ToString());
+
+                // Loading list of profiles ordered by total views from the database.
+                var profilesTotalViewsRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetProfilesByTotalViews);
+                var profilesTotalViews = JsonConvert.DeserializeObject<List<ApiChartResult>>(profilesTotalViewsRequest.Data.ToString());
+
+                BindingContext = new ChartsPageViewModel(artworksAverageRating, artworksTotalViews, profilesAverageRating, profilesTotalViews);
             });
 
             // Run task with try/catch.

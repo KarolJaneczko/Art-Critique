@@ -8,7 +8,7 @@ namespace Art_Critique.Pages.FeaturePages {
     public class SearchPageViewModel : BaseViewModel {
         #region Properties
         private readonly ObservableCollection<SearchRecord> Profiles = new(), Artworks = new();
-        private ObservableCollection<SearchRecord> profileSearchResult = new(),  artworkSearchResult = new();
+        private ObservableCollection<SearchRecord> profileSearchResult = new(), artworkSearchResult = new();
 
         public ObservableCollection<SearchRecord> ProfileSearchResult { get => profileSearchResult; set { profileSearchResult = value; OnPropertyChanged(nameof(ProfileSearchResult)); } }
         public ObservableCollection<SearchRecord> ArtworkSearchResult { get => artworkSearchResult; set { artworkSearchResult = value; OnPropertyChanged(nameof(ArtworkSearchResult)); } }
@@ -25,10 +25,11 @@ namespace Art_Critique.Pages.FeaturePages {
             foreach (var profile in from profile in Profiles where profile.Title.Contains(query, StringComparison.OrdinalIgnoreCase) select profile) {
                 ProfileSearchResult.Add(profile);
             }
-            foreach(var artwork in from artwork in Artworks where artwork.Title.Contains(query, StringComparison.OrdinalIgnoreCase) select artwork) {
+            foreach (var artwork in from artwork in Artworks where artwork.Title.Contains(query, StringComparison.OrdinalIgnoreCase) select artwork) {
                 ProfileSearchResult.Add(artwork);
             }
         });
+        public ICommand DisplayRecordCommand => new Command<SearchRecord>(DisplayRecord);
         #endregion
         #endregion
 
@@ -43,6 +44,14 @@ namespace Art_Critique.Pages.FeaturePages {
             profiles.ForEach(x => Profiles.Add(new SearchRecord(x)));
             artworks.ForEach(x => Artworks.Add(new SearchRecord(x)));
             IsLoading = false;
+        }
+
+        public static async void DisplayRecord(SearchRecord record) {
+            if (record.Type == "ProfilePage") {
+                await Shell.Current.GoToAsync(nameof(ProfilePage), new Dictionary<string, object>() { { "Login", record.Parameter } });
+            } else if (record.Type == "ArtworkPage") {
+                await Shell.Current.GoToAsync(nameof(ArtworkPage), new Dictionary<string, object>() { { "ArtworkId", record.Parameter } });
+            }
         }
         #endregion
 

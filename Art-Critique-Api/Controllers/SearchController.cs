@@ -26,6 +26,26 @@ namespace Art_Critique_Api.Controllers {
         public async Task<ApiResponse> GetAllProfiles() {
             return await SearchService.GetAllProfiles();
         }
+
+        [HttpGet("GetArtworksByAverageRating")]
+        public async Task<ApiResponse> GetArtworksByAverageRating() {
+            return await SearchService.GetArtworksByAverageRating();
+        }
+
+        [HttpGet("GetArtworksByTotalViews")]
+        public async Task<ApiResponse> GetArtworksByTotalViews() {
+            return await SearchService.GetArtworksByTotalViews();
+        }
+
+        [HttpGet("GetProfilesByAverageRating")]
+        public async Task<ApiResponse> GetProfilesByAverageRating() {
+            return await SearchService.GetProfilesByAverageRating();
+        }
+
+        [HttpGet("GetProfilesByTotalViews")]
+        public async Task<ApiResponse> GetProfilesByTotalViews() {
+            return await SearchService.GetProfilesByTotalViews();
+        }
         #endregion
     }
 }

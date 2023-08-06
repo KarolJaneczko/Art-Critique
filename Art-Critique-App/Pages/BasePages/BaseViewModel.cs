@@ -16,7 +16,11 @@ namespace Art_Critique.Pages.BasePages {
 
         protected static async Task<ApiResponse> ExecuteWithTryCatch(Func<Task<ApiResponse>> method) {
             try {
-                return await method();
+                var result = await method();
+                if (result?.IsSuccess == false) {
+                    throw new AppException(result.Title, result.Message);
+                }
+                return result;
             } catch (AppException ex) {
                 await Application.Current.MainPage.DisplayAlert(ex.Title, ex.ErrorMessage, "OK");
                 return new ApiResponse() {

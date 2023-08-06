@@ -15,6 +15,11 @@ namespace Art_Critique.Models.Logic {
             ErrorMessage = errorMessage;
         }
 
+        public AppException(string title, string message) {
+            Title = title;
+            ErrorMessage = message;
+        }
+
         public AppException(HttpStatusCode statusCode) {
             Title = SetTitleBasedOnStatusCode(statusCode);
             ErrorMessage = SetMessageBasedOnStatusCode(statusCode);
