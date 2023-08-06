@@ -21,6 +21,11 @@ namespace Art_Critique_Api.Controllers {
         public async Task<ApiResponse> GetArtworksYouMayLike(string login) {
             return await FeedService.GetArtworksYouMayLike(login);
         }
+
+        [HttpGet("GetArtworksYouMightReview")]
+        public async Task<ApiResponse> GetArtworksYouMightReview(string login) {
+            return await FeedService.GetArtworksYouMightReview(login);
+        }
         #endregion
     }
 }

@@ -62,6 +62,32 @@ namespace Art_Critique_Api.Services {
             });
             return await ExecuteWithTryCatch(task);
         }
+
+        public async Task<ApiResponse> GetArtworksYouMightReview(string login) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var user = await DbContext.TUsers.FirstOrDefaultAsync(x => x.UsLogin.Equals(login));
+                var result = new List<ApiSearchResult>();
+
+                var userRatings = await DbContext.TArtworkRatings.Where(x => x.UserId == user!.UsId).ToListAsync();
+                foreach (var rating in userRatings) {
+                    var isReviewed = await DbContext.TArtworkReviews.AnyAsync(x => x.UserId.Equals(user!.UsId) && x.ArtworkId == rating.ArtworkId);
+
+                    if (!isReviewed) {
+                        var artwork = await DbContext.TUserArtworks.FirstOrDefaultAsync(x => x.ArtworkId == rating.ArtworkId);
+                        var image = Helpers.ConvertImageToBase64((await DbContext.TCustomPaintings.FirstOrDefaultAsync(x => x.ArtworkId == artwork!.ArtworkId))!.PaintingPath);
+                        result.Add(new ApiSearchResult() {
+                            Image = image,
+                            Title = artwork!.ArtworkTitle,
+                            Type = "ArtworkPage",
+                            Parameter = artwork.ArtworkId.ToString(),
+                        });
+                    }
+                    if (result.Count >= 10) { break; }
+                }
+                return new ApiResponse(true, result);
+            });
+            return await ExecuteWithTryCatch(task);
+        }
         #endregion
 
         #region Local class
