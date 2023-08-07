@@ -1,5 +1,4 @@
-﻿using Art_Critique_Api.Entities;
-using Art_Critique_Api.Services.Interfaces;
+﻿using Art_Critique_Api.Services.Interfaces;
 using MailKit.Net.Imap;
 using MailKit.Net.Smtp;
 using MimeKit;
@@ -7,14 +6,12 @@ using MimeKit;
 namespace Art_Critique_Api.Services {
     public class MailService : BaseService, IMailService {
         #region Properties
-        private readonly ArtCritiqueDbContext DbContext;
         private readonly SmtpClient SmtpClient = new();
         private readonly ImapClient ImapClient = new();
         #endregion
 
         #region Constructor
-        public MailService(ArtCritiqueDbContext dbContext) {
-            DbContext = dbContext;
+        public MailService() {
             Task.Run(async () => await ConnectToMail());
         }
         #endregion

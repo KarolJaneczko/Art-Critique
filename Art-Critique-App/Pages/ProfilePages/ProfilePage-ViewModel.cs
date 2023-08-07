@@ -1,5 +1,4 @@
-﻿using Android.Net.Sip;
-using Art_Critique.Models.API.Artwork;
+﻿using Art_Critique.Models.API.Artwork;
 using Art_Critique.Models.API.User;
 using Art_Critique.Models.Logic;
 using Art_Critique.Pages.BasePages;
