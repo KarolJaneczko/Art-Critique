@@ -1,12 +1,9 @@
 ﻿using Art_Critique.Pages.BasePages;
 using Art_Critique.Services.Interfaces;
+using Art_Critique_Api.Models.Search;
 
 namespace Art_Critique.Pages.FeaturePages {
     public class MainPageViewModel : BaseViewModel {
-        #region Services
-        private readonly IHttpService HttpService;
-        #endregion
-
         #region Properties
 
         #region Visibility flags
@@ -16,8 +13,7 @@ namespace Art_Critique.Pages.FeaturePages {
         #endregion
 
         #region Constructor
-        public MainPageViewModel(IHttpService httpService) {
-            HttpService = httpService;
+        public MainPageViewModel(List<ApiSearchResult> artworksYouMayLike, List<ApiSearchResult> artworksYouMightReview, List<ApiSearchResult> usersYouMightFollow, List<ApiSearchResult> artworksOfUsersYouFollow) {
             FillMainPage();
         }
         #endregion
