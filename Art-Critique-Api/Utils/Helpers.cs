@@ -23,6 +23,13 @@
             }
             return new string(chars);
         }
+
+        public static void ShuffleList<T>(this IList<T> list) {
+            for (int i = list.Count - 1; i > 1; i--) {
+                var randomInt = random.Next(i + 1);
+                (list[i], list[randomInt]) = (list[randomInt], list[i]);
+            }
+        }
         #endregion
     }
 }

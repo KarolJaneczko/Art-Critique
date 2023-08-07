@@ -15,6 +15,13 @@
         public const string InsertUserArtwork = "Artwork/InsertUserArtwork";
         #endregion
 
+        #region Feed paths
+        public const string GetArtworksOfUsersYouFollow = "Feed/GetArtworksOfUsersYouFollow";
+        public const string GetArtworksYouMayLike = "Feed/GetArtworksYouMayLike";
+        public const string GetArtworksYouMightReview = "Feed/GetArtworksYouMightReview";
+        public const string GetUsersYouMightFollow = "Feed/GetUsersYouMightFollow";
+        #endregion
+
         #region Profile paths
         public const string ProfileGet = "Profile/GetProfile";
         public const string ProfileViewCount = "Profile/GetTotalViews";

@@ -18,6 +18,34 @@ namespace Art_Critique_Api.Services {
         #endregion
 
         #region Get methods
+        public async Task<ApiResponse> GetArtworksOfUsersYouFollow(string login) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var user = await DbContext.TUsers.FirstOrDefaultAsync(x => x.UsLogin.Equals(login));
+                var result = new List<ApiSearchResult>();
+
+                var followedUsers = await DbContext.TUserFollowings.Where(x => x.FollowedByUserId == user!.UsId).Select(x => x.UserId).ToListAsync();
+                if (!followedUsers.Any()) {
+                    return new ApiResponse(true, result);
+                }
+
+                var ratedArtworks = await DbContext.TArtworkRatings.Where(x => x.UserId == user!.UsId).Select(x => x.ArtworkId).ToListAsync();
+
+                var artworks = await DbContext.TUserArtworks.Where(x => followedUsers.Contains(x.UserId) && !ratedArtworks.Contains(x.ArtworkId)).ToListAsync();
+                artworks.ShuffleList();
+                foreach (var artwork in artworks.Take(10).ToList()) {
+                    var image = Helpers.ConvertImageToBase64((await DbContext.TCustomPaintings.FirstOrDefaultAsync(x => x.ArtworkId == artwork.ArtworkId))!.PaintingPath);
+                    result.Add(new ApiSearchResult() {
+                        Image = image,
+                        Title = artwork.ArtworkTitle,
+                        Type = "ArtworkPage",
+                        Parameter = artwork.ArtworkId.ToString(),
+                    });
+                }
+                return new ApiResponse(true, result);
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
         public async Task<ApiResponse> GetArtworksYouMayLike(string login) {
             var task = new Func<Task<ApiResponse>>(async () => {
                 var user = await DbContext.TUsers.FirstOrDefaultAsync(x => x.UsLogin.Equals(login));
@@ -71,7 +99,6 @@ namespace Art_Critique_Api.Services {
                 var userRatings = await DbContext.TArtworkRatings.Where(x => x.UserId == user!.UsId).ToListAsync();
                 foreach (var rating in userRatings) {
                     var isReviewed = await DbContext.TArtworkReviews.AnyAsync(x => x.UserId.Equals(user!.UsId) && x.ArtworkId == rating.ArtworkId);
-
                     if (!isReviewed) {
                         var artwork = await DbContext.TUserArtworks.FirstOrDefaultAsync(x => x.ArtworkId == rating.ArtworkId);
                         var image = Helpers.ConvertImageToBase64((await DbContext.TCustomPaintings.FirstOrDefaultAsync(x => x.ArtworkId == artwork!.ArtworkId))!.PaintingPath);
@@ -83,6 +110,47 @@ namespace Art_Critique_Api.Services {
                         });
                     }
                     if (result.Count >= 10) { break; }
+                }
+                return new ApiResponse(true, result);
+            });
+            return await ExecuteWithTryCatch(task);
+        }
+
+        public async Task<ApiResponse> GetUsersYouMightFollow(string login) {
+            var task = new Func<Task<ApiResponse>>(async () => {
+                var user = await DbContext.TUsers.FirstOrDefaultAsync(x => x.UsLogin.Equals(login));
+                var result = new List<ApiSearchResult>();
+
+                var userRatings = await DbContext.TArtworkRatings.Where(x => x.UserId == user!.UsId).Select(x => x.ArtworkId).ToListAsync();
+                if (!userRatings.Any()) {
+                    return new ApiResponse(true, result);
+                }
+                var ratedArtworks = await DbContext.TUserArtworks.Where(x => userRatings.Contains(x.ArtworkId)).ToListAsync();
+                var followedUsers = await DbContext.TUserFollowings.Where(x => x.FollowedByUserId == user!.UsId).Select(x => x.UserId).ToListAsync();
+                var listOfUserIds = new List<int>();
+                foreach (var artwork in ratedArtworks) {
+                    if (!followedUsers.Contains(artwork.UserId) && !listOfUserIds.Contains(artwork.UserId)) {
+                        listOfUserIds.Add(artwork.UserId);
+                    }
+                }
+
+                foreach (var userId in listOfUserIds.Take(5)) {
+                    var profile = await DbContext.TProfiles.FirstOrDefaultAsync(x => x.UsId == userId);
+                    var login = (await DbContext.TUsers.FirstOrDefaultAsync(x => x.UsId == userId))?.UsLogin;
+                    var avatar = string.Empty;
+
+                    if (profile!.ProfileAvatarId != null) {
+                        var path = DbContext.TAvatars.FirstOrDefault(x => x.AvatarId == profile.ProfileAvatarId)?.AvatarPath;
+                        if (!string.IsNullOrEmpty(path)) {
+                            avatar = Helpers.ConvertImageToBase64(path);
+                        }
+                    }
+                    result.Add(new ApiSearchResult() {
+                        Image = avatar,
+                        Title = login,
+                        Type = "ProfilePage",
+                        Parameter = login
+                    });
                 }
                 return new ApiResponse(true, result);
             });
