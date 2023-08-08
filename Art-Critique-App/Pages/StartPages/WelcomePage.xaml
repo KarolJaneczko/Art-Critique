@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Art_Critique.WelcomePage"
              Shell.NavBarIsVisible="False"
@@ -10,14 +10,14 @@
         <Image Source="welcomepage_background.png" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
 
         <!-- App logo -->
-        <StackLayout x:Name="LogoLayout" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand">
+        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand">
             <Image Source="artcritique_logo.png"/>
         </StackLayout>
 
         <!-- Buttons -->
-        <StackLayout x:Name="ButtonsLayout" Orientation="Vertical" Spacing="25" VerticalOptions="End">
-            <Button x:Name="LoginButton" Text="Login" Clicked="GoToLogin" BackgroundColor="DarkGoldenrod" TextColor="White" FontAttributes="Bold" WidthRequest="250" HeightRequest="50" />
-            <Button x:Name="RegisterButton" Text="Register" Clicked="GoToRegister" BackgroundColor="White" TextColor="Black" FontAttributes="Bold" WidthRequest="250" HeightRequest="50" Margin="0,0,0,10"/>
+        <StackLayout Orientation="Vertical" Spacing="20" VerticalOptions="End" Margin="0, 0, 0, 20">
+            <Button Style="{StaticResource LargePrimaryButton}" Text="Login" Clicked="GoToLogin"/>
+            <Button Style="{StaticResource LargeSecondaryButton}" Text="Register" Clicked="GoToRegister"/>
         </StackLayout>
     </Grid>
 </ContentPage>

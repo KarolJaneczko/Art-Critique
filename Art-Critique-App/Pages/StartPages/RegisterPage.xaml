@@ -2,72 +2,42 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Art_Critique.RegisterPage"
-             xmlns:vm="clr-namespace:Art_Critique.Pages.ViewModels"
              Shell.NavBarIsVisible="False"
              Shell.FlyoutBehavior="Disabled">
-
-    <!-- Styles dedicated to this page -->
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key="EntryFrame" TargetType="Frame">
-                <Setter Property="BackgroundColor" Value="Transparent"/>
-                <Setter Property="BorderColor" Value="Transparent"/>
-                <Setter Property="Opacity" Value="0.6"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="CornerRadius" Value="25"/>
-                <Setter Property="Margin" Value="50, 0, 50, 0"/>
-            </Style>
-            <Style x:Key="EntryGrid" TargetType="Grid">
-                <Setter Property="BackgroundColor" Value="White"/>
-                <Setter Property="Opacity" Value="0.6"/>
-                <Setter Property="Padding" Value="0"/>
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
 
     <Grid RowDefinitions="*, Auto">
         <!-- Background image -->
         <Image Source="welcomepage_background.png" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
 
-        <!-- Register layout -->
-        <StackLayout Orientation="Vertical" VerticalOptions="Center">
+        <!-- Title -->
+        <Label Text="Create a new account" FontSize="25" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Margin="0, 100, 0, 0"/>
 
-            <!-- Register form -->
-            <StackLayout Orientation="Vertical" Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="0, 0, 0, 50">
-                <Label Text="Create a new account" FontSize="Large" FontFamily="PragmaticaMedium" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
-                <Frame Style="{DynamicResource EntryFrame}">
-                    <Grid Style="{DynamicResource EntryGrid}">
-                        <Entry Text="{Binding Email}" Placeholder="Email" WidthRequest="250" HorizontalTextAlignment="Center" PlaceholderColor="Black"/>
-                    </Grid>
-                </Frame>
-                <Frame Style="{DynamicResource EntryFrame}">
-                    <Grid Style="{DynamicResource EntryGrid}">
-                        <Entry Text="{Binding Login}" Placeholder="Login" WidthRequest="250" HorizontalTextAlignment="Center" PlaceholderColor="Black"/>
-                    </Grid>
-                </Frame>
-                <Frame Style="{DynamicResource EntryFrame}">
-                    <Grid Style="{DynamicResource EntryGrid}">
-                        <Entry Text="{Binding Password}" Placeholder="Password" IsPassword="True" WidthRequest="250" HorizontalTextAlignment="Center" PlaceholderColor="Black"/>
-                    </Grid>
-                </Frame>
-                <Frame Style="{DynamicResource EntryFrame}">
-                    <Grid Style="{DynamicResource EntryGrid}">
-                        <Entry Text="{Binding PasswordConfirm}" Placeholder="Confirm password" IsPassword="True" WidthRequest="250" HorizontalTextAlignment="Center" PlaceholderColor="Black"/>
-                    </Grid>
-                </Frame>
-                <Label Text="Resend activation code" TextColor="White" FontSize="Medium" FontAttributes="Bold" TextDecorations="Underline" HorizontalTextAlignment="Center">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ResendCodeCommand}"/>
-                    </Label.GestureRecognizers>
-                </Label>
-            </StackLayout>
+        <!-- Register form -->
+        <StackLayout Orientation="Vertical" Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="0, 0, 0, 20">
+            <Frame Style="{StaticResource EntryFrame}">
+                <Entry Text="{Binding Email}" Placeholder="Email" WidthRequest="250" HorizontalTextAlignment="Center" PlaceholderColor="Black"/>
+            </Frame>
+
+            <Frame Style="{DynamicResource EntryFrame}">
+                <Entry Text="{Binding Login}" Placeholder="Login" WidthRequest="250" HorizontalTextAlignment="Center" PlaceholderColor="Black"/>
+            </Frame>
+
+            <Frame Style="{DynamicResource EntryFrame}">
+                <Entry Text="{Binding Password}" Placeholder="Password" IsPassword="True" WidthRequest="250" HorizontalTextAlignment="Center" PlaceholderColor="Black"/>
+            </Frame>
+
+            <Frame Style="{DynamicResource EntryFrame}">
+                <Entry Text="{Binding PasswordConfirm}" Placeholder="Confirm password" IsPassword="True" WidthRequest="250" HorizontalTextAlignment="Center" PlaceholderColor="Black"/>
+            </Frame>
+
+            <Button Style="{StaticResource LargePrimaryButton}" Text="Sign up" Command="{Binding RegisterCommand}"/>
         </StackLayout>
 
         <!-- Buttons -->
-        <StackLayout Orientation="Vertical" Spacing="15" VerticalOptions="End">
-            <Button Text="Sign up" Command="{Binding RegisterCommand}" BackgroundColor="DarkGoldenrod" TextColor="White" FontAttributes="Bold" WidthRequest="250" HeightRequest="50"/>
-            <Button Text="Activate account" Command="{Binding ActivateCommand}" BackgroundColor="DarkGoldenrod" TextColor="White" FontAttributes="Bold" WidthRequest="250" HeightRequest="50"/>
-            <Button Text="Back" Clicked="GoBack" BackgroundColor="White" TextColor="Black" FontAttributes="Bold" WidthRequest="250" HeightRequest="50" Margin="0,0,0,10"/>
+        <StackLayout Orientation="Vertical" Spacing="15" VerticalOptions="End" Margin="0, 0, 0, 20">
+            <Button Style="{StaticResource LargePrimaryButton}" Text="Resend code" Command="{Binding ResendCodeCommand}"/>
+            <Button Style="{StaticResource LargePrimaryButton}" Text="Activate account" Command="{Binding ActivateCommand}"/>
+            <Button Style="{StaticResource LargeSecondaryButton}" Text="Back" Clicked="GoBack"/>
         </StackLayout>
     </Grid>
 </ContentPage>

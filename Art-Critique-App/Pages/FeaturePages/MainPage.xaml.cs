@@ -36,19 +36,21 @@ namespace Art_Critique {
             var task = new Func<Task>(async () => {
                 var login = CacheService.GetCurrentLogin();
 
-                var artworksYouMayLikeRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksYouMayLike}?login={login}");
-                var artworksYouMayLikeResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksYouMayLikeRequest.Data.ToString());
+                if (!string.IsNullOrEmpty(login)) {
+                    var artworksYouMayLikeRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksYouMayLike}?login={login}");
+                    var artworksYouMayLikeResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksYouMayLikeRequest.Data.ToString());
 
-                var artworksYouMightReviewRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksYouMightReview}?login={login}");
-                var artworksYouMightReviewResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksYouMightReviewRequest.Data.ToString());
+                    var artworksYouMightReviewRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksYouMightReview}?login={login}");
+                    var artworksYouMightReviewResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksYouMightReviewRequest.Data.ToString());
 
-                var usersYouMightFollowRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetUsersYouMightFollow}?login={login}");
-                var usersYouMightFollowResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(usersYouMightFollowRequest.Data.ToString());
+                    var usersYouMightFollowRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetUsersYouMightFollow}?login={login}");
+                    var usersYouMightFollowResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(usersYouMightFollowRequest.Data.ToString());
 
-                var artworksOfUsersYouFollowRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksOfUsersYouFollow}?login={login}");
-                var artworksOfUsersYouFollowResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksOfUsersYouFollowRequest.Data.ToString());
+                    var artworksOfUsersYouFollowRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksOfUsersYouFollow}?login={login}");
+                    var artworksOfUsersYouFollowResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksOfUsersYouFollowRequest.Data.ToString());
 
-                BindingContext = new MainPageViewModel(artworksYouMayLikeResponse, artworksYouMightReviewResponse, usersYouMightFollowResponse, artworksOfUsersYouFollowResponse);
+                    BindingContext = new MainPageViewModel(artworksYouMayLikeResponse, artworksYouMightReviewResponse, usersYouMightFollowResponse, artworksOfUsersYouFollowResponse);
+                }
             });
 
             // Run task with try/catch.
