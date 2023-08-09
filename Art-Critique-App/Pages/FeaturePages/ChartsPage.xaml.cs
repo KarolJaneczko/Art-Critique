@@ -8,14 +8,12 @@ namespace Art_Critique {
     public partial class ChartsPage : ContentPage {
         #region Services
         private readonly IHttpService HttpService;
-        private readonly IPropertiesService PropertiesService;
         #endregion
 
         #region Constructor
-        public ChartsPage(IHttpService httpService, IPropertiesService propertiesService) {
+        public ChartsPage(IHttpService httpService) {
             InitializeComponent();
             HttpService = httpService;
-            PropertiesService = propertiesService;
             InitializeValues();
         }
         #endregion
@@ -24,8 +22,8 @@ namespace Art_Critique {
         private void InitializeValues() {
             Routing.RegisterRoute(nameof(ArtworkPage), typeof(ArtworkPage));
             Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
-            Loading.HeightRequest = PropertiesService.GetHeightByPercent(85);
-            Loading.WidthRequest = PropertiesService.GetWidthByPercent(100);
+            Loading.HeightRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Height * 85 / 100) / DeviceDisplay.MainDisplayInfo.Density;
+            Loading.WidthRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Width * 100 / 100) / DeviceDisplay.MainDisplayInfo.Density;
         }
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {

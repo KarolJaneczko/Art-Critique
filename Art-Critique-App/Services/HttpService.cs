@@ -6,8 +6,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 
-namespace Art_Critique.Services
-{
+namespace Art_Critique.Services {
     public class HttpService : IHttpService {
         #region Properties
         private static readonly HttpsConnectionHelper ConnectionHelper = new(sslPort: 7038);

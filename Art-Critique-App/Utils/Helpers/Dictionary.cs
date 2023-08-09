@@ -9,7 +9,6 @@
         public const string GetLast3UserArtworks = "Artwork/GetLast3UserArtworks";
         public const string GetUserArtwork = "Artwork/GetUserArtwork";
         public const string GetUserArtworks = "Artwork/GetUserArtworks";
-
         public const string AddViewToArtwork = "Artwork/AddViewToArtwork";
         public const string EditUserArtwork = "Artwork/EditUserArtwork";
         public const string InsertUserArtwork = "Artwork/InsertUserArtwork";
@@ -33,7 +32,6 @@
         public const string GetArtworkReviews = "Review/GetArtworkReviews";
         public const string GetAverageRatingInfo = "Review/GetAverageRatingInfo";
         public const string GetRating = "Review/GetRating";
-
         public const string CreateOrUpdateReview = "Review/CreateOrUpdateReview";
         public const string RateArtwork = "Review/RateArtwork";
         public const string RemoveRating = "Review/RemoveRating";

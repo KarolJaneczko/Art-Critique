@@ -2,7 +2,7 @@
 
 namespace Art_Critique {
     public partial class RegisterPage : ContentPage {
-        #region Constructor
+        #region Constructors
         public RegisterPage(IHttpService httpService) {
             InitializeComponent();
             InitializeValues();
@@ -10,7 +10,7 @@ namespace Art_Critique {
         }
         #endregion
 
-        #region Methods
+        #region Methodss
         private void InitializeValues() {
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(WelcomePage), typeof(WelcomePage));
