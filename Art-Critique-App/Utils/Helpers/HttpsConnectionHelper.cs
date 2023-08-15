@@ -32,8 +32,9 @@ namespace Art_Critique.Utils.Helpers {
 #elif ANDROID
             return new CustomAndroidMessageHandler {
                 ServerCertificateCustomValidationCallback = (_, cert, __, errors) => {
-                    if (cert?.Issuer.Equals("CN=localhost") == true)
+                    if (cert?.Issuer.Equals("CN=localhost") == true) {
                         return true;
+                    }
                     return errors == SslPolicyErrors.None;
                 }
             };
@@ -46,14 +47,10 @@ namespace Art_Critique.Utils.Helpers {
         #region Classes
 #if ANDROID
         internal sealed class CustomAndroidMessageHandler : Xamarin.Android.Net.AndroidMessageHandler {
-            protected override Javax.Net.Ssl.IHostnameVerifier GetSSLHostnameVerifier(Javax.Net.Ssl.HttpsURLConnection connection)
-                => new CustomHostnameVerifier();
-
+            protected override Javax.Net.Ssl.IHostnameVerifier GetSSLHostnameVerifier(Javax.Net.Ssl.HttpsURLConnection connection) => new CustomHostnameVerifier();
             private sealed class CustomHostnameVerifier : Java.Lang.Object, Javax.Net.Ssl.IHostnameVerifier {
                 public bool Verify(string hostname, Javax.Net.Ssl.ISSLSession session) {
-                    return
-                        Javax.Net.Ssl.HttpsURLConnection.DefaultHostnameVerifier.Verify(hostname, session)
-                        || (hostname == "10.0.2.2" && session.PeerPrincipal?.Name == "CN=localhost");
+                    return Javax.Net.Ssl.HttpsURLConnection.DefaultHostnameVerifier.Verify(hostname, session) || (hostname == "10.0.2.2" && session.PeerPrincipal?.Name == "CN=localhost");
                 }
             }
         }

@@ -5,13 +5,13 @@ namespace Art_Critique {
         #region Constructor
         public RegisterPage(IHttpService httpService) {
             InitializeComponent();
-            InitializeValues();
+            RegisterRoutes();
             BindingContext = new RegisterPageViewModel(httpService);
         }
         #endregion
 
         #region Methods
-        private void InitializeValues() {
+        private void RegisterRoutes() {
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(WelcomePage), typeof(WelcomePage));
         }

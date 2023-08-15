@@ -1,7 +1,6 @@
 ﻿using Art_Critique.Models.Logic;
 
-namespace Art_Critique.Utils.Helpers
-{
+namespace Art_Critique.Utils.Helpers {
     public static class MethodHelper {
         #region Methods
         public static async Task OpenUrl(string url) {

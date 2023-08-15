@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace Art_Critique {
     public class RegisterPageViewModel : BaseViewModel {
-        #region Services
+        #region Service
         private readonly IHttpService HttpService;
         #endregion
 

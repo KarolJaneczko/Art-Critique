@@ -7,8 +7,8 @@ namespace Art_Critique.Services.Interfaces {
         public void ClearCache();
         public string GetCurrentLogin();
         public string GetCurrentToken();
-        public bool IsUserLoggedIn();
         public List<HistoryEntry> GetHistory();
+        public bool IsUserLoggedIn();
         public void SetCurrentLogin(string login);
         public void SetCurrentToken(string token);
         #endregion

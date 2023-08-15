@@ -21,7 +21,6 @@ namespace Art_Critique.Pages.BasePages {
         private static void AddServices(MauiAppBuilder builder) {
             builder.Services.AddScoped<ICacheService, CacheService>();
             builder.Services.AddTransient<IHttpService, HttpService>();
-            builder.Services.AddScoped<IPropertiesService, PropertiesService>();
 
             builder.Services.AddScoped<AddReviewPage>();
             builder.Services.AddScoped<ChartsPage>();

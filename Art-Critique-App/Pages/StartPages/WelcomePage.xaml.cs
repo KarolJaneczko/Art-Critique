@@ -3,12 +3,12 @@
         #region Constructor
         public WelcomePage() {
             InitializeComponent();
-            InitializeValues();
+            RegisterRoutes();
         }
         #endregion
 
         #region Methods
-        private void InitializeValues() {
+        private void RegisterRoutes() {
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
         }

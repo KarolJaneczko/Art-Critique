@@ -12,7 +12,6 @@ namespace Art_Critique {
         #region Services
         private readonly ICacheService CacheService;
         private readonly IHttpService HttpService;
-        private readonly IPropertiesService PropertiesService;
         #endregion
 
         #region Properties
@@ -21,11 +20,10 @@ namespace Art_Critique {
         #endregion
 
         #region Constructor
-        public ProfilePage(ICacheService cacheService, IHttpService httpService, IPropertiesService propertiesService) {
+        public ProfilePage(ICacheService cacheService, IHttpService httpService) {
             InitializeComponent();
             CacheService = cacheService;
             HttpService = httpService;
-            PropertiesService = propertiesService;
             InitializeValues();
         }
         #endregion
@@ -34,8 +32,8 @@ namespace Art_Critique {
         private void InitializeValues() {
             Routing.RegisterRoute(nameof(EditProfilePage), typeof(EditProfilePage));
             Routing.RegisterRoute(nameof(GalleryPage), typeof(GalleryPage));
-            Loading.HeightRequest = PropertiesService.GetHeightByPercent(85);
-            Loading.WidthRequest = PropertiesService.GetWidthByPercent(100);
+            Loading.HeightRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Height * 85 / 100) / DeviceDisplay.MainDisplayInfo.Density;
+            Loading.WidthRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Width * 100 / 100) / DeviceDisplay.MainDisplayInfo.Density;
         }
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {

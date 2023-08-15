@@ -1,5 +1,6 @@
 ﻿using Art_Critique.Models.Logic;
 using Art_Critique.Utils.Enums;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Art_Critique.Core.Utils.Helpers {
@@ -113,7 +114,7 @@ namespace Art_Critique.Core.Utils.Helpers {
 
         private static void ValidateProfileBirthDate(string birthDate) {
             if (!string.IsNullOrEmpty(birthDate)) {
-                var date = DateTime.Parse(birthDate);
+                var date = DateTime.Parse(birthDate, new CultureInfo("pl-PL"));
                 if (date > DateTime.Now.AddYears(-18)) {
                     throw new AppException("Birth date must be older than 18 years", ExceptionType.EntryTooYoung);
                 }
@@ -169,14 +170,14 @@ namespace Art_Critique.Core.Utils.Helpers {
         }
 
         private static bool CheckMailFormat(string email) {
-            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,100})+)$");
-            Match match = regex.Match(email);
+            var regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,100})+)$");
+            var match = regex.Match(email);
             return match.Success;
         }
 
         private static bool CheckSpecialCharacters(string entry) {
-            Regex regex = new Regex(@"^[A-Za-z0-9\d]+$");
-            Match match = regex.Match(entry);
+            var regex = new Regex(@"^[A-Za-z0-9\d]+$");
+            var match = regex.Match(entry);
             return !match.Success;
         }
 

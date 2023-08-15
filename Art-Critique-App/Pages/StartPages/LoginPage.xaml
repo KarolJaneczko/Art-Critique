@@ -2,61 +2,31 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Art_Critique.LoginPage"
-             xmlns:vm="clr-namespace:Art_Critique.Pages.ViewModels"
              Shell.NavBarIsVisible="False"
              Shell.FlyoutBehavior="Disabled">
 
-    <!-- Styles dedicated to this page -->
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key="EntryFrame" TargetType="Frame">
-                <Setter Property="BackgroundColor" Value="Transparent"/>
-                <Setter Property="BorderColor" Value="Transparent"/>
-                <Setter Property="Opacity" Value="0.6"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="CornerRadius" Value="50"/>
-                <Setter Property="Margin" Value="50, 0, 50, 0"/>
-            </Style>
-            <Style x:Key="EntryGrid" TargetType="Grid">
-                <Setter Property="BackgroundColor" Value="White"/>
-                <Setter Property="Opacity" Value="0.6"/>
-                <Setter Property="Padding" Value="0"/>
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
     <Grid RowDefinitions="*, Auto">
         <!-- Background image -->
-        <Image Source="welcomepage_background.png" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
+        <Image Source="welcome_background.png" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
 
-        <!-- Login layout -->
-        <StackLayout Orientation="Vertical" VerticalOptions="Center">
+        <!-- Title -->
+        <Label Text="Sign in to your account" FontSize="25" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Margin="0, 100, 0, 0"/>
 
-            <!-- Login form -->
-            <StackLayout Orientation="Vertical" Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="0, 0, 0, 50">
-                <Label Text="Sign in to your account" FontSize="Large" FontFamily="PragmaticaMedium" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
-                <Frame Style="{DynamicResource EntryFrame}">
-                    <Grid Style="{DynamicResource EntryGrid}">
-                        <Entry x:Name="LoginEntry" Text="{Binding Login}" Placeholder="Login" WidthRequest="250" HorizontalTextAlignment="Center" PlaceholderColor="Black"/>
-                    </Grid>
-                </Frame>
-                <Frame Style="{DynamicResource EntryFrame}">
-                    <Grid Style="{DynamicResource EntryGrid}">
-                        <Entry x:Name="PasswordEntry" Text="{Binding Password}" Placeholder="Password" IsPassword="True" WidthRequest="250" HorizontalTextAlignment="Center" PlaceholderColor="Black"/>
-                    </Grid>
-                </Frame>
-            </StackLayout>
+        <!-- Login form -->
+        <StackLayout Orientation="Vertical" Spacing="35" HorizontalOptions="Center" VerticalOptions="Center" Padding="0, 0, 0, 20">
+            <Frame Style="{StaticResource EntryFrame}">
+                <Entry Style="{StaticResource EntryInput}" Text="{Binding Login}" Placeholder="Login" />
+            </Frame>
+
+            <Frame Style="{DynamicResource EntryFrame}">
+                <Entry Style="{DynamicResource EntryInput}" Text="{Binding Password}" Placeholder="Password" IsPassword="True" />
+            </Frame>
         </StackLayout>
 
-        <!-- Buttons layout -->
-        <StackLayout Orientation="Vertical" VerticalOptions="End">
-            
-            <!-- Buttons -->
-            <StackLayout x:Name="ButtonsLayout" Orientation="Vertical" Spacing="25" VerticalOptions="End">
-                <Button x:Name="SignInButton" Text="Sign in" Command="{Binding SignInCommand}" BackgroundColor="DarkGoldenrod" TextColor="White" FontAttributes="Bold" WidthRequest="250" HeightRequest="50"/>
-                <Button x:Name="BackButton" Text="Back" Clicked="GoBack" BackgroundColor="White" TextColor="Black" FontAttributes="Bold" WidthRequest="250" HeightRequest="50" Margin="0,0,0,10"/>
-            </StackLayout>
-        </StackLayout>
-        
+        <!-- Buttons -->
+        <VerticalStackLayout Spacing="20" HorizontalOptions="Center" VerticalOptions="End" Margin="0, 0, 0, 20">
+            <Button Style="{StaticResource LargePrimaryButton}" Text="Sign up" Command="{Binding SignInCommand}"/>
+            <Button Style="{StaticResource LargeSecondaryButton}" Text="Back" Clicked="GoBack"/>
+        </VerticalStackLayout>
     </Grid>
 </ContentPage>

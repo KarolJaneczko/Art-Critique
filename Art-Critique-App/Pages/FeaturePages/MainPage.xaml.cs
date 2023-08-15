@@ -9,15 +9,13 @@ namespace Art_Critique {
         #region Services
         private readonly ICacheService CacheService;
         private readonly IHttpService HttpService;
-        private readonly IPropertiesService PropertiesService;
         #endregion
 
         #region Constructor
-        public MainPage(ICacheService cacheService, IHttpService httpService, IPropertiesService propertiesService) {
+        public MainPage(ICacheService cacheService, IHttpService httpService) {
             InitializeComponent();
             CacheService = cacheService;
             HttpService = httpService;
-            PropertiesService = propertiesService;
             InitializeValues();
         }
         #endregion
@@ -26,8 +24,8 @@ namespace Art_Critique {
         private void InitializeValues() {
             Routing.RegisterRoute(nameof(ArtworkPage), typeof(ArtworkPage));
             Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
-            Loading.HeightRequest = PropertiesService.GetHeightByPercent(85);
-            Loading.WidthRequest = PropertiesService.GetWidthByPercent(100);
+            Loading.HeightRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Height * 85 / 100) / DeviceDisplay.MainDisplayInfo.Density;
+            Loading.WidthRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Width * 100 / 100) / DeviceDisplay.MainDisplayInfo.Density;
         }
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
@@ -36,19 +34,21 @@ namespace Art_Critique {
             var task = new Func<Task>(async () => {
                 var login = CacheService.GetCurrentLogin();
 
-                var artworksYouMayLikeRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksYouMayLike}?login={login}");
-                var artworksYouMayLikeResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksYouMayLikeRequest.Data.ToString());
+                if (!string.IsNullOrEmpty(login)) {
+                    var artworksYouMayLikeRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksYouMayLike}?login={login}");
+                    var artworksYouMayLikeResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksYouMayLikeRequest.Data.ToString());
 
-                var artworksYouMightReviewRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksYouMightReview}?login={login}");
-                var artworksYouMightReviewResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksYouMightReviewRequest.Data.ToString());
+                    var artworksYouMightReviewRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksYouMightReview}?login={login}");
+                    var artworksYouMightReviewResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksYouMightReviewRequest.Data.ToString());
 
-                var usersYouMightFollowRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetUsersYouMightFollow}?login={login}");
-                var usersYouMightFollowResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(usersYouMightFollowRequest.Data.ToString());
+                    var usersYouMightFollowRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetUsersYouMightFollow}?login={login}");
+                    var usersYouMightFollowResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(usersYouMightFollowRequest.Data.ToString());
 
-                var artworksOfUsersYouFollowRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksOfUsersYouFollow}?login={login}");
-                var artworksOfUsersYouFollowResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksOfUsersYouFollowRequest.Data.ToString());
+                    var artworksOfUsersYouFollowRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksOfUsersYouFollow}?login={login}");
+                    var artworksOfUsersYouFollowResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksOfUsersYouFollowRequest.Data.ToString());
 
-                BindingContext = new MainPageViewModel(artworksYouMayLikeResponse, artworksYouMightReviewResponse, usersYouMightFollowResponse, artworksOfUsersYouFollowResponse);
+                    BindingContext = new MainPageViewModel(artworksYouMayLikeResponse, artworksYouMightReviewResponse, usersYouMightFollowResponse, artworksOfUsersYouFollowResponse);
+                }
             });
 
             // Run task with try/catch.
