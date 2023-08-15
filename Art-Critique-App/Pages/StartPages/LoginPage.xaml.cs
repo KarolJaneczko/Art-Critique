@@ -6,13 +6,13 @@ namespace Art_Critique {
         #region Constructor
         public LoginPage(ICacheService cacheService, IHttpService httpService) {
             InitializeComponent();
-            InitializeValues();
+            RegisterRoutes();
             BindingContext = new LoginPageViewModel(cacheService, httpService);
         }
         #endregion
 
         #region Methods
-        private void InitializeValues() {
+        private void RegisterRoutes() {
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
             Routing.RegisterRoute(nameof(WelcomePage), typeof(WelcomePage));
         }

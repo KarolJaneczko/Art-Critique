@@ -2,16 +2,16 @@
 
 namespace Art_Critique {
     public partial class RegisterPage : ContentPage {
-        #region Constructors
+        #region Constructor
         public RegisterPage(IHttpService httpService) {
             InitializeComponent();
-            InitializeValues();
+            RegisterRoutes();
             BindingContext = new RegisterPageViewModel(httpService);
         }
         #endregion
 
-        #region Methodss
-        private void InitializeValues() {
+        #region Methods
+        private void RegisterRoutes() {
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(WelcomePage), typeof(WelcomePage));
         }

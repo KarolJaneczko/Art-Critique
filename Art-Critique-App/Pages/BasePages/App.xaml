@@ -19,15 +19,34 @@
             <Setter Property="TextColor" Value="Black" />
             <Setter Property="CornerRadius" Value="20" />
         </Style>
-        
+
+        <Style x:Key="MediumPrimaryButton" TargetType="Button">
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="BackgroundColor" Value="DarkGoldenrod"/>
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="CornerRadius" Value="20" />
+        </Style>
+
+        <Style x:Key="MediumSecondaryButton" TargetType="Button">
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="BackgroundColor" Value="White"/>
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="CornerRadius" Value="20" />
+        </Style>
+
         <!-- Entries -->
         <Style x:Key="EntryFrame" TargetType="Frame">
             <Setter Property="BackgroundColor" Value="White"/>
             <Setter Property="BorderColor" Value="Transparent"/>
             <Setter Property="Opacity" Value="0.6"/>
-            <Setter Property="Padding" Value="15, 2, 15, 2"/>
+            <Setter Property="Padding" Value="10, 2, 10, 2"/>
             <Setter Property="CornerRadius" Value="15"/>
             <Setter Property="Margin" Value="20, 0, 20, 0"/>
+        </Style>
+
+        <Style x:Key="EntryInput" TargetType="Entry">
+            <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            <Setter Property="PlaceholderColor" Value="Black"/>
         </Style>
 
     </Application.Resources>
