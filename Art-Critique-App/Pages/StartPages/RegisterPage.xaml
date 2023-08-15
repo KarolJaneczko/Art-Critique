@@ -7,7 +7,7 @@
 
     <Grid RowDefinitions="*, Auto">
         <!-- Background image -->
-        <Image Source="welcomepage_background.png" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
+        <Image Source="welcome_background.png" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
 
         <!-- Title -->
         <Label Text="Create a new account" FontSize="25" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Margin="0, 100, 0, 0"/>

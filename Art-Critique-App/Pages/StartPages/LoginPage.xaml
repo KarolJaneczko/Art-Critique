@@ -27,7 +27,7 @@
 
     <Grid RowDefinitions="*, Auto">
         <!-- Background image -->
-        <Image Source="welcomepage_background.png" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
+        <Image Source="welcome_background.png" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Aspect="AspectFill"/>
 
         <!-- Login layout -->
         <StackLayout Orientation="Vertical" VerticalOptions="Center">
