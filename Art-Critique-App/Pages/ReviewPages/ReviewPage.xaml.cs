@@ -23,41 +23,45 @@ namespace Art_Critique.Pages.ReviewPages {
         #region Constructor
         public ReviewPage(ICacheService cacheService, IHttpService httpService) {
             InitializeComponent();
+            RegisterRoutes();
             CacheService = cacheService;
             HttpService = httpService;
-            InitializeValues();
         }
         #endregion
 
         #region Methods
-        private void InitializeValues() {
+        private void RegisterRoutes() {
             Routing.RegisterRoute(nameof(AddReviewPage), typeof(AddReviewPage));
             Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
-            Loading.HeightRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Height * 85 / 100) / DeviceDisplay.MainDisplayInfo.Density;
-            Loading.WidthRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Width * 100 / 100) / DeviceDisplay.MainDisplayInfo.Density;
         }
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
             base.OnNavigatedTo(args);
 
             var task = new Func<Task>(async () => {
-                // Trying to load your review.
-                var review = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworkReview}?login={CacheService.GetCurrentLogin()}&artworkId={ArtworkId}");
                 ApiArtworkReview userReview = null;
-                if (review.Data is not null) {
-                    userReview = JsonConvert.DeserializeObject<ApiArtworkReview>(review.Data.ToString());
-                }
-
-                // Trying to load other reviews.
-                var reviews = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworkReviews}?login={CacheService.GetCurrentLogin()}&artworkId={ArtworkId}");
                 List<ApiArtworkReview> userReviews = new();
-                if (reviews.Data is not null) {
-                    userReviews = JsonConvert.DeserializeObject<List<ApiArtworkReview>>(reviews.Data.ToString());
+
+                // Trying to load your review.
+                var reviewTask = HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworkReview}?login={CacheService.GetCurrentLogin()}&artworkId={ArtworkId}");
+                // Trying to load other reviews.
+                var reviewsTask = HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworkReviews}?login={CacheService.GetCurrentLogin()}&artworkId={ArtworkId}");
+                // Trying to load artwork data.
+                var artworkTask = HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetUserArtwork}?id={ArtworkId}");
+
+                await Task.WhenAll(reviewTask, reviewsTask, artworkTask);
+
+                var reviewResult = await reviewTask;
+                if (reviewResult.Data is not null) {
+                    userReview = JsonConvert.DeserializeObject<ApiArtworkReview>(reviewResult.Data.ToString());
                 }
 
-                // Loading artwork data.
-                var artworkRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetUserArtwork}?id={ArtworkId}");
-                var artwork = JsonConvert.DeserializeObject<ApiUserArtwork>(artworkRequest.Data.ToString());
+                var reviewsResult = await reviewsTask;
+                if (reviewsResult.Data is not null) {
+                    userReviews = JsonConvert.DeserializeObject<List<ApiArtworkReview>>(reviewsResult.Data.ToString());
+                }
+
+                var artwork = JsonConvert.DeserializeObject<ApiUserArtwork>((await artworkTask).Data.ToString());
 
                 // Saving navigation to app's history.
                 CacheService.AddToHistory(new HistoryEntry() {

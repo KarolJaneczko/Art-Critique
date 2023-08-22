@@ -24,6 +24,7 @@ namespace Art_Critique {
         private void SetStyles() {
             SetButtonStyles();
             SetEntryStyles();
+            SetHelperStyles();
         }
 
         private void SetButtonStyles() {
@@ -95,6 +96,28 @@ namespace Art_Critique {
                     Property = VisualElement.HeightRequestProperty,
                     Value = inputHeight
                 });
+        }
+
+        private void SetHelperStyles() {
+            var loadingLayout = Resources.FirstOrDefault(x => x.Key == "LoadingLayout").Value as Style;
+            loadingLayout.Setters.Add(new Setter() {
+                Property = VisualElement.WidthRequestProperty,
+                Value = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Width) / DeviceDisplay.MainDisplayInfo.Density
+            });
+            loadingLayout.Setters.Add(new Setter() {
+                Property = VisualElement.HeightRequestProperty,
+                Value = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Height * 85 / 100) / DeviceDisplay.MainDisplayInfo.Density
+            });
+
+            var loadingIndicator = Resources.FirstOrDefault(x => x.Key == "LoadingIndicator").Value as Style;
+            loadingIndicator.Setters.Add(new Setter() {
+                Property = VisualElement.WidthRequestProperty,
+                Value = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Width * 15 / 100) / DeviceDisplay.MainDisplayInfo.Density
+            });
+            loadingIndicator.Setters.Add(new Setter() {
+                Property = VisualElement.HeightRequestProperty,
+                Value = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Height * 15 / 100) / DeviceDisplay.MainDisplayInfo.Density
+            });
         }
 
         protected override void OnStart() {

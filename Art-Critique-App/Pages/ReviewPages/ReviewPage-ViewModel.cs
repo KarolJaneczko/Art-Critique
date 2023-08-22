@@ -66,6 +66,7 @@ namespace Art_Critique.Pages.ReviewPages {
             IsYourReviewVisible = myReview is not null && !isMyArtwork;
             IsAddingReviewVisible = myReview is null && !isMyArtwork;
             IsLoading = false;
+            
         }
 
         private async Task RemoveReview() {
