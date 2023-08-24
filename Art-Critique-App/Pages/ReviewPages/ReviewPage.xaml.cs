@@ -79,6 +79,11 @@ namespace Art_Critique.Pages.ReviewPages {
             // Run task with try/catch.
             await MethodHelper.RunWithTryCatch(task);
         }
+
+        protected override void OnDisappearing() {
+            base.OnDisappearing();
+            BindingContext = null;
+        }
         #endregion
     }
 }

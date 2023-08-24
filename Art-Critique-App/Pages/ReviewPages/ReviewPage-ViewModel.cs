@@ -15,8 +15,7 @@ namespace Art_Critique.Pages.ReviewPages {
 
         #region Properties
         private string ArtworkId;
-
-        #region My review information
+        #region My review info
         private ApiArtworkReview MyReview;
         public string MyLogin { get => MyReview.AuthorLogin; }
         public string MyRating { get => MyReview.Rating; }
@@ -24,7 +23,7 @@ namespace Art_Critique.Pages.ReviewPages {
         public string MyContent { get => MyReview.Content; }
         #endregion
 
-        #region Other reviews
+        #region Other reviews info
         private ObservableCollection<ApiArtworkReview> reviews = new();
         private string otherReviewsText = "Other reviews:";
         public ObservableCollection<ApiArtworkReview> Reviews { get => reviews; set { reviews = value; OnPropertyChanged(nameof(Reviews)); } }
@@ -32,9 +31,10 @@ namespace Art_Critique.Pages.ReviewPages {
         #endregion
 
         #region Visibility flags
-        private bool isLoading = true, isYourReviewVisible, isAddingReviewVisible;
+        private bool isLoading = true, isLoaded, isYourReviewVisible, isAddingReviewVisible;
         public bool IsMyArtwork { get; set; }
         public bool IsLoading { get => isLoading; set { isLoading = value; OnPropertyChanged(nameof(IsLoading)); } }
+        public bool IsLoaded { get => isLoaded; set { isLoaded = value; OnPropertyChanged(nameof(IsLoaded)); } }
         public bool IsYourReviewVisible { get => isYourReviewVisible; set { isYourReviewVisible = value; OnPropertyChanged(nameof(IsYourReviewVisible)); } }
         public bool IsAddingReviewVisible { get => isAddingReviewVisible; set { isAddingReviewVisible = value; OnPropertyChanged(nameof(IsAddingReviewVisible)); } }
         #endregion
@@ -59,14 +59,14 @@ namespace Art_Critique.Pages.ReviewPages {
             ArtworkId = artworkId;
             IsMyArtwork = isMyArtwork;
             MyReview = myReview ?? new();
-            reviews.ForEach(x => Reviews.Add(x));
+            reviews.ForEach(Reviews.Add);
             if (!reviews.Any()) {
                 OtherReviewsText = "There are no reviews!";
             }
             IsYourReviewVisible = myReview is not null && !isMyArtwork;
             IsAddingReviewVisible = myReview is null && !isMyArtwork;
             IsLoading = false;
-            
+            IsLoaded = true;
         }
 
         private async Task RemoveReview() {

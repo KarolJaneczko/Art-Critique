@@ -1,80 +1,68 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="Art_Critique.Pages.ReviewPages.ReviewPage"
              Title="Reviews">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <toolkit:InvertedBoolConverter x:Key="InvertBool" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
-    <Grid RowDefinitions="*, Auto" Padding="20,0">
+    <Grid RowDefinitions="Auto, Auto, Auto" Padding="20,0">
         <!-- Loading indicator -->
         <StackLayout Style="{StaticResource LoadingLayout}" IsVisible="{Binding IsLoading}">
-            <ActivityIndicator Style="{StaticResource LoadingIndicator}" IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}" />
+            <ActivityIndicator Style="{StaticResource LoadingIndicator}" />
         </StackLayout>
 
         <!-- Reviews data -->
-        <ScrollView HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Always" IsVisible="{Binding IsLoading, Converter={StaticResource InvertBool}}">
+        <StackLayout ZIndex="1">
             <StackLayout>
-                <Label Text="Your review:" IsVisible="{Binding IsYourReviewVisible}" Margin="0, 20, 0, 0" HorizontalTextAlignment="Center"
-                       FontSize="25" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-                <Label Text=" sssss"/>
+                <Frame IsVisible="{Binding IsYourReviewVisible}" BackgroundColor="#e5c064" Margin="10" Padding="10" CornerRadius="20" >
+                    <Label Text="Your review:"  HorizontalTextAlignment="Center" FontSize="25" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
+                </Frame>
+
+                <Frame Margin="10" CornerRadius="20" IsVisible="{Binding IsYourReviewVisible}">
+                    <VerticalStackLayout  Spacing="10" >
+                        <HorizontalStackLayout HorizontalOptions="Center">
+                            <Label Text="{Binding MyLogin, StringFormat='@{0}'}" CharacterSpacing="2" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                            <Label Text="{Binding MyRating}" CharacterSpacing="2" FontAttributes="Bold" VerticalTextAlignment="Center" Padding="25,0,0,0"/>
+                        </HorizontalStackLayout>
+                        <Label Text="{Binding MyTitle}" CharacterSpacing="1" FontAttributes="Italic,Bold" HorizontalTextAlignment="Center" FontSize="Large" />
+                        <Label Text="{Binding MyContent}" HorizontalTextAlignment="Center" FontSize="16" WidthRequest="250" Margin="0,10,0,10" />
+                        <HorizontalStackLayout HorizontalOptions="Center">
+                            <Button Text="Edit" Command="{Binding AddReviewCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="125" HeightRequest="50" Margin="5,0,5,0"/>
+                            <Button Text="Remove" Command="{Binding RemoveReviewCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="125" HeightRequest="50" Margin="5,0,5,0"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Button Style="{StaticResource LargePrimaryButton}" Text="Add your review" Command="{Binding AddReviewCommand}" IsVisible="{Binding IsAddingReviewVisible}" Margin="0,20"/>
+
+                <Frame BackgroundColor="#e5c064" Margin="10" Padding="10" CornerRadius="20" VerticalOptions="Center" >
+                    <Label Text="{Binding OtherReviewsText}"  HorizontalTextAlignment="Center" FontSize="25" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
+                </Frame>
+
+                <CollectionView x:Name="UserReviews" ItemsSource="{Binding Reviews}" ItemsLayout="VerticalList">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Margin="10" CornerRadius="20" IsVisible="{Binding IsYourReviewVisible}">
+                                <Frame.GestureRecognizers>
+
+                                </Frame.GestureRecognizers>
+
+                                <VerticalStackLayout Spacing="10">
+                                    <VerticalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference UserReviews}, Path=BindingContext.GoToProfileCommand}" CommandParameter="{Binding}"/>
+                                    </VerticalStackLayout.GestureRecognizers>
+                                    
+                                    <HorizontalStackLayout HorizontalOptions="Center">
+                                        <Label Text="{Binding AuthorLogin, StringFormat='@{0}'}" CharacterSpacing="2" FontAttributes="Bold" VerticalTextAlignment="Center"/>
+                                        <Label Text="{Binding Rating}" CharacterSpacing="2" FontAttributes="Bold" VerticalTextAlignment="Center" Padding="25,0,0,0"/>
+                                    </HorizontalStackLayout>
+                                    <Label Text="{Binding Title}" CharacterSpacing="1" FontAttributes="Italic,Bold" HorizontalTextAlignment="Center" FontSize="Large" />
+                                    <Label Text="{Binding Content}" HorizontalTextAlignment="Center" FontSize="16" WidthRequest="250" Margin="0,10,0,10" />
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
             </StackLayout>
-
-        </ScrollView>
+        </StackLayout>
     </Grid>
-
-
-    <!--<Grid Grid.Row="2" RowDefinitions="Auto,Auto,Auto,Auto,Auto" IsVisible="{Binding IsYourReviewVisible}" Padding="10" BackgroundColor="LightGray">
-                <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto" HorizontalOptions="Center" Margin="0,10,0,10">
-                    <Label Grid.Column="1" Text="{Binding MyLogin, StringFormat='@{0}'}" CharacterSpacing="1" FontAttributes="Bold" VerticalTextAlignment="Center" Margin="10,0,0,0" />
-                    <Label Grid.Column="2" Text="{Binding MyRating}" CharacterSpacing="1" FontAttributes="Bold" VerticalTextAlignment="Center" Padding="25,0,0,0"/>
-                </Grid>
-
-                <Grid Grid.Row="2" ColumnDefinitions="Auto, Auto" HorizontalOptions="Center">
-                    <Label Grid.Column="1" Text="{Binding MyTitle}" CharacterSpacing="1" FontAttributes="Bold" VerticalTextAlignment="Center" FontSize="Large" />
-                </Grid>
-
-                <Label Grid.Row="3" Text="{Binding MyContent}" HorizontalTextAlignment="Center" FontSize="16" WidthRequest="250" Margin="0,10,0,10" />
-                <HorizontalStackLayout Grid.Row="4" >
-                    <Button Text="Edit" Command="{Binding AddReviewCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="125" HeightRequest="50" Margin="5,0,5,0"/>
-                    <Button Text="Remove" Command="{Binding RemoveReviewCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="125" HeightRequest="50" Margin="5,0,5,0"/>
-                </HorizontalStackLayout>
-            </Grid>
-
-    
-            <Grid Grid.Row="2" IsVisible="{Binding IsAddingReviewVisible}">
-                <Button Text="Add your review!" Command="{Binding AddReviewCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" Margin="0,20,0,0"/>
-            </Grid>
-
-            <Label Grid.Row="3" Text="{Binding OtherReviewsText}" HorizontalTextAlignment="Center" CharacterSpacing="2" FontSize="Large" Margin="0,10,0,10"/>
-
-
-            <CollectionView Grid.Row="4" x:Name="UserReviews" ItemsSource="{Binding Reviews}" ItemsLayout="VerticalList">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid RowDefinitions="Auto,Auto,Auto,Auto" Padding="10" BackgroundColor="LightGray">
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={x:Reference UserReviews}, Path=BindingContext.GoToProfileCommand}" CommandParameter="{Binding}"/>
-                            </Grid.GestureRecognizers>
-
-                            <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto" HorizontalOptions="Center" Margin="0,10,0,10">
-                                <Label Grid.Column="1" Text="{Binding AuthorLogin, StringFormat='@{0}'}" CharacterSpacing="1" FontAttributes="Bold" VerticalTextAlignment="Center" Margin="10,0,0,0" />
-                                <Label Grid.Column="2" Text="{Binding Rating}" CharacterSpacing="1" FontAttributes="Bold" VerticalTextAlignment="Center" Padding="25,0,0,0"/>
-                            </Grid>
-
-                            <Grid Grid.Row="2" ColumnDefinitions="Auto, Auto" HorizontalOptions="Center">
-                                <Label Grid.Column="1" Text="{Binding Title}" CharacterSpacing="1" FontAttributes="Bold" VerticalTextAlignment="Center" FontSize="Large" />
-                            </Grid>
-
-                            <Label Grid.Row="3" Text="{Binding Content}" HorizontalTextAlignment="Center" FontSize="16" WidthRequest="250" Margin="0,10,0,10" />
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>-->
-
 </ContentPage>
