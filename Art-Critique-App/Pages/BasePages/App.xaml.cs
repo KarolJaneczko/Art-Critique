@@ -85,6 +85,9 @@ namespace Art_Critique {
         private void SetEntryStyles() {
             var inputWidth = double.Round(DeviceDisplay.MainDisplayInfo.Width * 0.6 / DeviceDisplay.MainDisplayInfo.Density, 0);
             var inputHeight = double.Round(DeviceDisplay.MainDisplayInfo.Height * 0.05 / DeviceDisplay.MainDisplayInfo.Density, 0);
+            var editorWidth = double.Round(DeviceDisplay.MainDisplayInfo.Width * 0.6 / DeviceDisplay.MainDisplayInfo.Density, 0);
+            var editorHeight = double.Round(DeviceDisplay.MainDisplayInfo.Height * 0.1 / DeviceDisplay.MainDisplayInfo.Density, 0);
+
             var entryInput = Resources.FirstOrDefault(x => x.Key == "EntryInput").Value as Style;
             entryInput.Setters.Add(
                 new Setter() {
@@ -95,6 +98,18 @@ namespace Art_Critique {
                 new Setter() {
                     Property = VisualElement.HeightRequestProperty,
                     Value = inputHeight
+                });
+
+            var entryEditor = Resources.FirstOrDefault(x => x.Key == "EntryEditor").Value as Style;
+            entryEditor.Setters.Add(
+                new Setter() {
+                    Property = VisualElement.WidthRequestProperty,
+                    Value = editorWidth
+                });
+            entryEditor.Setters.Add(
+                new Setter() {
+                    Property = VisualElement.HeightRequestProperty,
+                    Value = editorHeight
                 });
         }
 

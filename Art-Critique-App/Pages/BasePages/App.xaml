@@ -49,6 +49,10 @@
             <Setter Property="PlaceholderColor" Value="Black"/>
         </Style>
 
+        <Style x:Key="EntryEditor" TargetType="Editor">
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Setter Property="PlaceholderColor" Value="Black" />
+        </Style>
         <!-- Helpers -->
         <Style x:Key="LoadingLayout" TargetType="StackLayout">
             <Setter Property="BackgroundColor" Value="LightGray"/>
