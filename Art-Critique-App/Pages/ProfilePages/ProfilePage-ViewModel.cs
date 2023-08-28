@@ -16,14 +16,15 @@ namespace Art_Critique.Pages.ProfilePages {
         #endregion
 
         #region Properties
-        private ApiProfile ApiProfile;
-        private bool IsFollowing;
-
         #region Profile fields
         private ImageSource avatar;
-        private string totalViews, functionText;
         private ObservableCollection<ImageThumbnail> thumbnails = new();
+        private ApiProfile ApiProfile;
+        private string totalViews, functionText;
+        private bool IsFollowing;
 
+        public ImageSource Avatar { get => avatar; set { avatar = value; OnPropertyChanged(nameof(Avatar)); } }
+        public ObservableCollection<ImageThumbnail> Thumbnails { get => thumbnails; set { thumbnails = value; OnPropertyChanged(nameof(Thumbnails)); } }
         public string Login { get => ApiProfile.Login; }
         public string FullName { get => ApiProfile.FullName ?? string.Empty; }
         public string Birthdate { get => ApiProfile.Birthdate?.ToShortDateString() ?? "N/A"; }
@@ -31,10 +32,8 @@ namespace Art_Critique.Pages.ProfilePages {
         public double FacebookOpacity => string.IsNullOrEmpty(ApiProfile.Facebook) ? 0.3 : 0.99;
         public double InstagramOpacity => string.IsNullOrEmpty(ApiProfile.Instagram) ? 0.3 : 0.99;
         public double TwitterOpacity => string.IsNullOrEmpty(ApiProfile.Twitter) ? 0.3 : 0.99;
-        public ImageSource Avatar { get => avatar; set { avatar = value; OnPropertyChanged(nameof(Avatar)); } }
         public string TotalViews { get => totalViews; set { totalViews = value; OnPropertyChanged(nameof(TotalViews)); } }
         public string FunctionText { get => functionText; set { functionText = value.Trim(); OnPropertyChanged(nameof(FunctionText)); } }
-        public ObservableCollection<ImageThumbnail> Thumbnails { get => thumbnails; set { thumbnails = value; OnPropertyChanged(nameof(Thumbnails)); } }
         #endregion
 
         #region Visibility flags
@@ -90,6 +89,7 @@ namespace Art_Critique.Pages.ProfilePages {
             foreach (var thumbnail in thumbnails) {
                 Thumbnails.Add(new ImageThumbnail(thumbnail));
             }
+
             IsLoading = false;
         }
 

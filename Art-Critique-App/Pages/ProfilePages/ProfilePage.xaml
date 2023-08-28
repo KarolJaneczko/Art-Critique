@@ -3,39 +3,38 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Art_Critique.ProfilePage">
 
-    <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
+    <Grid RowDefinitions="Auto, Auto, Auto" Padding="20,0">
+        <!-- Loading indicator -->
+        <StackLayout Style="{StaticResource LoadingLayout}" IsVisible="{Binding IsLoading}">
+            <ActivityIndicator Style="{StaticResource LoadingIndicator}" />
+        </StackLayout>
 
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
-            <!-- Loading indicator -->
-            <StackLayout x:Name="Loading" BackgroundColor="LightGray" IsVisible="{Binding IsLoading}">
-                <ActivityIndicator IsVisible="True" IsRunning="True" HeightRequest="50" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
-            </StackLayout>
-
-            <!-- User's avatar -->
-            <Frame Grid.Row="1" WidthRequest="150" HeightRequest="150" CornerRadius="100" BorderColor="Transparent" IsClippedToBounds="true" Margin="0,20,0,10">
+        <StackLayout ZIndex="1">
+            <!-- Avatar -->
+            <Frame WidthRequest="150" HeightRequest="150" CornerRadius="100" BorderColor="Transparent" IsClippedToBounds="true" Margin="0,20,0,10">
                 <Image Source="{Binding Avatar}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill"/>
             </Frame>
 
-            <!-- User's login -->
-            <Label Grid.Row="2" Text="{Binding Login}" TextColor="Goldenrod" HorizontalTextAlignment="Center" FontSize="15"/>
+            <!-- Login -->
+            <Label Text="{Binding Login, StringFormat='@{0}'}" TextColor="Goldenrod" HorizontalTextAlignment="Center" FontSize="15"/>
 
-            <!-- User's full name -->
-            <Label Grid.Row="3" Text="{Binding FullName}" IsVisible="{Binding FullNameVisible}" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="22"/>
+            <!-- Full name -->
+            <Label Text="{Binding FullName}" IsVisible="{Binding FullNameVisible}" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="22"/>
 
             <!-- Birthdate & total views -->
-            <Grid Grid.Row="4" ColumnDefinitions="Auto,Auto,Auto,Auto" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,20,0,0">
-                <Frame Grid.Column="0" WidthRequest="25" HeightRequest="25" BorderColor="Transparent" IsClippedToBounds="true" Margin="5,0,5,0" HorizontalOptions="Center">
+            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,15">
+                <Frame Grid.Column="0" WidthRequest="25" HeightRequest="25" BorderColor="Transparent" IsClippedToBounds="true" Margin="5,0" HorizontalOptions="Center">
                     <Image Source="icon_calendar.png"  WidthRequest="20" HeightRequest="20" Aspect="AspectFill"/>
                 </Frame>
                 <Label Grid.Column="1" Text="{Binding Birthdate}" FontSize="15" TextColor="Black"/>
-                <Frame Grid.Column="2" WidthRequest="25" HeightRequest="25" BorderColor="Transparent" IsClippedToBounds="true" Margin="5,0,5,0" HorizontalOptions="Center">
+                <Frame Grid.Column="2" WidthRequest="25" HeightRequest="25" BorderColor="Transparent" IsClippedToBounds="true" Margin="5,0" HorizontalOptions="Center">
                     <Image Source="icon_eye.png"  WidthRequest="20" HeightRequest="20" Aspect="AspectFill"/>
                 </Frame>
                 <Label Grid.Column="3" Text="{Binding TotalViews, StringFormat='Total views: {0}'}" FontSize="15" TextColor="Black"/>
             </Grid>
 
-            <!-- Social media -->
-            <HorizontalStackLayout Grid.Row="5" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,20,0,20">
+            <!-- Social media links -->
+            <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                 <Frame Opacity="{Binding FacebookOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
                     <ImageButton Source="facebook_icon.png" Command="{Binding FacebookCommand}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
                 </Frame>
@@ -47,36 +46,36 @@
                 </Frame>
             </HorizontalStackLayout>
 
-            <!-- Profile description -->
-            <Label Grid.Row="6" Text="Bio" FontAttributes="Bold" TextColor="Goldenrod" HorizontalTextAlignment="Start" Margin="0,20,0,20" FontSize="20"/>
-            <Label Grid.Row="7" TextColor="Black" HorizontalTextAlignment="Start" FontSize="15" Text="{Binding Description}"/>
+            <!-- Bio -->
+            <Frame BackgroundColor="#e5c064" Margin="5,30,5,20" Padding="2" CornerRadius="20" VerticalOptions="Center" >
+                <Label Text="Bio"  HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
+            </Frame>
+            <Label TextColor="Black" HorizontalTextAlignment="Start" FontSize="15" Text="{Binding Description}"/>
 
-            <!-- User's artworks -->
-            <VerticalStackLayout Grid.Row="8" VerticalOptions="Center" Margin="0,20,0,20" IsVisible="{Binding AreThumbnailsVisible}">
-                <VerticalStackLayout.GestureRecognizers>
+            <!-- Artworks -->
+            <Frame BackgroundColor="#e5c064" Margin="5,30,5,20" Padding="2" CornerRadius="20" VerticalOptions="Center" IsVisible="{Binding AreThumbnailsVisible}" >
+                <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoToGalleryCommand}"/>
-                </VerticalStackLayout.GestureRecognizers>
-                <Label Text="Artworks   ➡" FontAttributes="Bold" TextColor="Goldenrod" HorizontalTextAlignment="Start" Margin="0,30,0,10" FontSize="20"/>
-                <VerticalStackLayout Grid.Row="5" HorizontalOptions="Center" Margin="0,10,0,0">
-                    <CollectionView x:Name="AddedThumbnails" ItemsSource="{Binding Thumbnails}" ItemsLayout="HorizontalList">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Frame WidthRequest="90" HeightRequest="120" BorderColor="Transparent" CornerRadius="30" IsClippedToBounds="true" HorizontalOptions="Center" Margin="15,0,15,0">
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={x:Reference AddedThumbnails}, Path=BindingContext.ShowArtworkCommand}" CommandParameter="{Binding}"/>
-                                    </Frame.GestureRecognizers>
-                                    <Image Source="{Binding Image}"  WidthRequest="90" HeightRequest="120" Aspect="AspectFill"/>
-                                </Frame>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
-            </VerticalStackLayout>
-            
-            <!-- Buttons -->
+                </Frame.GestureRecognizers>
+                <Label Text="Artworks"  HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
+            </Frame>
+            <CollectionView x:Name="AddedThumbnails" ItemsSource="{Binding Thumbnails}" ItemsLayout="HorizontalList">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame WidthRequest="90" HeightRequest="120" BorderColor="Transparent" CornerRadius="30" IsClippedToBounds="true" HorizontalOptions="Center" Margin="15,0,15,0">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference AddedThumbnails}, Path=BindingContext.ShowArtworkCommand}" CommandParameter="{Binding}"/>
+                            </Frame.GestureRecognizers>
+                            <Image Source="{Binding Image}"  WidthRequest="90" HeightRequest="120" Aspect="AspectFill"/>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Button -->
             <HorizontalStackLayout Grid.Row="9" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
-                <Button Text="{Binding FunctionText}" Command="{Binding FunctionCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50"/>
+                <Button Style="{StaticResource LargePrimaryButton}" Text="{Binding FunctionText}" Command="{Binding FunctionCommand}" />
             </HorizontalStackLayout>
-        </Grid>
-    </ScrollView>
+        </StackLayout>
+    </Grid>
 </ContentPage>
