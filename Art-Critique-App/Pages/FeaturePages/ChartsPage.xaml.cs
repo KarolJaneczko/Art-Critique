@@ -6,24 +6,22 @@ using Newtonsoft.Json;
 
 namespace Art_Critique {
     public partial class ChartsPage : ContentPage {
-        #region Services
+        #region Service
         private readonly IHttpService HttpService;
         #endregion
 
         #region Constructor
         public ChartsPage(IHttpService httpService) {
             InitializeComponent();
+            RegisterRoutes();
             HttpService = httpService;
-            InitializeValues();
         }
         #endregion
 
         #region Methods
-        private void InitializeValues() {
+        private void RegisterRoutes() {
             Routing.RegisterRoute(nameof(ArtworkPage), typeof(ArtworkPage));
             Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
-            Loading.HeightRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Height * 85 / 100) / DeviceDisplay.MainDisplayInfo.Density;
-            Loading.WidthRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Width * 100 / 100) / DeviceDisplay.MainDisplayInfo.Density;
         }
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
@@ -31,21 +29,20 @@ namespace Art_Critique {
 
             var task = new Func<Task>(async () => {
                 // Loading list of artworks ordered by ratings from the database.
-                var artworksAverageRatingRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetArtworksByAverageRating);
-                var artworksAverageRating = JsonConvert.DeserializeObject<List<ApiChartResult>>(artworksAverageRatingRequest.Data.ToString());
-
+                var artworksAverageRatingTask = HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetArtworksByAverageRating);
                 // Loading list of artworks ordered by total views from the database.
-                var artworksTotalViewsRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetArtworksByTotalViews);
-                var artworksTotalViews = JsonConvert.DeserializeObject<List<ApiChartResult>>(artworksTotalViewsRequest.Data.ToString());
-
+                var artworksTotalViewsTask = HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetArtworksByTotalViews);
                 // Loading list of profiles ordered by ratings from the database.
-                var profilesAverageRatingRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetProfilesByAverageRating);
-                var profilesAverageRating = JsonConvert.DeserializeObject<List<ApiChartResult>>(profilesAverageRatingRequest.Data.ToString());
-
+                var profilesAverageRatingTask = HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetProfilesByAverageRating);
                 // Loading list of profiles ordered by total views from the database.
-                var profilesTotalViewsRequest = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetProfilesByTotalViews);
-                var profilesTotalViews = JsonConvert.DeserializeObject<List<ApiChartResult>>(profilesTotalViewsRequest.Data.ToString());
+                var profilesTotalViewsTask = HttpService.SendApiRequest(HttpMethod.Get, Dictionary.GetProfilesByTotalViews);
 
+                await Task.WhenAll(artworksAverageRatingTask, artworksTotalViewsTask, profilesAverageRatingTask, profilesTotalViewsTask);
+
+                var artworksAverageRating = JsonConvert.DeserializeObject<List<ApiChartResult>>((await artworksAverageRatingTask).Data.ToString());
+                var artworksTotalViews = JsonConvert.DeserializeObject<List<ApiChartResult>>((await artworksTotalViewsTask).Data.ToString());
+                var profilesAverageRating = JsonConvert.DeserializeObject<List<ApiChartResult>>((await profilesAverageRatingTask).Data.ToString());
+                var profilesTotalViews = JsonConvert.DeserializeObject<List<ApiChartResult>>((await profilesTotalViewsTask).Data.ToString());
                 BindingContext = new ChartsPageViewModel(artworksAverageRating, artworksTotalViews, profilesAverageRating, profilesTotalViews);
             });
 

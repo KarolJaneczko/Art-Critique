@@ -8,22 +8,17 @@ using System.Windows.Input;
 
 namespace Art_Critique.Pages.FeaturePages {
     public class HistoryPageViewModel : BaseViewModel {
-        #region Services
+        #region Service
         private readonly ICacheService CacheService;
         #endregion
 
         #region Properties
-        private ObservableCollection<HistoryRecord> history = new();
-        public ObservableCollection<HistoryRecord> History { get => history; set { history = value; OnPropertyChanged(nameof(History)); } }
-
-        #region Visibility flags
         private bool isLoading = true;
-        public bool IsLoading { get => isLoading; set { isLoading = value; OnPropertyChanged(nameof(IsLoading)); } }
-        #endregion
+        private ObservableCollection<HistoryRecord> history = new();
 
-        #region Commands
+        public bool IsLoading { get => isLoading; set { isLoading = value; OnPropertyChanged(nameof(IsLoading)); } }
+        public ObservableCollection<HistoryRecord> History { get => history; set { history = value; OnPropertyChanged(nameof(History)); } }
         public ICommand GoCommand => new Command<HistoryRecord>(Go);
-        #endregion
         #endregion
 
         #region Constructor
@@ -36,9 +31,11 @@ namespace Art_Critique.Pages.FeaturePages {
         #region Methods
         private void LoadHistory() {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pl-PL");
+
             var historyList = CacheService.GetHistory();
             historyList.Reverse();
             historyList.ForEach(x => History.Add(new HistoryRecord(x)));
+
             IsLoading = false;
         }
 
@@ -49,7 +46,15 @@ namespace Art_Critique.Pages.FeaturePages {
 
         #region Local class
         public class HistoryRecord {
-            public ImageSource Image { get { return ImageBase.Base64ToImageSource(); } }
+            public ImageSource Image {
+                get {
+                    if (Path == "ProfilePage") {
+                        return !string.IsNullOrEmpty(ImageBase) ? ImageBase.Base64ToImageSource() : "defaultuser_icon.png";
+                    } else {
+                        return ImageBase.Base64ToImageSource();
+                    }
+                }
+            }
             public string ImageBase { get; set; }
             public string Title { get; set; }
             public string Type { get; set; }
