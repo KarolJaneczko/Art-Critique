@@ -24,6 +24,7 @@ namespace Art_Critique {
         private void SetStyles() {
             SetButtonStyles();
             SetEntryStyles();
+            SetHelperStyles();
         }
 
         private void SetButtonStyles() {
@@ -84,6 +85,9 @@ namespace Art_Critique {
         private void SetEntryStyles() {
             var inputWidth = double.Round(DeviceDisplay.MainDisplayInfo.Width * 0.6 / DeviceDisplay.MainDisplayInfo.Density, 0);
             var inputHeight = double.Round(DeviceDisplay.MainDisplayInfo.Height * 0.05 / DeviceDisplay.MainDisplayInfo.Density, 0);
+            var editorWidth = double.Round(DeviceDisplay.MainDisplayInfo.Width * 0.6 / DeviceDisplay.MainDisplayInfo.Density, 0);
+            var editorHeight = double.Round(DeviceDisplay.MainDisplayInfo.Height * 0.1 / DeviceDisplay.MainDisplayInfo.Density, 0);
+
             var entryInput = Resources.FirstOrDefault(x => x.Key == "EntryInput").Value as Style;
             entryInput.Setters.Add(
                 new Setter() {
@@ -95,6 +99,40 @@ namespace Art_Critique {
                     Property = VisualElement.HeightRequestProperty,
                     Value = inputHeight
                 });
+
+            var entryEditor = Resources.FirstOrDefault(x => x.Key == "EntryEditor").Value as Style;
+            entryEditor.Setters.Add(
+                new Setter() {
+                    Property = VisualElement.WidthRequestProperty,
+                    Value = editorWidth
+                });
+            entryEditor.Setters.Add(
+                new Setter() {
+                    Property = VisualElement.HeightRequestProperty,
+                    Value = editorHeight
+                });
+        }
+
+        private void SetHelperStyles() {
+            var loadingLayout = Resources.FirstOrDefault(x => x.Key == "LoadingLayout").Value as Style;
+            loadingLayout.Setters.Add(new Setter() {
+                Property = VisualElement.WidthRequestProperty,
+                Value = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Width) / DeviceDisplay.MainDisplayInfo.Density
+            });
+            loadingLayout.Setters.Add(new Setter() {
+                Property = VisualElement.HeightRequestProperty,
+                Value = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Height * 85 / 100) / DeviceDisplay.MainDisplayInfo.Density
+            });
+
+            var loadingIndicator = Resources.FirstOrDefault(x => x.Key == "LoadingIndicator").Value as Style;
+            loadingIndicator.Setters.Add(new Setter() {
+                Property = VisualElement.WidthRequestProperty,
+                Value = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Width * 15 / 100) / DeviceDisplay.MainDisplayInfo.Density
+            });
+            loadingIndicator.Setters.Add(new Setter() {
+                Property = VisualElement.HeightRequestProperty,
+                Value = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Height * 15 / 100) / DeviceDisplay.MainDisplayInfo.Density
+            });
         }
 
         protected override void OnStart() {

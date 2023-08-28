@@ -47,13 +47,14 @@ namespace Art_Critique_Api.Services {
         public async Task<ApiResponse> GetArtworkReviews(string login, int artworkId) {
             var task = new Func<Task<ApiResponse>>(async () => {
                 // Finding user's id by input login.
-                var userId = await GetUserIdFromLogin(DbContext, login);
+                var myId = await GetUserIdFromLogin(DbContext, login);
 
                 // Finding user's review by user's id and artwork id.
-                var reviews = DbContext.TArtworkReviews.Where(x => x.UserId != userId && x.ArtworkId == artworkId).ToList();
+                var reviews = DbContext.TArtworkReviews.Where(x => x.UserId != myId && x.ArtworkId == artworkId).ToList();
                 var reviewList = new List<ApiArtworkReview>();
                 foreach (var review in reviews) {
                     var userLogin = (await DbContext.TUsers.FirstOrDefaultAsync(x => x.UsId == review.UserId))?.UsLogin;
+                    var userId = await GetUserIdFromLogin(DbContext, userLogin!);
                     var userRating = (await DbContext.TArtworkRatings.FirstOrDefaultAsync(x => x.ArtworkId == artworkId && x.UserId == userId))?.RatingValue.ToString() ?? string.Empty;
                     reviewList.Add(new ApiArtworkReview() {
                         ArtworkId = review.ArtworkId,

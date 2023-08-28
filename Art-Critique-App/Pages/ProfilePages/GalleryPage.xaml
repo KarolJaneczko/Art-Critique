@@ -5,24 +5,19 @@
              Title="User's gallery">
 
     <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
-        <Grid>
-            <ScrollView>
-                <!-- User's artworks in tiles -->
-                <FlexLayout Wrap="Wrap" JustifyContent="SpaceAround">
-                    <CollectionView x:Name="AddedThumbnails" ItemsSource="{Binding Thumbnails}" ItemsLayout="VerticalGrid, 3">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Frame WidthRequest="150" HeightRequest="120" BorderColor="Transparent" IsClippedToBounds="true" HorizontalOptions="Center" Margin="5,5,5,5">
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={x:Reference AddedThumbnails}, Path=BindingContext.ShowArtworkCommand}" CommandParameter="{Binding}"/>
-                                    </Frame.GestureRecognizers>
-                                    <Image Source="{Binding Image}"  WidthRequest="120" HeightRequest="120" Aspect="AspectFill"/>
-                                </Frame>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </FlexLayout>
-            </ScrollView>
-        </Grid>
+        <FlexLayout Wrap="Wrap" JustifyContent="SpaceAround">
+            <CollectionView x:Name="AddedThumbnails" ItemsSource="{Binding Thumbnails}" ItemsLayout="VerticalGrid, 3">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame WidthRequest="150" HeightRequest="120" BorderColor="Transparent" IsClippedToBounds="true" HorizontalOptions="Center" Margin="5,5,5,5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference AddedThumbnails}, Path=BindingContext.ShowArtworkCommand}" CommandParameter="{Binding}"/>
+                            </Frame.GestureRecognizers>
+                            <Image Source="{Binding Image}"  WidthRequest="120" HeightRequest="120" Aspect="AspectFill"/>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </FlexLayout>
     </ScrollView>
 </ContentPage>

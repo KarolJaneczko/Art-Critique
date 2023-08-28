@@ -22,18 +22,16 @@ namespace Art_Critique {
         #region Constructor
         public ProfilePage(ICacheService cacheService, IHttpService httpService) {
             InitializeComponent();
+            RegisterRoutes();
             CacheService = cacheService;
             HttpService = httpService;
-            InitializeValues();
         }
         #endregion
 
         #region Methods
-        private void InitializeValues() {
+        private void RegisterRoutes() {
             Routing.RegisterRoute(nameof(EditProfilePage), typeof(EditProfilePage));
             Routing.RegisterRoute(nameof(GalleryPage), typeof(GalleryPage));
-            Loading.HeightRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Height * 85 / 100) / DeviceDisplay.MainDisplayInfo.Density;
-            Loading.WidthRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Width * 100 / 100) / DeviceDisplay.MainDisplayInfo.Density;
         }
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
@@ -44,20 +42,20 @@ namespace Art_Critique {
                 var userLogin = !string.IsNullOrEmpty(Login) ? Login : CacheService.GetCurrentLogin();
 
                 // Loading profile data.
-                var profileInfo = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileGet}?login={userLogin}");
-                var profile = JsonConvert.DeserializeObject<ApiProfile>(profileInfo.Data.ToString());
-
+                var profileTask = HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileGet}?login={userLogin}");
                 // Loading user's last three artworks thumbnails.
-                var artworks = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetLast3UserArtworks}?login={userLogin}");
-                var thumbnails = JsonConvert.DeserializeObject<List<ApiCustomPainting>>(artworks.Data.ToString());
-
+                var thumbnailsTask = HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetLast3UserArtworks}?login={userLogin}");
                 // Loading total viewcount for user's artworks.
-                var viewCount = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileViewCount}?login={userLogin}");
-                var views = JsonConvert.DeserializeObject<string>(viewCount.Data.ToString());
-
+                var viewsTask = HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileViewCount}?login={userLogin}");
                 // Loading information about following.
-                var followingRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.CheckFollowing}?login={CacheService.GetCurrentLogin()}&targetLogin={userLogin}");
-                var following = bool.Parse(followingRequest.Data.ToString());
+                var followingTask = HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.CheckFollowing}?login={CacheService.GetCurrentLogin()}&targetLogin={userLogin}");
+
+                await Task.WhenAll(profileTask, thumbnailsTask, viewsTask, followingTask);
+
+                var profile = JsonConvert.DeserializeObject<ApiProfile>((await profileTask).Data.ToString());
+                var thumbnails = JsonConvert.DeserializeObject<List<ApiCustomPainting>>((await thumbnailsTask).Data.ToString());
+                var views = JsonConvert.DeserializeObject<string>((await viewsTask).Data.ToString());
+                var following = bool.Parse((await followingTask).Data.ToString());
 
                 // Saving navigation to app's history.
                 CacheService.AddToHistory(new HistoryEntry() {
@@ -74,6 +72,11 @@ namespace Art_Critique {
 
             // Run task with try/catch.
             await MethodHelper.RunWithTryCatch(task);
+        }
+
+        protected override void OnDisappearing() {
+            base.OnDisappearing();
+            BindingContext = null;
         }
         #endregion
     }

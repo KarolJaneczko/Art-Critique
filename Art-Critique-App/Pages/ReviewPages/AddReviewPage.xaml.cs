@@ -20,22 +20,25 @@ namespace Art_Critique {
         #region Constructor
         public AddReviewPage(ICacheService cacheService, IHttpService httpService) {
             InitializeComponent();
+            RegisterRoutes();
             CacheService = cacheService;
             HttpService = httpService;
-            InitializeValues();
         }
         #endregion
 
         #region Methods
-        private void InitializeValues() {
+        private void RegisterRoutes() {
             Routing.RegisterRoute(nameof(ReviewPage), typeof(ReviewPage));
         }
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
+            base.OnNavigatedTo(args);
+
             var task = new Func<Task>(async () => {
                 // Trying to load your review, if review is empty we will create a new one.
                 var review = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworkReview}?login={CacheService.GetCurrentLogin()}&artworkId={ArtworkId}");
                 ApiArtworkReview userReview = null;
+
                 if (review.Data is not null) {
                     userReview = JsonConvert.DeserializeObject<ApiArtworkReview>(review.Data.ToString());
                 }

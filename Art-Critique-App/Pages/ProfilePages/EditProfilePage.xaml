@@ -4,85 +4,70 @@
              x:Class="Art_Critique.EditProfilePage"
              Title="Edit your profile">
 
-    <!-- Styles dedicated to this page -->
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key="EntryFrame" TargetType="Frame">
-                <Setter Property="BackgroundColor" Value="Transparent"/>
-                <Setter Property="BorderColor" Value="Transparent"/>
-                <Setter Property="Opacity" Value="0.6"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="CornerRadius" Value="50"/>
-                <Setter Property="Margin" Value="50, 0, 50, 0"/>
-            </Style>
-            <Style x:Key="EntryGrid" TargetType="Grid">
-                <Setter Property="BackgroundColor" Value="White"/>
-                <Setter Property="Opacity" Value="0.6"/>
-                <Setter Property="Padding" Value="0"/>
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
-    <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
-            <!-- Change your avatar -->
-            <Label Grid.Row="1" Text="Your profile picture:" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0,10,0,0"/>
-            <Frame Grid.Row="2" WidthRequest="150" HeightRequest="150" CornerRadius="100" BorderColor="Transparent" IsClippedToBounds="true" Margin="0,10,0,10">
+    <ScrollView>
+        <StackLayout>
+            <!-- Avatar -->
+            <Frame BackgroundColor="#e5c064" Margin="20,20,20,0" Padding="5" CornerRadius="20" VerticalOptions="Center" >
+                <Label Text="Profile picture" HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
+            </Frame>
+            <Frame WidthRequest="150" HeightRequest="150" CornerRadius="100" BorderColor="Transparent" IsClippedToBounds="true" Margin="0,10">
                 <Image Source="{Binding Avatar}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill"/>
             </Frame>
-            <HorizontalStackLayout Grid.Row="3" HorizontalOptions="Center">
-                <Button Text="Take a photo" Command="{Binding TakePhotoCommand}" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
-                <Button Text="Upload picture" Command="{Binding UploadPhotoCommand}" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                <Button Style="{StaticResource MediumPrimaryButton}" Text="Take a photo" Command="{Binding TakePhotoCommand}" />
+                <Button Style="{StaticResource MediumPrimaryButton}" Text="Upload picture" Command="{Binding UploadPhotoCommand}" />
             </HorizontalStackLayout>
 
-            <!-- Change displaying name -->
-            <Label Grid.Row="4" Text="Full name:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 20, 0, 0"/>
-            <Frame Grid.Row="5" Style="{DynamicResource EntryFrame}">
-                <Grid Style="{DynamicResource EntryGrid}">
-                    <Entry Text="{Binding FullName}" Placeholder="Your full name" HorizontalTextAlignment="Center" FontSize="16"/>
-                </Grid>
+            <!-- Full name -->
+            <Frame BackgroundColor="#e5c064" Margin="20,20,20,10" Padding="5" CornerRadius="20" VerticalOptions="Center" >
+                <Label Text="Full name" HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
+            </Frame>
+            <Frame Style="{StaticResource EntryFrame}">
+                <Entry Style="{StaticResource EntryInput}" Text="{Binding FullName}" Placeholder="Your full name" />
             </Frame>
 
-            <!-- Change date of birth -->
-            <Label Grid.Row="6" Text="Date of birth:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
-            <DatePicker Grid.Row="7" Date="{Binding BirthDate}" Format="dd/MM/yyyy" HorizontalOptions="Center" FontSize="16"/>
+            <!-- Birthdate -->
+            <Frame BackgroundColor="#e5c064" Margin="20,20,20,10" Padding="5" CornerRadius="20" VerticalOptions="Center" >
+                <Label Text="Birthdate" HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
+            </Frame>
+            <DatePicker Date="{Binding BirthDate}" Format="dd/MM/yyyy" HorizontalOptions="Center" FontSize="16"/>
 
-            <!-- Change Facebook link -->
-            <Label Grid.Row="8" Text="Facebook page:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
-            <Frame Grid.Row="9" Style="{DynamicResource EntryFrame}">
-                <Grid Style="{DynamicResource EntryGrid}">
-                    <Entry Text="{Binding FacebookLink}" Placeholder="Facebook link" HorizontalTextAlignment="Center" FontSize="16"/>
-                </Grid>
+            <!-- Facebook link -->
+            <Frame BackgroundColor="#e5c064" Margin="20,20,20,10" Padding="5" CornerRadius="20" VerticalOptions="Center" >
+                <Label Text="Facebook" HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
+            </Frame>
+            <Frame Style="{StaticResource EntryFrame}">
+                <Entry Style="{StaticResource EntryInput}" Text="{Binding FacebookLink}" Placeholder="Facebook link"/>
             </Frame>
 
-            <!-- Change Instagram link -->
-            <Label Grid.Row="10" Text="Instagram page:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
-            <Frame Grid.Row="11" Style="{DynamicResource EntryFrame}">
-                <Grid Style="{DynamicResource EntryGrid}">
-                    <Entry Text="{Binding InstagramLink}" Placeholder="Instagram link" HorizontalTextAlignment="Center" FontSize="16"/>
-                </Grid>
+            <!-- Instagram link -->
+            <Frame BackgroundColor="#e5c064" Margin="20,20,20,10" Padding="5" CornerRadius="20" VerticalOptions="Center" >
+                <Label Text="Instagram" HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
+            </Frame>
+            <Frame Style="{StaticResource EntryFrame}">
+                <Entry Style="{StaticResource EntryInput}" Text="{Binding InstagramLink}" Placeholder="Instagram link"/>
             </Frame>
 
-            <!-- Change Twitter link -->
-            <Label Grid.Row="12" Text="Twitter page:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
-            <Frame Grid.Row="13" Style="{DynamicResource EntryFrame}">
-                <Grid Style="{DynamicResource EntryGrid}">
-                    <Entry Text="{Binding TwitterLink}" Placeholder="Twitter link" HorizontalTextAlignment="Center" FontSize="16"/>
-                </Grid>
+            <!-- Twitter link -->
+            <Frame BackgroundColor="#e5c064" Margin="20,20,20,10" Padding="5" CornerRadius="20" VerticalOptions="Center" >
+                <Label Text="Twitter" HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
+            </Frame>
+            <Frame Style="{StaticResource EntryFrame}">
+                <Entry Style="{StaticResource EntryInput}" Text="{Binding TwitterLink}" Placeholder="Twitter link"/>
             </Frame>
 
-            <!-- Change profile bio -->
-            <Label Grid.Row="14" Text="Profile description:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 10, 0, 0"/>
-            <Frame Grid.Row="15" Style="{DynamicResource EntryFrame}" HeightRequest="150" WidthRequest="150">
-                <Grid Style="{DynamicResource EntryGrid}">
-                    <Editor Text="{Binding Description}" Placeholder="Description" HorizontalTextAlignment="Center" FontSize="16" />
-                </Grid>
+            <!-- Bio -->
+            <Frame BackgroundColor="#e5c064" Margin="20,20,20,10" Padding="5" CornerRadius="20" VerticalOptions="Center" >
+                <Label Text="Bio" HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
+            </Frame>
+            <Frame Style="{StaticResource EntryFrame}">
+                <Editor Style="{StaticResource EntryEditor}" Text="{Binding Description}" Placeholder="Profile description"/>
             </Frame>
 
             <!-- Buttons -->
-            <VerticalStackLayout Grid.Row="16" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
-                <Button Text="Confirm" Command="{Binding EditProfileCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50" Margin="10,10,10,10"/>
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
+                <Button Style="{StaticResource LargePrimaryButton}" Text="Confirm" Command="{Binding EditProfileCommand}" />
             </VerticalStackLayout>
-        </Grid>
+        </StackLayout>
     </ScrollView>
 </ContentPage>
