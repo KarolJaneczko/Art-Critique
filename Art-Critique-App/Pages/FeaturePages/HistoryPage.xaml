@@ -4,43 +4,47 @@
              x:Class="Art_Critique.HistoryPage"
              Title="History">
 
-    <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
-        <Grid RowDefinitions="Auto,Auto,Auto" Padding="20,0" RowSpacing="20">
-            <!-- Loading indicator -->
-            <StackLayout x:Name="Loading" BackgroundColor="LightGray" IsVisible="{Binding IsLoading}">
-                <ActivityIndicator IsVisible="True" IsRunning="True" HeightRequest="50" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
-            </StackLayout>
+    <Grid RowDefinitions="Auto, Auto, Auto" Padding="20,0">
+        <!-- Loading indicator -->
+        <StackLayout Grid.Row="1" Style="{StaticResource LoadingLayout}" IsVisible="{Binding IsLoading}">
+            <ActivityIndicator Style="{StaticResource LoadingIndicator}" />
+        </StackLayout>
 
-            <!-- Header for showing your history -->
-            <Label Grid.Row="1" Text="Browsing history:" HorizontalTextAlignment="Center" CharacterSpacing="2" FontSize="Large" Margin="0,10,0,10"/>
+        <ScrollView Grid.Row="2" ZIndex="1">
+            <StackLayout>
+                <Frame BackgroundColor="#e5c064" Margin="5,30,5,20" Padding="2" CornerRadius="20" VerticalOptions="Center" >
+                    <Label Text="Browsing history"  HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
+                </Frame>
 
-            <!-- Browsing history -->
-            <CollectionView Grid.Row="2" x:Name="UserHistory" ItemsSource="{Binding History}" ItemsLayout="VerticalList">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid ColumnDefinitions="Auto,Auto,Auto,Auto" BackgroundColor="LightGray" ColumnSpacing="20" Margin="0,10,0,10">
-                            <Frame Grid.Column="1" WidthRequest="60" HeightRequest="60" CornerRadius="20" BorderColor="Transparent" IsClippedToBounds="true">
-                                <Image Source="{Binding Image}" WidthRequest="60" HeightRequest="60" Aspect="AspectFill" />
-                            </Frame>
+                <CollectionView Grid.Row="2" x:Name="UserHistory" ItemsSource="{Binding History}" ItemsLayout="VerticalList" HeightRequest="650">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame WidthRequest="350" Margin="10">
+                                <HorizontalStackLayout Spacing="5">
+                                    <Frame WidthRequest="60" HeightRequest="60" CornerRadius="20" BorderColor="Transparent" IsClippedToBounds="true">
+                                        <Image Source="{Binding Image}" WidthRequest="60" HeightRequest="60" Aspect="AspectFill" />
+                                    </Frame>
 
-                            <HorizontalStackLayout Grid.Column="2" Spacing="20">
-                                <VerticalStackLayout>
-                                    <Label Text="{Binding Title}" HorizontalTextAlignment="Center" CharacterSpacing="2" FontSize="Small" Margin="0,20,0,0"/>
-                                    <Label Text="{Binding Type, StringFormat='({0})'}" TextColor="Gray" HorizontalTextAlignment="Center" CharacterSpacing="1" FontSize="Small" Margin="0,10,0,10"/>
-                                </VerticalStackLayout>
+                                    <HorizontalStackLayout WidthRequest="180" Spacing="20">
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding Title}" HorizontalTextAlignment="Center" FontSize="Small" Margin="0,20,0,0" MaximumWidthRequest="80"/>
+                                            <Label Text="{Binding Type, StringFormat='({0})'}" TextColor="Gray" HorizontalTextAlignment="Center" FontSize="Small" Margin="10"/>
+                                        </VerticalStackLayout>
 
-                                <VerticalStackLayout>
-                                    <Label Text="{Binding Date}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" CharacterSpacing="1" FontSize="Small" Margin="0,20,0,0"/>
-                                    <Label Text="{Binding Time}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" CharacterSpacing="1" FontSize="Small" Margin="0,10,0,10"/>
-                                </VerticalStackLayout>
-                            </HorizontalStackLayout>
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding Date}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Small" Margin="0,20,0,0"/>
+                                            <Label Text="{Binding Time}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Small" Margin="0,10,0,10"/>
+                                        </VerticalStackLayout>
+                                    </HorizontalStackLayout>
 
-                            <Button Grid.Column="3" Text="Go" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="50" HeightRequest="50"
+                                    <Button Text="Go" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="60" HeightRequest="60"
                                     Command="{Binding Source={x:Reference UserHistory}, Path=BindingContext.GoCommand}" CommandParameter="{Binding}"/>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </Grid>
-    </ScrollView>
+                                </HorizontalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

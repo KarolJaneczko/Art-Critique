@@ -8,19 +8,14 @@ namespace Art_Critique.Pages.FeaturePages {
     public class ChartsPageViewModel : BaseViewModel {
         #region Properties
         private ObservableCollection<ChartRecord> artworkBestRatings = new(), artworkMostViews = new(), profileBestRatings = new(), profileMostViews = new();
+        private bool isLoading = true;
 
         public ObservableCollection<ChartRecord> ArtworkBestRatings { get => artworkBestRatings; set { artworkBestRatings = value; OnPropertyChanged(nameof(ArtworkBestRatings)); } }
         public ObservableCollection<ChartRecord> ArtworkMostViews { get => artworkMostViews; set { artworkMostViews = value; OnPropertyChanged(nameof(ArtworkMostViews)); } }
         public ObservableCollection<ChartRecord> ProfileBestRatings { get => profileBestRatings; set { profileBestRatings = value; OnPropertyChanged(nameof(ProfileBestRatings)); } }
         public ObservableCollection<ChartRecord> ProfileMostViews { get => profileMostViews; set { profileMostViews = value; OnPropertyChanged(nameof(ProfileMostViews)); } }
-
-        #region Visibility flags
-        private bool isLoading = true;
         public bool IsLoading { get => isLoading; set { isLoading = value; OnPropertyChanged(nameof(IsLoading)); } }
-        #endregion
-        #region Commands
         public ICommand DisplayRecordCommand => new Command<ChartRecord>(DisplayRecord);
-        #endregion
         #endregion
 
         #region Constructor
@@ -49,7 +44,15 @@ namespace Art_Critique.Pages.FeaturePages {
 
         #region Local class
         public class ChartRecord {
-            public ImageSource Image { get { return ImageBase.Base64ToImageSource(); } }
+            public ImageSource Image {
+                get {
+                    if (Type == "ProfilePage") {
+                        return !string.IsNullOrEmpty(ImageBase) ? ImageBase.Base64ToImageSource() : "defaultuser_icon.png";
+                    } else {
+                        return ImageBase.Base64ToImageSource();
+                    }
+                }
+            }
             public string ImageBase { get; set; }
             public string Title { get; set; }
             public string Type { get; set; }

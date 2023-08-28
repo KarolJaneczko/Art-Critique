@@ -9,14 +9,11 @@ namespace Art_Critique.Pages.FeaturePages {
         #region Properties
         private readonly ObservableCollection<SearchRecord> Profiles = new(), Artworks = new();
         private ObservableCollection<SearchRecord> profileSearchResult = new(), artworkSearchResult = new();
+        private bool isLoading = true;
 
         public ObservableCollection<SearchRecord> ProfileSearchResult { get => profileSearchResult; set { profileSearchResult = value; OnPropertyChanged(nameof(ProfileSearchResult)); } }
         public ObservableCollection<SearchRecord> ArtworkSearchResult { get => artworkSearchResult; set { artworkSearchResult = value; OnPropertyChanged(nameof(ArtworkSearchResult)); } }
-
-        #region Visibility flags
-        private bool isLoading = true;
         public bool IsLoading { get => isLoading; set { isLoading = value; OnPropertyChanged(nameof(IsLoading)); } }
-        #endregion
 
         #region Commands
         public ICommand PerformSearch => new Command<string>((query) => {
@@ -26,7 +23,7 @@ namespace Art_Critique.Pages.FeaturePages {
                 ProfileSearchResult.Add(profile);
             }
             foreach (var artwork in from artwork in Artworks where artwork.Title.Contains(query, StringComparison.OrdinalIgnoreCase) select artwork) {
-                ProfileSearchResult.Add(artwork);
+                ArtworkSearchResult.Add(artwork);
             }
         });
         public ICommand DisplayRecordCommand => new Command<SearchRecord>(DisplayRecord);
@@ -57,7 +54,15 @@ namespace Art_Critique.Pages.FeaturePages {
 
         #region Local class
         public class SearchRecord {
-            public ImageSource Image { get { return ImageBase.Base64ToImageSource(); } }
+            public ImageSource Image {
+                get {
+                    if (Type == "ProfilePage") {
+                        return !string.IsNullOrEmpty(ImageBase) ? ImageBase.Base64ToImageSource() : "defaultuser_icon.png";
+                    } else {
+                        return ImageBase.Base64ToImageSource();
+                    }
+                }
+            }
             public string ImageBase { get; set; }
             public string Title { get; set; }
             public string Type { get; set; }
