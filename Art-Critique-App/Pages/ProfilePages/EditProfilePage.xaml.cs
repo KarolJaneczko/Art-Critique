@@ -5,7 +5,7 @@ using Art_Critique.Services.Interfaces;
 namespace Art_Critique {
     [QueryProperty(nameof(ApiProfile), nameof(ApiProfile))]
     public partial class EditProfilePage : ContentPage {
-        #region Services
+        #region Service
         private readonly IHttpService HttpService;
         #endregion
 
@@ -15,9 +15,9 @@ namespace Art_Critique {
         #endregion
 
         #region Constructor
-        public EditProfilePage(IHttpService baseHttp) {
+        public EditProfilePage(IHttpService httpService) {
             InitializeComponent();
-            HttpService = baseHttp;
+            HttpService = httpService;
         }
         #endregion
 

@@ -10,15 +10,14 @@ using System.Windows.Input;
 
 namespace Art_Critique.Pages.ProfilePages {
     public class EditProfilePageViewModel : BaseViewModel {
-        #region Services
+        #region Service
         private readonly IHttpService HttpService;
         #endregion
 
         #region Properties
+        #region Profile fields
         private ApiProfile ApiProfile;
         private string NewAvatar;
-
-        #region Profile fields
         private ImageSource avatar;
 
         public ImageSource Avatar { get => avatar; set { avatar = value; OnPropertyChanged(nameof(Avatar)); } }
@@ -47,6 +46,7 @@ namespace Art_Critique.Pages.ProfilePages {
         #region Methods
         private void FillEditingPage(ApiProfile apiProfile) {
             ApiProfile = apiProfile;
+
             if (!string.IsNullOrEmpty(apiProfile.Avatar)) {
                 Avatar = apiProfile.Avatar.Base64ToImageSource();
             } else {

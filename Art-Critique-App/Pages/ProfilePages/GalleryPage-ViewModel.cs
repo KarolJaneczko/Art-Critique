@@ -9,10 +9,7 @@ namespace Art_Critique.Pages.ProfilePages {
         #region Properties
         private ObservableCollection<ImageThumbnail> thumbnails = new();
         public ObservableCollection<ImageThumbnail> Thumbnails { get => thumbnails; set { thumbnails = value; OnPropertyChanged(nameof(Thumbnails)); } }
-
-        #region Commands
         public ICommand ShowArtworkCommand => new Command<ImageThumbnail>(GoToArtwork);
-        #endregion
         #endregion
 
         #region Constructor
