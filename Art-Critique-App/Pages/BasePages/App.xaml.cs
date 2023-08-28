@@ -9,15 +9,15 @@ namespace Art_Critique {
         #region Constructor
         public App(ICacheService cacheService, IHttpService httpService) {
             InitializeComponent();
-            RegisterRoutes();
+            RegisterRoute();
             SetStyles();
-            CacheService = cacheService;
             MainPage = new AppShell(cacheService, httpService);
+            CacheService = cacheService;
         }
         #endregion
 
         #region Methods
-        private void RegisterRoutes() {
+        private void RegisterRoute() {
             Routing.RegisterRoute(nameof(WelcomePage), typeof(WelcomePage));
         }
 
@@ -137,6 +137,7 @@ namespace Art_Critique {
 
         protected override void OnStart() {
             base.OnStart();
+
             MainThread.BeginInvokeOnMainThread(async () => {
                 if (!CacheService.IsUserLoggedIn()) {
                     await Shell.Current.GoToAsync(nameof(WelcomePage));
