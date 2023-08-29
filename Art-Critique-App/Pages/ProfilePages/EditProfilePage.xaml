@@ -7,62 +7,62 @@
     <ScrollView>
         <StackLayout>
             <!-- Avatar -->
-            <Frame BackgroundColor="#e5c064" Margin="20,20,20,0" Padding="5" CornerRadius="20" VerticalOptions="Center" >
-                <Label Text="Profile picture" HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-            </Frame>
-            <Frame WidthRequest="150" HeightRequest="150" CornerRadius="100" BorderColor="Transparent" IsClippedToBounds="true" Margin="0,10">
+            <Border Style="{StaticResource HeaderBorder}">
+                <Label Style="{StaticResource HeaderLabel}" Text="Profile picture"/>
+            </Border>
+            <Border WidthRequest="150" HeightRequest="150" Margin="0,10">
                 <Image Source="{Binding Avatar}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill"/>
-            </Frame>
+            </Border>
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
                 <Button Style="{StaticResource MediumPrimaryButton}" Text="Take a photo" Command="{Binding TakePhotoCommand}" />
                 <Button Style="{StaticResource MediumPrimaryButton}" Text="Upload picture" Command="{Binding UploadPhotoCommand}" />
             </HorizontalStackLayout>
 
             <!-- Full name -->
-            <Frame BackgroundColor="#e5c064" Margin="20,20,20,10" Padding="5" CornerRadius="20" VerticalOptions="Center" >
-                <Label Text="Full name" HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-            </Frame>
-            <Frame Style="{StaticResource EntryFrame}">
+            <Border Style="{StaticResource HeaderBorder}">
+                <Label Style="{StaticResource HeaderLabel}" Text="Full name"/>
+            </Border>
+            <Border Style="{StaticResource EntryBorder}">
                 <Entry Style="{StaticResource EntryInput}" Text="{Binding FullName}" Placeholder="Your full name" />
-            </Frame>
+            </Border>
 
             <!-- Birthdate -->
-            <Frame BackgroundColor="#e5c064" Margin="20,20,20,10" Padding="5" CornerRadius="20" VerticalOptions="Center" >
-                <Label Text="Birthdate" HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-            </Frame>
+            <Border Style="{StaticResource HeaderBorder}">
+                <Label Style="{StaticResource HeaderLabel}" Text="Birthdate"/>
+            </Border>
             <DatePicker Date="{Binding BirthDate}" Format="dd/MM/yyyy" HorizontalOptions="Center" FontSize="16"/>
 
             <!-- Facebook link -->
-            <Frame BackgroundColor="#e5c064" Margin="20,20,20,10" Padding="5" CornerRadius="20" VerticalOptions="Center" >
-                <Label Text="Facebook" HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-            </Frame>
-            <Frame Style="{StaticResource EntryFrame}">
+            <Border Style="{StaticResource HeaderBorder}">
+                <Label Style="{StaticResource HeaderLabel}" Text="Facebook"/>
+            </Border>
+            <Border Style="{StaticResource EntryBorder}">
                 <Entry Style="{StaticResource EntryInput}" Text="{Binding FacebookLink}" Placeholder="Facebook link"/>
-            </Frame>
+            </Border>
 
             <!-- Instagram link -->
-            <Frame BackgroundColor="#e5c064" Margin="20,20,20,10" Padding="5" CornerRadius="20" VerticalOptions="Center" >
-                <Label Text="Instagram" HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-            </Frame>
-            <Frame Style="{StaticResource EntryFrame}">
+            <Border Style="{StaticResource HeaderBorder}">
+                <Label Style="{StaticResource HeaderLabel}" Text="Instagram" />
+            </Border>
+            <Border Style="{StaticResource EntryBorder}">
                 <Entry Style="{StaticResource EntryInput}" Text="{Binding InstagramLink}" Placeholder="Instagram link"/>
-            </Frame>
+            </Border>
 
             <!-- Twitter link -->
-            <Frame BackgroundColor="#e5c064" Margin="20,20,20,10" Padding="5" CornerRadius="20" VerticalOptions="Center" >
-                <Label Text="Twitter" HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-            </Frame>
-            <Frame Style="{StaticResource EntryFrame}">
+            <Border Style="{StaticResource HeaderBorder}">
+                <Label Style="{StaticResource HeaderLabel}" Text="Twitter"/>
+            </Border>
+            <Border Style="{StaticResource EntryBorder}">
                 <Entry Style="{StaticResource EntryInput}" Text="{Binding TwitterLink}" Placeholder="Twitter link"/>
-            </Frame>
+            </Border>
 
             <!-- Bio -->
-            <Frame BackgroundColor="#e5c064" Margin="20,20,20,10" Padding="5" CornerRadius="20" VerticalOptions="Center" >
-                <Label Text="Bio" HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-            </Frame>
-            <Frame Style="{StaticResource EntryFrame}">
+            <Border Style="{StaticResource HeaderBorder}">
+                <Label Style="{StaticResource HeaderLabel}" Text="Bio"/>
+            </Border>
+            <Border Style="{StaticResource EntryBorder}">
                 <Editor Style="{StaticResource EntryEditor}" Text="{Binding Description}" Placeholder="Profile description"/>
-            </Frame>
+            </Border>
 
             <!-- Buttons -->
             <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">

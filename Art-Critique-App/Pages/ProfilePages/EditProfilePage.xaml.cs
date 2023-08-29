@@ -26,6 +26,11 @@ namespace Art_Critique {
             base.OnNavigatedTo(args);
             BindingContext = new EditProfilePageViewModel(HttpService, ApiProfile);
         }
+
+        protected override void OnDisappearing() {
+            base.OnDisappearing();
+            BindingContext = null;
+        }
         #endregion
     }
 }

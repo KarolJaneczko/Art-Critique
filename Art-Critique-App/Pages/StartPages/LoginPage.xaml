@@ -14,13 +14,13 @@
 
         <!-- Login form -->
         <StackLayout Orientation="Vertical" Spacing="35" HorizontalOptions="Center" VerticalOptions="Center" Padding="0, 0, 0, 20">
-            <Frame Style="{StaticResource EntryFrame}">
+            <Border Style="{StaticResource EntryBorder}">
                 <Entry Style="{StaticResource EntryInput}" Text="{Binding Login}" Placeholder="Login" />
-            </Frame>
+            </Border>
 
-            <Frame Style="{DynamicResource EntryFrame}">
+            <Border Style="{DynamicResource EntryBorder}">
                 <Entry Style="{DynamicResource EntryInput}" Text="{Binding Password}" Placeholder="Password" IsPassword="True" />
-            </Frame>
+            </Border>
         </StackLayout>
 
         <!-- Buttons -->

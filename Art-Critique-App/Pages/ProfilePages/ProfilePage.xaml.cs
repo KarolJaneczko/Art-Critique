@@ -77,6 +77,7 @@ namespace Art_Critique {
         protected override void OnDisappearing() {
             base.OnDisappearing();
             BindingContext = null;
+            Login = null;
         }
         #endregion
     }

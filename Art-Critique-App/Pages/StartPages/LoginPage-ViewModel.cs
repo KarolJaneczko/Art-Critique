@@ -17,10 +17,7 @@ namespace Art_Critique.Pages.StartPages {
         private string login, password;
         public string Login { get => login; set { login = value.Trim(); OnPropertyChanged(nameof(SignIn)); } }
         public string Password { get => password; set { password = value.Trim(); OnPropertyChanged(nameof(Password)); } }
-
-        #region Commands
         public ICommand SignInCommand => new Command(SignIn);
-        #endregion
         #endregion
 
         #region Constructor

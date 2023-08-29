@@ -14,21 +14,21 @@
 
         <!-- Register form -->
         <StackLayout Orientation="Vertical" Spacing="20" HorizontalOptions="Center" VerticalOptions="Center" Padding="0, 0, 0, 20">
-            <Frame Style="{StaticResource EntryFrame}">
+            <Border Style="{StaticResource EntryBorder}">
                 <Entry Style="{StaticResource EntryInput}" Text="{Binding Email}" Placeholder="Email" />
-            </Frame>
+            </Border>
 
-            <Frame Style="{StaticResource EntryFrame}">
+            <Border Style="{StaticResource EntryBorder}">
                 <Entry Style="{StaticResource EntryInput}" Text="{Binding Login}" Placeholder="Login" />
-            </Frame>
+            </Border>
 
-            <Frame Style="{StaticResource EntryFrame}">
+            <Border Style="{StaticResource EntryBorder}">
                 <Entry Style="{StaticResource EntryInput}" Text="{Binding Password}" Placeholder="Password" IsPassword="True" />
-            </Frame>
+            </Border>
 
-            <Frame Style="{StaticResource EntryFrame}">
+            <Border Style="{StaticResource EntryBorder}">
                 <Entry Style="{StaticResource EntryInput}" Text="{Binding PasswordConfirm}" Placeholder="Confirm password" IsPassword="True" />
-            </Frame>
+            </Border>
 
             <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" VerticalOptions="End" Margin="0, 0, 0, 20">
                 <Button Style="{StaticResource MediumPrimaryButton}" Text="Resend code" Command="{Binding ResendCodeCommand}"/>
