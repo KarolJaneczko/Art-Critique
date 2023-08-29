@@ -3,13 +3,15 @@
        xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:Art_Critique"
-       Shell.FlyoutBehavior="Flyout">
+       Shell.FlyoutBehavior="Flyout"
+       Shell.ForegroundColor="White"
+       Shell.BackgroundColor="DarkGoldenrod">
 
-    <ShellContent Title="Home" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
-    <ShellContent Title="Profile" ContentTemplate="{DataTemplate local:ProfilePage}" Route="ProfilePage" />
-    <ShellContent Title="Search" ContentTemplate="{DataTemplate local:SearchPage}" Route="SearchPage" />
-    <ShellContent Title="Charts" ContentTemplate="{DataTemplate local:ChartsPage}" Route="ChartsPage" />
-    <ShellContent Title="Add new artwork" ContentTemplate="{DataTemplate local:AddArtworkPage}" Route="AddArtworkPage" />
-    <ShellContent Title="Browsing history" ContentTemplate="{DataTemplate local:HistoryPage}" Route="HistoryPage" />
-    <MenuItem Text="Logout" Clicked="ClickedLogout"/>
+    <ShellContent Title="Home" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" Icon="home_icon.png" />
+    <ShellContent Title="Profile" ContentTemplate="{DataTemplate local:ProfilePage}" Route="ProfilePage" Icon="profile_icon.png" />
+    <ShellContent Title="Search" ContentTemplate="{DataTemplate local:SearchPage}" Route="SearchPage" Icon="search_icon.png"/>
+    <ShellContent Title="Charts" ContentTemplate="{DataTemplate local:ChartsPage}" Route="ChartsPage" Icon="charts_icon.png" />
+    <ShellContent Title="Add new artwork" ContentTemplate="{DataTemplate local:AddArtworkPage}" Route="AddArtworkPage" Icon="addartwork_icon.png"/>
+    <ShellContent Title="Browsing history" ContentTemplate="{DataTemplate local:HistoryPage}" Route="HistoryPage" Icon="history_icon.png" />
+    <MenuItem Text="Logout" Clicked="ClickedLogout" IconImageSource="logout_icon.png"/>
 </Shell>
