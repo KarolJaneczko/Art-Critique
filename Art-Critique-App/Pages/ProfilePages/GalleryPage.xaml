@@ -9,12 +9,12 @@
             <CollectionView x:Name="AddedThumbnails" ItemsSource="{Binding Thumbnails}" ItemsLayout="VerticalGrid, 3">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame WidthRequest="150" HeightRequest="120" BorderColor="Transparent" IsClippedToBounds="true" HorizontalOptions="Center" Margin="5,5,5,5">
-                            <Frame.GestureRecognizers>
+                        <Border WidthRequest="150" HeightRequest="120" HorizontalOptions="Center" Margin="5,5,5,5">
+                            <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={x:Reference AddedThumbnails}, Path=BindingContext.ShowArtworkCommand}" CommandParameter="{Binding}"/>
-                            </Frame.GestureRecognizers>
+                            </Border.GestureRecognizers>
                             <Image Source="{Binding Image}"  WidthRequest="120" HeightRequest="120" Aspect="AspectFill"/>
-                        </Frame>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

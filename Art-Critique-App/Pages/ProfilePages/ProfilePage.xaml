@@ -11,9 +11,9 @@
 
         <StackLayout ZIndex="1">
             <!-- Avatar -->
-            <Frame WidthRequest="150" HeightRequest="150" CornerRadius="100" BorderColor="Transparent" IsClippedToBounds="true" Margin="0,20,0,10">
+            <Border Style="{StaticResource HeaderBorder}" WidthRequest="150" HeightRequest="150">
                 <Image Source="{Binding Avatar}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill"/>
-            </Frame>
+            </Border>
 
             <!-- Login -->
             <Label Text="{Binding Login, StringFormat='@{0}'}" TextColor="Goldenrod" HorizontalTextAlignment="Center" FontSize="15"/>
@@ -23,42 +23,42 @@
 
             <!-- Birthdate & total views -->
             <Grid ColumnDefinitions="Auto,Auto,Auto,Auto" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,15">
-                <Frame Grid.Column="0" WidthRequest="25" HeightRequest="25" BorderColor="Transparent" IsClippedToBounds="true" Margin="5,0" HorizontalOptions="Center">
+                <Border Grid.Column="0" WidthRequest="25" HeightRequest="25" Margin="5,0" HorizontalOptions="Center">
                     <Image Source="icon_calendar.png"  WidthRequest="20" HeightRequest="20" Aspect="AspectFill"/>
-                </Frame>
+                </Border>
                 <Label Grid.Column="1" Text="{Binding Birthdate}" FontSize="15" TextColor="Black"/>
-                <Frame Grid.Column="2" WidthRequest="25" HeightRequest="25" BorderColor="Transparent" IsClippedToBounds="true" Margin="5,0" HorizontalOptions="Center">
+                <Border Grid.Column="2" WidthRequest="25" HeightRequest="25" Margin="5,0" HorizontalOptions="Center">
                     <Image Source="icon_eye.png"  WidthRequest="20" HeightRequest="20" Aspect="AspectFill"/>
-                </Frame>
+                </Border>
                 <Label Grid.Column="3" Text="{Binding TotalViews, StringFormat='Total views: {0}'}" FontSize="15" TextColor="Black"/>
             </Grid>
 
             <!-- Social media links -->
             <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                <Frame Opacity="{Binding FacebookOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
+                <Border Opacity="{Binding FacebookOpacity}" WidthRequest="40" HeightRequest="40" Margin="10,0,10,0" HorizontalOptions="Center">
                     <ImageButton Source="facebook_icon.png" Command="{Binding FacebookCommand}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
-                </Frame>
-                <Frame Opacity="{Binding InstagramOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
+                </Border>
+                <Border Opacity="{Binding InstagramOpacity}" WidthRequest="40" HeightRequest="40" Margin="10,0,10,0" HorizontalOptions="Center">
                     <ImageButton Source="instagram_icon.png" Command="{Binding InstagramCommand}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
-                </Frame>
-                <Frame Opacity="{Binding TwitterOpacity}" WidthRequest="40" HeightRequest="40" BorderColor="Transparent" IsClippedToBounds="true" Margin="10,0,10,0" HorizontalOptions="Center">
+                </Border>
+                <Border Opacity="{Binding TwitterOpacity}" WidthRequest="40" HeightRequest="40" Margin="10,0,10,0" HorizontalOptions="Center">
                     <ImageButton Source="twitter_icon.png" Command="{Binding TwitterCommand}" WidthRequest="40" HeightRequest="40" Aspect="AspectFill" BackgroundColor="White" />
-                </Frame>
+                </Border>
             </HorizontalStackLayout>
 
             <!-- Bio -->
-            <Frame BackgroundColor="#e5c064" Margin="5,30,5,20" Padding="2" CornerRadius="20" VerticalOptions="Center" >
-                <Label Text="Bio"  HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-            </Frame>
-            <Label TextColor="Black" HorizontalTextAlignment="Start" FontSize="15" Text="{Binding Description}"/>
+            <Border Style="{StaticResource HeaderBorder}">
+                <Label Style="{StaticResource HeaderLabel}" Text="Bio"/>
+            </Border>
+            <Label TextColor="Black" HorizontalTextAlignment="Center" FontSize="15" Text="{Binding Description}"/>
 
             <!-- Artworks -->
-            <Frame BackgroundColor="#e5c064" Margin="5,30,5,20" Padding="2" CornerRadius="20" VerticalOptions="Center" IsVisible="{Binding AreThumbnailsVisible}" >
-                <Frame.GestureRecognizers>
+            <Border Style="{StaticResource HeaderBorder}" IsVisible="{Binding AreThumbnailsVisible}" >
+                <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding GoToGalleryCommand}"/>
-                </Frame.GestureRecognizers>
-                <Label Text="Artworks"  HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-            </Frame>
+                </Border.GestureRecognizers>
+                <Label Style="{StaticResource HeaderLabel}" Text="Artworks"/>
+            </Border>
             <CollectionView x:Name="AddedThumbnails" ItemsSource="{Binding Thumbnails}" ItemsLayout="HorizontalList">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>

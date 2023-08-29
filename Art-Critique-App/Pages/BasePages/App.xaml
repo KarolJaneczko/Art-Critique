@@ -34,14 +34,33 @@
             <Setter Property="CornerRadius" Value="20" />
         </Style>
 
+        <!-- Headers -->
+        <Style x:Key="HeaderBorder" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#E5C064" />
+            <Setter Property="Margin" Value="20,20,20,10" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 20,20,20,20" />
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="Stroke" Value="Black" />
+            <Setter Property="StrokeThickness" Value="1" />
+        </Style>
+
+        <Style x:Key="HeaderLabel" TargetType="Label">
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="25" />
+            <Setter Property="FontFamily" Value="PragmaticaMedium" />
+            <Setter Property="CharacterSpacing" Value="1" />
+            <Setter Property="FontAttributes" Value="Bold" />
+        </Style>
+
         <!-- Entries -->
-        <Style x:Key="EntryFrame" TargetType="Frame">
+        <Style x:Key="EntryBorder" TargetType="Border">
             <Setter Property="BackgroundColor" Value="White"/>
-            <Setter Property="BorderColor" Value="Transparent"/>
-            <Setter Property="Opacity" Value="0.6"/>
-            <Setter Property="Padding" Value="10, 2, 10, 2"/>
-            <Setter Property="CornerRadius" Value="15"/>
-            <Setter Property="Margin" Value="20, 0, 20, 0"/>
+            <Setter Property="Opacity" Value="0.8"/>
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 20,20,20,20" />
+            <Setter Property="Padding" Value="2" />
         </Style>
 
         <Style x:Key="EntryInput" TargetType="Entry">
@@ -53,6 +72,7 @@
             <Setter Property="HorizontalTextAlignment" Value="Center" />
             <Setter Property="PlaceholderColor" Value="Black" />
         </Style>
+        
         <!-- Helpers -->
         <Style x:Key="LoadingLayout" TargetType="StackLayout">
             <Setter Property="BackgroundColor" Value="LightGray"/>
@@ -65,6 +85,5 @@
             <Setter Property="IsRunning" Value="True"/>
             <Setter Property="IsVisible" Value="True"/>
         </Style>
-
     </Application.Resources>
 </Application>

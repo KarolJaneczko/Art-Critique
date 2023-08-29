@@ -8,6 +8,7 @@ namespace Art_Critique.Pages.BasePages {
         #region Methods
         public static MauiApp CreateMauiApp() {
             var builder = MauiApp.CreateBuilder();
+
             builder.UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts => {
@@ -22,22 +23,21 @@ namespace Art_Critique.Pages.BasePages {
             builder.Services.AddScoped<ICacheService, CacheService>();
             builder.Services.AddTransient<IHttpService, HttpService>();
 
+            builder.Services.AddScoped<AddArtworkPage>();
             builder.Services.AddScoped<AddReviewPage>();
+            builder.Services.AddScoped<ArtworkPage>();
             builder.Services.AddScoped<ChartsPage>();
+            builder.Services.AddScoped<EditArtworkPage>();
+            builder.Services.AddScoped<EditProfilePage>();
+            builder.Services.AddScoped<GalleryPage>();
             builder.Services.AddScoped<HistoryPage>();
+            builder.Services.AddScoped<LoginPage>();
+            builder.Services.AddScoped<MainPage>();
+            builder.Services.AddScoped<ProfilePage>();
+            builder.Services.AddScoped<RegisterPage>();
             builder.Services.AddScoped<ReviewPage>();
             builder.Services.AddScoped<SearchPage>();
-
-            builder.Services.AddTransient<WelcomePage>();
-            builder.Services.AddTransient<RegisterPage>();
-            builder.Services.AddTransient<LoginPage>();
-            builder.Services.AddTransient<ProfilePage>();
-            builder.Services.AddTransient<EditProfilePage>();
-            builder.Services.AddTransient<MainPage>();
-            builder.Services.AddTransient<AddArtworkPage>();
-            builder.Services.AddTransient<ArtworkPage>();
-            builder.Services.AddTransient<EditArtworkPage>();
-            builder.Services.AddTransient<GalleryPage>();
+            builder.Services.AddScoped<WelcomePage>();
         }
         #endregion
     }

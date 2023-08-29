@@ -23,19 +23,17 @@ namespace Art_Critique {
         #region Constructor
         public ArtworkPage(ICacheService cacheService, IHttpService httpService) {
             InitializeComponent();
+            RegisterRoutes();
             CacheService = cacheService;
             HttpService = httpService;
-            InitializeValues();
         }
         #endregion
 
         #region Methods
-        private void InitializeValues() {
+        private void RegisterRoutes() {
             Routing.RegisterRoute(nameof(EditArtworkPage), typeof(EditArtworkPage));
             Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
             Routing.RegisterRoute(nameof(ReviewPage), typeof(ReviewPage));
-            Loading.HeightRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Height * 85 / 100) / DeviceDisplay.MainDisplayInfo.Density;
-            Loading.WidthRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Width * 100 / 100) / DeviceDisplay.MainDisplayInfo.Density;
         }
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
@@ -43,23 +41,26 @@ namespace Art_Critique {
 
             var task = new Func<Task>(async () => {
                 // Adding a view to an artwork.
-                await HttpService.SendApiRequest(HttpMethod.Post, $"{Dictionary.AddViewToArtwork}?login={CacheService.GetCurrentLogin()}&artworkId={ArtworkId}");
-
+                var addViewTask = HttpService.SendApiRequest(HttpMethod.Post, $"{Dictionary.AddViewToArtwork}?login={CacheService.GetCurrentLogin()}&artworkId={ArtworkId}");
                 // Loading artwork data.
-                var artworkRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetUserArtwork}?id={ArtworkId}");
-                var artwork = JsonConvert.DeserializeObject<ApiUserArtwork>(artworkRequest.Data.ToString());
+                var artworkTask = HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetUserArtwork}?id={ArtworkId}");
+
+                await Task.WhenAll(addViewTask, artworkTask);
+
+                var artwork = JsonConvert.DeserializeObject<ApiUserArtwork>((await artworkTask).Data.ToString());
 
                 // Loading profile data.
-                var profileRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileGet}?login={artwork.Login}");
-                var profile = JsonConvert.DeserializeObject<ApiProfile>(profileRequest.Data.ToString());
-
+                var profileTask = HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.ProfileGet}?login={artwork.Login}");
                 // Loading rating data.
-                var ratingRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetRating}?login={CacheService.GetCurrentLogin()}&artworkId={ArtworkId}");
-                var rating = JsonConvert.DeserializeObject<string>(ratingRequest.Data.ToString());
-
+                var ratingTask = HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetRating}?login={CacheService.GetCurrentLogin()}&artworkId={ArtworkId}");
                 // Loading average rating data.
-                var averageRatingRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetAverageRatingInfo}?artworkId={ArtworkId}");
-                var averageRating = averageRatingRequest.Data.ToString();
+                var averageRatingTask = HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetAverageRatingInfo}?artworkId={ArtworkId}");
+
+                await Task.WhenAll(profileTask, ratingTask, averageRatingTask);
+
+                var profile = JsonConvert.DeserializeObject<ApiProfile>((await profileTask).Data.ToString());
+                var rating = JsonConvert.DeserializeObject<string>((await ratingTask).Data.ToString());
+                var averageRating = (await averageRatingTask).Data.ToString();
 
                 // Saving navigation to app's history.
                 CacheService.AddToHistory(new HistoryEntry() {
@@ -76,6 +77,11 @@ namespace Art_Critique {
 
             // Run task with try/catch.
             await MethodHelper.RunWithTryCatch(task);
+        }
+
+        protected override void OnDisappearing() {
+            base.OnDisappearing();
+            BindingContext = null;
         }
         #endregion
     }

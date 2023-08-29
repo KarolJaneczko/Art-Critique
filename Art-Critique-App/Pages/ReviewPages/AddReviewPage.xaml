@@ -5,18 +5,18 @@
              Title="Add your review">
 
     <StackLayout>
-        <Frame BackgroundColor="#e5c064" Margin="10" Padding="10" CornerRadius="20" >
-            <Label Text="Title:" HorizontalTextAlignment="Center" FontSize="25" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-        </Frame>
-        <Frame Style="{StaticResource EntryFrame}">
+        <Border Style="{StaticResource HeaderBorder}">
+            <Label Style="{StaticResource HeaderLabel}" Text="Title:" />
+        </Border>
+        <Border Style="{StaticResource EntryBorder}">
             <Entry Style="{StaticResource EntryInput}" Text="{Binding Title}" Placeholder="Enter title" />
-        </Frame>
-        <Frame BackgroundColor="#e5c064" Margin="10" Padding="10" CornerRadius="20" >
-            <Label Text="Your review:" HorizontalTextAlignment="Center" FontSize="25" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-        </Frame>
-        <Frame Style="{StaticResource EntryFrame}">
+        </Border>
+        <Border Style="{StaticResource HeaderBorder}">
+            <Label Style="{StaticResource HeaderLabel}" Text="Your review:"/>
+        </Border>
+        <Border Style="{StaticResource EntryBorder}">
             <Editor Style="{StaticResource EntryEditor}" Text="{Binding Content}" Placeholder="Write your review here..." />
-        </Frame>
+        </Border>
         <Button Style="{StaticResource LargePrimaryButton}" Text="Confirm" Command="{Binding AddReviewCommand}" Margin="20"/>
     </StackLayout>
 </ContentPage>

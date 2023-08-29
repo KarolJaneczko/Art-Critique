@@ -12,13 +12,13 @@ using System.Windows.Input;
 
 namespace Art_Critique.Pages.ArtworkPages {
     public class EditArtworkPageViewModel : BaseViewModel {
-        #region Services
+        #region Service
         private readonly IHttpService HttpService;
         #endregion
 
         #region Properties
-        private ApiUserArtwork UserArtwork;
         #region Artwork fields
+        private ApiUserArtwork UserArtwork;
         private ObservableCollection<ImageThumbnail> artworkPhotos = new();
         private List<PaintingGenre> paintingGenres;
         private PaintingGenre selectedGenre;

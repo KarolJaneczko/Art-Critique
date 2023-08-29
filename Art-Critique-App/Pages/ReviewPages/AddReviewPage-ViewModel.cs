@@ -20,10 +20,7 @@ namespace Art_Critique.Pages.ReviewPages {
         private string ArtworkId;
         public string Title { get => ArtworkReview.Title; set { ArtworkReview.Title = value; OnPropertyChanged(nameof(Title)); } }
         public string Content { get => ArtworkReview.Content; set { ArtworkReview.Content = value; OnPropertyChanged(nameof(Content)); } }
-
-        #region Commands
         public ICommand AddReviewCommand => new Command(async () => await AddReview());
-        #endregion
         #endregion
 
         #region Constructor

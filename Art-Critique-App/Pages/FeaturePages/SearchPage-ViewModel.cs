@@ -8,22 +8,20 @@ namespace Art_Critique.Pages.FeaturePages {
     public class SearchPageViewModel : BaseViewModel {
         #region Properties
         private readonly ObservableCollection<SearchRecord> Profiles = new(), Artworks = new();
-        private ObservableCollection<SearchRecord> profileSearchResult = new(), artworkSearchResult = new();
+        private ObservableCollection<SearchRecord> searchResult = new();
         private bool isLoading = true;
 
-        public ObservableCollection<SearchRecord> ProfileSearchResult { get => profileSearchResult; set { profileSearchResult = value; OnPropertyChanged(nameof(ProfileSearchResult)); } }
-        public ObservableCollection<SearchRecord> ArtworkSearchResult { get => artworkSearchResult; set { artworkSearchResult = value; OnPropertyChanged(nameof(ArtworkSearchResult)); } }
+        public ObservableCollection<SearchRecord> SearchResults { get => searchResult; set { searchResult = value; OnPropertyChanged(nameof(SearchResults)); } }
         public bool IsLoading { get => isLoading; set { isLoading = value; OnPropertyChanged(nameof(IsLoading)); } }
 
         #region Commands
         public ICommand PerformSearch => new Command<string>((query) => {
-            ProfileSearchResult.Clear();
-            ArtworkSearchResult.Clear();
+            SearchResults.Clear();
             foreach (var profile in from profile in Profiles where profile.Title.Contains(query, StringComparison.OrdinalIgnoreCase) select profile) {
-                ProfileSearchResult.Add(profile);
+                SearchResults.Add(profile);
             }
             foreach (var artwork in from artwork in Artworks where artwork.Title.Contains(query, StringComparison.OrdinalIgnoreCase) select artwork) {
-                ArtworkSearchResult.Add(artwork);
+                SearchResults.Add(artwork);
             }
         });
         public ICommand DisplayRecordCommand => new Command<SearchRecord>(DisplayRecord);

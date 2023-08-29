@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace Art_Critique {
     [QueryProperty(nameof(ArtworkData), nameof(ArtworkData))]
     public partial class EditArtworkPage : ContentPage {
-        #region Services
+        #region Service
         private readonly IHttpService HttpService;
         #endregion
 
@@ -33,11 +33,17 @@ namespace Art_Critique {
                 var result = await HttpService.SendApiRequest(HttpMethod.Get, Dictionary.ArtworkGetGenres);
                 var resultGenres = JsonConvert.DeserializeObject<List<ApiArtworkGenre>>(result.Data.ToString());
                 var genres = resultGenres.ConvertAll(x => new PaintingGenre(x.Id, x.Name));
+
                 BindingContext = new EditArtworkPageViewModel(HttpService, ArtworkData, genres);
             });
 
             // Run task with try/catch.
             await MethodHelper.RunWithTryCatch(task);
+        }
+
+        protected override void OnDisappearing() {
+            base.OnDisappearing();
+            BindingContext = null;
         }
         #endregion
     }

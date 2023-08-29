@@ -17,12 +17,11 @@ namespace Art_Critique.Pages.ArtworkPages {
         #endregion
 
         #region Properties
-        private ApiUserArtwork UserArtwork;
-
         #region Artwork fields
+        private ApiUserArtwork UserArtwork;
         private ObservableCollection<ImageThumbnail> images = new();
         private ImageSource avatar;
-        private string genre, rating, averageRating, secondButtonText;
+        private string genre, rating, averageRating, firstButtonText, secondButtonText;
 
         public ObservableCollection<ImageThumbnail> Images { get => images; set { images = value; OnPropertyChanged(nameof(Images)); } }
         public ImageSource Avatar { get => avatar; set { avatar = value; OnPropertyChanged(nameof(Avatar)); } }
@@ -34,13 +33,13 @@ namespace Art_Critique.Pages.ArtworkPages {
         public int Views { get => UserArtwork.Views; set { UserArtwork.Views = value; OnPropertyChanged(nameof(Views)); } }
         public string Rating { get => rating; set { rating = value; OnPropertyChanged(nameof(Rating)); } }
         public string AverageRating { get => averageRating; set { averageRating = value; OnPropertyChanged(nameof(AverageRating)); } }
+        public string FirstButtonText { get => firstButtonText; set { firstButtonText = value; OnPropertyChanged(nameof(FirstButtonText)); } }
         public string SecondButtonText { get => secondButtonText; set { secondButtonText = value; OnPropertyChanged(nameof(SecondButtonText)); } }
         #endregion
 
         #region Visibility flags
-        private bool isLoading = true, isRateVisible, isMyRatingVisible, isMyArtwork;
+        private bool isLoading = true, isMyRatingVisible, isMyArtwork;
         public bool IsLoading { get => isLoading; set { isLoading = value; OnPropertyChanged(nameof(IsLoading)); } }
-        public bool IsRateVisible { get => isRateVisible; set { isRateVisible = value; OnPropertyChanged(nameof(IsRateVisible)); } }
         public bool IsMyRatingVisible { get => isMyRatingVisible; set { isMyRatingVisible = value; OnPropertyChanged(nameof(IsMyRatingVisible)); } }
         public bool IsMyArtwork { get => isMyArtwork; set { isMyArtwork = value; OnPropertyChanged(nameof(IsMyArtwork)); } }
         #endregion
@@ -52,7 +51,7 @@ namespace Art_Critique.Pages.ArtworkPages {
             }
         });
         public ICommand GoToReviewsCommand => new Command(async () => await Shell.Current.GoToAsync(nameof(ReviewPage), new Dictionary<string, object> { { "ArtworkId", UserArtwork.ArtworkId.ToString() }, { "IsMyArtwork", IsMyArtwork } }));
-        public ICommand FirstButtonCommand => new Command(async () => await RateArtwork());
+        public ICommand FirstButtonCommand { get; protected set; }
         public ICommand SecondButtonCommand { get; protected set; }
         #endregion
         #endregion
@@ -66,22 +65,22 @@ namespace Art_Critique.Pages.ArtworkPages {
         #endregion
 
         #region Methods
-        private void FillArtworkPage(ApiUserArtwork userArtwork, ApiProfile profile, string rating, string averageRating) {
+        private async void FillArtworkPage(ApiUserArtwork userArtwork, ApiProfile profile, string rating, string averageRating) {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pl-PL");
 
             UserArtwork = userArtwork;
             userArtwork.Images.ForEach(x => Images.Add(new ImageThumbnail(x)));
-
             Avatar = profile.Avatar.Base64ToImageSource();
             Genre = userArtwork.GenreName != "Other" ? userArtwork.GenreName : userArtwork.GenreOtherName;
-
             Rating = rating;
             AverageRating = averageRating;
 
-            // Visibility flags
             IsMyArtwork = userArtwork.Login == CacheService.GetCurrentLogin();
-            IsRateVisible = !IsMyArtwork;
             IsMyRatingVisible = !string.IsNullOrEmpty(rating);
+
+            FirstButtonText = IsMyArtwork ? "Reviews" : "Rate";
+            FirstButtonCommand = IsMyArtwork ? new Command(async () => await Shell.Current.GoToAsync(nameof(ReviewPage), new Dictionary<string, object> { { "ArtworkId", UserArtwork.ArtworkId.ToString() }, { "IsMyArtwork", IsMyArtwork } })) :
+                new Command(async () => await RateArtwork());
 
             SecondButtonText = IsMyArtwork ? "Edit" : "Review";
             SecondButtonCommand = IsMyArtwork ? new Command(async () => await Edit()) :

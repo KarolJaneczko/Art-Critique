@@ -4,81 +4,54 @@
              x:Class="Art_Critique.EditArtworkPage"
              Title="Edit your artwork">
 
-    <!-- Styles dedicated to this page -->
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key="EntryFrame" TargetType="Frame">
-                <Setter Property="BackgroundColor" Value="Transparent" />
-                <Setter Property="BorderColor" Value="Transparent" />
-                <Setter Property="Opacity" Value="0.6" />
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="CornerRadius" Value="50" />
-                <Setter Property="Margin" Value="50, 0, 50, 0" />
-            </Style>
-            <Style x:Key="EntryGrid" TargetType="Grid">
-                <Setter Property="BackgroundColor" Value="White" />
-                <Setter Property="Opacity" Value="0.6" />
-                <Setter Property="Padding" Value="0" />
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
-    <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
-            <!-- Edit images for your artwork -->
-            <Label Grid.Row="1" Text="Edit photos:" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0,10,0,0" />
-            <VerticalStackLayout Grid.Row="2" HorizontalOptions="Center" Margin="0,10,0,0">
+    <ScrollView>
+        <StackLayout>
+            <!-- Images -->
+            <Border Style="{StaticResource HeaderBorder}" >
+                <Label Style="{StaticResource HeaderLabel}" Text="Edit photos" />
+            </Border>
+            <VerticalStackLayout HorizontalOptions="Center" Margin="0,10,0,0">
                 <CollectionView x:Name="AddedPhotos" ItemsSource="{Binding ArtworkPhotos}" ItemsLayout="HorizontalList">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <VerticalStackLayout>
-                                <Frame WidthRequest="190" HeightRequest="250" BorderColor="Transparent" CornerRadius="30" IsClippedToBounds="true" HorizontalOptions="Center" Margin="15,0,15,5">
+                                <Border WidthRequest="190" HeightRequest="250" HorizontalOptions="Center" Margin="15,0,15,5">
                                     <Image Source="{Binding Image}"  WidthRequest="190" HeightRequest="250" Aspect="AspectFill" />
-                                </Frame>
+                                </Border>
                                 <Button Text="Remove" WidthRequest="100" Command="{Binding Source={x:Reference AddedPhotos}, Path=BindingContext.DeleteCommand}" CommandParameter="{Binding}" />
                             </VerticalStackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </VerticalStackLayout>
-
-            <!-- Buttons for adding new images -->
-            <HorizontalStackLayout Grid.Row="3" HorizontalOptions="Center" Margin="0, 10, 0, 0">
-                <Button Text="Take a photo" Command="{Binding TakePhotoCommand}" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
-                <Button Text="Upload picture" Command="{Binding UploadPhotoCommand}" Margin="10,0,10,0" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" />
+            <HorizontalStackLayout HorizontalOptions="Center" Margin="0, 10, 0, 0" Spacing="10">
+                <Button Style="{StaticResource MediumPrimaryButton}" Text="Take a photo" Command="{Binding TakePhotoCommand}" />
+                <Button Style="{StaticResource MediumPrimaryButton}" Text="Upload picture" Command="{Binding UploadPhotoCommand}" />
             </HorizontalStackLayout>
 
-            <!-- Changing title of your artwork -->
-            <Label Grid.Row="4" Text="Change the title:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 20, 0, 0" />
-            <Frame Grid.Row="5" Style="{DynamicResource EntryFrame}">
-                <Grid Style="{DynamicResource EntryGrid}">
-                    <Entry Text="{Binding Title}" Placeholder="Enter title" HorizontalTextAlignment="Center" FontSize="16" />
-                </Grid>
-            </Frame>
+            <!-- Changing the title -->
+            <Border Style="{StaticResource HeaderBorder}">
+                <Label Style="{StaticResource HeaderLabel}" Text="Title"/>
+            </Border>
+            <Entry Style="{StaticResource EntryInput}" Text="{Binding Title}" Placeholder="Enter title" />
 
-            <!-- Changing description of your artwork -->
-            <Label Grid.Row="6" Text="Change the description:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 20, 0, 0" />
-            <Frame Grid.Row="7" Style="{DynamicResource EntryFrame}" HeightRequest="150" WidthRequest="300" BorderColor="Black">
-                <Grid Style="{DynamicResource EntryGrid}">
-                    <Editor Text="{Binding Description}" Placeholder="Description" HorizontalTextAlignment="Center" FontSize="16" WidthRequest="250" />
-                </Grid>
-            </Frame>
+            <!-- Changing the description -->
+            <Border Style="{StaticResource HeaderBorder}">
+                <Label Style="{StaticResource HeaderLabel}" Text="Description" />
+            </Border>
+            <Editor Style="{StaticResource EntryEditor}" Text="{Binding Description}" Placeholder="Enter description" />
 
-            <!-- Changing genre of your artwork -->
-            <Label Grid.Row="8" Text="Genre:" FontAttributes="Bold" TextColor="Black" HorizontalTextAlignment="Center" FontSize="18" Margin="0, 20, 0, 0" />
-            <Frame Grid.Row="9" Style="{DynamicResource EntryFrame}">
-                <Picker Title="Pick a genre" ItemsSource="{Binding PaintingGenres}" ItemDisplayBinding="{Binding Name}" HorizontalTextAlignment="Center" SelectedItem="{Binding SelectedGenre}" />
-            </Frame>
-            <Frame Grid.Row="10" Style="{DynamicResource EntryFrame}" IsVisible="{Binding IsOtherGenreVisible}">
-                <Grid Style="{DynamicResource EntryGrid}">
-                    <Entry Text="{Binding OtherGenre}" Placeholder="Genre name" HorizontalTextAlignment="Center" FontSize="16" />
-                </Grid>
-            </Frame>
+            <!-- Changing the genre -->
+            <Border Style="{StaticResource HeaderBorder}" >
+                <Label Style="{StaticResource HeaderLabel}" Text="Genre"/>
+            </Border>
+            <Picker Title="Pick a genre" ItemsSource="{Binding PaintingGenres}" ItemDisplayBinding="{Binding Name}" HorizontalTextAlignment="Center" SelectedItem="{Binding SelectedGenre}" WidthRequest="240" />
+            <Border Style="{StaticResource EntryBorder}" IsVisible="{Binding IsOtherGenreVisible}">
+                <Entry Style="{StaticResource EntryInput}" Text="{Binding OtherGenre}" Placeholder="Genre name" />
+            </Border>
 
-            <!-- Confirming your changes -->
-            <VerticalStackLayout Grid.Row="11" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
-                <Button Text="Confirm" Command="{Binding ConfirmCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="250" HeightRequest="50" Margin="10,10,10,10" />
-            </VerticalStackLayout>
-        </Grid>
+            <!-- Button -->
+            <Button Style="{StaticResource LargePrimaryButton}" Text="Confirm" Command="{Binding ConfirmCommand}" Margin="0,20" />
+        </StackLayout>
     </ScrollView>
 </ContentPage>
