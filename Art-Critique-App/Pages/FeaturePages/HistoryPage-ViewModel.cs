@@ -31,11 +31,9 @@ namespace Art_Critique.Pages.FeaturePages {
         #region Methods
         private void LoadHistory() {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("pl-PL");
-
             var historyList = CacheService.GetHistory();
             historyList.Reverse();
             historyList.ForEach(x => History.Add(new HistoryRecord(x)));
-
             IsLoading = false;
         }
 

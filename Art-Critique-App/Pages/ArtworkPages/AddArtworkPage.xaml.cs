@@ -1,6 +1,7 @@
 ﻿using Art_Critique.Models.API.Artwork;
 using Art_Critique.Models.Logic;
 using Art_Critique.Pages.ArtworkPages;
+using Art_Critique.Pages.ReviewPages;
 using Art_Critique.Services.Interfaces;
 using Art_Critique.Utils.Helpers;
 using Newtonsoft.Json;
@@ -8,21 +9,21 @@ using Newtonsoft.Json;
 namespace Art_Critique {
     public partial class AddArtworkPage : ContentPage {
         #region Services
-        private readonly IHttpService HttpService;
         private readonly ICacheService CacheService;
+        private readonly IHttpService HttpService;
         #endregion
 
         #region Constructor
-        public AddArtworkPage(IHttpService httpService, ICacheService cacheService) {
+        public AddArtworkPage(ICacheService cacheService, IHttpService httpService) {
             InitializeComponent();
-            HttpService = httpService;
+            RegisterRoutes();
             CacheService = cacheService;
-            InitializeValues();
+            HttpService = httpService;
         }
         #endregion
 
         #region Methods
-        private void InitializeValues() {
+        private void RegisterRoutes() {
             Routing.RegisterRoute(nameof(ArtworkPage), typeof(ArtworkPage));
         }
 
@@ -39,6 +40,11 @@ namespace Art_Critique {
 
             // Run task with try/catch.
             await MethodHelper.RunWithTryCatch(task);
+        }
+
+        protected override void OnDisappearing() {
+            base.OnDisappearing();
+            BindingContext = null;
         }
         #endregion
     }

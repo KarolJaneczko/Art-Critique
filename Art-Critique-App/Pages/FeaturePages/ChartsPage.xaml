@@ -16,21 +16,21 @@
                 <!-- Artworks - from best ratings to worst -->
                 <toolkit:Expander>
                     <toolkit:Expander.Header>
-                        <Frame BackgroundColor="#e5c064" Margin="20,30,20,20" Padding="5" CornerRadius="20" VerticalOptions="Center" >
-                            <Label Text="⬇ Best artworks ⬇"  HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-                        </Frame>
+                        <Border Style="{StaticResource HeaderBorder}" >
+                            <Label Style="{StaticResource HeaderLabel}" Text="⬇ Best artworks ⬇" />
+                        </Border>
                     </toolkit:Expander.Header>
                     <StackLayout Padding="10">
                         <CollectionView x:Name="artworkRatings" ItemsSource="{Binding ArtworkBestRatings}" ItemsLayout="VerticalList">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Frame WidthRequest="350" Margin="10,0" HeightRequest="120">
+                                    <Border WidthRequest="350" Margin="10,0" HeightRequest="120">
                                         <HorizontalStackLayout Spacing="5">
-                                            <Frame WidthRequest="60" HeightRequest="60" CornerRadius="20" BorderColor="Transparent" IsClippedToBounds="true">
+                                            <Border WidthRequest="60" HeightRequest="60">
                                                 <Image Source="{Binding Image}" WidthRequest="60" HeightRequest="60" Aspect="AspectFill" />
-                                            </Frame>
+                                            </Border>
 
-                                            <VerticalStackLayout WidthRequest="180">
+                                            <VerticalStackLayout WidthRequest="200">
                                                 <Label Text="{Binding Title}" HorizontalTextAlignment="Center" FontSize="Small" Margin="0,20,0,0" MaximumWidthRequest="100"/>
                                                 <Label Text="{Binding Value, StringFormat='{0}/5'}" TextColor="Gray" HorizontalTextAlignment="Center" FontSize="Small" Margin="10"/>
                                             </VerticalStackLayout>
@@ -38,7 +38,7 @@
                                             <Button Text="Go" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="60" HeightRequest="50"
                                                     Command="{Binding Source={x:Reference artworkRatings}, Path=BindingContext.DisplayRecordCommand}" CommandParameter="{Binding}"/>
                                         </HorizontalStackLayout>
-                                    </Frame>
+                                    </Border>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
@@ -48,21 +48,21 @@
                 <!-- Artworks - from most views to least -->
                 <toolkit:Expander>
                     <toolkit:Expander.Header>
-                        <Frame BackgroundColor="#e5c064" Margin="20,30,20,20" Padding="5" CornerRadius="20" VerticalOptions="Center" >
-                            <Label Text="⬇ Most viewed artworks ⬇"  HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-                        </Frame>
+                        <Border Style="{StaticResource HeaderBorder}" >
+                            <Label Style="{StaticResource HeaderLabel}" Text="⬇ Popular artworks ⬇" />
+                        </Border>
                     </toolkit:Expander.Header>
                     <StackLayout Padding="10">
                         <CollectionView x:Name="artworkViews" ItemsSource="{Binding ArtworkMostViews}" ItemsLayout="VerticalList">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Frame WidthRequest="350" Margin="10,0" HeightRequest="120">
+                                    <Border WidthRequest="350" Margin="10,0" HeightRequest="120">
                                         <HorizontalStackLayout Spacing="5">
-                                            <Frame WidthRequest="60" HeightRequest="60" CornerRadius="20" BorderColor="Transparent" IsClippedToBounds="true">
+                                            <Border WidthRequest="60" HeightRequest="60">
                                                 <Image Source="{Binding Image}" WidthRequest="60" HeightRequest="60" Aspect="AspectFill" />
-                                            </Frame>
+                                            </Border>
 
-                                            <VerticalStackLayout WidthRequest="180">
+                                            <VerticalStackLayout WidthRequest="200">
                                                 <Label Text="{Binding Title}" HorizontalTextAlignment="Center" FontSize="Small" Margin="0,20,0,0" MaximumWidthRequest="100"/>
                                                 <Label Text="{Binding Value}" TextColor="Gray" HorizontalTextAlignment="Center" FontSize="Small" Margin="10"/>
                                             </VerticalStackLayout>
@@ -70,7 +70,7 @@
                                             <Button Text="Go" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="60" HeightRequest="50"
                                                     Command="{Binding Source={x:Reference artworkViews}, Path=BindingContext.DisplayRecordCommand}" CommandParameter="{Binding}"/>
                                         </HorizontalStackLayout>
-                                    </Frame>
+                                    </Border>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
@@ -80,21 +80,21 @@
                 <!-- Profiles - from best ratings to worst -->
                 <toolkit:Expander>
                     <toolkit:Expander.Header>
-                        <Frame BackgroundColor="#e5c064" Margin="20,30,20,20" Padding="5" CornerRadius="20" VerticalOptions="Center" >
-                            <Label Text="⬇ Best users ⬇"  HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-                        </Frame>
+                        <Border Style="{StaticResource HeaderBorder}" >
+                            <Label Style="{StaticResource HeaderLabel}" Text="⬇ Best users ⬇" />
+                        </Border>
                     </toolkit:Expander.Header>
                     <StackLayout Padding="10">
                         <CollectionView x:Name="profileRatings" ItemsSource="{Binding ProfileBestRatings}" ItemsLayout="VerticalList">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Frame WidthRequest="350" Margin="10,0" HeightRequest="120">
+                                    <Border WidthRequest="350" Margin="10,0" HeightRequest="120">
                                         <HorizontalStackLayout Spacing="5">
-                                            <Frame WidthRequest="60" HeightRequest="60" CornerRadius="20" BorderColor="Transparent" IsClippedToBounds="true">
+                                            <Border WidthRequest="60" HeightRequest="60">
                                                 <Image Source="{Binding Image}" WidthRequest="60" HeightRequest="60" Aspect="AspectFill" />
-                                            </Frame>
+                                            </Border>
 
-                                            <VerticalStackLayout WidthRequest="180">
+                                            <VerticalStackLayout WidthRequest="200">
                                                 <Label Text="{Binding Title}" HorizontalTextAlignment="Center" FontSize="Small" Margin="0,20,0,0" MaximumWidthRequest="100"/>
                                                 <Label Text="{Binding Value, StringFormat='{0}/5'}" TextColor="Gray" HorizontalTextAlignment="Center" FontSize="Small" Margin="10"/>
                                             </VerticalStackLayout>
@@ -102,7 +102,7 @@
                                             <Button Text="Go" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="60" HeightRequest="50"
                                                     Command="{Binding Source={x:Reference profileRatings}, Path=BindingContext.DisplayRecordCommand}" CommandParameter="{Binding}"/>
                                         </HorizontalStackLayout>
-                                    </Frame>
+                                    </Border>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
@@ -112,21 +112,21 @@
                 <!-- Profiles - from most views to least -->
                 <toolkit:Expander>
                     <toolkit:Expander.Header>
-                        <Frame BackgroundColor="#e5c064" Margin="20,30,20,20" Padding="5" CornerRadius="20" VerticalOptions="Center" >
-                            <Label Text="⬇ Most viewed users ⬇"  HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-                        </Frame>
+                        <Border Style="{StaticResource HeaderBorder}" >
+                            <Label Style="{StaticResource HeaderLabel}" Text="⬇ Popular users ⬇" />
+                        </Border>
                     </toolkit:Expander.Header>
                     <StackLayout Padding="10">
                         <CollectionView x:Name="profileViews" ItemsSource="{Binding ProfileMostViews}" ItemsLayout="VerticalList">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Frame WidthRequest="350" Margin="10,0" HeightRequest="120">
+                                    <Border WidthRequest="350" Margin="10,0" HeightRequest="120">
                                         <HorizontalStackLayout Spacing="5">
-                                            <Frame WidthRequest="60" HeightRequest="60" CornerRadius="20" BorderColor="Transparent" IsClippedToBounds="true">
+                                            <Border WidthRequest="60" HeightRequest="60">
                                                 <Image Source="{Binding Image}" WidthRequest="60" HeightRequest="60" Aspect="AspectFill" />
-                                            </Frame>
+                                            </Border>
 
-                                            <VerticalStackLayout WidthRequest="180">
+                                            <VerticalStackLayout WidthRequest="200">
                                                 <Label Text="{Binding Title}" HorizontalTextAlignment="Center" FontSize="Small" Margin="0,20,0,0" MaximumWidthRequest="100"/>
                                                 <Label Text="{Binding Value}" TextColor="Gray" HorizontalTextAlignment="Center" FontSize="Small" Margin="10"/>
                                             </VerticalStackLayout>
@@ -134,7 +134,7 @@
                                             <Button Text="Go" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="60" HeightRequest="50"
                                                     Command="{Binding Source={x:Reference profileViews}, Path=BindingContext.DisplayRecordCommand}" CommandParameter="{Binding}"/>
                                         </HorizontalStackLayout>
-                                    </Frame>
+                                    </Border>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>

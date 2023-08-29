@@ -18,9 +18,8 @@ namespace Art_Critique.Pages.ArtworkPages {
         #endregion
 
         #region Properties
-        private ApiUserArtwork ApiUserArtwork;
-
         #region Artwork fields
+        private ApiUserArtwork ApiUserArtwork;
         private ObservableCollection<ImageThumbnail> artworkPhotos = new();
         private List<PaintingGenre> paintingGenres;
         private PaintingGenre selectedGenre;
@@ -34,7 +33,8 @@ namespace Art_Critique.Pages.ArtworkPages {
         #endregion
 
         #region Visibility flags
-        private bool isOtherGenreVisible;
+        private bool isLoading = true, isOtherGenreVisible;
+        public bool IsLoading { get => isLoading; set { isLoading = value; OnPropertyChanged(nameof(IsLoading)); } }
         public bool IsOtherGenreVisible { get => isOtherGenreVisible; set { isOtherGenreVisible = value; OnPropertyChanged(nameof(IsOtherGenreVisible)); } }
         #endregion
 
@@ -66,6 +66,7 @@ namespace Art_Critique.Pages.ArtworkPages {
                 Login = CacheService.GetCurrentLogin(),
                 Title = string.Empty
             };
+            IsLoading = false;
         }
 
         public async Task TakePhoto() {

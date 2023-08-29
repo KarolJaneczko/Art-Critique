@@ -40,6 +40,11 @@ namespace Art_Critique {
             // Run task with try/catch.
             await MethodHelper.RunWithTryCatch(task);
         }
+
+        protected override void OnDisappearing() {
+            base.OnDisappearing();
+            BindingContext = null;
+        }
         #endregion
     }
 }

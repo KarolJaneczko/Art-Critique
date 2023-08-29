@@ -7,17 +7,17 @@
     <ScrollView>
         <StackLayout>
             <!-- Images -->
-            <Frame BackgroundColor="#e5c064" Margin="20" Padding="5" CornerRadius="20" VerticalOptions="Center" >
-                <Label Text="Edit photos"  HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-            </Frame>
+            <Border Style="{StaticResource HeaderBorder}" >
+                <Label Style="{StaticResource HeaderLabel}" Text="Edit photos" />
+            </Border>
             <VerticalStackLayout HorizontalOptions="Center" Margin="0,10,0,0">
                 <CollectionView x:Name="AddedPhotos" ItemsSource="{Binding ArtworkPhotos}" ItemsLayout="HorizontalList">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <VerticalStackLayout>
-                                <Frame WidthRequest="190" HeightRequest="250" BorderColor="Transparent" CornerRadius="30" IsClippedToBounds="true" HorizontalOptions="Center" Margin="15,0,15,5">
+                                <Border WidthRequest="190" HeightRequest="250" HorizontalOptions="Center" Margin="15,0,15,5">
                                     <Image Source="{Binding Image}"  WidthRequest="190" HeightRequest="250" Aspect="AspectFill" />
-                                </Frame>
+                                </Border>
                                 <Button Text="Remove" WidthRequest="100" Command="{Binding Source={x:Reference AddedPhotos}, Path=BindingContext.DeleteCommand}" CommandParameter="{Binding}" />
                             </VerticalStackLayout>
                         </DataTemplate>
@@ -30,23 +30,23 @@
             </HorizontalStackLayout>
 
             <!-- Changing the title -->
-            <Frame BackgroundColor="#e5c064" Margin="20,30,20,20" Padding="5" CornerRadius="20" VerticalOptions="Center" >
-                <Label Text="Title"  HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-            </Frame>
+            <Border Style="{StaticResource HeaderBorder}">
+                <Label Style="{StaticResource HeaderLabel}" Text="Title"/>
+            </Border>
             <Entry Style="{StaticResource EntryInput}" Text="{Binding Title}" Placeholder="Enter title" />
 
             <!-- Changing the description -->
-            <Frame BackgroundColor="#e5c064" Margin="20,30,20,20" Padding="5" CornerRadius="20" VerticalOptions="Center" >
-                <Label Text="Description"  HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-            </Frame>
+            <Border Style="{StaticResource HeaderBorder}">
+                <Label Style="{StaticResource HeaderLabel}" Text="Description" />
+            </Border>
             <Editor Style="{StaticResource EntryEditor}" Text="{Binding Description}" Placeholder="Enter description" />
 
             <!-- Changing the genre -->
-            <Frame BackgroundColor="#e5c064" Margin="20,30,20,20" Padding="5" CornerRadius="20" VerticalOptions="Center" >
-                <Label Text="Genre"  HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-            </Frame>
-            <Picker Title="Pick a genre" ItemsSource="{Binding PaintingGenres}" ItemDisplayBinding="{Binding Name}" HorizontalTextAlignment="Center" SelectedItem="{Binding SelectedGenre}" />
-            <Border IsVisible="{Binding IsOtherGenreVisible}">
+            <Border Style="{StaticResource HeaderBorder}" >
+                <Label Style="{StaticResource HeaderLabel}" Text="Genre"/>
+            </Border>
+            <Picker Title="Pick a genre" ItemsSource="{Binding PaintingGenres}" ItemDisplayBinding="{Binding Name}" HorizontalTextAlignment="Center" SelectedItem="{Binding SelectedGenre}" WidthRequest="240" />
+            <Border Style="{StaticResource EntryBorder}" IsVisible="{Binding IsOtherGenreVisible}">
                 <Entry Style="{StaticResource EntryInput}" Text="{Binding OtherGenre}" Placeholder="Genre name" />
             </Border>
 

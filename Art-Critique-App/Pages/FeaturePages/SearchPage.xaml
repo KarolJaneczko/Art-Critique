@@ -13,42 +13,20 @@
         <StackLayout Grid.Row="2" ZIndex="1">
             <SearchBar x:Name="searchBar" SearchCommand="{Binding PerformSearch}" Placeholder="Search for users or artworks" 
                            SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}" Margin="0,20"/>
-
             <StackLayout>
-                <CollectionView x:Name="profileResult" ItemsSource="{Binding ProfileSearchResult}" ItemsLayout="VerticalList" HeightRequest="325" VerticalScrollBarVisibility="Always" Margin="0,0,0,20">
+                <CollectionView x:Name="searchResults" ItemsSource="{Binding SearchResults}" ItemsLayout="VerticalList" HeightRequest="725" VerticalScrollBarVisibility="Always" Margin="0,0,0,20">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Frame WidthRequest="300" Margin="10">
+                            <Border WidthRequest="300" Margin="10">
                                 <HorizontalStackLayout>
-                                    <Frame WidthRequest="60" HeightRequest="60" CornerRadius="20" BorderColor="Transparent" IsClippedToBounds="true">
+                                    <Border WidthRequest="60" HeightRequest="60">
                                         <Image Source="{Binding Image}" WidthRequest="60" HeightRequest="60" Aspect="AspectFill" />
-                                    </Frame>
-
-                                    <Label Text="{Binding Title}" WidthRequest="140" HorizontalTextAlignment="Center" CharacterSpacing="2" FontSize="Small" Margin="0,20,0,0"/>
-
+                                    </Border>
+                                    <Label Text="{Binding Title}" WidthRequest="170" HorizontalTextAlignment="Center" CharacterSpacing="2" FontSize="Small" Margin="0,20,0,0"/>
                                     <Button Text="Go" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="60" HeightRequest="60"
-                                    Command="{Binding Source={x:Reference profileResult}, Path=BindingContext.DisplayRecordCommand}" CommandParameter="{Binding}"/>
+                                    Command="{Binding Source={x:Reference searchResults}, Path=BindingContext.DisplayRecordCommand}" CommandParameter="{Binding}"/>
                                 </HorizontalStackLayout>
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-
-                <CollectionView x:Name="artworkResult" ItemsSource="{Binding ArtworkSearchResult}" ItemsLayout="VerticalList" HeightRequest="325" VerticalScrollBarVisibility="Always">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Frame WidthRequest="300" Margin="10">
-                                <HorizontalStackLayout>
-                                    <Frame WidthRequest="60" HeightRequest="60" CornerRadius="20" BorderColor="Transparent" IsClippedToBounds="true">
-                                        <Image Source="{Binding Image}" WidthRequest="60" HeightRequest="60" Aspect="AspectFill" />
-                                    </Frame>
-
-                                    <Label Text="{Binding Title}" WidthRequest="140" HorizontalTextAlignment="Center" CharacterSpacing="2" FontSize="Small" Margin="0,20,0,0"/>
-
-                                    <Button Text="Go" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="60" HeightRequest="60"
-                                    Command="{Binding Source={x:Reference artworkResult}, Path=BindingContext.DisplayRecordCommand}" CommandParameter="{Binding}"/>
-                                </HorizontalStackLayout>
-                            </Frame>
+                            </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>

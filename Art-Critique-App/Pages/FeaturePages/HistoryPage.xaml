@@ -12,20 +12,20 @@
 
         <ScrollView Grid.Row="2" ZIndex="1">
             <StackLayout>
-                <Frame BackgroundColor="#e5c064" Margin="5,30,5,20" Padding="2" CornerRadius="20" VerticalOptions="Center" >
-                    <Label Text="Browsing history"  HorizontalTextAlignment="Center" FontSize="20" CharacterSpacing="1" FontFamily="PragmaticaMedium" FontAttributes="Bold" />
-                </Frame>
+                <Border Style="{StaticResource HeaderBorder}">
+                    <Label Style="{StaticResource HeaderLabel}" Text="Browsing history" />
+                </Border>
 
                 <CollectionView Grid.Row="2" x:Name="UserHistory" ItemsSource="{Binding History}" ItemsLayout="VerticalList" HeightRequest="650">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Frame WidthRequest="350" Margin="10">
+                            <Border WidthRequest="350" Margin="10">
                                 <HorizontalStackLayout Spacing="5">
-                                    <Frame WidthRequest="60" HeightRequest="60" CornerRadius="20" BorderColor="Transparent" IsClippedToBounds="true">
+                                    <Border WidthRequest="60" HeightRequest="60">
                                         <Image Source="{Binding Image}" WidthRequest="60" HeightRequest="60" Aspect="AspectFill" />
-                                    </Frame>
+                                    </Border>
 
-                                    <HorizontalStackLayout WidthRequest="180" Spacing="20">
+                                    <HorizontalStackLayout WidthRequest="200" Spacing="20">
                                         <VerticalStackLayout>
                                             <Label Text="{Binding Title}" HorizontalTextAlignment="Center" FontSize="Small" Margin="0,20,0,0" MaximumWidthRequest="80"/>
                                             <Label Text="{Binding Type, StringFormat='({0})'}" TextColor="Gray" HorizontalTextAlignment="Center" FontSize="Small" Margin="10"/>
@@ -40,7 +40,7 @@
                                     <Button Text="Go" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="60" HeightRequest="60"
                                     Command="{Binding Source={x:Reference UserHistory}, Path=BindingContext.GoCommand}" CommandParameter="{Binding}"/>
                                 </HorizontalStackLayout>
-                            </Frame>
+                            </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>

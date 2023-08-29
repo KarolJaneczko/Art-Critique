@@ -4,76 +4,74 @@
              x:Class="Art_Critique.ArtworkPage"
              Title="{Binding Title}">
 
-    <ScrollView VerticalScrollBarVisibility="Never" HorizontalScrollBarVisibility="Never">
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="20,0">
-            <!-- Loading indicator -->
-            <StackLayout x:Name="Loading" BackgroundColor="LightGray" IsVisible="{Binding IsLoading}">
-                <ActivityIndicator IsVisible="True" IsRunning="True" HeightRequest="50" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" />
-            </StackLayout>
+    <Grid RowDefinitions="Auto, Auto, Auto" Padding="20,0">
+        <!-- Loading indicator -->
+        <StackLayout Grid.Row="1" Style="{StaticResource LoadingLayout}" IsVisible="{Binding IsLoading}">
+            <ActivityIndicator Style="{StaticResource LoadingIndicator}" />
+        </StackLayout>
 
-            <!-- Artwork's title -->
-            <Label Grid.Row="1" Text="{Binding Title}" TextColor="Black" CharacterSpacing="1" FontAttributes="Bold" HorizontalTextAlignment="Center" FontSize="30" Margin="0,20,0,0" />
+        <ScrollView Grid.Row="2" ZIndex="1" HeightRequest="720">
+            <StackLayout>
+                <!-- Title -->
+                <Border Style="{StaticResource HeaderBorder}">
+                    <Label Style="{StaticResource HeaderLabel}" Text="{Binding Title}" />
+                </Border>
 
-            <!-- Author's avatar and login -->
-            <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto" HorizontalOptions="Center" Margin="0,10,0,10">
-                <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding GoToProfileCommand}"/>
-                </Grid.GestureRecognizers>
-                
-                <Frame Grid.Column="1" WidthRequest="50" HeightRequest="50" CornerRadius="20" BorderColor="Transparent" IsClippedToBounds="true">
-                    <Frame.GestureRecognizers>
+                <!-- Avatar & Login -->
+                <Grid ColumnDefinitions="Auto,Auto,Auto" HorizontalOptions="Center" Margin="0,10">
+                    <Grid.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoToProfileCommand}"/>
-                    </Frame.GestureRecognizers>
-                    <Image  Source="{Binding Avatar}" WidthRequest="50" HeightRequest="50" Aspect="AspectFill" />
-                </Frame>
-                <Label Grid.Column="2" Text="{Binding Login}" CharacterSpacing="1" FontAttributes="Bold" VerticalTextAlignment="Center" Margin="10,0,0,0" />
-            </Grid>
+                    </Grid.GestureRecognizers>
 
-            <!-- Artwork's images -->
-            <VerticalStackLayout Grid.Row="3" HorizontalOptions="Center">
-                <CollectionView ItemsSource="{Binding Images}" ItemsLayout="HorizontalList">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Frame WidthRequest="330" HeightRequest="260" BorderColor="Transparent" CornerRadius="25" IsClippedToBounds="true" HorizontalOptions="Center" Margin="15,0,15,0">
-                                <Image Source="{Binding Image}"  WidthRequest="320" HeightRequest="260" Aspect="AspectFill" />
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </VerticalStackLayout>
+                    <Border Grid.Column="1" WidthRequest="50" HeightRequest="50">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToProfileCommand}"/>
+                        </Border.GestureRecognizers>
+                        <Image Source="{Binding Avatar}" WidthRequest="50" HeightRequest="50" Aspect="AspectFill" />
+                    </Border>
+                    <Label Grid.Column="2" Text="{Binding Login}" CharacterSpacing="1" FontAttributes="Bold" VerticalTextAlignment="Center" Margin="10,0,0,0" />
+                </Grid>
 
-            <!-- Artwork's views -->
-            <Label Grid.Row="4" CharacterSpacing="1" HorizontalOptions="End" FontAttributes="Bold" Text="{Binding Views, StringFormat='Views: {0}'}" Margin="0,5,20,0" />
+                <!-- Images -->
+                <VerticalStackLayout HorizontalOptions="Center" Margin="0,10">
+                    <CollectionView ItemsSource="{Binding Images}" ItemsLayout="HorizontalList">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border WidthRequest="330" HeightRequest="260" HorizontalOptions="Center" Margin="15,0,15,0">
+                                    <Image Source="{Binding Image}"  WidthRequest="320" HeightRequest="260" Aspect="AspectFill" />
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
 
-            <!-- Artwork's genre -->
-            <Label Grid.Row="5" CharacterSpacing="1" HorizontalOptions="Center" FontAttributes="Bold" Text="{Binding Genre, StringFormat='Genre: {0}'}" Margin="0,10,0,0" />
+                <!-- Views -->
+                <Label Style="{StaticResource HeaderLabel}" Text="{Binding Views, StringFormat='Views: {0}'}"/>
 
-            <!-- Artwork's genre -->
-            <Label Grid.Row="6" CharacterSpacing="1" HorizontalOptions="Center" FontAttributes="Bold" Text="{Binding AverageRating}" Margin="0,10,0,0" />
+                <!-- Genre -->
+                <Label Style="{StaticResource HeaderLabel}" Text="{Binding Genre, StringFormat='Genre: {0}'}"/>
 
-            <!-- Your's rating -->
-            <Label Grid.Row="7" CharacterSpacing="1" HorizontalOptions="Center" FontAttributes="Bold" Text="{Binding Rating, StringFormat='Your rating: {0}'}" Margin="0,10,0,0" IsVisible="{Binding IsMyRatingVisible}" />
+                <!-- Average rating -->
+                <Label Style="{StaticResource HeaderLabel}" Text="{Binding AverageRating}"/>
 
-            <!-- Artwork's date -->
-            <Label Grid.Row="8" CharacterSpacing="1" HorizontalOptions="Center" FontAttributes="Bold" Text="{Binding Date, StringFormat='Created: {0}'}" Margin="0,10,0,0" />
+                <!-- Yours rating -->
+                <Label Style="{StaticResource HeaderLabel}" Text="{Binding Rating, StringFormat='Your rating: {0}'}" IsVisible="{Binding IsMyRatingVisible}"/>
 
-            <!-- Artwork's description -->
-            <Label Grid.Row="9" CharacterSpacing="2" Text="Description" FontAttributes="Bold" HorizontalTextAlignment="Center" Margin="0,25,0,10" FontSize="20" />
-            <Label Grid.Row="10" CharacterSpacing="1" Text="{Binding Description}" FontAttributes="Bold" HorizontalTextAlignment="Center" Margin="0,10,0,20" />
+                <!-- Date -->
+                <Label Style="{StaticResource HeaderLabel}" Text="{Binding Date, StringFormat='Created: {0}'}"/>
 
-            <!-- Link to the reviews -->
-            <VerticalStackLayout Grid.Row="11" VerticalOptions="Center" Margin="0,20,0,20">
-                <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding GoToReviewsCommand}"/>
-                </VerticalStackLayout.GestureRecognizers>
-                <Label Text="See reviews ➡" FontAttributes="Bold" TextColor="White" BackgroundColor="Goldenrod" HorizontalTextAlignment="Center" Margin="0,20,0,10" FontSize="20" />
-            </VerticalStackLayout>
+                <!-- Description -->
+                <Border Style="{StaticResource HeaderBorder}">
+                    <Label Style="{StaticResource HeaderLabel}" Text="Description"/>
+                </Border>
+                <Label Style="{StaticResource HeaderLabel}" Text="{Binding Description}"/>
 
-            <!-- Buttons -->
-            <HorizontalStackLayout Grid.Row="12" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20">
-                <Button Text="Rating" Command="{Binding FirstButtonCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" Margin="5,0,5,0" IsVisible="{Binding IsRateVisible}"/>
-                <Button Text="{Binding SecondButtonText}" Command="{Binding SecondButtonCommand}" CornerRadius="18" TextColor="White" FontAttributes="Bold" BackgroundColor="Goldenrod" WidthRequest="150" HeightRequest="50" Margin="5,0,5,0"/>
-            </HorizontalStackLayout>
-        </Grid>
-    </ScrollView>
+                <!-- Buttons -->
+                <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="10,20,10,20" Spacing="10">
+                    <Button Style="{StaticResource MediumPrimaryButton}" Text="{Binding FirstButtonText}" Command="{Binding FirstButtonCommand}"/>
+                    <Button Style="{StaticResource MediumPrimaryButton}" Text="{Binding SecondButtonText}" Command="{Binding SecondButtonCommand}"/>
+                </HorizontalStackLayout>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>
