@@ -7,20 +7,15 @@ using System.Windows.Input;
 namespace Art_Critique.Pages.FeaturePages {
     public class MainPageViewModel : BaseViewModel {
         #region Properties
+        private bool isLoading = true;
         private ObservableCollection<SearchRecord> artworksYouMayLike = new(), artworksYouMightReview = new(), usersYouMightFollow = new(), artworksOfUsersYouFollow = new();
 
+        public bool IsLoading { get => isLoading; set { isLoading = value; OnPropertyChanged(nameof(IsLoading)); } }
         public ObservableCollection<SearchRecord> ArtworksYouMayLike { get => artworksYouMayLike; set { artworksYouMayLike = value; OnPropertyChanged(nameof(ArtworksYouMayLike)); } }
         public ObservableCollection<SearchRecord> ArtworksYouMightReview { get => artworksYouMightReview; set { artworksYouMightReview = value; OnPropertyChanged(nameof(ArtworksYouMightReview)); } }
         public ObservableCollection<SearchRecord> UsersYouMightFollow { get => usersYouMightFollow; set { usersYouMightFollow = value; OnPropertyChanged(nameof(UsersYouMightFollow)); } }
         public ObservableCollection<SearchRecord> ArtworksOfUsersYouFollow { get => artworksOfUsersYouFollow; set { artworksOfUsersYouFollow = value; OnPropertyChanged(nameof(ArtworksOfUsersYouFollow)); } }
-        #region Visibility flags
-        private bool isLoading = true;
-        public bool IsLoading { get => isLoading; set { isLoading = value; OnPropertyChanged(nameof(IsLoading)); } }
-        #endregion
-
-        #region Commands
         public ICommand DisplayRecordCommand => new Command<SearchRecord>(DisplayRecord);
-        #endregion
         #endregion
 
         #region Constructor

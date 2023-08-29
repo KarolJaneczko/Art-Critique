@@ -14,18 +14,16 @@ namespace Art_Critique {
         #region Constructor
         public MainPage(ICacheService cacheService, IHttpService httpService) {
             InitializeComponent();
+            RegisterRoutes();
             CacheService = cacheService;
             HttpService = httpService;
-            InitializeValues();
         }
         #endregion
 
         #region Methods
-        private void InitializeValues() {
+        private void RegisterRoutes() {
             Routing.RegisterRoute(nameof(ArtworkPage), typeof(ArtworkPage));
             Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
-            Loading.HeightRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Height * 85 / 100) / DeviceDisplay.MainDisplayInfo.Density;
-            Loading.WidthRequest = Math.Ceiling(DeviceDisplay.MainDisplayInfo.Width * 100 / 100) / DeviceDisplay.MainDisplayInfo.Density;
         }
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args) {
@@ -35,17 +33,17 @@ namespace Art_Critique {
                 var login = CacheService.GetCurrentLogin();
 
                 if (!string.IsNullOrEmpty(login)) {
-                    var artworksYouMayLikeRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksYouMayLike}?login={login}");
-                    var artworksYouMayLikeResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksYouMayLikeRequest.Data.ToString());
+                    var artworksYouMayLikeTask = HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksYouMayLike}?login={login}");
+                    var artworksYouMightReviewTask = HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksYouMightReview}?login={login}");
+                    var usersYouMightFollowTask = HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetUsersYouMightFollow}?login={login}");
+                    var artworksOfUsersYouFollowTask = HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksOfUsersYouFollow}?login={login}");
 
-                    var artworksYouMightReviewRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksYouMightReview}?login={login}");
-                    var artworksYouMightReviewResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksYouMightReviewRequest.Data.ToString());
+                    await Task.WhenAll(artworksYouMayLikeTask, artworksYouMightReviewTask, usersYouMightFollowTask, artworksOfUsersYouFollowTask);
 
-                    var usersYouMightFollowRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetUsersYouMightFollow}?login={login}");
-                    var usersYouMightFollowResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(usersYouMightFollowRequest.Data.ToString());
-
-                    var artworksOfUsersYouFollowRequest = await HttpService.SendApiRequest(HttpMethod.Get, $"{Dictionary.GetArtworksOfUsersYouFollow}?login={login}");
-                    var artworksOfUsersYouFollowResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>(artworksOfUsersYouFollowRequest.Data.ToString());
+                    var artworksYouMayLikeResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>((await artworksYouMayLikeTask).Data.ToString());
+                    var artworksYouMightReviewResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>((await artworksYouMightReviewTask).Data.ToString());
+                    var usersYouMightFollowResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>((await usersYouMightFollowTask).Data.ToString());
+                    var artworksOfUsersYouFollowResponse = JsonConvert.DeserializeObject<List<ApiSearchResult>>((await artworksOfUsersYouFollowTask).Data.ToString());
 
                     BindingContext = new MainPageViewModel(artworksYouMayLikeResponse, artworksYouMightReviewResponse, usersYouMightFollowResponse, artworksOfUsersYouFollowResponse);
                 }
@@ -53,6 +51,11 @@ namespace Art_Critique {
 
             // Run task with try/catch.
             await MethodHelper.RunWithTryCatch(task);
+        }
+
+        protected override void OnDisappearing() {
+            base.OnDisappearing();
+            BindingContext = null;
         }
         #endregion
     }

@@ -47,6 +47,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\addartwork_icon.png" />
+	  <None Remove="Resources\Images\charts_icon.png" />
+	  <None Remove="Resources\Images\history_icon.png" />
+	  <None Remove="Resources\Images\home_icon.png" />
+	  <None Remove="Resources\Images\logout_icon.png" />
+	  <None Remove="Resources\Images\profile_icon.png" />
+	  <None Remove="Resources\Images\search_icon.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
