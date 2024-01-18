@@ -10,6 +10,9 @@ Project made by Karol Janeczko in order to get a bachelor degree.
 
 Used technologies:
 - .NET MAUI (.NET 7.0)
+- ASP.NET Web API
+- Entity Framework
+- MySQL database
 
 Font links:
 - Pragmatica Extra Light - https://www.cufonfonts.com/font/pragmatica-extralight
