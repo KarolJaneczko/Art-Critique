@@ -1,22 +1,27 @@
 # Art-Critique
 
-Art-Critique is a mobile application for developing your taste in art, more specifically - paintings and sculptures.
+**Art-Critique** is an Android mobile application designed to enhance the appreciation and understanding of visual art of paintings and sculptures, with main theme of artwork exploration, critique, and education.
+This project was created as part of a bachelor's thesis, made by Karol Janeczko.
 
+## Technology Stack
 
+### Mobile Application
+- Framework: .NET MAUI (.NET 7.0)
+- Platform Support: Android
 
+### API
+- Framework: ASP.NET Core Web API
+- Database: MySQL, managed via Entity Framework Core for ORM
+- Design Pattern: RESTful API architecture
+- Authentication: Token-based authentication for user sessions
 
+## Assets
 
-Project made by Karol Janeczko in order to get a bachelor degree.
+### Fonts
+- [Pragmatica Extra Light](https://www.cufonfonts.com/font/pragmatica-extralight)
+- [Pragmatica Medium](https://www.fontsmarket.com/font-download/pragmatica-medium)
 
-Used technologies:
-- .NET MAUI (.NET 7.0)
-- ASP.NET Web API
-- Entity Framework
-- MySQL database
+### Icons
+All free icons used in the project came from [Flaticon](https://www.flaticon.com/)
 
-Font links:
-- Pragmatica Extra Light - https://www.cufonfonts.com/font/pragmatica-extralight
-- Pragmatice Medium - https://www.fontsmarket.com/font-download/pragmatica-medium
-
-Free icons used in many places in the project:
-- Flaticon - https://www.flaticon.com/
+**Disclaimer** - This application is a student project intended for only educational purposes.
